@@ -1,0 +1,9 @@
+php artisan serve
+php artisan make:auth
+php artisan make:migration "file name example = alter_users_table" --table="table name example = users"
+php artisan migrate
+php artisan migrate:refresh
+composer update
+composer dump-autoload
+php artisan make:controller "controller name example = TicketController" --resource
+php artisan make:command TraitMakeCommand
