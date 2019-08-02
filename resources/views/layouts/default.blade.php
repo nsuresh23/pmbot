@@ -8,18 +8,22 @@
 
 <body>
     <div class="wrapper theme-1-active pimary-color-blue">
-        @include('includes.header')
-        @yield('content')
-        @include('includes.footer')
-        {{-- <header class="row">
+        <div class="page-wrapper">
             @include('includes.header')
-        </header>
-        <div id="main" class="row">
+            @include('includes.listModal')
             @yield('content')
-        </div>
-        <footer class="row">
+            @include('includes.copyRight')
             @include('includes.footer')
-        </footer> --}}
+            {{-- <header class="row">
+                @include('includes.header')
+            </header>
+            <div id="main" class="row">
+                @yield('content')
+            </div>
+            <footer class="row">
+                @include('includes.footer')
+            </footer> --}}
+        </div>
     </div>
     @stack('js')
 </body>

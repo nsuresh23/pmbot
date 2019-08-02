@@ -13,6 +13,19 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $jobsData = [
+            'title' => 's5',
+            'stageTitle' => 's5',
+            'stage' => 's5',
+            'total' => '50',
+            'allTitle' => 'all',
+            'pendingTitle' => 'pending',
+            'pending' => '15',
+            'wipTitle' => 'work in progress',
+            'wip' => '20',
+            'completedTitle' => 'completed',
+            'completed' => '15'
+        ];
+        return view('pages.job.dashboard', compact('jobsData'));
     }
 }

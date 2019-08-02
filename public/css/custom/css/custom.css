@@ -1,0 +1,12 @@
+.page-wrapper {
+    margin-left: auto;
+}
+.no-underline {
+  text-decoration: none !important;
+}
+.list-modal-dialog {
+    width: 65% !important;
+}
+.job-list:hover {
+    cursor: pointer;
+}

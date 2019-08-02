@@ -59,13 +59,45 @@ Auth::routes([
     'password.request' => false
 ]);
 
-Auth::routes();
+// Auth::routes();
 
 // Route::resource('dashboard', 'DashboardController');
 
 // Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+Route::get('/dashboard', 'DashboardController@index')->middleware(['auth'])->name('dashboard');
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::get('/job-list', 'JobController@index')->name('job-list');
+    Route::get('/job-list/{stage?}', 'JobController@getJobsByStage');
+    Route::get('/job-list/{status?}', 'JobController@getJobsByStatus');
+    Route::get('/job-list/{stage?}/{status?}', 'JobController@getJobsByStageAndStatus');
+    Route::get('/job-stage-card', 'JobController@jobStageCard')->name('job-stage-card');
+    Route::get('jobs', function () {
+
+        if (view()->exists('pages/job/jobListFull')) {
+
+            return view('pages/job/jobListFull');
+        }
+    })->name('jobs');
+
+});
+
+// Route::get('/job-list', 'JobController@index')->middleware(['auth'])->name('job-list');
+// Route::get('/job-list/{stage?}', 'JobController@getJobsByStage')->middleware(['auth']);
+// Route::get('/job-list/{status?}', 'JobController@getJobsByStatus')->middleware(['auth']);
+// Route::get('/job-list/{stage?}/{status?}', 'JobController@getJobsByStageAndStatus')->middleware(['auth']);
+
+Route::get('jobs', function () {
+
+    if (view()->exists('pages/job/jobListFull')) {
+
+        return view('pages/job/jobListFull');
+
+    }
+
+})->middleware(['auth'])->name('jobs');

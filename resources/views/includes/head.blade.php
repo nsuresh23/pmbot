@@ -19,10 +19,16 @@
 {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 
 <!-- vector map CSS -->
-<link href="{{ asset('css/custom/css/style.css') }}" rel="stylesheet">
+<link href="{{ asset('js/custom/vendors/vectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" type="text/css">
 
-<link href="{{ asset('js/custom/vendors/bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+<!-- Footable CSS -->
+<link href="{{ asset('js/custom/vendors/bower_components/jsgrid/dist/jsgrid.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('js/custom/vendors/bower_components/jsgrid/dist/jsgrid-theme.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('js/custom/vendors/bower_components/FooTable/compiled/footable.bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+
 <!-- Custom CSS -->
+<link href="{{ asset('css/custom/css/style.css') }}" rel="stylesheet">
+<link href="{{ asset('js/custom/vendors/bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('js/custom/vendors/bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.min.css') }}" rel="stylesheet" type="text/css">
 
 <!-- Data table CSS -->
