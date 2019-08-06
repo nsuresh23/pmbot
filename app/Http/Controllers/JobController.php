@@ -4,7 +4,7 @@ namespace PMBot\Http\Controllers;
 
 // namespace PMBot\Traits;
 
-use PMBot\Model\Job;
+use PMBot\Model\Jobs\Job;
 use PMBot\Traits\JobTrait;
 use Illuminate\Http\Request;
 

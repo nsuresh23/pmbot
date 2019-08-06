@@ -68,7 +68,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => PMBot\User::class,
+            'model' => PMBot\Models\User\User::class,
         ],
 
         // 'users' => [

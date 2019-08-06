@@ -144,6 +144,211 @@ $(function () {
         // })
     });
 
+
+
+    // $('.list-modal-body').html(data);
+    var stakeholdersList = $("#stakeholdersList").jsGrid({
+            height: "450px",
+            width: "100%",
+
+            filtering: true,
+            editing: false,
+            sorting: true,
+            paging: true,
+            autoload: true,
+            editButton: false,
+            deleteButton: false,
+            sorter: "string",
+
+            pageSize: 5,
+            pageButtonCount: 5,
+
+            noDataContent: "No stakeholders found",
+
+            // deleteConfirm: "Do you really want to delete the client?",
+
+            // controller: db,
+
+            controller: {
+                loadData: function (filter) {
+
+                    var getUrl = "";
+                    getUrl = $("#stakeholdersList").attr('data-url');
+                    console.log(filter);
+                    console.log(getUrl);
+
+                    // data =  $.ajax({
+                    //     url: getUrl,
+                    //     // data: filter,
+                    //     dataType: "json"
+                    // });
+
+                    // return $.grep(data, function (client) {
+                    //     console.log("client");
+                    //     console.log(client);
+                    //     return (!filter.jobTitle || client.jobTitle.indexOf(filter.jobTitle) > -1)
+                    //         && (!filter.projectManager || client.projectManager.indexOf(filter.projectManager) > -1)
+                    //         && (!filter.author || client.author.indexOf(filter.author) > -1)
+                    //         && (!filter.editor || client.editor.indexOf(filter.editor) > -1)
+                    //         && (!filter.publisher || client.publisher.indexOf(filter.publisher) > -1)
+                    //         && (!filter.startDate || client.startDate.indexOf(filter.startDate) > -1)
+                    //         && (!filter.dueDate || client.dueDate.indexOf(filter.dueDate) > -1);
+                    // });
+
+                    // return data;
+                    return $.ajax({
+                        url: getUrl,
+                        data: filter,
+                        dataType: "json"
+                    });
+                }
+            },
+
+            fields: [
+                { title: "ID", name: "id", type: "text", width: 150 },
+                { title: "NAME", name: "name", type: "text", width: 150 },
+                { title: "EMAIL", name: "email", type: "text", width: 150 },
+                { title: "DESIGNATION", name: "designation", type: "text", width: 150 },
+                { title: "PHONE", name: "phone", type: "text", width: 150 },
+                { title: "MOBILE", name: "mobile", type: "text", width: 150 },
+                // { type: "control", editButton: false, deleteButton: false, width: 60 }
+                { type: "control", width: 60 }
+            ]
+        });
+
+    $(".stakeholders-add").on('click', function () {
+
+        $('#stakeholders-modal').modal('show');
+
+    });
+
+    // $('stakeholders-form').on('submit', function (e) {
+    // $('#stakeholdersAddButton').on('click', function (e) {
+    $(document).on('click', '#stakeholdersAddButton', function (e) {
+
+        // if (this.checkValidity && !this.checkValidity()) return;
+        // if ($('#stakeholders-form').checkValidity && !$('#stakeholders-form').checkValidity()) return;
+        // e.preventDefault();
+        var postUrl = '';
+        postUrl = $('#stakeholdersAddButton').attr('data-url');
+        // postUrl = $('#stakeholdersAddButton').attr('data-url');
+        console.log("postUrl");
+        console.log(postUrl);
+        var row = $('#stakeholdersList').data('row');
+
+        var return_first = function () {
+            var tmp = null;
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'json',
+                'url': postUrl,
+                'data': $('#stakeholders-form').serialize(),
+                'success': function (data) {
+                    $("#stakeholdersList").jsGrid().refresh
+                    tmp = data;
+                }
+            });
+            return tmp;
+        }();
+
+        console.log(return_first);
+
+
+
+        // if (row instanceof FooTable.Row) {
+        //     row.val(values);
+        // } else {
+        //     values.id = uid++;
+        //     ft.rows.add(values);
+        // }
+        // $modal.modal('hide');
+    });
+
+    /*Init FooTable*/
+    // $('#footable_1,#footable_3').footable();
+
+    /*Editing FooTable*/
+
+    // var $modal = $('#editor-modal'),
+    //     $editor = $('#editor'),
+    //     $editorTitle = $('#editor-title'),
+    //     ft = FooTable.init('#footable_2', {
+    //         editing: {
+    //             enabled: true,
+    //             addRow: function () {
+    //                 $modal.removeData('row');
+    //                 $editor[0].reset();
+    //                 $editorTitle.text('Add a new stakeholders');
+    //                 $modal.modal('show');
+    //             },
+    //             editRow: function (row) {
+    //                 var values = row.val();
+    //                 $editor.find('#id').val(values.id);
+    //                 $editor.find('#name').val(values.name);
+    //                 $editor.find('#email').val(values.email);
+    //                 $editor.find('#designation').val(values.designation);
+    //                 $editor.find('#phone').val(values.phone);
+    //                 $editor.find('#mobile').val(values.mobile);
+
+    //                 $modal.data('row', row);
+    //                 $editorTitle.text('Edit row #' + values.id);
+    //                 $modal.modal('show');
+    //             },
+    //             deleteRow: function (row) {
+    //                 if (confirm('Are you sure you want to delete the row?')) {
+    //                     row.delete();
+    //                 }
+    //             }
+    //         }
+    //     }),
+    //     uid = 10;
+
+    // $editor.on('submit', function (e) {
+    //     if (this.checkValidity && !this.checkValidity()) return;
+    //     e.preventDefault();
+    //     var row = $modal.data('row'),
+
+    //     // var return_first = function () {
+    //     //     var tmp = null;
+    //     //     $.ajax({
+    //     //         'async': false,
+    //     //         'type': "POST",
+    //     //         'global': false,
+    //     //         'dataType': 'json',
+    //     //         'url': postUrl,
+    //     //         'data': $editor,
+    //     //         'success': function (data) {
+    //     //             tmp = data;
+    //     //         }
+    //     //     });
+    //     //     return tmp;
+    //     // }();
+
+    //         values = {
+    //             id: $editor.find('#id').val(),
+    //             name: $editor.find('#name').val(),
+    //             email: $editor.find('#email').val(),
+    //             designation: $editor.find('#designation').val(),
+    //             phone: $editor.find('#phone').val(),
+    //             mobile: $editor.find('#mobile').val()
+    //             // startedOn: moment($editor.find('#startedOn').val(), 'YYYY-MM-DD'),
+    //             // dob: moment($editor.find('#dob').val(), 'YYYY-MM-DD')
+    //         };
+
+    //     if (row instanceof FooTable.Row) {
+    //         row.val(values);
+    //     } else {
+    //         values.id = uid++;
+    //         ft.rows.add(values);
+    //     }
+    //     $modal.modal('hide');
+    // });
+
 	/*Job list modal*/
 	// $(document).on('click','.job-list-modal',function(e) {
     //     var stage = $(this).attr('data-stage');

@@ -3,7 +3,7 @@
 namespace PMBot\Traits;
 
 
-use PMBot\Model\Job;
+use PMBot\Model\Jobs\Job;
 use Illuminate\Http\Request;
 
 trait JobTrait

@@ -72,6 +72,18 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
 
+    Route::get('/users', 'User\UserController@index')->name('users');
+});
+
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::resource('/stakeholders', 'Stakeholders\StakeholdersController');
+    Route::get('/stakeholders-list', 'Stakeholders\StakeholdersController@showAll')->name('stakeholders-list');
+    Route::post('/stakeholders-add', 'Stakeholders\StakeholdersController@store')->name('stakeholders-add');
+});
+
+Route::group(['middleware' => ['auth']], function () {
+
     Route::get('/job-list', 'JobController@index')->name('job-list');
     Route::get('/job-list/{stage?}', 'JobController@getJobsByStage');
     Route::get('/job-list/{status?}', 'JobController@getJobsByStatus');
