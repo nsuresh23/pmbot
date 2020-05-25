@@ -598,7 +598,7 @@ class ApiController extends Controller
                     $output = '<select id="pmjobid">'; //multiple="multiple"
                 }
                 $output .= '<option disabled selected>--select--</option>';
-                //$output .= '<option value="generic">Generic</option>';
+                $output .= '<option value="pmbot_generic">PMBot Generic</option>';
                 foreach ($json_data_decoded['result']['data'] as $key => $val) {
                     if ($annotationID != '') {
                         if ($val['job_id'] == $annotationID) {
@@ -620,6 +620,7 @@ class ApiController extends Controller
                     $output = '<select id="pmjobid">'; //multiple="multiple"
                 }
                 $output .= '<option disabled selected>--select--</option>';
+                $output .= '<option value="pmbot_generic">PMBot Generic</option>';
                 //$output .= '<option value="generic">Generic</option>';
                 foreach ($json_data_decoded['result']['data'] as $key => $val) {
                     if ($annotationID != '') {

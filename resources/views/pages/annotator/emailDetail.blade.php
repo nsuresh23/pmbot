@@ -116,12 +116,19 @@ function updateddate(textval) {
 
 function annotatorcompleted(){
     url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/completetaskdetail'
-    var jobid = $('#pmjobid').val();
+    var jobId = $('#pmjobid').val();
+
+    if(jobId == 'pmbot_generic') {
+
+        jobId = '';
+
+    }
+
     var postData = {
         "_token": "{{ csrf_token() }}",
         empcode:'<?php echo $returnData['empcode'];?>',
         id:'<?php echo $returnData['id'];?>',
-        jobid:$('#pmjobid').val()
+        jobid:jobId
     }
 
     var emailAnnotatorStartTime = '<?php echo isset($emailAnnotatorStartTime)? $emailAnnotatorStartTime : "" ?>';
@@ -531,6 +538,14 @@ getresult("<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/getresult");
 
 function Myisbnbtnfrm(){
 	$('#createisbnfrm').toggle(500);
+}
+
+function maskAsGeneric()
+{
+
+    $('#pmjobid').select2().val('pmbot_generic');
+    $('#pmjobid').select2().trigger('change');
+
 }
 
 
