@@ -13,5 +13,12 @@ return [
     |
     */
     'appTitle' => 'PMBot',
+    'dashboard_label' => 'dashboard',
+    'user_label' => 'users',
+    'user_group_label' => 'user groups',
+    'user_role_label' => 'user roles',
+    'user_location_label' => 'user locations',
+    'job_stage_label' => 'job stages',
+    'back_to_home_label' => 'Back to Home',
 
 ];

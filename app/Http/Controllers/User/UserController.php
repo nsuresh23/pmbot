@@ -1,86 +1,862 @@
 <?php
 
-namespace PMBot\Http\Controllers\User;
+namespace App\Http\Controllers\User;
 
-use PMBot\Model\Jobs\Job;
 use Illuminate\Http\Request;
-use PMBot\Http\Controllers\Controller;
+use App\Traits\General\Helper;
+use App\Traits\General\CustomLogger;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Config;
+use App\Resources\User\UserCollection as UserResource;
+use App\Resources\User\GroupCollection as GroupResource;
+use App\Resources\User\RoleCollection as RoleResource;
+use App\Resources\User\LocationCollection as LocationResource;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    use Helper;
+
+    use CustomLogger;
+
+    protected $userResource = "";
+    protected $groupResource = "";
+    protected $roleResource = "";
+    protected $locationResource = "";
+
+    protected $roleList = [
+        "art" => "art",
+        "admin" => "admin",
+        "logistics" => "logistics",
+        "production" => "production",
+        "copy_editing" => "copy_editing",
+        "account_manager" => "account_manager",
+        "project_manager" => "project_manager",
+    ];
+
+
+
+    protected $locationList = [
+        "pondy" => "pondy",
+        "chennai" => "chennai"
+    ];
+
+    public function __construct()
     {
-        return view('pages.users.index');
+
+        $this->userResource = new UserResource();
+        $this->groupResource = new GroupResource();
+        $this->roleResource = new RoleResource();
+        $this->locationResource = new LocationResource();
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      *
+     * @return Response
+     */
+    public function index()
+    {
+
+    }
+
+    /**
+     * Show the user detail.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function userList(Request $request)
+    {
+
+        try {
+
+            $responseData = $this->userResource->getAlluser();
+
+            $userData = [
+
+                "data" => $responseData
+
+            ];
+
+            if ($request->ajax()) {
+
+                $returnResponse = [
+                    "success" => "false",
+                    "error" => "false",
+                    "data" => "",
+                    "message" => "",
+                ];
+
+                if ($responseData) {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["data"] = $responseData;
+                    $returnResponse["message"] = "retrieved successfully";
+                }
+
+                return json_encode($returnResponse);
+
+            }
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return view('pages.user.list', compact('userData'));
+    }
+
+    /**
+     * Get the my history.
+     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function myHistory(Request $request)
     {
-        //
+        $returnResponse = [];
+
+        $field = [];
+
+        try {
+
+            $field['empcode'] = auth()->user()->empcode;
+
+            if (count($field) > 0) {
+
+                $returnResponse = $this->userResource->myHistory($field);
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return json_encode($returnResponse);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request Request
+     * @return json response
      */
-    public function store(Request $request)
+    public function userAdd(Request $request)
     {
-        //
+
+        $userData = [];
+
+        try {
+
+            $roleField = [
+
+                ["status", true]
+
+            ];
+
+            $groupField = [
+
+                ["status", true]
+
+            ];
+
+            $locationField = [
+
+                ["status", true]
+
+            ];
+
+            $userData["role_list"] = Config::get('constants.roleList');
+            // $userData["role_list"] = $this->roleResource->getActiveRoles();
+            // $userData["group_list"] = $this->groupResource->getActiveGroups();
+            // $userData["location_list"] = $this->locationResource->getActiveLocations();
+            $userData["location_list"] = Config::get('constants.locationList');
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($userData);echo '<PRE/>';exit;
+        return view('pages.user.user', compact("userData"));
     }
 
     /**
-     * Display the specified resource.
+     * Show user edit page based on user id.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request Request
+     * @return array $userData
      */
-    public function show($id)
+    public function userEdit(Request $request)
     {
-        //
+
+        $userData = [];
+
+        try {
+
+            if($request->id != "") {
+
+                $field = [
+
+                    // ['empcode', $request->id]
+                    'empcode' => $request->id
+
+                ];
+
+                $userData["data"] = $this->userResource->getUser($field);
+                $userData["role_list"] = Config::get('constants.roleList');
+                $userData["location_list"] = Config::get('constants.locationList');
+
+            }
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return view('pages.user.user', compact("userData"));
+
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Store a newly created resource in storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request Request
+     * @return json response
      */
-    public function edit($id)
+    public function userStore(Request $request)
     {
-        //
+
+        $status = "false";
+
+        try {
+
+            if ($request->get('status') == "on") {
+
+                $status = "1";
+
+            }
+
+            $request->merge(['status' => $status]);
+
+            if ($request->email) {
+
+                $request->merge(['empcode' => $request->email]);
+            }
+
+            // $responseData = $this->userResource->userAdd($request);
+            $returnResponse = $this->userResource->userAdd($request);
+
+
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+
+        }
+
+        $redirecturl = redirect()->action('User\UserController@userList');
+
+        return $redirecturl->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message" => $returnResponse["message"]]);
+
+        // return json_encode($returnResponse);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update user in users table by user id.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request Request
+     * @return json response
      */
-    public function update(Request $request, $id)
+    public function userUpdate(Request $request)
     {
-        //
+
+        try {
+
+            $status = "0";
+
+            if ($request->get('status') == "on") {
+
+                $status = "1";
+
+            }
+
+            $request->merge(['status' => $status]);
+
+            // $request->set('status', $status);
+
+            $request = $this->formatHistoryData($request, "history", "~");
+
+            $returnResponse = $this->userResource->userEdit($request);
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        $redirecturl = redirect()->action('User\UserController@userList');
+
+        return $redirecturl->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message"=> $returnResponse["message"]]);
+
+        // return json_encode($returnResponse);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete user in users table by user id.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request Request
+     * @return json response
      */
-    public function destroy($id)
+    public function userDelete(Request $request)
     {
-        //
+
+        try {
+
+            $returnResponse = $this->userResource->userDelete($request);
+
+            if (isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+                $returnResponse["data"] = $this->userResource->getAllUser();
+            }
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+
+        }
+
+        return json_encode($returnResponse);
     }
+
+    /**
+     * Show user edit page based on user id.
+     *
+     * @param \Illuminate\Http\Request Request
+     * @return array $userData
+     */
+    public function userPasswordUpdate(Request $request)
+    {
+
+        $userData = [];
+        try {
+
+            $userData["data"]["id"] = "";
+
+            if ($request->id != "") {
+
+                $userData["data"]["id"] = $request->id;
+
+                // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($request->all());echo '<PRE/>';exit;
+
+                if ($request->isMethod('post')) {
+
+
+                    $returnResponse = $this->userResource->changePassword($request);
+
+                    $redirecturl = redirect()->action('User\UserController@userList');
+
+                    return $redirecturl->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message" => $returnResponse["message"]]);
+
+
+                }
+            }
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return view('pages.user.userChangePassword', compact("userData"));
+    }
+
+    /**
+     * Change user password.
+     *
+     * @param \Illuminate\Http\Request Request
+     * @return json response
+     */
+
+    public function changePassword(Request $request)
+    {
+        $validator = array();
+        $succ_msg  = '';
+        $old_pass  = '';
+        if ($request->isMethod('post')) {
+            $valid_arr = array(
+                'password'     => 'required|min:6',
+                'password_confirmation' => 'required|same:password'
+            );
+            $custmsg['password_confirmation.same'] = 'The password and confirmation password do not match';
+            $validator = Validator::make($request->all(), $valid_arr, $custmsg);
+
+            $data = $request->all();
+            $old_pass  = $data['password'];
+            $user = User::find(Auth::user()->id);
+            if (!$validator->fails()) {
+                if (!Hash::check($data['old_password'], $user->password)) {
+                    $fails = $validator->fails(); // true
+                    $failedMessages = $validator->failed(); // h
+                    $validator->errors()->add('old_password', 'The specified password does not match the database password');
+                } else {
+                    // code to update password
+                    $user->password = bcrypt($data["password"]);
+                    $user->save();
+                    $succ_msg = 'Password changed successfully';
+                }
+            }
+        }
+        return view('user.changepassword', array("successmsg" => $succ_msg, 'old_pass' => $old_pass, 'page_title' => 'Change Password'))->withErrors($validator);
+        exit;
+    }
+
+    /**
+     * Show the user group detail.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function groupList(Request $request)
+    {
+
+        $responseData = $this->groupResource->getAllGroup();
+
+        $groupData = [
+
+            "data" => $responseData
+
+        ];
+
+        if ($request->ajax()) {
+
+            $returnResponse = [
+                "success" => "false",
+                "error" => "false",
+                "data" => "",
+                "message" => "",
+            ];
+
+            if ($responseData) {
+
+                $returnResponse["success"] = "true";
+                $returnResponse["data"] = $responseData;
+                $returnResponse["message"] = "retrieved successfully";
+            }
+
+            return json_encode($returnResponse);
+        }
+
+        return view('pages.user.list', compact('groupData'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return json response
+     */
+    public function groupAdd(Request $request)
+    {
+
+        // $responseData = $this->groupResource->groupAdd($request);
+        $returnResponse = $this->groupResource->groupAdd($request);
+
+        if (isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+            $returnResponse["data"] = $this->groupResource->getAllGroup();
+
+        }
+
+        return json_encode($returnResponse);
+
+    }
+
+    /**
+     * Edit group in user_group table by group id.
+     *
+     * @return json response
+     */
+    public function groupEdit(Request $request)
+    {
+
+        $returnResponse = $this->groupResource->groupEdit($request);
+
+        if (isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+            $returnResponse["data"] = $this->groupResource->getAllGroup();
+
+        }
+
+        return json_encode($returnResponse);
+    }
+
+    /**
+     * Delete group in user_group table by group id.
+     *
+     * @return json response
+     */
+    public function groupDelete(Request $request)
+    {
+
+        $returnResponse = $this->groupResource->groupDelete($request);
+
+        if (isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+            $returnResponse["data"] = $this->groupResource->getAllGroup();
+
+        }
+
+        return json_encode($returnResponse);
+    }
+
+    /**
+     * get active user groups.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getActiveGroups(Request $request)
+    {
+
+        $responseData = $this->roleResource->getActiveGroups();
+
+        $groupData = [
+
+            "data" => $responseData
+
+        ];
+
+        if ($request->ajax()) {
+
+            $returnResponse = [
+                "success" => "false",
+                "error" => "false",
+                "data" => "",
+                "message" => "",
+            ];
+
+            if ($responseData) {
+
+                $returnResponse["success"] = "true";
+                $returnResponse["data"] = $responseData;
+                $returnResponse["message"] = "retrieved successfully";
+            }
+
+            return json_encode($returnResponse);
+        }
+
+        return view('pages.user.list', compact('groupData'));
+    }
+
+    /**
+     * Show the user role detail.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function roleList(Request $request)
+    {
+
+        $responseData = $this->roleResource->getAllRole();
+
+        $roleData = [
+
+            "data" => $responseData
+
+        ];
+
+        if ($request->ajax()) {
+
+            $returnResponse = [
+                "success" => "false",
+                "error" => "false",
+                "data" => "",
+                "message" => "",
+            ];
+
+            if ($responseData) {
+
+                $returnResponse["success"] = "true";
+                $returnResponse["data"] = $responseData;
+                $returnResponse["message"] = "retrieved successfully";
+            }
+
+            return json_encode($returnResponse);
+        }
+
+        return view('pages.user.list', compact('roleData'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return json response
+     */
+    public function roleAdd(Request $request)
+    {
+
+        // $responseData = $this->roleResource->roleAdd($request);
+        $returnResponse = $this->roleResource->roleAdd($request);
+
+        if (isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+            $returnResponse["data"] = $this->roleResource->getAllRole();
+
+        }
+
+        return json_encode($returnResponse);
+    }
+
+    /**
+     * Edit role in user_role table by role id.
+     *
+     * @return json response
+     */
+    public function roleEdit(Request $request)
+    {
+
+        $returnResponse = $this->roleResource->roleEdit($request);
+
+        if (isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+            $returnResponse["data"] = $this->roleResource->getAllRole();
+
+        }
+
+        return json_encode($returnResponse);
+    }
+
+    /**
+     * Delete role in user_role table by role id.
+     *
+     * @return json response
+     */
+    public function roleDelete(Request $request)
+    {
+
+        $returnResponse = $this->roleResource->roleDelete($request);
+
+        if (isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+            $returnResponse["data"] = $this->roleResource->getAllRole();
+
+        }
+
+        return json_encode($returnResponse);
+    }
+
+    /**
+     * get active user roles.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getActiveRoles(Request $request)
+    {
+
+        $responseData = $this->roleResource->getActiveRoles();
+
+        $roleData = [
+
+            "data" => $responseData
+
+        ];
+
+        if ($request->ajax()) {
+
+            $returnResponse = [
+                "success" => "false",
+                "error" => "false",
+                "data" => "",
+                "message" => "",
+            ];
+
+            if ($responseData) {
+
+                $returnResponse["success"] = "true";
+                $returnResponse["data"] = $responseData;
+                $returnResponse["message"] = "retrieved successfully";
+            }
+
+            return json_encode($returnResponse);
+        }
+
+        return view('pages.user.list', compact('roleData'));
+    }
+
+    /**
+     * Show the user location detail.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function locationList(Request $request)
+    {
+
+        $responseData = $this->locationResource->getAllLocation();
+
+        $locationData = [
+
+            "data" => $responseData
+
+        ];
+
+        if ($request->ajax()) {
+
+            $returnResponse = [
+                "success" => "false",
+                "error" => "false",
+                "data" => "",
+                "message" => "",
+            ];
+
+            if ($responseData) {
+
+                $returnResponse["success"] = "true";
+                $returnResponse["data"] = $responseData;
+                $returnResponse["message"] = "retrieved successfully";
+            }
+
+            return json_encode($returnResponse);
+        }
+
+        return view('pages.user.list', compact('locationData'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return json response
+     */
+    public function locationAdd(Request $request)
+    {
+
+        $returnResponse = $this->locationResource->locationAdd($request);
+
+        if (isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+            $returnResponse["data"] = $this->locationResource->getAllLocation();
+
+        }
+
+        return json_encode($returnResponse);
+    }
+
+    /**
+     * Edit location in user_location table by location id.
+     *
+     * @return json response
+     */
+    public function locationEdit(Request $request)
+    {
+
+        $returnResponse = $this->locationResource->locationEdit($request);
+
+        if (isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+            $returnResponse["data"] = $this->locationResource->getAllLocation();
+        }
+
+        return json_encode($returnResponse);
+    }
+
+    /**
+     * Delete location in user_location table by location id.
+     *
+     * @return json response
+     */
+    public function locationDelete(Request $request)
+    {
+
+        $returnResponse = $this->locationResource->locationDelete($request);
+
+        if (isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+            $returnResponse["data"] = $this->locationResource->getAllLocation();
+        }
+
+        return json_encode($returnResponse);
+    }
+
+    /**
+     * get active user locations.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getActiveLocations(Request $request)
+    {
+
+        $responseData = $this->LocationResource->getActiveLocations();
+
+        $groupData = [
+
+            "data" => $responseData
+
+        ];
+
+        if ($request->ajax()) {
+
+            $returnResponse = [
+                "success" => "false",
+                "error" => "false",
+                "data" => "",
+                "message" => "",
+            ];
+
+            if ($responseData) {
+
+                $returnResponse["success"] = "true";
+                $returnResponse["data"] = $responseData;
+                $returnResponse["message"] = "retrieved successfully";
+            }
+
+            return json_encode($returnResponse);
+        }
+
+        return view('pages.user.list', compact('locationData'));
+    }
+
 }

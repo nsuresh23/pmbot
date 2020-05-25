@@ -19,7 +19,7 @@ return [
     'loginUserNameLabel' => 'User Name',
     'loginUserNamePlaceHolder' => 'Enter user name',
     'loginEmailLabel' => 'Email address',
-    'loginEmailPlaceHolder' => 'Enter email',
+    'loginEmailPlaceHolder' => 'Enter UserName / E-Mail Address',
     'loginPasswordLabel' => 'Password',
     'loginPasswordPlaceHolder' => "Enter password",
     'forgotPassword' => 'forgot password ?',

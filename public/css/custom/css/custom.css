@@ -1,12 +1,556 @@
-.page-wrapper {
-    margin-left: auto;
-}
-.no-underline {
-  text-decoration: none !important;
-}
-.list-modal-dialog {
-    width: 65% !important;
-}
-.job-list:hover {
-    cursor: pointer;
-}
+                            /****************************/
+                            /** Custom **/
+                            /****************************/
+                            
+                            .jsgrid-reset-button {
+                                margin-left: 5px !important;
+                                font-size: 20px !important;
+                            }
+                            
+                            .disabled-block {
+                                pointer-events: none !important;
+                                opacity: 0.4 !important;
+                                background: #fdfdfd !important;
+                            }
+                            
+                            .readonly-block {
+                                background-color: #eee !important;
+                                opacity: 1 !important;
+                            }
+                            
+                            .form-block {
+                                background-color: #fff !important;
+                            }
+                            
+                            .slow-animation {
+                                animation: swal2-show 3s !important;
+                            }
+                            
+                            .brand-img {
+                                vertical-align: unset !important;
+                            }
+                            
+                            .input-has-error {
+                                color: #dd4b39 !important;
+                                border: #dd4b39 !important;
+                            }
+                            
+                            .bg-project_manager {
+                                background: #458e69 !important;
+                            }
+                            
+                            .bg-account_manager {
+                                background: #e4802a !important;
+                            }
+                            
+                            .bg-copy_editing {
+                                background: #5711de !important;
+                            }
+                            
+                            .bg-logistics {
+                                background: #841409 !important;
+                            }
+                            
+                            .bg-art {
+                                background: #e11d8e !important;
+                            }
+                            
+                            .bg-production {
+                                background: #00aced !important;
+                            }
+                            
+                            .bg-light-yellow {
+                                background: #f8b32d85 !important;
+                            }
+                            
+                            .page-wrapper {
+                                margin-left: auto;
+                            }
+                            
+                            .no-underline {
+                                text-decoration: none !important;
+                            }
+                            
+                            .list-modal-dialog {
+                                width: 95% !important;
+                            }
+                            
+                            .job-list:hover {
+                                cursor: pointer;
+                            }
+                            
+                            .job-status-i {
+                                font-size: 33px !important;
+                            }
+                            
+                            .border-right {
+                                border-right: 2px solid #eee!important;
+                            }
+                            
+                            .user-jsgrid-checkbox-width input {
+                                width: 50% !important;
+                            }
+                            
+                            .user-group-jsgrid-checkbox-width input {
+                                width: 25% !important;
+                            }
+                            
+                            .checkListGrid .jsgrid-table {
+                                width: 100% !important;
+                            }
+                            
+                            .fullwidth .jsgrid-table {
+                                width: 100% !important;
+                            }
+                            
+                            .js-switch-mt-0 .switchery {
+                                margin-top: 0px !important;
+                            }
+                            
+                            .error-field input {
+                                border: 1px solid #ff9999;
+                                background: #ffeeee;
+                            }
+                            
+                            .remove-error-field input {
+                                background: inherit;
+                                border-color: #dedede;
+                            }
+                            
+                            .dropzone {
+                                border: 1px solid #dedede;
+                            }
+                            
+                            .notification-unread-color {
+                                background: rgba(33, 33, 33, 0.05);
+                            }
+                            
+                            .nav-breadcrums>.breadcrumb {
+                                float: left !important;
+                                font-size: 1.7rem !important;
+                                padding: 8px 5px !important;
+                                background-color: #eaf1f0 !important;
+                                margin-bottom: 0rem;
+                                margin-left: 0.3rem;
+                            }
+                            
+                            .nav-breadcrums>.breadcrumb>li+li:before {
+                                font-weight: 900 !important;
+                                content: "\f101";
+                                color: #000000 !important;
+                                font-size: 1.8rem !important;
+                            }
+                            
+                            .nav-breadcrums>.breadcrumb a {
+                                color: #337ab7 !important;
+                                opacity: 1 !important;
+                            }
+                            
+                            .nav-breadcrums>.breadcrumb>.active {
+                                color: #23527c !important;
+                                font-weight: 600 !important;
+                            }
+                            
+                            .timeline>li {
+                                margin: 10px !important;
+                            }
+                            
+                            .timeline>li>.timeline-badge {
+                                right: -10px !important;
+                            }
+                            
+                            .timeline>li.timeline-inverted>.timeline-badge {
+                                left: -14px !important;
+                            }
+                            
+                            .navbar.navbar-inverse.navbar-fixed-top .nav.top-nav>li>a .top-nav-icon-badge {
+                                background: #ff6300;
+                            }
+                            
+                            .notification-item-count-icon-badge {
+                                background: #ff6300;
+                                border-radius: 50%;
+                                color: #fff;
+                                font-size: 10px;
+                                height: 16px;
+                                line-height: 16px;
+                                position: absolute;
+                                right: 0;
+                                text-align: center;
+                                top: 16px;
+                                width: 16px;
+                            }
+                            
+                            .task-notification-item-count-icon-badge {
+                                background: #ff6300;
+                                border-radius: 50%;
+                                color: #fff;
+                                font-size: 10px;
+                                height: 16px;
+                                line-height: 16px;
+                                position: absolute;
+                                right: 0;
+                                text-align: center;
+                                top: 0px;
+                                width: 16px;
+                            }
+                            
+                            .user-circle {
+                                display: inline-block;
+                                font-size: 1em;
+                                width: 3.5em;
+                                height: 3.5em;
+                                line-height: 3.5em;
+                                text-align: center;
+                                border-radius: 50%;
+                                background: #0fcdd5;
+                                vertical-align: middle;
+                            }
+                            
+                            .user-initials {
+                                font-size: 2em;
+                                color: #fff;
+                                font-family: "Courier New", monospace;
+                                font-weight: bold;
+                            }
+                            
+                            .user-boxed {
+                                display: inline-block;
+                                font-size: 1em;
+                                width: 6em;
+                                height: 6em;
+                                line-height: 6em;
+                                text-align: center;
+                                background: #42e6bd;
+                                vertical-align: middle;
+                            }
+                            
+                            .user-boxed-initials {
+                                font-size: 4em;
+                                color: #fff;
+                                font-family: "Courier New", monospace;
+                                font-weight: bold;
+                            }
+                            
+                            .openTaskGrid .jsgrid-table {
+                                width: 100% !important;
+                            }
+                            
+                            .jsgrid-table {
+                                width: 100% !important;
+                            }
+                            
+                            .assignee_desc {
+                                height: 300px !important;
+                            }
+                            
+                            .swal2-popup {
+                                font-size: 1.3rem !important;
+                            }
+                            
+                            .parent-task-row {
+                                background: #dfeef77d;
+                            }
+                            
+                            .sub-task-row {
+                                background: #ffffff0f;
+                            }
+                            
+                            .task-note-activies-bg {
+                                background: #f7fafb;
+                            }
+                            
+                            .taskActivities .jsgrid-cell {
+                                padding-bottom: 0px;
+                            }
+                            
+                            .hiddenBlock {
+                                display: none;
+                            }
+                            
+                            .task-box-shadow {
+                                -webkit-box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.08);
+                                box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.08);
+                            }
+                            
+                            .light-grey-top-border {
+                                margin-top: 1rem !important;
+                                border: 1px solid #dedede !important;
+                                margin-bottom: 1rem !important;
+                            }
+                            
+                            .finance-price-calculation>tbody>tr>td {
+                                padding: 16px;
+                                vertical-align: middle;
+                            }
+                            
+                            .bg-pannel-info {
+                                border-color: #bce8f1 !important;
+                                background: #bce8f1 !important;
+                            }
+                            
+                            .bg-progress {
+                                background: #5711de !important;
+                            }
+                            
+                            .bg-pending {
+                                background: #ac235c !important;
+                            }
+                            
+                            .bg-completed {
+                                background: #8BC34A !important;
+                            }
+                            
+                            .bg-closed {
+                                background: #8BC34A !important;
+                            }
+                            
+                            .bg-partial {
+                                background: #f8b32d !important;
+                            }
+                            
+                            .bg-hold {
+                                background: #f8b32d !important;
+                            }
+                            
+                            .bg-delay {
+                                background: #f33923 !important;
+                            }
+                            
+                            .bg-escalation {
+                                background: #ff6300 !important;
+                            }
+                            
+                            .jsgrid-row>.jsgrid-cell,
+                            .jsgrid-alt-row>.jsgrid-cell {
+                                word-break: break-all !important;
+                            }
+                            
+                            .accordion-struct.panel-group .panel .panel-heading.activestate {
+                                background: #d4d7e2;
+                                border-bottom: none;
+                            }
+                            
+                            .global-checklist .accordion-struct.panel-group .panel .job-check-list .panel-heading.activestate {
+                                background: #bce8f1;
+                                border-bottom: none;
+                            }
+                            
+                            .accordion-struct.panel-group .panel .job-check-list .panel-heading {
+                                background: #bce8f1;
+                                border-bottom: none;
+                            }
+                            
+                            .accordion-struct.panel-group .panel .panel-heading.activestate a {
+                                text-decoration: none;
+                                color: #000000;
+                            }
+                            
+                            .accordion-struct.panel-group .panel .panel-heading {
+                                background: #d4d7e2;
+                                border-bottom: none;
+                            }
+                            
+                            .accordion-struct.panel-group .panel .panel-heading a {
+                                text-decoration: none;
+                                color: #000000;
+                            }
+                            /* .accordion-struct .panel-heading:after {
+                font-family: 'FontAwesome';
+                content: "\f068";
+                float: right;
+            }
+            
+            .accordion-struct .panel-heading.collapsed:after {
+                content: "\f067";
+            } */
+                            
+                            .card-view.panel>.panel-heading {
+                                padding: 8px 8px !important;
+                            }
+                            
+                            #task-description-view .nav>li>a {
+                                padding: 5px 10px !important;
+                            }
+                            
+                            #task-description-view .tab-content p {
+                                margin: 0px !important;
+                            }
+                            
+                            .jsgrid-cell {
+                                padding: 0.5em !important;
+                            }
+                            
+                            .task-note-activies-bg p {
+                                margin-top: 0px !important;
+                                margin-bottom: 0px !important;
+                            }
+                            
+                            .task-note-activies-bg blockquote {
+                                margin-top: 0px !important;
+                                margin-bottom: 0px !important;
+                            }
+                            
+                            .note-editor p {
+                                margin-top: 0px !important;
+                                margin-bottom: 0px !important;
+                            }
+                            
+                            .note-editor blockquote {
+                                margin-top: 0px !important;
+                                margin-bottom: 0px !important;
+                            }
+                            
+                            .followup_date {
+                                height: 42px !important;
+                            }
+                            
+                            .select2-selection--multiple {
+                                height: auto !important;
+                            }
+                            
+                            .select2-container--default .select2-selection--multiple .select2-selection__choice {
+                                margin-bottom: 0px !important;
+                            }
+                            
+                            .select2-container .select2-selection--multiple .select2-selection__rendered {
+                                line-height: 36px !important;
+                            }
+                            
+                            .plus-button {
+                                width: 16px !important;
+                                height: 16px !important;
+                                border: none !important;
+                                cursor: pointer !important;
+                                background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAFgEAYAAADx4WWjAAAABmJLR…Xo44/HjcN4796srGvXNmwYaL96TVxcZWVu7owZA+3Hfw3/D73/bnBl1mLvAAAAAElFTkSuQmCC);
+                                background-repeat: no-repeat !important;
+                                background-color: transparent !important;
+                            }
+                            
+                            .task-detail-block {
+                                border: 1px solid #dedede !important;
+                            }
+                            
+                            .checklist-detail-block {
+                                /* border-right: ridge !important; */
+                                border-right: 1px solid #dedede !important;
+                            }
+                            
+                            .tag-item {
+                                padding: 8px 10px;
+                                margin-bottom: 10px;
+                                margin-right: 5px;
+                                display: inline-block;
+                                font-size: 12px;
+                                font-weight: 400;
+                                line-height: 1;
+                                color: #fff;
+                                text-align: center;
+                                vertical-align: baseline;
+                            }
+                            
+                            .wd-100 {
+                                width: 100% !important;
+                            }
+                            
+                            .result-count-icon-badge {
+                                padding: 4px 14px;
+                                color: #fff;
+                                background: #458e69;
+                                position: relative;
+                                -moz-border-radius: 10px;
+                                -webkit-border-radius: 10px;
+                                border-radius: 10px;
+                                margin-left: 10px;
+                            }
+                            
+                            .result-count-icon-badge:before {
+                                content: "";
+                                position: absolute;
+                                right: 75%;
+                                top: 5px;
+                                /* border-top: 9px solid transparent; */
+                                border-right: 26px solid #458e69;
+                                border-bottom: 10px solid transparent;
+                            }
+                            
+                            .followupdate {
+                                max-width: 22% !important;
+                            }
+                            
+                            .popover-title {
+                                text-transform: capitalize !important;
+                            }
+                            
+                            .task-detail-block .nav-pills-outline.nav-pills>li>a {
+                                padding: 5px 10px !important;
+                            }
+                            
+                            .email-compose-modal {
+                                /* position: absolute;
+                                bottom: 0;
+                                right: 0;
+                                max-height: calc(100vh - 200px);
+                                overflow-y: auto; */
+                            }
+                            
+                            ul.inbox-nav li a {
+                                text-decoration: none !important;
+                                color: #000000;
+                            }
+                            
+                            ul.inbox-nav li a:hover,
+                            ul.inbox-nav li.active a,
+                            ul.inbox-nav li a:focus {
+                                background: rgba(33, 33, 33, 0.17) !important;
+                            }
+                            
+                            .inbox-body {
+                                border: none;
+                                box-shadow: none;
+                                margin-bottom: 0;
+                                border-radius: 0;
+                                border-left: 1px solid #dedede;
+                                /* min-height: 520px; */
+                            }
+                            
+                            .inbox-nav .label {
+                                border-radius: 1em !important;
+                            }
+                            
+                            .emailGrid .jsgrid-table {
+                                width: 100% !important;
+                            }
+                            
+                            .emailGrid .jsgrid-header-row {
+                                border-top: 1px solid #ddd !important;
+                            }
+                            
+                            .emailGrid .jsgrid-row {
+                                border-top: 1px solid #ddd !important;
+                                border-bottom: 1px solid #ddd !important;
+                            }
+                            
+                            .emailGrid .jsgrid-header-cell {
+                                border: none !important;
+                                text-align: center !important;
+                                padding: 8px !important;
+                            }
+                            
+                            .emailGrid .jsgrid-cell {
+                                border: none !important;
+                            }
+                            
+                            .emailGrid .label {
+                                border-radius: 1em !important;
+                            }
+							
+							.email-attachment-item-block {
+                                border: gray solid 1px;
+                                padding: 0.3em;
+                            }
+ 
+                            .email-attachment-item-name {
+                                vertical-align: top;
+                                font-size: 0.8em;
+                            }

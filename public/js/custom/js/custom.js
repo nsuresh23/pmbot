@@ -1,439 +1,380 @@
-$(function () {
+function flashMessage(type, message) {
 
-    //display modal form for product editing
-    $(document).on('click', '.job-list', function () {
+    var headingVariable = 'Success';
+    var loaderBgVariable = '#fec107';
+    var iconVariable = 'success';
+    var textVariable = message;
 
-        var getUrl = "";
-        var stage = "";
-        var status = "";
-        getUrl = $(this).attr('data-url');
-        stage = $(this).attr('data-stage');
-        status = $(this).attr('data-status');
-        if (stage != "") {
-            getUrl = getUrl + "/" + stage;
-        }
-        if (status != "") {
-            getUrl = getUrl + "/" + status;
-        }
+    if (type == "error") {
 
-        // $('.list-modal-body').html(data);
-        $("#jobList").jsGrid({
-            height: "450px",
-            width: "100%",
+        headingVariable = 'Error';
+        iconVariable = 'error';
 
-            filtering: true,
-            editing: false,
-            sorting: true,
-            paging: true,
-            autoload: true,
-            editButton: false,
-            deleteButton: false,
-            sorter: "string",
+    }
 
-            pageSize: 5,
-            pageButtonCount: 5,
-
-            noDataContent: "No orders found",
-
-            // deleteConfirm: "Do you really want to delete the client?",
-
-            // controller: db,
-
-            controller: {
-                loadData: function (filter) {
-
-
-                    filter.stage = stage;
-                    filter.status = status;
-                    console.log(filter);
-
-                    // data =  $.ajax({
-                    //     url: getUrl,
-                    //     // data: filter,
-                    //     dataType: "json"
-                    // });
-
-                    // return $.grep(data, function (client) {
-                    //     console.log("client");
-                    //     console.log(client);
-                    //     return (!filter.jobTitle || client.jobTitle.indexOf(filter.jobTitle) > -1)
-                    //         && (!filter.projectManager || client.projectManager.indexOf(filter.projectManager) > -1)
-                    //         && (!filter.author || client.author.indexOf(filter.author) > -1)
-                    //         && (!filter.editor || client.editor.indexOf(filter.editor) > -1)
-                    //         && (!filter.publisher || client.publisher.indexOf(filter.publisher) > -1)
-                    //         && (!filter.startDate || client.startDate.indexOf(filter.startDate) > -1)
-                    //         && (!filter.dueDate || client.dueDate.indexOf(filter.dueDate) > -1);
-                    // });
-
-                    // return data;
-                    return $.ajax({
-                        url: getUrl,
-                        data: filter,
-                        dataType: "json"
-                    });
-                }
-            },
-
-            fields: [
-                { title: "JOB TITLE", name: "jobTitle", type: "text", width: 150 },
-                { title: "PROJECT MANAGER", name: "projectManager", type: "text", width: 150 },
-                { title: "AUTHOR", name: "author", type: "text", width: 150 },
-                { title: "EDITOR", name: "editor", type: "text", width: 150 },
-                { title: "PUBLISHER", name: "publisher", type: "text", width: 150 },
-                { title: "START DATE", name: "startDate", type: "text", width: 150 },
-                { title: "DUE DATE", name: "dueDate", type: "text", width: 150 },
-                { type: "control", editButton: false, deleteButton: false, width: 60 }
-            ]
-        });
-        // $('.list-modal-body').append($("#jobList").html);
-        $('.list-modal').modal('show');
-
-        // $.get(url, function (data) {
-        //     //success data
-        //     $('.list-modal-body').html(data);
-        //     $("#jobList").jsGrid({
-        //         height: "450px",
-        //         width: "100%",
-
-        //         filtering: true,
-        //         editing: true,
-        //         sorting: true,
-        //         paging: true,
-        //         autoload: true,
-
-        //         pageSize: 15,
-        //         pageButtonCount: 5,
-
-        //         deleteConfirm: "Do you really want to delete the client?",
-
-        //         // controller: db,
-
-        //         controller: {
-        //             loadData: function (filter) {
-
-        //                 return data;
-        //                 // return $.ajax({
-        //                 //     url: "https://api.github.com/repositories",
-        //                 //     dataType: "json"
-        //                 // });
-        //             }
-        //         },
-
-        //         fields: [
-        //             { title: "Name", { title: "Name", type: "text", width: 150 },
-        //             { title: "Age", { title: "Age", type: "number", width: 50 },
-        //             { title: "Address", { title: "Address", type: "text", width: 200 },
-        //             { title: "Country", { title: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
-        //             { title: "Married", { title: "Married", type: "checkbox", title: "Is Married", sorting: false },
-        //             { type: "control" }
-        //         ]
-        //     });
-        //     $('.list-modal').modal('show');
-        // })
-
-        // var product_id = $(this).val();
-
-        // $.get(url + '/' + product_id, function (data) {
-        //     //success data
-        //     console.log(data);
-        //     $('#product_id').val(data.id);
-        //     $('#name').val(data.name);
-        //     $('#details').val(data.details);
-        //     $('#btn-save').val("update");
-        //     $('#myModal').modal('show');
-        // })
+    $.toast().reset('all');
+    $("body").removeAttr('class');
+    $.toast({
+        heading: headingVariable,
+        text: textVariable,
+        position: 'top-right',
+        loaderBg: loaderBgVariable,
+        icon: iconVariable,
+        hideAfter: 3500,
+        stack: 6
     });
+    return false;
 
+}
 
+function fieldMessage(field, message) {
 
-    // $('.list-modal-body').html(data);
-    var stakeholdersList = $("#stakeholdersList").jsGrid({
-            height: "450px",
-            width: "100%",
+    var headingVariable = 'Error';
+    var loaderBgVariable = '#fec107';
+    var iconVariable = 'error';
+    var textVariable = message;
 
-            filtering: true,
-            editing: false,
-            sorting: true,
-            paging: true,
-            autoload: true,
-            editButton: false,
-            deleteButton: false,
-            sorter: "string",
+    $.toast().reset('all');
+    $("body").removeAttr('class').removeClass("bottom-center-fullwidth").addClass("top-center-fullwidth");
+    $.toast({
+        heading: headingVariable,
+        text: textVariable,
+        position: 'top-center',
+        loaderBg: loaderBgVariable,
+        icon: iconVariable,
+        hideAfter: 3500,
+        stack: 6
+    });
+    return false;
 
-            pageSize: 5,
-            pageButtonCount: 5,
+}
 
-            noDataContent: "No stakeholders found",
+function confirmAlert() {
 
-            // deleteConfirm: "Do you really want to delete the client?",
+    $.MessageBox({
 
-            // controller: db,
+        buttonDone: "Yes",
+        buttonFail: "No",
+        message: "Are You Sure?"
 
-            controller: {
-                loadData: function (filter) {
+    }).done(function() {
 
-                    var getUrl = "";
-                    getUrl = $("#stakeholdersList").attr('data-url');
-                    console.log(filter);
-                    console.log(getUrl);
+        return true;
 
-                    // data =  $.ajax({
-                    //     url: getUrl,
-                    //     // data: filter,
-                    //     dataType: "json"
-                    // });
+    }).fail(function() {
 
-                    // return $.grep(data, function (client) {
-                    //     console.log("client");
-                    //     console.log(client);
-                    //     return (!filter.jobTitle || client.jobTitle.indexOf(filter.jobTitle) > -1)
-                    //         && (!filter.projectManager || client.projectManager.indexOf(filter.projectManager) > -1)
-                    //         && (!filter.author || client.author.indexOf(filter.author) > -1)
-                    //         && (!filter.editor || client.editor.indexOf(filter.editor) > -1)
-                    //         && (!filter.publisher || client.publisher.indexOf(filter.publisher) > -1)
-                    //         && (!filter.startDate || client.startDate.indexOf(filter.startDate) > -1)
-                    //         && (!filter.dueDate || client.dueDate.indexOf(filter.dueDate) > -1);
-                    // });
-
-                    // return data;
-                    return $.ajax({
-                        url: getUrl,
-                        data: filter,
-                        dataType: "json"
-                    });
-                }
-            },
-
-            fields: [
-                { title: "ID", name: "id", type: "text", width: 150 },
-                { title: "NAME", name: "name", type: "text", width: 150 },
-                { title: "EMAIL", name: "email", type: "text", width: 150 },
-                { title: "DESIGNATION", name: "designation", type: "text", width: 150 },
-                { title: "PHONE", name: "phone", type: "text", width: 150 },
-                { title: "MOBILE", name: "mobile", type: "text", width: 150 },
-                // { type: "control", editButton: false, deleteButton: false, width: 60 }
-                { type: "control", width: 60 }
-            ]
-        });
-
-    $(".stakeholders-add").on('click', function () {
-
-        $('#stakeholders-modal').modal('show');
+        return false;
 
     });
+}
 
-    // $('stakeholders-form').on('submit', function (e) {
-    // $('#stakeholdersAddButton').on('click', function (e) {
-    $(document).on('click', '#stakeholdersAddButton', function (e) {
+$(window).on("load", function() {
 
-        // if (this.checkValidity && !this.checkValidity()) return;
-        // if ($('#stakeholders-form').checkValidity && !$('#stakeholders-form').checkValidity()) return;
-        // e.preventDefault();
-        var postUrl = '';
-        postUrl = $('#stakeholdersAddButton').attr('data-url');
-        // postUrl = $('#stakeholdersAddButton').attr('data-url');
-        console.log("postUrl");
-        console.log(postUrl);
-        var row = $('#stakeholdersList').data('row');
+    var flashType = $('#flashMessage').attr('data-type');
+    var flashMsg = $('#flashMessage').attr('data-message');
 
-        var return_first = function () {
-            var tmp = null;
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                'async': false,
-                'type': "POST",
-                'global': false,
-                'dataType': 'json',
-                'url': postUrl,
-                'data': $('#stakeholders-form').serialize(),
-                'success': function (data) {
-                    $("#stakeholdersList").jsGrid().refresh
-                    tmp = data;
-                }
-            });
-            return tmp;
-        }();
+    if (flashType && flashMsg) {
 
-        console.log(return_first);
+        flashMessage(flashType, flashMsg);
 
-
-
-        // if (row instanceof FooTable.Row) {
-        //     row.val(values);
-        // } else {
-        //     values.id = uid++;
-        //     ft.rows.add(values);
-        // }
-        // $modal.modal('hide');
-    });
-
-    /*Init FooTable*/
-    // $('#footable_1,#footable_3').footable();
-
-    /*Editing FooTable*/
-
-    // var $modal = $('#editor-modal'),
-    //     $editor = $('#editor'),
-    //     $editorTitle = $('#editor-title'),
-    //     ft = FooTable.init('#footable_2', {
-    //         editing: {
-    //             enabled: true,
-    //             addRow: function () {
-    //                 $modal.removeData('row');
-    //                 $editor[0].reset();
-    //                 $editorTitle.text('Add a new stakeholders');
-    //                 $modal.modal('show');
-    //             },
-    //             editRow: function (row) {
-    //                 var values = row.val();
-    //                 $editor.find('#id').val(values.id);
-    //                 $editor.find('#name').val(values.name);
-    //                 $editor.find('#email').val(values.email);
-    //                 $editor.find('#designation').val(values.designation);
-    //                 $editor.find('#phone').val(values.phone);
-    //                 $editor.find('#mobile').val(values.mobile);
-
-    //                 $modal.data('row', row);
-    //                 $editorTitle.text('Edit row #' + values.id);
-    //                 $modal.modal('show');
-    //             },
-    //             deleteRow: function (row) {
-    //                 if (confirm('Are you sure you want to delete the row?')) {
-    //                     row.delete();
-    //                 }
-    //             }
-    //         }
-    //     }),
-    //     uid = 10;
-
-    // $editor.on('submit', function (e) {
-    //     if (this.checkValidity && !this.checkValidity()) return;
-    //     e.preventDefault();
-    //     var row = $modal.data('row'),
-
-    //     // var return_first = function () {
-    //     //     var tmp = null;
-    //     //     $.ajax({
-    //     //         'async': false,
-    //     //         'type': "POST",
-    //     //         'global': false,
-    //     //         'dataType': 'json',
-    //     //         'url': postUrl,
-    //     //         'data': $editor,
-    //     //         'success': function (data) {
-    //     //             tmp = data;
-    //     //         }
-    //     //     });
-    //     //     return tmp;
-    //     // }();
-
-    //         values = {
-    //             id: $editor.find('#id').val(),
-    //             name: $editor.find('#name').val(),
-    //             email: $editor.find('#email').val(),
-    //             designation: $editor.find('#designation').val(),
-    //             phone: $editor.find('#phone').val(),
-    //             mobile: $editor.find('#mobile').val()
-    //             // startedOn: moment($editor.find('#startedOn').val(), 'YYYY-MM-DD'),
-    //             // dob: moment($editor.find('#dob').val(), 'YYYY-MM-DD')
-    //         };
-
-    //     if (row instanceof FooTable.Row) {
-    //         row.val(values);
-    //     } else {
-    //         values.id = uid++;
-    //         ft.rows.add(values);
-    //     }
-    //     $modal.modal('hide');
-    // });
-
-	/*Job list modal*/
-	// $(document).on('click','.job-list-modal',function(e) {
-    //     var stage = $(this).attr('data-stage');
-    //     var status = $(this).attr('data-status');
-    //     return false;
-
-    // });
+    }
 
 });
 
+$(function() {
+    $.ajaxSetup({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+    });
 
-// var clients = [
-//     {
-//         "Name": "Otto Clay",
-//         "Age": 61,
-//         "Address": "Ap #897-1459 Quam Avenue",
-//         "Deletable": true
-//     },
-//     {
-//         "Name": "Connor Johnston",
-//         "Age": 73,
-//         "Address": "Ap #370-4647 Dis Av.",
-//         "Deletable": true,
-//         "Editable": true
-//     },
-//     {
-//         "Name": "Lacey Hess",
-//         "Age": 29,
-//         "Address": "Ap #365-8835 Integer St.",
-//         "Editable": true
-//     },
-//     {
-//         "Name": "Timothy Henson",
-//         "Age": 78,
-//         "Address": "911-5143 Luctus Ave"
-//     },
-//     {
-//         "Name": "Ramona Benton",
-//         "Age": 43,
-//         "Address": "Ap #614-689 Vehicula Street",
-//         "Editable": true
+});
+
+// if (!!window.performance && window.performance.navigation.type === 2) {
+//     // value 2 means "The page was accessed by navigating into the history"
+//     console.log('Reloading');
+//     window.location.reload(); // reload whole page
+
+// }
+
+// window.onpageshow = function (event) {
+//     if (event.persisted) {
+//         window.location.reload();
 //     }
-// ];
+// };
 
-// $("#jsGrid").jsGrid({
-//     height: 300,
-//     width: "100%",
-
-//     filtering: true,
-//     editing: true,
-//     autoload: true,
-
-//     deleteConfirm: "Do you really want to delete the client?",
-
-//     controller: {
-//         loadData: function () {
-//             return clients;
-//         }
-//     },
-
-//     rowClick: function (args) {
-//         if (args.item.Editable) {
-//             jsGrid.Grid.prototype.rowClick.call(this, args);
-//         }
-//     },
-
-//     fields: [
-//         { title: "Name", { title: "Name", type: "textarea", width: 150 },
-//         { title: "Age", { title: "Age", type: "number", width: 50 },
-//         { title: "Address", { title: "Address", type: "text", width: 200 },
-//         {
-//             type: "control",
-//             itemTemplate: function (value, item) {
-//                 var $result = $([]);
-
-//                 if (item.Editable) {
-//                     $result = $result.add(this._createEditButton(item));
-//                 }
-
-//                 if (item.Deletable) {
-//                     $result = $result.add(this._createDeleteButton(item));
-//                 }
-
-//                 return $result;
-//             }
-//         }
-//     ]
+// $(document).ready(function () {
+//     window.history.pushState(null, "", window.location.href);
+//     window.onpopstate = function () {
+//         window.history.pushState(null, "", window.location.href);
+//     };
 // });
+
+// function fieldCheck(selector) {
+
+//     var selectorElement = selector + ' input, ' + selector +' select';
+
+//     $(selectorElement).each(
+//         function (index) {
+//             var input = $(this);
+//             alert('Type: ' + input.attr('type') + 'Name: ' + input.attr('name') + 'Value: ' + input.val());
+
+//             $(document).on('focusin', input, function () {
+//                 console.log("Saving value " + $(this).val());
+//                 $(this).data('val', $(this).val());
+//             }).on('change', 'input', function () {
+//                 var previousName = $(this).data('name') + "_previous_value";
+//                 var prev = $(this).data('val');
+//                 var current = $(this).val();
+
+//                 if (prev != current) {
+
+//                     $(selector).append('<input type="hidden" name=' + previousName + ' value="' + prev +'" />');
+
+//                 }
+//                 console.log("Prev value " + prev);
+//                 console.log("New value " + current);
+//             });
+
+
+//         }
+//     );    
+
+// }
+
+// $(document).on('focus', '.checkField', function () {
+
+//     console.log("Saving value " + $(this).val());
+//     $(this).attr('previous_value', $(this).val());
+
+// }).on('change', '.checkField', function () {
+
+//     var selector = $(this).closest("form").attr('id');
+//     var previousName = $(this).attr('name') + "_previous_value";
+//     var prev = $(this).attr('previous_value');
+//     var current = $(this).val();
+
+//     if (prev != current) {
+
+//         $(selector).append('<input type="hidden" name=' + previousName + ' value="' + prev + '" />');
+
+//     }
+//     console.log("selector " + selector);
+//     console.log("previousName " + previousName);
+//     console.log("Prev value " + prev);
+//     console.log("New value " + current);
+// });
+
+// $(document).on('focusin focus', '.checkField', function () {
+
+//     console.log("Saving value " + $(this).val());
+//     $(this).attr('previous_value', $(this).val());
+
+//     if ($(this).attr('name') == "description") {
+
+//         var selector = $(this).closest("form").attr('id');
+//         var previousName = $(this).attr('name') + "_previous_value";
+//         var prev = $(this).attr('previous_value');
+
+//         $('#' + selector).append('<input type="hidden" name=' + previousName + ' value="' + prev + '" />');
+
+//     }
+
+// }).on('change', '.checkField', function () {
+
+//     var selector = $(this).closest("form").attr('id');
+//     var previousName = $(this).attr('name') + "_previous_value";
+//     var prev = $(this).attr('previous_value');
+//     var current = $(this).val();
+
+//     if (prev != current) {
+
+//         var historyValues = [];
+//         var historyValue = {};
+
+//         historyValue.field_value = $(this).attr('name');
+//         historyValue.original_value = prev;
+//         historyValue.modified_value = current;
+
+//         historyValues.push(historyValue);
+
+//         $('#' + selector).append('<input type="hidden" name="history[]" value=' + "'" + JSON.stringify(historyValue) + "'"  + ' />');
+
+
+//         // if ($('#' + selector +" input[name=history]").length == 0) {
+
+//         //     // $(selector).append('<input type="hidden" name=' + previousName + ' value="' + prev + '" />');
+//         //     $('#' + selector).append('<input type="hidden" name="history[]" value="' + JSON.stringify(historyValue) + '" />');
+
+//         // } else {
+
+//         //     if ($('#' + selector +" input[name=history]").val() != "") {
+
+//         //         var historyObj = JSON.parse($('#' + selector +" input[name=history]").val());
+
+//         //         console.log("historyObj");
+//         //         console.log(historyObj);
+
+
+//         //         historyObj.append(historyValue);
+
+//         //         $('#' + selector +" input[name=history]").val(JSON.stringify(historyValue));
+
+//         //     }
+
+//         // }
+
+
+//     }
+
+//     console.log("historyValue " + JSON.stringify(historyValue));
+//     console.log("selector " + selector);
+//     console.log("previousName " + previousName);
+//     console.log("Prev value " + prev);
+//     console.log("New value " + current);
+
+// });
+
+
+$(document).on('focus', '.checkField', function() {
+
+    $(this).attr('previous_value', $(this).val());
+
+    // if ($(this).attr('name') == "description") {
+
+    //     var selector = $(this).closest("form").attr('id');
+    //     var previousName = $(this).attr('name') + "_previous_value";
+    //     var prev = $(this).attr('previous_value');
+
+    //     $('#' + selector).append('<input type="hidden" name=' + previousName + ' value="' + prev + '" />');
+
+    // }
+
+});
+
+// $('.checkField').on('focus', function () {
+
+//     console.log("Saving value " + $(this).val());
+//     $(this).attr('previous_value', $(this).val());
+
+//     if ($(this).attr('name') == "description") {
+
+//         var selector = $(this).closest("form").attr('id');
+//         var previousName = $(this).attr('name') + "_previous_value";
+//         var prev = $(this).attr('previous_value');
+
+//         $('#' + selector).append('<input type="hidden" name=' + previousName + ' value="' + prev + '" />');
+
+//     }
+
+// });
+
+$(document).on('click', '.checkFormButton', function(e) {
+
+    e.preventDefault(); //Prevent the normal submission action
+
+    var selector = $('.checkFormButton').closest("form").attr('id');
+
+    // var selector = $('.checkForm').attr('id');
+
+    // console.log('#' + selector + ' input, ' + '#' + selector + ' select');
+
+
+    $('#' + selector + ' input, ' + '#' + selector + ' select, ' + '#' + selector + ' textarea').each(
+        // $('#' + selector).find('.checkField').each(
+
+        function(index) {
+
+            // var input = $(this);
+
+            var previousName = $(this).attr('name') + "_previous_value";
+            var prev = $(this).attr('previous_value');
+
+            var current = $(this).val();
+
+            // if (current == 'on') {
+
+            //     current = 'checked';
+
+            // }
+
+            if (prev != undefined && prev != current) {
+
+                // var historyValue = {};
+
+                var fieldName = $(this).attr('name');
+
+                // historyValue.field_value = $(this).attr('name');
+                $('#' + selector).append('<input type="hidden" name="history~' + fieldName + '~field_value' + '" value=' + "'" + fieldName + "'" + ' />');
+                // historyValue.original_value = prev;
+                $('#' + selector).append('<input type="hidden" name="history~' + fieldName + '~original_value' + '" value=' + "'" + prev + "'" + ' />');
+                // historyValue.modified_value = current;
+                $('#' + selector).append('<input type="hidden" name="history~' + fieldName + '~modified_value' + '" value=' + "'" + current + "'" + ' />');
+
+                // $('#' + selector).append('<input type="hidden" name="history[]" value=' + "'" + JSON.stringify(historyValue) + "'" + ' />');
+
+            }
+
+        }
+    );
+
+    $('#' + selector).submit();
+
+});
+
+function formHistory(buttonSelector) {
+
+    var selector = $(buttonSelector).closest("form").attr('id');
+
+    $('#' + selector + ' input, ' + '#' + selector + ' select, ' + '#' + selector + ' textarea').each(
+        // $('#' + selector).find('.checkField').each(
+
+        function(index) {
+
+            // var input = $(this);
+
+            var previousName = $(this).attr('name') + "_previous_value";
+            var prev = $(this).attr('previous_value');
+
+            var current = $(this).val();
+
+            // if (current == 'on') {
+
+            //     current = 'checked';
+
+            // }
+
+            if (prev != undefined && prev != current) {
+
+                // var historyValue = {};
+
+                var fieldName = $(this).attr('name');
+
+                // historyValue.field_value = $(this).attr('name');
+                $('#' + selector).append('<input type="hidden" name="history~' + fieldName + '~field_value' + '" value=' + "'" + fieldName + "'" + ' />');
+                // historyValue.original_value = prev;
+                $('#' + selector).append('<input type="hidden" name="history~' + fieldName + '~original_value' + '" value=' + "'" + prev + "'" + ' />');
+                // historyValue.modified_value = current;
+                $('#' + selector).append('<input type="hidden" name="history~' + fieldName + '~modified_value' + '" value=' + "'" + current + "'" + ' />');
+
+                // $('#' + selector).append('<input type="hidden" name="history[]" value=' + "'" + JSON.stringify(historyValue) + "'" + ' />');
+
+            }
+
+        }
+    );
+
+}
+
+$(".select-all").click(function() {
+    if ($(".select-all").is(':checked')) {
+        $(this).parent().next().find('option').prop('selected', 'selected');
+        $(this).parent().next().trigger("change");
+    } else {
+        $(this).parent().next().find('option').removeAttr("selected");
+        $(this).parent().next().find('option').trigger("change");
+    }
+});
+
+$('a[rel=popover]').popover({
+    html: 'true',
+    placement: 'right'
+})
