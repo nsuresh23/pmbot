@@ -66,7 +66,7 @@ class EmailCollection
 
             if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
-                // $responseData = $this->pmsEmailCountFormatData($responseData["data"]);
+                $responseData = $this->pmsEmailCountFormatData($responseData["data"]);
 
                 $responseData = $responseData["data"];
 
@@ -760,7 +760,20 @@ class EmailCollection
             function ($item) {
 
                 try {
+
+                    if(isset($item["last_processed_time"]) && $item["last_processed_time"] != "") {
+
+                        $item["last_processed_time"] = date("y/m/d H:i:s", strtotime($item["last_processed_time"]));
+
+                    }
+
+                    if (isset($item["last_annotated_time"]) && $item["last_annotated_time"] != "") {
+
+                        $item["last_annotated_time"] = date("y/m/d H:i:s", strtotime($item["last_annotated_time"]));
+                    }
+
                     return $item;
+
                 } catch (Exception $e) {
 
                     $this->error(
