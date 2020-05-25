@@ -555,3 +555,7 @@ $(document).on('click', '.job-add-submit-btn', function(e) {
     $('.job-add-form').submit();
 
 });
+
+$('.my-history-data').slimscroll({
+    height: '300px',
+});
