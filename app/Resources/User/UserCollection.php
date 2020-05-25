@@ -123,7 +123,7 @@ class UserCollection
 
             if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
-                $responseData = $this->formatMyHistoryData($responseData["data"]);
+                $responseData = $this->formatUserActivityData($responseData["data"]);
 
                 if ($responseData) {
 
@@ -142,6 +142,35 @@ class UserCollection
         }
 
         return $returnResponse;
+    }
+
+    /**
+     * format result.
+     *
+     * @return array $resource
+     */
+    public function formatUserActivityData($items)
+    {
+
+        $returnData = array_map(
+
+            function ($item) {
+
+                $item['diary_view'] = $this->userActiondiaryView($item);
+
+                return $item;
+
+            },
+            $items
+        );
+
+        if (count($returnData) > 0) {
+
+            $returnData = implode("", array_column($returnData, "diary_view"));
+        }
+
+        return $returnData;
+
     }
 
     /**
@@ -166,7 +195,7 @@ class UserCollection
 
                         array_walk($item, function ($value, $key) use (&$returnData) {
 
-                            $value["diary_view"] = $this->userActiondiaryView($value);
+                            $value["diary_view"] = $this->diaryView($value);
 
                             array_push($returnData, $value);
 

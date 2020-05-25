@@ -156,7 +156,7 @@ trait Helper
      * @return array $item
      */
 
-    public function diaryView1($item)
+    public function diaryView($item)
     {
 
         $returnData = '<div class="sl-item">';
@@ -266,12 +266,14 @@ trait Helper
 
             }
 
-            $eventMessage .= $item["action_item"];
+            $eventMessage .= '<span class="capitalize-font">';
+            $eventMessage .= ucwords($item["action_item"]);
+            $eventMessage .= '</span>';
 
             if (isset($item[$item["action_item"]. "_title" ]) && $item[$item["action_item"] . "_title"] != "") {
 
                 $eventMessage .= " with title ";
-                // $eventMessage .= '<span class="text-warning">';
+                // $eventMessage .= '<span class="text-success">';
                 $eventMessage .= $item[$item["action_item"] . "_title"];
                 // $eventMessage .= '</span>';
 
@@ -323,7 +325,7 @@ trait Helper
 
             }
 
-            if (isset($item["job_title"]) && $item["job_title"] == "" ) {
+            if (isset($item["action_item"]) && $item["action_item"] != "job" && isset($item["job_title"]) && $item["job_title"] != "" ) {
 
                 $eventMessage .= " for Job ";
 

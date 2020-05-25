@@ -426,6 +426,13 @@ $(function() {
 
                         $('.my-history-data').html(response.data);
 
+                        $('.my-history-data').slimscroll({
+
+                            height: '300px',
+
+                        });
+
+
                     }
 
                 }
