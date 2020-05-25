@@ -156,7 +156,7 @@ trait Helper
      * @return array $item
      */
 
-    public function diaryView($item)
+    public function diaryView1($item)
     {
 
         $returnData = '<div class="sl-item">';
@@ -251,6 +251,115 @@ trait Helper
 
         return $returnData;
 
+    }
+
+    public function userActiondiaryView($item)
+    {
+
+        $eventMessage = "";
+
+        if (isset($item["action_item"]) && $item["action_item"] != "") {
+
+            if ($item["action_item"] == "task" && !isset($item["job_id"]) || $item["job_id"] == "" || $item["job_id"] == null) {
+
+                $eventMessage .= "Generic";
+
+            }
+
+            $eventMessage .= $item["action_item"];
+
+            if (isset($item[$item["action_item"]. "_title" ]) && $item[$item["action_item"] . "_title"] != "") {
+
+                $eventMessage .= " with title ";
+                // $eventMessage .= '<span class="text-warning">';
+                $eventMessage .= $item[$item["action_item"] . "_title"];
+                // $eventMessage .= '</span>';
+
+            }
+
+        }
+
+        if (isset($item["action_type"]) && $item["action_type"] != "") {
+
+            if($item["action_type"] == "add") {
+
+                $eventMessage .= " was created";
+
+            }
+
+            if ($item["action_type"] == "edit") {
+
+                $eventMessage .= " was modified";
+
+            }
+
+            if ($item["action_type"] == "delete") {
+
+                $eventMessage .= " was deleted";
+
+            }
+
+            if ($item["action_type"] == "closed") {
+
+                $eventMessage .= " was closed";
+
+            }
+
+            if ($item["action_type"] == "hold") {
+
+                $eventMessage .= " on hold";
+
+            }
+
+            if ($item["action_type"] == "job_tagging") {
+
+                $eventMessage .= " was associated";
+
+            }
+
+            if ($item["action_type"] == "nb_tagging") {
+
+                $eventMessage .= " tagged as Non-Business";
+
+            }
+
+            if (isset($item["job_title"]) && $item["job_title"] == "" ) {
+
+                $eventMessage .= " for Job ";
+
+                // $eventMessage .= '<span class="text-warning">';
+                $eventMessage .= $item["job_title"];
+                // $eventMessage .= '</span>';
+
+            }
+
+        }
+
+        $returnData = '<div class="sl-item">';
+
+            $returnData .= '<p>';
+
+                $returnData .= '<span class="block txt-dark font-14 pl-5">';
+                    $returnData .= '<i class="fa fa-calendar grey"></i>';
+                    $returnData .= '<span class="pl-5">';
+                        $returnData .= date('jS F Y h:i A', strtotime($item['date_time']));
+                    $returnData .= '</span>';
+
+                    if($eventMessage) {
+
+                        $returnData .= '<span class="pl-5">';
+                            $returnData .= $eventMessage . ".";
+                        $returnData .= '</span>';
+
+                    }
+
+                $returnData .= '</span>';
+
+            $returnData .= '</p>';
+
+        $returnData .= '</div>';
+
+        return $returnData;
     }
 
     /**
@@ -545,16 +654,16 @@ trait Helper
         }
 
     }
-    
+
     public function getFileType($url)
     {
         $type = "file";
- 
+
         try {
- 
+
             $filename = explode('.', $url);
             $extension = strtolower(end($filename));
- 
+
             switch ($extension) {
                 case 'pdf':
                     $type = $extension;
@@ -590,7 +699,7 @@ trait Helper
                     $type = 'alt';
             }
         } catch (Exception $e) {
- 
+
             $this->error(
                 "app_error_log_" . date('Y-m-d'),
                 " => FILE => " . __FILE__ . " => " .
@@ -598,7 +707,7 @@ trait Helper
                     " => MESSAGE => " . $e->getMessage() . " "
             );
         }
- 
+
         return $type;
     }
 

@@ -166,9 +166,10 @@ class UserCollection
 
                         array_walk($item, function ($value, $key) use (&$returnData) {
 
-                            $value["diary_view"] = $this->diaryView($value);
+                            $value["diary_view"] = $this->userActiondiaryView($value);
 
                             array_push($returnData, $value);
+
                         });
                     }
                 }
@@ -407,7 +408,7 @@ class UserCollection
                     //     $returnResponse["error"] = "true";
                     //     $returnResponse["message"] = "Update unsuccessfull";
                     // }
-                    
+
                 } else {
 
                     $returnResponse["error"] = "true";
@@ -605,7 +606,7 @@ class UserCollection
             // $userData = User::all();
 
             $url = $this->userSelectApiUrl;
-	
+
 			$params = ["empcode" => auth()->user()->empcode];
 
             $userData = $this->postRequest($url,$params);
