@@ -50,8 +50,8 @@
         <button id="btnnonbusiness" class="btn btn-warning btn-sm">Non Business</button>
       </div>
     </div>
-	
-	
+
+
     <div id="pagination-result">
       <input type="hidden" name="emailid" id="emailid" value="<?php echo $returnData['id'];?>"/>
       <input type="hidden" name="ajaxannotationdata" id="ajaxannotationdata" />
@@ -70,6 +70,7 @@
 @section('content')
 @php
 $page = '1';
+$emailAnnotatorStartTime = date('Y-m-d H:i:s');
 @endphp
 @push('js')
 <script>
@@ -78,7 +79,7 @@ jQuery(function($) {
 	$.i18n.load(i18n_dict);
 	// Customise the default plugin options with the third argument.
 	var annotator = $('#content').annotator().annotator().data('annotator');
-	
+
 	$('#content').annotator().annotator("addPlugin", "Touch");
 	//$(":file").filestyle();
 	var explode = function(){
@@ -114,14 +115,29 @@ function updateddate(textval) {
 }
 
 function annotatorcompleted(){
-url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/completetaskdetail'
-var jobid = $('#pmjobid').val();
+    url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/completetaskdetail'
+    var jobid = $('#pmjobid').val();
+    var postData = {
+        "_token": "{{ csrf_token() }}",
+        empcode:'<?php echo $returnData['empcode'];?>',
+        id:'<?php echo $returnData['id'];?>',
+        jobid:$('#pmjobid').val()
+    }
+
+    var emailAnnotatorStartTime = '<?php echo isset($emailAnnotatorStartTime)? $emailAnnotatorStartTime : "" ?>';
+
+    if(emailAnnotatorStartTime) {
+
+        postData.start_time = emailAnnotatorStartTime;
+
+    }
+
 	$.ajax({
 		url: url,
 		type: "POST",
 		crossdomain:true,
 		headers: {'X-CSRF-Token': $('meta[name=""]').attr('content')},
-		data:  {"_token": "{{ csrf_token() }}",empcode:'<?php echo $returnData['empcode'];?>',id:'<?php echo $returnData['id'];?>',jobid:$('#pmjobid').val()},
+		data:  postData,
 		beforeSend: function(){$("#overlay").show();},
 		success: function(data){
 			alert(data['message']);
@@ -129,20 +145,20 @@ var jobid = $('#pmjobid').val();
 				window.location.href = "<?php echo env('APP_URL');?>/";
 			}
 		},
-		error: function() 
-		{} 	        
+		error: function()
+		{}
    });
 
 }
 
 function shownotes(textval) {
-	if(textval =='Custom message'){		
+	if(textval =='Custom message'){
 		$("#annotator-field-0").show();
 	} else {
 		$("#annotator-field-0").hide();
 	}
 }
-	
+
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -151,7 +167,7 @@ function getRandomColor() {
   }
   return color;
 }
-	
+
 function saveassociatetask(){
 	taskid = $("#tasklistapi").val();
 	userid = $("#multi-select-user").val();
@@ -164,8 +180,8 @@ function saveassociatetask(){
 		success: function(data){
 			$("#pmjobIDlist").html(data['message']);
 		},
-		error: function() 
-		{} 	        
+		error: function()
+		{}
    });
 }
 
@@ -176,10 +192,10 @@ function changePagination(option) {
 }
 
 function getpmbotjoblist(url) {
-	var mailsubject 	= $("#mailsubject").val();		
+	var mailsubject 	= $("#mailsubject").val();
 	var annotationID 	= $("#annotationID").val();
 	var associatejobid 	= $("#associatejobid").val();
-	
+
 	$.ajax({
 		url: url,
 		type: "POST",
@@ -189,29 +205,29 @@ function getpmbotjoblist(url) {
 		success: function(data){
 			$("#pmjobIDlist").html(data['message']);
 			$(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
-			
+
 			$('#btnannatorcompleted').hide();
-			
+
 			if(associatejobid !=''){
 				$("#mailbodycontent").removeClass();
-				//$('#addisbn_form')[0].reset();  
+				//$('#addisbn_form')[0].reset();
 				$('#isbn').val('');
-				//$('#queryfrm').modal('hide');  
+				//$('#queryfrm').modal('hide');
 	 			$("#pmjobIDlist").html(data['message']);
 				$(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
-				
+
 				getjobID();
 				//$('#createisbnfrm').toggle(500);
 				$('#Myisbnbtn').hide();
 				$('#btnannatorcompleted').show();
 			}
-			
-			
-			
-			
+
+
+
+
 		},
-		error: function() 
-		{} 	        
+		error: function()
+		{}
    });
 }
 
@@ -223,10 +239,10 @@ function myFunction() {
 	x.style.display = "none";
   }
 }
-	
+
 function getjobID() {
 	var jobid = $('#pmjobid').select2("val");
-	
+
 	if(jobid != ''){
 		if(jobid.length != ''){
 			$("#mailbodycontent").removeClass();
@@ -238,7 +254,7 @@ function getjobID() {
 				type: "POST",
 				crossdomain:true,
 				headers: {
-                    'X-CSRF-Token': $('meta[name=""]').attr('content') 
+                    'X-CSRF-Token': $('meta[name=""]').attr('content')
                },
 			   data:  '_token={{ csrf_token() }}&jobid='+jobid+'&empcode=<?php echo $returnData['empcode'];?>',
 				beforeSend: function(){$("#overlay").show();},
@@ -246,8 +262,8 @@ function getjobID() {
 					$('#content').annotator().annotator('addPlugin', 'Categories', data);
 					getuserlist();
 				},
-				error: function() 
-				{} 	        
+				error: function()
+				{}
 		   });
 		}else{
 			getuserlist();
@@ -260,8 +276,8 @@ function getjobID() {
 						success: function(data){
 							$("#userselectedjoblist").html(data['message']);
 						},
-						error: function() 
-						{} 	        
+						error: function()
+						{}
 					});
 		}
 	}else{
@@ -292,8 +308,8 @@ function getjob_tasklist(val) {
 				}
 				getuserlist()
 			},
-			error: function() 
-			{} 	        
+			error: function()
+			{}
 	   });
 }
 
@@ -314,8 +330,8 @@ function annotationjobID() {
 				$('#content').annotator().annotator('addPlugin', 'Categories', data);
 				getuserlist()
 			},
-			error: function() 
-			{} 	        
+			error: function()
+			{}
 	   });
 	}
 }
@@ -345,8 +361,8 @@ function gettaskval(sel){
 				$("textarea#newtasknotes").text(insertText);
 			}
 		},
-		error: function() 
-		{} 	        
+		error: function()
+		{}
    });
 }
 function getuserlist(){
@@ -361,11 +377,11 @@ function getuserlist(){
 			$("#taskuserlist").html(data['message']);
 			$("#newtaskuserlist").html(data['newtaskmessage']);
 		},
-		error: function() 
-		{} 	        
+		error: function()
+		{}
    });
 }
-	
+
 $("#pmjobid").change(function() {
 	var vale =document.getElementById("pmjobid").value;
 })
@@ -382,13 +398,13 @@ function updatedata(url) {
 		data:  '',
 		beforeSend: function(){$("#overlay").show();},
 		success: function(data){
-			location.reload();	
+			location.reload();
 			return false;
 		},
-		error: function() 
-		{} 	        
+		error: function()
+		{}
    });
-} 
+}
 
 $(document).ready(function() {
 	  $("#actionplan").click(function() {
@@ -410,20 +426,20 @@ $(document).ready(function() {
 				success: function(data){
 					 $("#checkid").html(data);
 				},
-				error: function() 
-				{} 	        
+				error: function()
+				{}
 		   });
 		});
 		} else {
 			alert('Please select your Grouping of 2 annotation or more!! ');
 		}
 	  });
-	  
+
 $("#groupingannotate").click(function() {
 	var actionID 	= $("#actionid").val();
 	var refID 		= $("#referenceid").val();
 	var groupingContent	= $("#post_content").val();
-	
+
 	url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/updategroupingdata';
 	$.ajax({
 			url: url,
@@ -433,11 +449,11 @@ $("#groupingannotate").click(function() {
 			data:  {"_token": "{{ csrf_token() }}",actionid:actionID,referenceid:refID,content:groupingContent},
 			beforeSend: function(){$("#overlay").show();},
 			success: function(data){
-				location.reload();	
+				location.reload();
 				return false;
 			},
-			error: function() 
-			{} 	        
+			error: function()
+			{}
 	   });
 	});
 
@@ -457,8 +473,8 @@ $("#btnnonbusiness").click(function() {
 				window.location.href = "<?php echo env('APP_URL');?>";
 				return false;
 			},
-			error: function() 
-			{} 	        
+			error: function()
+			{}
 	   });
 	});
 
@@ -478,15 +494,15 @@ function getresult(url) {
 				alert('You dont have an access permission to view the page!!');
 				window.location.href = "<?php echo env('APP_URL');?>";
 				return false;
-			
+
 			} else {
 				$("#pagination-result").html(data['msg']);
 				$("#annotatorfeature").val(data['status']);
 				$('#content').annotator().annotator("addPlugin", "AnnotatorViewer");
-				if(data['status'] !='0'){ 
+				if(data['status'] !='0'){
 					$("#btnnonbusiness").hide();
 				}
-				
+
 					$.ajax({
 						url: '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/search?page='+<?php echo $returnData['id'];?>,
 						type: "GET",
@@ -498,67 +514,82 @@ function getresult(url) {
 							getpmbotjoblist("<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/getpmbotjoblist");
 							annotationjobID();
 						  },
-						error: function() 
-						{} 	        
+						error: function()
+						{}
 				   });
 				setInterval(function() {$("#overlay").hide(); },500);
 			}
-		
-			
+
+
 		},
-		error: function() 
-		{} 	        
+		error: function()
+		{}
    });
 }
-getresult("<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/getresult");	
+getresult("<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/getresult");
 
-	
+
 function Myisbnbtnfrm(){
 	$('#createisbnfrm').toggle(500);
 }
 
 
 function saveisbntodb(){
-  if($('#isbn').val() == ""){  
-   alert("ISBN is required");  
-   $('#isbn').focus();
-  } else {  
-  var isbn = $('#isbn').val();
- // var emailid = 92;
-  //var empcode = pmbot@spi-global.com;
-  
-  	url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/createisbn';
-	$.ajax({
-			url: url,
-			type: "POST",
-			crossdomain:true,
-			headers: {'X-CSRF-Token': $('meta[name=""]').attr('content')},
-			data:  {"_token": "{{ csrf_token() }}",'emailid':'<?php echo $returnData['id'];?>','empcode':'<?php echo $returnData['empcode'];?>',isbn:isbn},
-			beforeSend: function(){$("#overlay").show();},
-			success: function(data){
-			    $("#mailbodycontent").removeClass();
-				//$('#addisbn_form')[0].reset();  
-				$('#isbn').val('');
-				//$('#queryfrm').modal('hide');  
-	 			$("#pmjobIDlist").html(data['message']);
-				$(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
-				
-				getjobID();
-				$('#createisbnfrm').toggle(500);
-				$('#Myisbnbtn').hide();
-				$('#btnannatorcompleted').show();
-				return false;
-			},
-			error: function() 
-			{} 	        
-	   });
-  } 
+    if($('#isbn').val() == ""){
+        alert("ISBN is required");
+        $('#isbn').focus();
+    } else {
+        var isbn = $('#isbn').val();
+        // var emailid = 92;
+        //var empcode = pmbot@spi-global.com;
+
+        var postData = {
+            "_token": "{{ csrf_token() }}",
+            'emailid':'<?php echo $returnData['id'];?>',
+            'empcode':'<?php echo $returnData['empcode'];?>',
+            isbn:isbn
+        };
+
+        var emailAnnotatorStartTime = '<?php echo isset($emailAnnotatorStartTime)? $emailAnnotatorStartTime : "" ?>';
+
+        if(emailAnnotatorStartTime) {
+
+        postData.start_time = emailAnnotatorStartTime;
+
+        }
+
+        url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/createisbn';
+        $.ajax({
+                url: url,
+                type: "POST",
+                crossdomain:true,
+                headers: {'X-CSRF-Token': $('meta[name=""]').attr('content')},
+                data:  postData,
+                beforeSend: function(){$("#overlay").show();},
+                success: function(data){
+                    $("#mailbodycontent").removeClass();
+                    //$('#addisbn_form')[0].reset();
+                    $('#isbn').val('');
+                    //$('#queryfrm').modal('hide');
+                    $("#pmjobIDlist").html(data['message']);
+                    $(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
+
+                    getjobID();
+                    $('#createisbnfrm').toggle(500);
+                    $('#Myisbnbtn').hide();
+                    $('#btnannatorcompleted').show();
+                    return false;
+                },
+                error: function()
+                {}
+        });
+    }
 }
-		
+
 
 jQuery(function($) {
 	$('.radio-toggle').toggleInput();
-});	
+});
 
 $('#browseButton2').on('click', function () {
 	$('#fileUploader2').click();

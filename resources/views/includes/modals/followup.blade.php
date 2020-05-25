@@ -31,6 +31,7 @@
     <div class="popover-body popover-content">
     <form id="task-followup-datetime" class="task-follow-up-datetime" action="{{$taskFollowupDateUpdateUrl}}">
             <input type="hidden" name="task_id" value="{{$taskId ?? ''}}" />
+            <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
             <div class="input-group date datetimepicker">
                 <input type="text" name="followup_date" value="{{$followupDate ?? ''}}" class="form-control">
                 <span class="input-group-addon">

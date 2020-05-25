@@ -162,11 +162,11 @@
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <input type="hidden" id="workflow-version" class= "workflow-version" name="workflow_version" value="">
                                                 <input type="hidden" name="type" value="{{$returnData['category'] ?? ''}}">
-                                                <input type="hidden" id="redirectTo" name="redirectTo"
-                                                    value="{{$returnData['redirectTo'] ?? ''}}">
+                                                <input type="hidden" id="redirectTo" name="redirectTo" value="{{$returnData['redirectTo'] ?? ''}}">
+                                                <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
                                                 <?php if(isset($returnData['type']) && $returnData['type'] == "job") { ?>
 
-                                                <input type="hidden" id="job_id" name="job_id" value="{{ $job_id }}">
+                                                    <input type="hidden" id="job_id" name="job_id" value="{{ $job_id }}">
 
                                                 <?php } ?>
 

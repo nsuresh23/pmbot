@@ -60,7 +60,7 @@
                                                 <div class="row">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     <input type="hidden" id="empcode" name="empcode" value="{{$userData['data']['id'] ?? ''}}">
-
+                                                    <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-md-offset-3">
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                             <div class="row">

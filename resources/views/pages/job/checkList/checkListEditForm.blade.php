@@ -6,7 +6,7 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" id="redirectTo" name="redirectTo" value="{{$returnData['redirectTo'] ?? ''}}">
                 <input type="hidden" id="c_id" name="c_id" value="{{$checkListId ?? ''}}">
-
+                <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
                 <?php if($jobId) { ?>
 
                     <input type="hidden" id="jobId" name="job_id" value="{{ $jobId }}">

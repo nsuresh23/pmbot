@@ -232,6 +232,7 @@
                                                 <input type="hidden" id="redirectTo" name="redirectTo" value="{{$returnData['redirectTo'] ?? ''}}">
                                                 <input type="hidden" id="task_id" name="task_id" value="{{$returnData['data']['task_id'] ?? ''}}" />
                                                 <input type="hidden" id="current_job_id" name="current_job_id" value="{{$jobId}}" />
+                                                <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
 
                                                 <?php if ($previousAssignedUser != "") { ?>
 

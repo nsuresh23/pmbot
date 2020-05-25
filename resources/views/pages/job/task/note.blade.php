@@ -38,6 +38,7 @@
                                     {{-- <input type="hidden" name="assignedto_empname" value="{{ $assignedToEmpname ?? ''}}"> --}}
                                     <input type="hidden" name="createdby_status" value="{{ $createdByStatus ?? ''}}">
                                     <input type="hidden" name="assignedto_status" value="{{ $assignedToStatus ?? ''}}">
+                                    <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
                                     <input type="hidden" id="id" name="id">
                                     {{-- <input type="hidden" id="attachment" name="attachment"> --}}
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

@@ -7,6 +7,7 @@
                 <input type="hidden" name="attachment_path" id="task_attachment_path_field" />
                 <input type='hidden' id="partialcomplete" name='partialcomplete' value='1'>
                 <input type='hidden' id="previousPartialcomplete" name='previousPartialcomplete' value='{{$previousPartialcomplete}}'>
+                <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
 
                 <?php if($previousPartialcomplete == "1") { ?>
 

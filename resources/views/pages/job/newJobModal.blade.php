@@ -12,6 +12,7 @@
                         <div class="form-body">
                             <div class="">
                                 <input type="hidden" id="redirectTo" name="redirectTo" value="{{$redirectTo ?? '#'}}">
+                                <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="form-group">

@@ -3,11 +3,12 @@
 namespace App\Traits\General;
 
 use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use Illuminate\Http\Request;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
+use Monolog\Handler\StreamHandler;
 use App\Traits\General\CustomLogger;
 
 trait ApiClient
@@ -180,6 +181,9 @@ trait ApiClient
 
                 $paramData["attachment_path"] = base64_encode($paramData["attachment_path"]);
             }
+
+            $paramData["ip_address"] = request()->ip();
+            $paramData["ipaddress"] = request()->ip();
 
             if (count($paramData) > 0) {
 

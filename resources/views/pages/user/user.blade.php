@@ -113,6 +113,7 @@
                                                 <div class="row">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     <input type="hidden" id="empcode" name="empcode" value="{{$userData['data']['empcode'] ?? ''}}">
+                                                    <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                         <div class="form-group">
                                                         <label for="empname" class="control-label mb-10">{{ __('user.user_name_label') }}</label>

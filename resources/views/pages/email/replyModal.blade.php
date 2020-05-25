@@ -30,7 +30,8 @@
 					<input type="hidden" id="reply_email_type" name="email_type" value="reply" class="form-control reply_email_type">
 					<input type="hidden" id="email-type" name="type" value="non_pmbot" class="form-control email-type">
 					<input type="hidden" id="redirectTo" name="redirectTo" value="{{$redirectTo ?? '#'}}">
-					<input type="hidden" id="getemailidURL" name="getemailidURL" value="{{$getEmailid ?? '#'}}">
+                    <input type="hidden" id="getemailidURL" name="getemailidURL" value="{{$getEmailid ?? '#'}}">
+                    <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
 
 
 
@@ -83,7 +84,7 @@
 							</div>
 						</div>
 
-					
+
                     <!--<div class="form-group">
                         <label class="col-lg-1 control-label">{{__("job.email_to_label")}}</label>
                         <div class="col-lg-11">

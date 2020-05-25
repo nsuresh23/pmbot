@@ -141,7 +141,7 @@ class EmailCollection
                             $returnResponse["last_updated"] =  $date->format('y/m/d h:i:s a');
 
                             // $returnResponse["last_updated"] = date('y/m/d h:i:s a');
-                            
+
                         }
                     }
 
@@ -211,7 +211,7 @@ class EmailCollection
                 $field["message_start"] = '';
             }
 			$responseData = $this->postRequest($url, $field);
-			
+
 			if (isset($responseData["success"]) && $responseData["success"] == "true") {
 
 				$returnResponse["success"] = "true";
@@ -273,35 +273,35 @@ class EmailCollection
                         $returnResponse["data"]["email_annotator_link"] = $emailViewUrl;
 
                     }
-					
+
 					$emailDate = "";
-					
+
 					if(isset($returnResponse["data"]["status"]) && $returnResponse["data"]["status"] != "") {
-					
+
 						if( in_array($returnResponse["data"]["status"], ["0","1", "2", "3"])){
-							
+
 							if(isset($returnResponse["data"]["email_received_date"]) && $returnResponse["data"]["email_received_date"] != ""){
-								
+
 								$emailDate = $returnResponse["data"]["email_received_date"];
 							}
 						}
-						
+
 						if( in_array($returnResponse["data"]["status"], ["4", "5"])){
-							
+
 							if(isset($returnResponse["data"]["created_date"]) && $returnResponse["data"]["created_date"] != ""){
-								
+
 								$emailDate = $returnResponse["data"]["created_date"];
 							}
 						}
-						
+
 						if( in_array($returnResponse["data"]["status"], ["6"])){
-							
+
 							if(isset($returnResponse["data"]["email_sent_date"]) && $returnResponse["data"]["email_sent_date"] != ""){
-								
+
 								$emailDate = $returnResponse["data"]["email_sent_date"];
 							}
 						}
-						
+
 					}
 
 
@@ -311,10 +311,10 @@ class EmailCollection
 
                         // $returnResponse["data"]["create_date_formatted_text"] = date("dd [.stndrh\t ]+ m ([ .\t-])* y h:i:s a", strtotime($returnResponse["data"]["email_received_date"]));
                         //$returnResponse["data"]["create_date_formatted_text"] = date("d/m/Y h:i:s a", strtotime($returnResponse["data"]["email_received_date"]));
-						
-						
+
+
 						if ($emailDate){
-						
+
 							$returnResponse["data"]["create_date_formatted_text"] = date("dS M Y h:i:s a", strtotime($emailDate));
 						}
 
@@ -322,20 +322,44 @@ class EmailCollection
 
                     if (isset($returnResponse["data"]["email_from"]) && $returnResponse["data"]["email_from"] != "") {
 
+                        if (base64_decode($returnResponse["data"]["email_from"], true)) {
+
+                            $returnResponse["data"]["email_from"] = base64_decode($returnResponse["data"]["email_from"]);
+
+                        }
+
                         $returnResponse["data"]["email_from"] = htmlspecialchars($returnResponse["data"]["email_from"]);
                     }
 
                     if (isset($returnResponse["data"]["email_to"]) && $returnResponse["data"]["email_to"] != "") {
+
+                        if (base64_decode($returnResponse["data"]["email_to"], true)) {
+
+                            $returnResponse["data"]["email_to"] = base64_decode($returnResponse["data"]["email_to"]);
+
+                        }
 
                         $returnResponse["data"]["email_to"] = htmlspecialchars($returnResponse["data"]["email_to"]);
                     }
 
                     if (isset($returnResponse["data"]["email_cc"]) && $returnResponse["data"]["email_cc"] != "") {
 
+                        if (base64_decode($returnResponse["data"]["email_cc"], true)) {
+
+                            $returnResponse["data"]["email_cc"] = base64_decode($returnResponse["data"]["email_cc"]);
+
+                        }
+
                         $returnResponse["data"]["email_cc"] = htmlspecialchars($returnResponse["data"]["email_cc"]);
                     }
 
                     if (isset($returnResponse["data"]["email_bcc"]) && $returnResponse["data"]["email_bcc"] != "") {
+
+                        if (base64_decode($returnResponse["data"]["email_bcc"], true)) {
+
+                            $returnResponse["data"]["email_bcc"] = base64_decode($returnResponse["data"]["email_bcc"]);
+
+                        }
 
                         $returnResponse["data"]["email_bcc"] = htmlspecialchars($returnResponse["data"]["email_bcc"]);
                     }
@@ -365,7 +389,7 @@ class EmailCollection
                             $returnResponse["data"]["body_html"] = base64_decode($returnResponse["data"]["body_html"]);
                         }
                     }
-		
+
                     if (isset($returnResponse["data"]["attachments"]) && $returnResponse["data"]["attachments"] && isset($returnResponse["data"]["email_path"]) && $returnResponse["data"]["email_path"]) {
 
                         $emailAttachments = [];
@@ -376,7 +400,7 @@ class EmailCollection
 
                             $returnResponse["data"]["attachments"] = base64_decode($returnResponse["data"]["attachments"]);
 
-                        } 
+                        }
 
                         $emailAttachments = explode("|", $returnResponse["data"]["attachments"]);
 
@@ -458,7 +482,7 @@ class EmailCollection
 
                     }
 
-                }				
+                }
                 $returnResponse["success"] = "true";
             }
         } catch (Exception $e) {
@@ -487,7 +511,7 @@ class EmailCollection
 
             $url = $this->emailidGetApiUrl;
 			$responseData = $this->postRequest($url, $field);
-			
+
 			 if (isset($responseData["success"]) && $responseData["success"] == "true") {
 				  $returnResponse["data"] = $responseData["data"];
 				  $returnResponse["success"] = "true";
@@ -540,7 +564,7 @@ class EmailCollection
                 $field["body_html"] = '';
             }
 			$responseData = $this->postRequest($url, $field);
-			
+
 			if (isset($responseData["success"]) && $responseData["success"] == "true") {
 
 				$returnResponse["success"] = "true";
@@ -584,41 +608,41 @@ class EmailCollection
 
                         $item["is_attachments"] = '<i class="zmdi zmdi-attachment inline-block font-16"></i>';
                     }
-					
+
 					$emailDate = "";
-					
+
 					if(isset($item["status"]) && $item["status"] != "") {
-					
+
 						if( in_array($item["status"], ["0","1", "2", "3"])){
-							
+
 							if(isset($item["email_received_date"]) && $item["email_received_date"] != ""){
-								
+
 								$emailDate = $item["email_received_date"];
 							}
 						}
-						
+
 						if( in_array($item["status"], ["4", "5"])){
-							
+
 							if(isset($item["created_date"]) && $item["created_date"] != ""){
-								
+
 								$emailDate = $item["created_date"];
 							}
 						}
-						
+
 						if( in_array($item["status"], ["6"])){
-							
+
 							if(isset($item["email_sent_date"]) && $item["email_sent_date"] != ""){
-								
+
 								$emailDate = $item["email_sent_date"];
 							}
 						}
-						
+
 					}
-					
+
 					if ($emailDate){
-						
+
 						//	$returnResponse["data"]["create_date_formatted_text"] = date("dS M Y h:i:s a", strtotime($emailDate));
-						
+
 							$item["created_date"] = date("y/m/d H:i:s", strtotime($emailDate));
 						}
 
@@ -630,6 +654,16 @@ class EmailCollection
 						$item["created_date"] = date("y/m/d H:i:s", strtotime($item["created_date"]));
                     } */
 
+                    if (isset($item["email_from"]) && $item["email_from"] != "") {
+
+                        if (base64_decode($item["email_from"], true)) {
+
+                            $item["email_from"] = base64_decode($item["email_from"]);
+
+                        }
+
+                    }
+
                     if (isset($item["message_start"]) && $item["message_start"] != "") {
 
                         if (base64_decode($item["message_start"], true)) {
@@ -637,7 +671,7 @@ class EmailCollection
                             $item["message_start_text"] = $item["message_start"];
 
                             $item["message_start"] = base64_decode($item["message_start"]);
-                            
+
                         }
 
                     }
@@ -691,7 +725,7 @@ class EmailCollection
                             $emailTypeClass = "pmbot-email-item";
 
                         }
-                        
+
 						//Bharathi changed as per Balaji's new format 10 May 2020
 						/* if (isset($item["empcode"]) &&  $item["empcode"] != "") {
 
