@@ -137,8 +137,17 @@ class EmailCollection
 
                             $returnResponse["result_count"] = count($responseData);
 
-                            $date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
-                            $returnResponse["last_updated"] =  $date->format('y/m/d h:i:s a');
+                            if(!isset($returnResponse["last_updated"]) && $returnResponse["last_updated"] == "") {
+
+                                $date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+                                $lastUpdated =  $date->format('y/m/d h:i:s A');
+
+                                $returnResponse["last_updated"] = $lastUpdated;
+
+                            }
+
+                            // $date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+                            // $returnResponse["last_updated"] =  $date->format('y/m/d h:i:s a');
 
                             // $returnResponse["last_updated"] = date('y/m/d h:i:s a');
 
