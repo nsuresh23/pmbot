@@ -183,11 +183,12 @@ trait ApiClient
             }
 
             $paramData["ip_address"] = request()->ip();
-            $paramData["ipaddress"] = request()->ip();
+            // $paramData["ipaddress"] = request()->ip();
 
             if (count($paramData) > 0) {
 
                 $params['json'] = $paramData;
+
             }
 
             $logger = new Logger('api_log');
