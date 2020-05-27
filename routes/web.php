@@ -309,33 +309,33 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
 
 	/* Email annotator */
 
-																  
+
 	//Route::any('annotation/{id}/empcode/{empcode}/', 'Annotator\ApiController@getannotatoremail')->name('annotation');
-	Route::any('annotation/id/{id}', 'Annotator\ApiController@getannotatoremail');
+	Route::any('annotation/id/{id}', 'Annotator\ApiController@getannotatoremail')->name('email-view');
 	Route::any('annotation/getresult', 'Annotator\ApiController@getresult');
 	Route::any('annotation/search', 'Annotator\ApiController@search');
 	Route::any('annotation/getpmbotjoblist', 'Annotator\ApiController@getpmbotjoblist')->name('annotation');
 	Route::any('annotation/gettasklist', 'Annotator\ApiController@gettasklist')->name('annotation');
-	
-	
+
+
 	Route::any('annotation/getpmuserlist', 'Annotator\ApiController@getpmuserlist');
 	Route::any('annotation/gettaskdetail', 'Annotator\ApiController@gettaskdetail');
 	Route::any('annotation/newattachment', 'Annotator\ApiController@newattachment');
 	Route::any('annotation/getselectedjob', 'Annotator\ApiController@getselectedjob');
 	Route::any('annotation/getjobtasklist', 'Annotator\ApiController@getjobtasklist');
-	
+
 	Route::any('annotation/store', 'Annotator\ApiController@store');
 	Route::any('annotation/update/{id}', 'Annotator\ApiController@update');
 	Route::any('annotation/delete/{id}', 'Annotator\ApiController@delete');
 	Route::any('annotation/statusupdate/{id}', 'Annotator\ApiController@statusupdate');
 	Route::any('annotation/updategroupingdata/', 'Annotator\ApiController@updategroupingdata');
 	Route::any('annotation/getdataresult', 'Annotator\ApiController@getdataresult');
-	
+
 	Route::any('annotation/completetaskdetail', 'Annotator\ApiController@completetaskdetail');
 	Route::any('annotation/nonbusiness', 'Annotator\ApiController@nonbusiness');
 	Route::any('annotation/createisbn', 'Annotator\ApiController@createisbn');
-	
- 
+
+
 
 	//Tickets
 	Route::any('/tickets', 'Controller@tickets');

@@ -36,6 +36,7 @@ return [
     'book_info_ISBN_label' => 'ISBN',
     'book_info_E_ISBN_label' => 'E - ISBN',
     'hap_text' => 'hap',
+    'email_view_url' => 'email-view',
     'email_compose_label' => 'New Email',
     'email_inbox_label' => 'Inbox',
     'email_sent_mail_label' => 'Sent Mail',

@@ -257,6 +257,7 @@ trait Helper
     {
 
         $eventMessage = "";
+        $actionItemUrl = $jobUrl = "#";
 
         if (isset($item["action_item"]) && $item["action_item"] != "") {
 
@@ -272,9 +273,35 @@ trait Helper
 
             if (isset($item[$item["action_item"]. "_title" ]) && $item[$item["action_item"] . "_title"] != "") {
 
+                if($item["action_item"] == "job") {
+
+                    $actionItemUrl = route(__("job.job_detail_url"), $item[$item["action_item"] . "_id"]);
+
+                }
+
+                if ($item["action_item"] == "task") {
+
+                    $actionItemUrl = route(__("job.task_view_url"), $item[$item["action_item"] . "_id"]);
+
+                }
+
+                if ($item["action_item"] == "checklist") {
+
+                    $actionItemUrl = route(__("job.check_list_view_url"), $item[$item["action_item"] . "_id"]);
+
+                }
+
+                if ($item["action_item"] == "email") {
+
+                    $actionItemUrl = route(__("job.email_view_url"), $item[$item["action_item"] . "_id"]);
+
+                }
+
                 $eventMessage .= " with title ";
+
+                $eventMessage .=  '<a class="btn-link" href="' . $actionItemUrl . '" target="_blank" title="' . $item[$item["action_item"] . "_title"] . '">' . mb_strimwidth($item[$item["action_item"] . "_title"], 0, 75, "...") . '</a>';
                 // $eventMessage .= '<span class="text-success">';
-                $eventMessage .= $item[$item["action_item"] . "_title"];
+                // $eventMessage .= $item[$item["action_item"] . "_title"];
                 // $eventMessage .= '</span>';
 
             }
@@ -329,8 +356,12 @@ trait Helper
 
                 $eventMessage .= " for Job ";
 
+                $jobUrl = route(__("job.job_detail_url"), $item["job_id"]);
+
+                $eventMessage .=  '<a class="btn-link" href="' . $jobUrl . '" target="_blank" title="' . $item["job_title"] . '">' . mb_strimwidth($item["job_title"], 0, 75, "...") . '</a>';
+
                 // $eventMessage .= '<span class="text-warning">';
-                $eventMessage .= $item["job_title"];
+                // $eventMessage .= $item["job_title"];
                 // $eventMessage .= '</span>';
 
             }
