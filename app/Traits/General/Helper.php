@@ -267,7 +267,7 @@ trait Helper
 
             }
 
-            $eventMessage .= '<span class="capitalize-font">';
+            $eventMessage .= '<span class="capitalize-font pl-5">';
             $eventMessage .= ucwords($item["action_item"]);
             $eventMessage .= '</span>';
 
