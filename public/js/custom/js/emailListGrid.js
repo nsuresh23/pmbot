@@ -457,9 +457,9 @@ function getPmsEmailCountTableList(gridSelector) {
                     return $.grep(dbClients, function(client) {
                         return (!filter.empname || client.empname.indexOf(filter.empname) > -1) &&
                             (!filter.email_count || client.email_count.indexOf(filter.email_count) > -1) &&
+                            (!filter.last_annotated_time || client.last_annotated_time.indexOf(filter.last_annotated_time) > -1) &&
                             (!filter.task_count || client.task_count.indexOf(filter.task_count) > -1) &&
-                            (!filter.last_processed_time || client.last_processed_time.indexOf(filter.last_processed_time) > -1) &&
-                            (!filter.last_annotated_time || client.last_annotated_time.indexOf(filter.last_annotated_time) > -1);
+                            (!filter.last_processed_time || client.last_processed_time.indexOf(filter.last_processed_time) > -1);
                     });
 
                 }
@@ -502,6 +502,13 @@ function getPmsEmailCountTableList(gridSelector) {
     });
 
     field.push({
+        title: 'LAST ANNOTATED TIME',
+        name: 'last_annotated_time',
+        type: 'text',
+        // width: 40,
+    });
+
+    field.push({
         title: "TASK COUNT",
         name: "task_count",
         type: "number",
@@ -511,13 +518,6 @@ function getPmsEmailCountTableList(gridSelector) {
     field.push({
         title: 'LAST PROCEESED TIME',
         name: 'last_processed_time',
-        type: 'text',
-        // width: 40,
-    });
-
-    field.push({
-        title: 'LAST ANNOTATED TIME',
-        name: 'last_annotated_time',
         type: 'text',
         // width: 40,
     });
