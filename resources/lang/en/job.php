@@ -39,6 +39,7 @@ return [
     'email_view_url' => 'email-view',
     'email_compose_label' => 'New Email',
     'email_inbox_label' => 'Inbox',
+    'email_unread_mail_label' => 'Unread',
     'email_sent_mail_label' => 'Sent Mail',
     'email_outbox_mail_label' => 'Outbox',
     'email_draft_label' => 'Drafts',

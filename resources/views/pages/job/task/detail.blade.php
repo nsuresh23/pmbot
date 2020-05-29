@@ -30,21 +30,21 @@
 
                 <?php if($followupDate) { ?>
                 <a class="" href="#" data-toggle="popover-x" data-target="#followupdate" data-placement="right">
-                    <span class="countdown txt-warning">{{$followupDate  ?? ''}}</span>
+                <span class="countdown txt-warning" data-date="{{$followupDate  ?? ''}}">{{$followupDate  ?? ''}}</span>
                     <span class="fa fa-pencil pl-5"></span></a>
                 <?php } ?>
             </div>
             <div class="pull-right">
 
                 <?php if($jobUrl) { ?>
-                
+
                     <div class="pull-left inline-block mr-15 footable-filtering">
                         <a class="btn btn-warning btn-outline btn-icon right-icon" type="button" target="_blank" href="{{$jobUrl ?? '#'}}">
                             {{__('job.task_job_info_button_label')}}
                             <i class="ti-new-window font-15"></i>
                         </a>
                     </div>
-                
+
                 <?php } ?>
 
                 <div class="pull-left inline-block mr-15 footable-filtering">

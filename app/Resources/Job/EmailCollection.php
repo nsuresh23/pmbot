@@ -137,7 +137,7 @@ class EmailCollection
 
                             $returnResponse["result_count"] = count($responseData);
 
-                            if(!isset($returnResponse["last_updated"]) && $returnResponse["last_updated"] == "") {
+                            if(!isset($returnResponse["last_updated"]) || $returnResponse["last_updated"] == "") {
 
                                 $date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
                                 $lastUpdated =  $date->format('y/m/d h:i:s A');

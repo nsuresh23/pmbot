@@ -9,25 +9,25 @@
                             <li class="active" role="presentation"><a aria-expanded="true" data-toggle="tab" role="tab"
                                     id="myTaskTab" class="capitalize-font"
                                     href="#myTaskOverview">{{ __('dashboard.my_task_tab_label') }}</a></li>
-                            
+
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
-                            
+
                                 <li class="" role="presentation">
                                     <a aria-expanded="true" data-toggle="tab" role="tab" id="openTaskTab" class="capitalize-font" href="#openTask">
                                         {{ __('dashboard.open_task_tab_label') }}
                                     </a>
                                 </li>
-                            
+
                             <?php } ?>
 
                             <?php if(!in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
-                            
+
                                 <li class="" role="presentation">
                                     <a role="tab" data-toggle="tab" id="queryListTab" class="capitalize-font" href="#queryList" aria-expanded="false">
                                         {{ __('dashboard.query_list_tab_label') }}
                                     </a>
                                 </li>
-                            
+
                             <?php } ?>
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
@@ -35,19 +35,30 @@
                                 <li role="presentation" class=""><a data-toggle="tab" id="checkListTab"
                                         class="capitalize-font" role="tab" href="#checkList"
                                         aria-expanded="false">{{ __('dashboard.check_list_tab_label') }}</a></li>
-                                
+
                             <?php } ?>
 
-                            
+
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
-                            
+
                                 <li class="" role="presentation">
                                     <a aria-expanded="true" data-toggle="tab" role="tab" id="nonBusinessEmailsTab" class="capitalize-font" href="#nonBusinessEmails">
                                         {{ __('dashboard.non_business_emails_tab_label') }}
                                     </a>
                                 </li>
-                            
+
+                            <?php } ?>
+
+                            <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+
+                                <li class="" role="presentation">
+                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="businessEmailsTab" class="capitalize-font"
+                                        href="#businessEmails">
+                                        {{ __('dashboard.business_emails_tab_label') }}
+                                    </a>
+                                </li>
+
                             <?php } ?>
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
@@ -78,9 +89,9 @@
                         <div class="clearfix"></div>
                     </div> --}}
                     <?php
-                                                
+
                         if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) {
-                    
+
                     ?>
                         {{-- <div class="pull-left inline-block mr-15 footable-filtering">
                             <ul role="tablist" class="nav nav-pills nav-pills-outline" id="">
@@ -118,13 +129,13 @@
                             </div>
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
-                            
+
                                 <div id="openTask" class="tab-pane fade pt-0" role="tabpanel">
-                                
+
                                     @include('pages.dashboard.task.dashboardOpenTasks')
-                                
+
                                 </div>
-                                
+
                             <?php } ?>
 
                             <?php if(!in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
@@ -132,7 +143,7 @@
                                 <div id="queryList" class="tab-pane fade pt-0" role="tabpanel">
 
                                     @include('pages.dashboard.queries.dashboardQueries')
-                                
+
                                 </div>
 
                             <?php } ?>
@@ -148,13 +159,23 @@
                             <?php } ?>
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
-                            
+
                                 <div id="nonBusinessEmails" class="nonBusinessEmails tab-pane fade" role="tabpanel">
-                                
+
                                     @include('pages.dashboard.email.dashboardEmails')
-                                
+
                                 </div>
-                            
+
+                            <?php } ?>
+
+                            <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+
+                                <div id="businessEmails" class="businessEmails tab-pane fade" role="tabpanel">
+
+                                    @include('pages.dashboard.email.dashboardBusinessEmails')
+
+                                </div>
+
                             <?php } ?>
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>

@@ -1162,6 +1162,14 @@ $(function() {
 
         });
 
+        $("#businessEmailsTab").on('click', function() {
+
+            $('.email-detail-body').hide();
+
+            getEmailTableList(".businessEmailGrid");
+
+        });
+
         $("#draftTaskTab").on('click', function() {
 
             $('.email-detail-body').hide();
@@ -1218,4 +1226,24 @@ $(function() {
 //     height: '250px',
 // });
 
-$(".countdown").countdown();
+if ($('.countdown').attr('class') != undefined && $('.countdown').attr('data-date') != undefined && $('.countdown').attr('data-date') != '') {
+
+    var finalDate = $('.countdown').attr('data-date');
+
+    finalDate = moment(finalDate).format('YYYY/MM/DD, H:mm:ss');
+
+    $('.countdown').countdown(finalDate, { elapse: true })
+        .on('update.countdown', function(event) {
+            var $this = $(this).html(event.strftime('' +
+                '<span>%-w</span> week%!w ' +
+                '<span>%-d</span> day%!d ' +
+                '<span>%H</span> hr ' +
+                '<span>%M</span> min ' +
+                '<span>%S</span> sec'));
+            if (event.elapsed) {
+                $this.removeClass('text-warning');
+                $this.addClass('text-danger');
+            }
+        });
+
+}

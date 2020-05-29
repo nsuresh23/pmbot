@@ -108,6 +108,21 @@ function getEmailTableList(gridSelector) {
                 }
             },
 
+
+            rowClass: function(item, itemIndex) {
+
+                var rowClassName = '';
+
+                if (item.view != undefined && item.view == '0') {
+
+                    rowClassName = 'notification-unread-color';
+
+                }
+
+                return rowClassName;
+
+            },
+
             rowClick: function(args) {
 
                 $(gridSelector).jsGrid("cancelEdit");
@@ -256,29 +271,55 @@ function getEmailTableList(gridSelector) {
 
         emailListPostData.email_type = gridCategory;
 
+        if (emailFilter == 'draft') {
+
+            status = ['4'];
+
+        }
+
+        if (emailFilter == 'outbox') {
+
+            status = ['5'];
+
+        }
+
+        if (emailFilter == 'sent') {
+
+            status = ['6'];
+
+        }
+
         if (gridCategory == 'nonBusinessEmail') {
 
             status = ['3'];
 
-            if (emailFilter == 'draft') {
+            // if (emailFilter == 'draft') {
 
-                status = ['4'];
+            //     status = ['4'];
 
-            }
+            // }
 
-            if (emailFilter == 'outbox') {
+            // if (emailFilter == 'outbox') {
 
-                status = ['5'];
+            //     status = ['5'];
 
-            }
+            // }
 
-            if (emailFilter == 'sent') {
+            // if (emailFilter == 'sent') {
 
-                status = ['6'];
+            //     status = ['6'];
 
-            }
+            // }
 
             emailListPostData.type = 'non_pmbot';
+
+        }
+
+        if (gridCategory == 'businessEmail') {
+
+            status = ['1'];
+
+            emailListPostData.type = 'generic';
 
         }
 
@@ -324,6 +365,7 @@ function getEmailTableList(gridSelector) {
 
     emailListPostData.status = status;
 
+    $('.email-inbox-unread-count').html('');
     $('.email-result-count').html('');
     $('.email-last-updated').html('-');
 
@@ -341,6 +383,8 @@ function getEmailTableList(gridSelector) {
             response.data = formatDataItem(response.data);
 
             dbClients = response.data;
+
+            // response.unread_count = '6669';
 
             $(gridSelector).jsGrid("option", "data", response.data);
 
@@ -360,6 +404,20 @@ function getEmailTableList(gridSelector) {
             if ('last_updated' in response) {
 
                 $('.email-last-updated').html(response.last_updated);
+
+            }
+
+            if ('unread_count' in response) {
+
+                var unreadCount = response.unread_count;
+
+                if (parseInt(unreadCount) != NaN && parseInt(unreadCount) > 99) {
+
+                    unreadCount = '99+'
+
+                }
+
+                $('.email-inbox-unread-count').html(unreadCount);
 
             }
 
@@ -662,7 +720,6 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
     e.preventDefault();
 
-
     var emailItemPostData = {};
 
     var emailId = $(this).attr('data-email-id');
@@ -671,6 +728,7 @@ $(document).on('click', '.pmbot-email-item', function(e) {
     if (emailId != undefined && emailId != '' && postUrl != undefined && postUrl != '') {
 
         emailItemPostData.emailid = emailId;
+        emailItemPostData.view = '1';
 
         $('.email-title').attr('data-email-id', '');
 
@@ -865,7 +923,8 @@ $(document).on('click', '.email-detail-back-btn', function(e) {
 
 $(document).on('click', '.dashboard-inbox-email', function() {
 
-    var gridSelector = ".nonBusinessEmailGrid";
+    // var gridSelector = ".nonBusinessEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
 
     var dataUrl = $(gridSelector).attr('data-list-url');
 
@@ -884,9 +943,32 @@ $(document).on('click', '.dashboard-inbox-email', function() {
 
 });
 
+$(document).on('click', '.dashboard-unread-email', function() {
+
+    // var gridSelector = ".nonBusinessEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        $(gridSelector).attr('data-email-filter', 'unread');
+
+        getEmailTableList(gridSelector);
+
+    }
+
+    $('.inbox-nav li.active').removeClass('active');
+    $(this).closest('li').addClass('active');
+    $('.email-list-body').show();
+    $('.email-detail-body').hide();
+
+});
+
 $(document).on('click', '.dashboard-outbox-email', function() {
 
-    var gridSelector = ".nonBusinessEmailGrid";
+    // var gridSelector = ".nonBusinessEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
 
     var dataUrl = $(gridSelector).attr('data-list-url');
 
@@ -909,7 +991,8 @@ $(document).on('click', '.dashboard-outbox-email', function() {
 
 $(document).on('click', '.dashboard-sent-email', function() {
 
-    var gridSelector = ".nonBusinessEmailGrid";
+    // var gridSelector = ".nonBusinessEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
 
     var dataUrl = $(gridSelector).attr('data-list-url');
 
@@ -932,7 +1015,8 @@ $(document).on('click', '.dashboard-sent-email', function() {
 
 $(document).on('click', '.dashboard-draft-email', function() {
 
-    var gridSelector = ".nonBusinessEmailGrid";
+    // var gridSelector = ".nonBusinessEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
 
     var dataUrl = $(gridSelector).attr('data-list-url');
 
@@ -953,7 +1037,8 @@ $(document).on('click', '.dashboard-draft-email', function() {
 
 $(document).on('click', '.job-inbox-email', function() {
 
-    var gridSelector = ".jobEmailGrid";
+    // var gridSelector = ".jobEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
 
     var dataUrl = $(gridSelector).attr('data-list-url');
 
@@ -974,7 +1059,8 @@ $(document).on('click', '.job-inbox-email', function() {
 
 $(document).on('click', '.job-outbox-email', function() {
 
-    var gridSelector = ".jobEmailGrid";
+    // var gridSelector = ".jobEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
 
     var dataUrl = $(gridSelector).attr('data-list-url');
 
@@ -997,7 +1083,8 @@ $(document).on('click', '.job-outbox-email', function() {
 
 $(document).on('click', '.job-sent-email', function() {
 
-    var gridSelector = ".jobEmailGrid";
+    // var gridSelector = ".jobEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
 
     var dataUrl = $(gridSelector).attr('data-list-url');
 
@@ -1020,7 +1107,8 @@ $(document).on('click', '.job-sent-email', function() {
 
 $(document).on('click', '.job-draft-email', function() {
 
-    var gridSelector = ".jobEmailGrid";
+    // var gridSelector = ".jobEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
 
     var dataUrl = $(gridSelector).attr('data-list-url');
 
