@@ -26,10 +26,13 @@ class ApiController extends Controller
 
     use CustomLogger;
 
+    protected $jobResource = "";
+
     protected $AnnotatorResource = "";
 
     public function __construct()
     {
+
         //$this->annotatorResource = new AnnotatorResource();
 
     }
@@ -233,7 +236,6 @@ class ApiController extends Controller
         return response()->json(['total' => count($annotations), 'rows' => $annotations]);
     }
 
-
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -242,10 +244,18 @@ class ApiController extends Controller
     {
         $data = json_decode($request->getContent(), true);
 
+        if(isset($data["jobid"]) && $data["jobid"] != "") {
 
-        $Annotationstage    = "SELECT stage from jobs where job_id = '" . $data['jobid'] . "'";
-        $stagelists    = DB::connection('mysql')->select(DB::raw($Annotationstage));
+            $jobId = $data["jobid"];
 
+            // if($jobId != "pmbot_generic") {
+
+                $Annotationstage    = "SELECT stage from jobs where job_id = '" . $data['jobid'] . "'";
+                $stagelists    = DB::connection('mysql')->select(DB::raw($Annotationstage));
+
+            // }
+
+        }
 
         if (array_key_exists('text', $data)) {
             $text = $data['text'];
@@ -257,7 +267,13 @@ class ApiController extends Controller
         $tasktitle          = $data['tasktitle'];
         $tasknotes          = $data['tasknotes'];
         $emailnotation     = $data['emailnotation'];
-        $stage              = $stagelists[0]->stage;
+        $stage              = "";
+
+        // if ($jobId != "pmbot_generic") {
+
+            $stage              = $stagelists[0]->stage;
+
+        // }
 
         if (is_null($data['attachment'])) {
             $attachment = '';
@@ -284,22 +300,22 @@ class ApiController extends Controller
         }
 
         $annotation = [
-            'ranges'              => $data['ranges'],
-            'quote'               => $data['quote'],
-            'jobid'               => $data['jobid'],
+            'ranges'              => isset($data['ranges']) ? $data['ranges'] : "",
+            'quote'               => isset($data['quote']) ? $data['quote'] : "",
+            'jobid'               => $jobId,
             'stage'               => $stage,
-            'createdempcode'       => $data['createdempcode'],
-            'userid'               => implode(',', $data['section']),
+            'createdempcode'       => isset($data['createdempcode']) ? $data['createdempcode'] : "",
+            'userid'               => isset($data['section'])? implode(',', $data['section']) : "" ,
             'attachment'           => $attachment,
             'additionalattach'    => $newattachment,
             'emailnotation'        => $emailnotation,
-            'text'                => $data['section_title'],
-            'category'          => $category,
-            'annotationid'         => $data['annotationid'],
+            'text'                => isset($data['section_title']) ? $data['section_title'] : "",
+            'category'            => $category,
+            'annotationid'         => isset($data['annotationid']) ? $data['annotationid'] : "",
             'taskdescription'      => $taskdescription,
             'tasknotes'          => $tasknotes,
             'tasktitle'          => $tasktitle,
-            'page_id'             => $data['page']
+            'page_id'             => isset($data['page']) ? $data['page'] : "",
         ];
         try {
             $annotation = Annotation::create($annotation);
@@ -316,7 +332,6 @@ class ApiController extends Controller
         $id         =    $_POST['id'];
         $jobid      =    $_POST['jobid'];
         $start_time =    $_POST['start_time'];
-
 
         $Annotationsql    = "SELECT * from annotations where page_id = '" . $id . "' and createdempcode ='" . $empcode . "' ";
         $Annotationlists    = DB::connection('mysql')->select(DB::raw($Annotationsql));
@@ -457,6 +472,12 @@ class ApiController extends Controller
                 'status' => '2',
             );
 
+            // if ($pmbotGeneric) {
+
+            //     $jsonData["status"] = "1";
+
+            // }
+
             if ($start_time != "") {
 
                 $jsonData["start_time"] = $start_time;
@@ -511,8 +532,6 @@ class ApiController extends Controller
         }
     }
 
-
-
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -557,9 +576,6 @@ class ApiController extends Controller
             curl_close($ch);
             $json_data_decoded = json_decode($result, true);
 
-
-
-
             if ($json_data_decoded['result']['status'] == '0') {
                 // Prepare new cURL resource
                 $ch = curl_init($getjoblist_url);            //Initiate cURL.
@@ -569,7 +585,6 @@ class ApiController extends Controller
                     'stage' => '',
                     'status' => 'progress'
                 );
-
 
                 $jsonDataEncoded = json_encode($jsonData);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -590,15 +605,12 @@ class ApiController extends Controller
                 curl_close($ch);
                 $json_data_decoded = json_decode($result, true);
 
-
-
                 if ($annotationID == '') {
                     $output = '<select id="pmjobid"  onchange="getjobID()">'; //multiple="multiple"
                 } else {
                     $output = '<select id="pmjobid">'; //multiple="multiple"
                 }
                 $output .= '<option disabled selected>--select--</option>';
-                $output .= '<option value="pmbot_generic">PMBot Generic</option>';
                 foreach ($json_data_decoded['result']['data'] as $key => $val) {
                     if ($annotationID != '') {
                         if ($val['job_id'] == $annotationID) {
@@ -620,8 +632,6 @@ class ApiController extends Controller
                     $output = '<select id="pmjobid">'; //multiple="multiple"
                 }
                 $output .= '<option disabled selected>--select--</option>';
-                $output .= '<option value="pmbot_generic">PMBot Generic</option>';
-                //$output .= '<option value="generic">Generic</option>';
                 foreach ($json_data_decoded['result']['data'] as $key => $val) {
                     if ($annotationID != '') {
                         if ($val['job_id'] == $annotationID) {
@@ -639,7 +649,6 @@ class ApiController extends Controller
             }
         }
     }
-
 
     /**
      * @param $id
@@ -667,7 +676,6 @@ class ApiController extends Controller
         return response()->json(['status' => 'error', 'message' => 'Could not find the annotation.'], 400);
     }
 
-
     public function statusupdate($id, Request $request)
     {
         $update = 'update ee_mail_body set annotate_status = "progress" where email_id = "' . $id . '"';
@@ -692,7 +700,6 @@ class ApiController extends Controller
         return response()->json(['status' => 'error', 'message' => 'Could not find the annotation.'], 400);
     }
 
-
     public function updategroupingdata(Request $request)
     {
         $data    = json_decode($request->getContent(), true);
@@ -704,7 +711,6 @@ class ApiController extends Controller
         $emailcount = DB::connection('mysql')->select(DB::raw($update));
         return $_POST['referenceid'];
     }
-
 
     /**
      * @param Request $request
@@ -948,22 +954,24 @@ class ApiController extends Controller
         return response()->json([$output]);
     }
 
-
-
-
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function createisbn(Request $request)
     {
+        $duedate = "";
         $emailid            =    $_POST['emailid'];
         $empcode            =    $_POST['empcode'];
         $isbn                =    $_POST['isbn'];
-
         $start_time         = $_POST['start_time'];
-        date_default_timezone_set("Asia/Kolkata");
-        $duedate             =    date("Y-m-d", strtotime("tomorrow")) . ' ' . date('H:i:s');
+
+        if(!isset($_POST['generic'])) {
+
+            date_default_timezone_set("Asia/Kolkata");
+            $duedate = date("Y-m-d", strtotime("tomorrow")) . ' ' . date('H:i:s');
+
+        }
 
         $create_isbn_url    =    env('CREATEISBNJOB');
         // Prepare new cURL resource
@@ -982,8 +990,8 @@ class ApiController extends Controller
 
         if ($start_time != "") {
 
-            $jsonData["start_time"] = $start_time;
-            $jsonData["ipaddress"] = request()->ip();
+            // $jsonData["start_time"] = $start_time;
+            // $jsonData["ipaddress"] = request()->ip();
 
         }
 
@@ -1012,7 +1020,6 @@ class ApiController extends Controller
         $output .= '</select>';
         return response()->json(['status' => 'success', 'message' => $output]);
     }
-
 
     /**
      * @param Request $request
@@ -1068,4 +1075,5 @@ class ApiController extends Controller
         //$output = json_encode($output);
         return response()->json([$json_data_decoded]);
     }
+
 }

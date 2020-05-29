@@ -118,11 +118,11 @@ function annotatorcompleted(){
     url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/completetaskdetail'
     var jobId = $('#pmjobid').val();
 
-    if(jobId == 'pmbot_generic') {
+    // if(jobId == 'pmbot_generic') {
 
-        jobId = '';
+    //     jobId = '';
 
-    }
+    // }
 
     var postData = {
         "_token": "{{ csrf_token() }}",
@@ -487,8 +487,6 @@ $("#btnnonbusiness").click(function() {
 
 });
 
-
-
 function getresult(url) {
 	$.ajax({
 		url: url,
@@ -535,7 +533,6 @@ function getresult(url) {
 }
 getresult("<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/getresult");
 
-
 function Myisbnbtnfrm(){
 	$('#createisbnfrm').toggle(500);
 }
@@ -548,6 +545,66 @@ function maskAsGeneric()
 
 }
 
+function genericJobAdd(){
+
+    var isbn = 'pmbot_generic';
+
+    $('#pmjobid option').select2().each(function(){
+
+        if (this.text == isbn) {
+
+            $('#pmjobIDlist').select2().val(this.value);
+            $('#pmjobIDlist').select2().trigger('change');
+
+            return false;
+
+        }
+
+    });
+
+    var postData = {
+        "_token": "{{ csrf_token() }}",
+        'emailid':'<?php echo $returnData['id'];?>',
+        'empcode':'<?php echo $returnData['empcode'];?>',
+        isbn:isbn,
+        'generic':'generic',
+    };
+
+    var emailAnnotatorStartTime = '<?php echo isset($emailAnnotatorStartTime)? $emailAnnotatorStartTime : "" ?>';
+
+    if(emailAnnotatorStartTime) {
+
+        postData.start_time = emailAnnotatorStartTime;
+
+    }
+
+    url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/createisbn';
+
+    $.ajax({
+            url: url,
+            type: "POST",
+            crossdomain:true,
+            headers: {'X-CSRF-Token': $('meta[name=""]').attr('content')},
+            data:  postData,
+            beforeSend: function(){$("#overlay").show();},
+            success: function(data){
+                $("#mailbodycontent").removeClass();
+                //$('#addisbn_form')[0].reset();
+                $('#isbn').val('');
+                //$('#queryfrm').modal('hide');
+                $("#pmjobIDlist").html(data['message']);
+                $(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
+
+                getjobID();
+                // $('#createisbnfrm').toggle(500);
+                $('.mark-as-generic').hide();
+                $('#btnannatorcompleted').show();
+                return false;
+            },
+            error: function()
+            {}
+    });
+}
 
 function saveisbntodb(){
     if($('#isbn').val() == ""){
@@ -600,7 +657,6 @@ function saveisbntodb(){
         });
     }
 }
-
 
 jQuery(function($) {
 	$('.radio-toggle').toggleInput();
