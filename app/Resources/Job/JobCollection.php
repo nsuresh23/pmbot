@@ -37,6 +37,8 @@ class JobCollection
 
     protected $taskResource = "";
 
+    protected $annotatorJobAddApiUrl;
+
     protected $workflowListSelectApiUrl = "";
 
     protected $currentUserCodeField = "pm_empcode";
@@ -53,6 +55,7 @@ class JobCollection
         $this->jobByFieldApiUrl = env('API_JOB_BY_FIELD_URL');
         $this->jobTaskListApiUrl = env('API_JOB_TASK_LIST_URL');
         $this->currentUserCodeField = env('CURRENT_USER_CODE_FIELD');
+        $this->annotatorJobAddApiUrl = env('API_ANNOTATOR_JOB_ADD_URL');
         $this->workflowListSelectApiUrl = env('API_WORKFLOW_SELECT_URL');
 
     }
@@ -121,6 +124,75 @@ class JobCollection
                 " => FILE => " . __FILE__ . " => " .
                     " => LINE => " . __LINE__ . " => " .
                     " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
+     * Store oup job based on job field array.
+     *
+     * @param  array $field
+     * @return array $returnData
+     */
+    public function annotatorJobAdd($request)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // validate
+            // read more on validation at http://laravel.com/docs/validation
+            $rules = array(
+                'womat_job_id'       => 'required',
+                'pm_empcode'       => 'required',
+                // 'date_due'       => 'required',
+            );
+
+            $url = $this->annotatorJobAddApiUrl;
+
+            $validator = Validator::make($request->all(), $rules);
+
+            // process the login
+            if ($validator->fails()) {
+
+                $returnResponse["error"] = "true";
+                $returnResponse["message"] = "Save failed";
+            } else {
+
+                $paramInfo = $request->all();
+
+                unset($paramInfo["redirectTo"]);
+
+                $returnData = $this->postRequest($url, $paramInfo);
+
+                if (isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse["data"] = $returnData["data"];
+                    $returnResponse["success"] = "true";
+                    $returnResponse["message"] = "Save successfull";
+                } else {
+
+                    $returnResponse["error"] = "true";
+                    $returnResponse["message"] = "Save unsuccessfull";
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
             );
         }
 

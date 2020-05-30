@@ -182,7 +182,7 @@ trait ApiClient
                 $paramData["attachment_path"] = base64_encode($paramData["attachment_path"]);
             }
 
-            $paramData["ip_address"] = request()->ip();
+            // $paramData["ip_address"] = request()->ip();
             // $paramData["ipaddress"] = request()->ip();
 
             if (count($paramData) > 0) {

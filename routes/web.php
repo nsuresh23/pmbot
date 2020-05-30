@@ -273,6 +273,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'roles'], 'roles' => 
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_manager', 'project_manager']], function () {
 
     Route::any('/job-store', 'Job\JobController@jobStore')->name('job-store');
+    Route::any('/annotator-job-add', 'Job\JobController@annotatorJobAdd')->name('annotator-job-add');
 	Route::any('/job-list', 'Job\JobController@jobList')->name('job-list');
 	Route::any('/delayed-job-list', 'Job\JobController@getDelayedJobs')->name('delayed-job-list');
 	Route::any('/job-list/{stage?}', 'Job\JobController@getJobsByStage');

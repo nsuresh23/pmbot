@@ -56,7 +56,7 @@ return [
     'job_store_url' => 'job-store',
     'job_add_opm_url' => 'job-add-opm',
     'job_store_opm_url' => 'job-store-opm',
-
+    'annotator_job_add_url' => 'annotator-job-add',
 
     /* Job Add Form */
     'job_title_label' => 'title',
@@ -287,6 +287,7 @@ return [
     'task_job_id_label' => 'job id',
     'task_job_title_label' => 'job title',
     'task_job_title_placeholder_text' => 'select job title',
+    'task_generic_job_label' => 'Generic',
     'task_assigned_to_label' => 'assignee',
     'task_assigned_to_multiple_label' => 'multiple',
     'task_assigned_to_placeholder_text' => 'select assignee',

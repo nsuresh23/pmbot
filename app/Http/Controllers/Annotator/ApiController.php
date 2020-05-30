@@ -333,6 +333,14 @@ class ApiController extends Controller
         $jobid      =    $_POST['jobid'];
         $start_time =    $_POST['start_time'];
 
+        $isGeneric = "false";
+
+        if(isset($_POST["is_generic"]) && $_POST["is_generic"] == "true") {
+
+            $isGeneric = "true";
+
+        }
+
         $Annotationsql    = "SELECT * from annotations where page_id = '" . $id . "' and createdempcode ='" . $empcode . "' ";
         $Annotationlists    = DB::connection('mysql')->select(DB::raw($Annotationsql));
         if (!empty($Annotationlists)) {
@@ -357,6 +365,7 @@ class ApiController extends Controller
                     if($start_time != "") {
 
                         $jsonDataTaskNotes["start_time"] = $start_time;
+                        $jsonDataTaskNotes["ip_address"] = request()->ip();
 
                     }
                     $jsonDataNotesEncoded = json_encode($jsonDataTaskNotes);
@@ -437,7 +446,13 @@ class ApiController extends Controller
                     if ($start_time != "") {
 
                         $jsonData["start_time"] = $start_time;
-                        $jsonData["ipaddress"] = request()->ip();
+                        $jsonData["ip_address"] = request()->ip();
+
+                    }
+
+                    if ($isGeneric == "true") {
+
+                        $jsonData["pmbot_type"] = "generic";
 
                     }
 
@@ -472,16 +487,17 @@ class ApiController extends Controller
                 'status' => '2',
             );
 
-            // if ($pmbotGeneric) {
+            if($isGeneric == "true" ) {
 
-            //     $jsonData["status"] = "1";
+                $jsonData["status"] = '1';
+                $jsonData["type"] = 'generic';
 
-            // }
+            }
 
             if ($start_time != "") {
 
                 $jsonData["start_time"] = $start_time;
-                $jsonData["ipaddress"] = request()->ip();
+                $jsonData["ip_address"] = request()->ip();
 
             }
 
@@ -990,9 +1006,14 @@ class ApiController extends Controller
 
         if ($start_time != "") {
 
-            // $jsonData["start_time"] = $start_time;
-            // $jsonData["ipaddress"] = request()->ip();
+            $jsonData["start_time"] = $start_time;
+            $jsonData["ip_address"] = request()->ip();
 
+        }
+
+        if (isset($_POST['generic']) && $_POST['generic'] == "generic") {
+
+            $jsonData["pmbot_type"] = $_POST['generic'];
         }
 
         $jsonDataEncoded = json_encode($jsonData);
@@ -1045,7 +1066,7 @@ class ApiController extends Controller
         if ($start_time != "") {
 
             $jsonData["start_time"] = $start_time;
-            $jsonData["ipaddress"] = request()->ip();
+            $jsonData["ip_address"] = request()->ip();
         }
 
         $jsonDataEncoded = json_encode($jsonData);

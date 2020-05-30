@@ -41,6 +41,10 @@
 
     $taskDeleteUrl = "#";
 
+    $genericJobAddUrl = "#";
+
+    $genericJobAddUrl = route(__("job.annotator_job_add_url"));
+
     $postUrl = route(__("job.task_store_url"));
 
     $mediaPostUrl = route(__("job.task_media_store_url"));
@@ -265,21 +269,28 @@
 
                                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-md-offset-1">
                                                                 <div class="form-group">
-                                                                    <label for="job_id" class="control-label mb-10">{{ __('job.task_job_title_label') }}</label>
+
+                                                                    <div class="row">
+                                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                                            <label for="job_id" class="control-label mb-10">{{ __('job.task_job_title_label') }}</label>
+                                                                        </div>
+
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-md-offset-2">
+                                                                            <div class="checkbox checkbox-success pull-right ma-0 pa-0">
+                                                                            <input class="genericJob" type="checkbox" data-generic-job-add-url="{{$genericJobAddUrl ?? ''}}">
+                                                                                <label for="checkbox" class="text-capitalize">
+                                                                                    {{ __('job.task_generic_job_label') }}
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
                                                                     {!! Form::select('job_id', [ null =>
                                                                     __('job.task_job_title_placeholder_text') ] +
                                                                     $returnData["job_list"],
                                                                     $selectedJobId, [
-                                                                    'class' => 'form-control select2 '. $checkField,
+                                                                    'class' => 'form-control select2 task-job-select'. $checkField,
                                                                     ]) !!}
-                                                                    {{--
-                                                                        <input type="text" class="form-control" id="job_id" name="job_id"  value="{{$returnData['data']['job_id'] ?? ''}}"
-                                                                    placeholder="{{ __('job.task_job_id_placeholder_text') }}"
-                                                                    data-error="{{ __('job.task_job_id_error_msg') }}"
-                                                                    {{$required}}>
-
-                                                                    --}}
-
                                                                     <div class="help-block with-errors"></div>
                                                                 </div>
                                                             </div>

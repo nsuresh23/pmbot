@@ -116,20 +116,22 @@ function updateddate(textval) {
 
 function annotatorcompleted(){
     url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/completetaskdetail'
-    var jobId = $('#pmjobid').val();
+	var jobId = $('#pmjobid').val();
 
-    // if(jobId == 'pmbot_generic') {
-
-    //     jobId = '';
-
-    // }
+	var jobTitle = $('#pmjobid option:selected').text();
 
     var postData = {
         "_token": "{{ csrf_token() }}",
         empcode:'<?php echo $returnData['empcode'];?>',
         id:'<?php echo $returnData['id'];?>',
         jobid:jobId
-    }
+	}
+
+	if(jobTitle == 'pmbot_generic') {
+
+		postData.is_generic = 'true';
+
+	}
 
     var emailAnnotatorStartTime = '<?php echo isset($emailAnnotatorStartTime)? $emailAnnotatorStartTime : "" ?>';
 
@@ -547,14 +549,18 @@ function maskAsGeneric()
 
 function genericJobAdd(){
 
-    var isbn = 'pmbot_generic';
+	var isbn = 'pmbot_generic';
+
+	var existsSelected = 'false';
 
     $('#pmjobid option').select2().each(function(){
 
         if (this.text == isbn) {
 
-            $('#pmjobIDlist').select2().val(this.value);
-            $('#pmjobIDlist').select2().trigger('change');
+            $('#pmjobid').select2().val(this.value);
+			$('#pmjobid').select2().trigger('change');
+
+			existsSelected = 'true';
 
             return false;
 
@@ -562,48 +568,53 @@ function genericJobAdd(){
 
     });
 
-    var postData = {
-        "_token": "{{ csrf_token() }}",
-        'emailid':'<?php echo $returnData['id'];?>',
-        'empcode':'<?php echo $returnData['empcode'];?>',
-        isbn:isbn,
-        'generic':'generic',
-    };
+	if(existsSelected == 'false') {
 
-    var emailAnnotatorStartTime = '<?php echo isset($emailAnnotatorStartTime)? $emailAnnotatorStartTime : "" ?>';
+		var postData = {
+			"_token": "{{ csrf_token() }}",
+			'emailid':'<?php echo $returnData['id'];?>',
+			'empcode':'<?php echo $returnData['empcode'];?>',
+			isbn:isbn,
+			'generic':'generic',
+		};
 
-    if(emailAnnotatorStartTime) {
+		var emailAnnotatorStartTime = '<?php echo isset($emailAnnotatorStartTime)? $emailAnnotatorStartTime : "" ?>';
 
-        postData.start_time = emailAnnotatorStartTime;
+		if(emailAnnotatorStartTime) {
 
-    }
+			postData.start_time = emailAnnotatorStartTime;
 
-    url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/createisbn';
+		}
 
-    $.ajax({
-            url: url,
-            type: "POST",
-            crossdomain:true,
-            headers: {'X-CSRF-Token': $('meta[name=""]').attr('content')},
-            data:  postData,
-            beforeSend: function(){$("#overlay").show();},
-            success: function(data){
-                $("#mailbodycontent").removeClass();
-                //$('#addisbn_form')[0].reset();
-                $('#isbn').val('');
-                //$('#queryfrm').modal('hide');
-                $("#pmjobIDlist").html(data['message']);
-                $(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
+		url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/createisbn';
 
-                getjobID();
-                // $('#createisbnfrm').toggle(500);
-                $('.mark-as-generic').hide();
-                $('#btnannatorcompleted').show();
-                return false;
-            },
-            error: function()
-            {}
-    });
+		$.ajax({
+				url: url,
+				type: "POST",
+				crossdomain:true,
+				headers: {'X-CSRF-Token': $('meta[name=""]').attr('content')},
+				data:  postData,
+				beforeSend: function(){$("#overlay").show();},
+				success: function(data){
+					$("#mailbodycontent").removeClass();
+					//$('#addisbn_form')[0].reset();
+					$('#isbn').val('');
+					//$('#queryfrm').modal('hide');
+					$("#pmjobIDlist").html(data['message']);
+					$(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
+
+					getjobID();
+					// $('#createisbnfrm').toggle(500);
+					// $('.mark-as-generic').hide();
+					$('#btnannatorcompleted').show();
+					return false;
+				},
+				error: function()
+				{}
+		});
+
+	}
+
 }
 
 function saveisbntodb(){

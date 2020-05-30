@@ -244,6 +244,47 @@ class JobController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @return json response
+     */
+    public function annotatorJobAdd(Request $request)
+    {
+
+        $returnResponse = [];
+
+        try {
+
+            $request->merge(['title' => Config::get('constants.generic_job_title')]);
+            $request->merge(['pmbot_type' => Config::get('constants.generic_job_type')]);
+            $request->merge(['pm_empcode' => auth()->user()->empcode]);
+            $request->merge(['am_empcode' => Config::get('constants.job_add_am_empcode')]);
+            $request->merge(['am_empname' => Config::get('constants.job_add_am_empname')]);
+            // $request->merge(['stage' => 's5']);
+            $request->merge(['status' => Config::get('constants.job_add_status')]);
+
+            if ($request->womat_job_id) {
+
+                $request->merge(['isbn' => $request->womat_job_id]);
+                $request->merge(['e_isbn' => $request->womat_job_id]);
+                // $request->merge(['start_time' => date('yy-m-d H:i:s')]);
+            }
+
+            $returnResponse = $this->jobResource->annotatorJobAdd($request);
+
+        } catch (Exeception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        return json_encode($returnResponse);
+
+    }
+
+    /**
      * Show the job detail.
      *
      * @return \Illuminate\Contracts\Support\Renderable
@@ -287,24 +328,26 @@ class JobController extends Controller
             return json_encode($returnResponse);
         }
 
+        if (!isset($returnResponse["data"]) || !is_array($returnResponse["data"])) {
 
-        if (isset($returnResponse['data'])) {
-
-            $responseData = $returnResponse;
-			
-			if($responseData['data']['pm_empcode'] != auth()->user()->empcode && $responseData['data']['am_empcode'] != auth()->user()->empcode){
-			
-				return view('errors.error401');
-			
-			}
-			
-            // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($returnResponse);echo '<PRE/>';exit;
-            // $responseData['data']["task"] = $this->taskResource->getTaskList($field);
-
+            return view('errors.error404');
 
         }
 
-        // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($responseData);echo '<PRE/>';exit;
+        if (isset($returnResponse['data']) && is_array($returnResponse['data'])) {
+
+            $responseData = $returnResponse;
+
+			if($responseData['data']['pm_empcode'] != auth()->user()->empcode && $responseData['data']['am_empcode'] != auth()->user()->empcode){
+
+				return view('errors.error401');
+
+			}
+
+            // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($returnResponse);echo '<PRE/>';exit;
+            // $responseData['data']["task"] = $this->taskResource->getTaskList($field);
+
+        }
 
         return view("pages.job.jobDetail", compact("responseData"));
 

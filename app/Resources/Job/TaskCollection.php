@@ -294,9 +294,9 @@ class TaskCollection
             $url = $this->taskByFieldApiUrl;
 
             $responseData = $this->postRequest($url, $field);
-			
-			
-	
+
+
+
 
             if (isset($responseData["success"]) && $responseData["success"] == "true" && isset($responseData["data"]) && count($responseData["data"]) > 0) {
 
@@ -304,19 +304,19 @@ class TaskCollection
                 // $responseData["data"]["email_title"] = 'FW: Ourania Gouseti et al. (Eds): Interdisciplinary Approaches to Food Dgfdhgfhgfjhfjfhjfh...';
 
                 if (isset($responseData["data"]["email_id"]) && $responseData["data"]["email_id"] != "") {
-					
+
 		            $emailViewUrl = $this->emailAnnotatorBaseUrl;
-					
+
 					$emailViewUrl = $emailViewUrl . "/id/" . $responseData["data"]["email_id"];
-					
+
 
                     if (isset($responseData["data"]["email_title"]) && $responseData["data"]["email_title"] != "") {
 
                         $responseData["data"]['task_email_title_link'] = '<a class="btn-link" target="_blank" href="' . $emailViewUrl . '">' . mb_strimwidth($responseData["data"]["email_title"], 0, 65, "...") . '</a>';
                     }
                 }
-				
-		
+
+
                 if (isset($responseData["data"]["assingees"]) && is_array($responseData["data"]["assingees"]) && count($responseData["data"]["assingees"]) > 0) {
 
                     $assigness = $responseData["data"]["assingees"];
@@ -372,7 +372,7 @@ class TaskCollection
 
                 $returnResponse = $responseData["data"];
 
-		
+
 
 
                 cache()->forget($returnResponse["task_id"]);
@@ -1225,9 +1225,9 @@ class TaskCollection
                 $partialcomplete = "false";
 
                 $typeSuffix = "";
-				
+
 				//$jobViewUrl = route(__("job.job_detail_url"), $item["job_id"]);
-			
+
 
                 // $jobResponse = $jobResource->getJobByParam(["job_id" => $item["job_id"]]);
 
@@ -1302,6 +1302,12 @@ class TaskCollection
                 if (isset($item["email_id"]) && $item["email_id"] != "") {
 
                     $typeSuffix = "(email)";
+
+                }
+
+                if (isset($item["pmbot_type"]) && $item["pmbot_type"] == "generic") {
+
+                    $typeSuffix = "(generic)";
 
                 }
 

@@ -175,6 +175,105 @@ $(document).on('click', '.remove-task-user-tab', function(e) {
 
 });
 
+$(document).on('change', '.task-job-select', function(e) {
+
+    var selectedJob = $('.task-job-select option:selected').select2().text();
+
+    if (selectedJob != undefined && selectedJob != 'pmbot_generic') {
+
+        $('.genericJob').prop('checked', false);
+
+    }
+
+});
+
+$(document).on('click', '.genericJob', function(e) {
+
+    if ($(this).prop("checked") == true) {
+
+        var jobId = 'pmbot_generic';
+
+        var existsSelected = 'false';
+
+        $('.task-job-select option').select2().each(function() {
+
+            if (this.text == jobId) {
+
+                $('.task-job-select').select2().val(this.value);
+                $('.task-job-select').select2().trigger('change');
+
+                existsSelected = 'true';
+
+                return false;
+
+            }
+
+        });
+
+        if (existsSelected == 'false') {
+
+            var postUrl = $('.genericJob').attr('data-generic-job-add-url');
+
+            if (postUrl != undefined && postUrl != '') {
+
+                var postData = {};
+
+                postData.womat_job_id = jobId;
+
+                var d = $.Deferred();
+
+                /* AJAX call */
+                $.ajax({
+
+                    url: postUrl,
+                    data: postData,
+                    dataType: "json",
+                    beforeSend: function() { $("#overlay").show(); },
+
+                }).done(function(response) {
+
+                    if ('success' in response && response.success == "true") {
+
+                        if ('data' in response) {
+
+                            if ('job_id' in response.data && 'womat_job_id' in response.data) {
+
+                                $('.task-job-select').append(new Option(response.data.womat_job_id, response.data.job_id, true, true));
+
+                                $('.task-job-select').select2().val(response.data.job_id);
+                                $('.task-job-select').select2().trigger('click');
+
+                            }
+
+                        }
+
+                    }
+
+                    if (response.success == "false") {
+
+                        d.resolve();
+
+                    }
+
+                });
+
+                return d.promise();
+
+            }
+
+        }
+
+    }
+
+    if ($(this).prop("checked") == false) {
+
+        $('.task-job-select').select2().val(null);
+        $('.task-job-select').select2().trigger('change');
+
+    }
+
+});
+
 $(document).on('click', '#multipleTaskAssignee', function(e) {
 
     if ($(this).prop("checked") == true) {
