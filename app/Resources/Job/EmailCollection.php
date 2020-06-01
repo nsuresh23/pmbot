@@ -30,6 +30,7 @@ class EmailCollection
 	protected $draftemailSendApiUrl;
     protected $pmsEmailCountApiUrl;
     protected $emailAnnotatorBaseUrl;
+    protected $emailStatusUpdateUrl;
 
     public function __construct()
     {
@@ -42,6 +43,7 @@ class EmailCollection
         $this->emailListApiUrl       = env('API_EMAIL_BOX_LIST_URL');
         $this->pmsEmailCountApiUrl   = env('API_PMS_EMAIL_COUNT_URL');
         $this->emailAnnotatorBaseUrl = env("EMAIL_ANNOTATOR_BASE_URL");
+        $this->emailStatusUpdateUrl = env("API_EMAIL_STATUS_UPDATE_URL");
     }
 
     /**
@@ -171,6 +173,70 @@ class EmailCollection
 
                         }
                     }
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
+     * Update the email status based on email field array.
+     *
+     * @return array $returnResponse
+     */
+    public function emailStatusUpdate($request)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // validate
+            // read more on validation at http://laravel.com/docs/validation
+            $rules = array(
+                'id'        => 'required',
+                'status'    => 'required',
+                'type'      => 'required'
+            );
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+
+                $returnResponse["error"] = "true";
+                $returnResponse["message"] = "Update failed";
+            } else {
+
+                $paramInfo = $request->all();
+
+                $url = $this->emailStatusUpdateUrl;
+
+                $returnData = $this->postRequest($url, $paramInfo);
+
+                if (isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["message"] = "Update successfull";
+                } else {
+
+                    $returnResponse["error"] = "true";
+                    $returnResponse["message"] = "Update unsuccessfull";
                 }
             }
         } catch (Exception $e) {

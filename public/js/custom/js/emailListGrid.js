@@ -739,6 +739,70 @@ $(document).on('click', '.amEmailListTab', function() {
 
 });*/
 
+$(document).on('click', '.non-business-unmark-btn', function(e) {
+
+    e.preventDefault();
+
+    var emailPostData = {};
+
+    var postUrl = $(this).attr('data-email-status-update-url');
+    var emailId = $('.email-title').attr('data-email-id');
+
+    if (emailId != undefined && emailId != '' && postUrl != undefined && postUrl != '') {
+
+        emailPostData.id = emailId;
+        emailPostData.type = 'pmbot';
+        emailPostData.status = '0';
+
+        var type = 'error';
+
+        var message = '';
+
+        var d = $.Deferred();
+
+        // AJAX call to email status update
+        $.ajax({
+
+            url: postUrl,
+            data: emailPostData,
+            dataType: "json"
+
+        }).done(function(response) {
+
+            if (response.success == "true") {
+
+                type = 'success';
+
+            } else {
+
+                type = 'error';
+
+                d.resolve();
+
+            }
+
+            if (response.message != undefined && response.message != '') {
+
+                message = response.message;
+
+            }
+
+            flashMessage(type, message);
+
+            if (response.redirectTo != undefined && response.redirectTo != '') {
+
+                window.location = response.redirectTo;
+
+            }
+
+        });
+
+        return d.promise();
+
+    }
+
+});
+
 $(document).on('click', '.pmbot-email-item', function(e) {
 
     e.preventDefault();
@@ -754,6 +818,8 @@ $(document).on('click', '.pmbot-email-item', function(e) {
         emailItemPostData.view = '1';
 
         $('.email-title').attr('data-email-id', '');
+
+        $('.non-business-unmark-btn-block').hide();
 
         $('.email-annotator-link').attr('href', 'javascript:void(0);');
         $('.email-annotator-link-block').hide();
@@ -825,6 +891,12 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
                             $('.email-button-group').hide();
                             $('.email-draftbutton-group').show();
+
+                        }
+
+                        if (response.data.type != undefined && response.data.type == 'non_pmbot') {
+
+                            $('.non-business-unmark-btn-block').show();
 
                         }
 

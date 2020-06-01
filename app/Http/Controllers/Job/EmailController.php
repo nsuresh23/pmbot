@@ -138,6 +138,42 @@ class EmailController extends Controller
     }
 
     /**
+     * Update email status in email table by email id.
+     *
+     * @return json returnResponse
+     */
+    public function emailStatusUpdate(Request $request)
+    {
+
+        $returnResponse = [];
+
+        $redirectRouteAction = "";
+
+        try {
+
+            $redirectRouteAction = $this->roleBasedDashboardRouteAction($request);
+
+            $returnResponse = $this->emailResource->emailStatusUpdate($request);
+
+        } catch (Exeception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        if ($redirectRouteAction) {
+
+            // $redirectUrl = redirect()->action($redirectRouteAction);
+            $returnResponse["redirectTo"] = route('home');
+        }
+
+        return json_encode($returnResponse);
+
+    }
+
+    /**
      * Send email.
      *
      *  @return json response

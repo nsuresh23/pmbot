@@ -1052,7 +1052,7 @@ class ApiController extends Controller
         $type                =    'non_pmbot';
         $nonbusiness_url    =    env('NONBUSINESS');
         $status                =    '3';
-        $start_time         = $_POST['start_time'];
+        $start_time         = isset($_POST['start_time'])? $_POST['start_time'] : '';
 
         // Prepare new cURL resource
         $ch = curl_init($nonbusiness_url);            //Initiate cURL.

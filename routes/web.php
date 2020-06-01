@@ -290,6 +290,7 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
 	Route::any('email-get', 'Job\EmailController@emailGet')->name('email-get');
     Route::any('pms-email-count', 'Job\EmailController@pmsEmailCount')->name('pms-email-count');
 	Route::any('get-emailid', 'Job\EmailController@emailidGet')->name('get-emailid');
+	Route::any('email-status-update', 'Job\EmailController@emailStatusUpdate')->name('email-status-update');
 
 	Route::any('job', 'Job\JobController@index')->name('job');
 

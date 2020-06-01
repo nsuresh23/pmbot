@@ -66,6 +66,7 @@
         $emailSendUrl      = route(__("job.email_send_url"));
 		$draftemailSendUrl = route(__("job.draftemail_send_url"));
         $emailGetUrl = route(__("job.email_get_url"));
+        $emailStatusUpdateUrl = route(__("job.email_status_update_url"));
 		$getEmailid   = route(__("job.get_email_id"));
 
         $nonBusinessEmailListUrl = route(__("job.email_list_url"));
