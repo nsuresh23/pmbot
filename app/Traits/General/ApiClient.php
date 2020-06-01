@@ -340,6 +340,21 @@ trait ApiClient
 
                 $returnResponse["data"] = $response["result"]["data"];
 
+                if (isset($response["result"]["result_count"]) && $response["result"]["result_count"] != "") {
+
+                    $returnResponse["result_count"] = $response["result"]["result_count"];
+                }
+
+                if (isset($response["result"]["last_updated"]) && $response["result"]["last_updated"] != "") {
+
+                    $returnResponse["last_updated"] = $response["result"]["last_updated"];
+                }
+
+                if (isset($response["result"]["unread_count"]) && $response["result"]["unread_count"] != "") {
+
+                    $returnResponse["unread_count"] = $response["result"]["unread_count"];
+                }
+
             } else {
 
                 // $returnResponse["error"] = "true";

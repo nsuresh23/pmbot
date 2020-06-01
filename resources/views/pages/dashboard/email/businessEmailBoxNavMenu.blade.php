@@ -15,7 +15,8 @@
             </a>
         </li>
         <li class="">
-            <a class="dashboard-unread-email" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);">
+            <!--<a class="dashboard-unread-email" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);">-->
+			<a class="dashboard-unread-email" data-grid-selector="businessEmailGrid" href="javascript:void(0);">
                 <i class="fa fa-envelope-square"></i>
                 {{ __("job.email_unread_mail_label") }}
                 <span class="email-inbox-unread-count label label-danger ml-10"></span>

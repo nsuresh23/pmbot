@@ -470,12 +470,26 @@ $("#groupingannotate").click(function() {
 $("#btnnonbusiness").click(function() {
 	url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/nonbusiness';
 	var associatejobid 	= $("#associatejobid").val();
+
+	var postData = {
+		"_token": "{{ csrf_token() }}",
+		'id':'<?php echo $returnData['id'];?>'
+	};
+	
+	var emailAnnotatorStartTime = '<?php echo isset($emailAnnotatorStartTime)? $emailAnnotatorStartTime : "" ?>';
+	
+	if(emailAnnotatorStartTime) {
+	
+		postData.start_time = emailAnnotatorStartTime;
+	
+	}
+
 	$.ajax({
 			url: url,
 			type: "POST",
 			crossdomain:true,
 			headers: {'X-CSRF-Token': $('meta[name=""]').attr('content')},
-			data:  {"_token": "{{ csrf_token() }}",'id':'<?php echo $returnData['id'];?>'},
+			data:  postData,
 			beforeSend: function(){$("#overlay").show();},
 			success: function(data){
 				alert('Successfully updated email belongs to Non Business category!!');

@@ -255,7 +255,8 @@ function getEmailTableList(gridSelector) {
 
     var emailFilter = '';
 
-    var status = ['0', '1'];
+    // var status = ['0', '1'];
+    var status = ['0'];
 
     emailListPostData.type = 'pmbot';
 
@@ -271,45 +272,45 @@ function getEmailTableList(gridSelector) {
 
         emailListPostData.email_type = gridCategory;
 
-        if (emailFilter == 'draft') {
+        // if (emailFilter == 'draft') {
 
-            status = ['4'];
+        //     status = ['4'];
 
-        }
+        // }
 
-        if (emailFilter == 'outbox') {
+        // if (emailFilter == 'outbox') {
 
-            status = ['5'];
+        //     status = ['5'];
 
-        }
+        // }
 
-        if (emailFilter == 'sent') {
+        // if (emailFilter == 'sent') {
 
-            status = ['6'];
+        //     status = ['6'];
 
-        }
+        // }
 
         if (gridCategory == 'nonBusinessEmail') {
 
             status = ['3'];
 
-            // if (emailFilter == 'draft') {
+            if (emailFilter == 'draft') {
 
-            //     status = ['4'];
+                status = ['4'];
 
-            // }
+            }
 
-            // if (emailFilter == 'outbox') {
+            if (emailFilter == 'outbox') {
 
-            //     status = ['5'];
+                status = ['5'];
 
-            // }
+            }
 
-            // if (emailFilter == 'sent') {
+            if (emailFilter == 'sent') {
 
-            //     status = ['6'];
+                status = ['6'];
 
-            // }
+            }
 
             emailListPostData.type = 'non_pmbot';
 
@@ -318,6 +319,24 @@ function getEmailTableList(gridSelector) {
         if (gridCategory == 'businessEmail') {
 
             status = ['1'];
+
+            if (emailFilter == 'draft') {
+
+                status = ['4'];
+
+            }
+
+            if (emailFilter == 'outbox') {
+
+                status = ['5'];
+
+            }
+
+            if (emailFilter == 'sent') {
+
+                status = ['6'];
+
+            }
 
             emailListPostData.type = 'generic';
 
@@ -411,13 +430,17 @@ function getEmailTableList(gridSelector) {
 
                 var unreadCount = response.unread_count;
 
-                if (parseInt(unreadCount) != NaN && parseInt(unreadCount) > 99) {
+                if (parseInt(unreadCount) != NaN && parseInt(unreadCount) > 0) {
 
-                    unreadCount = '99+'
+                    if (parseInt(unreadCount) > 99) {
+
+                        unreadCount = '99+'
+
+                    }
+
+                    $('.email-inbox-unread-count').html(unreadCount);
 
                 }
-
-                $('.email-inbox-unread-count').html(unreadCount);
 
             }
 
@@ -1887,7 +1910,38 @@ $('.myEmailGrid .jsgrid-grid-body').slimscroll({
 $('.pmsEmailCountGrid .jsgrid-grid-body').slimscroll({
     height: '520px',
 });
+$(document).on("click", function(event) {
+    var $composeto = $(".composetolist");
+    var $composecc = $(".composecclist");
+    var $composebcc = $(".composebcclist");
+    var $replyeto = $(".replytolist");
+    var $replycc = $(".replycclist");
+    var $draftto = $(".drafttolist");
+    var $draftcc = $(".draftcclist");
 
+
+    if ($composeto !== event.target && !$composeto.has(event.target).length) {
+        $(".composetolist").empty();
+    }
+    if ($composecc !== event.target && !$composecc.has(event.target).length) {
+        $(".composecclist").empty();
+    }
+    if ($composebcc !== event.target && !$composebcc.has(event.target).length) {
+        $(".composebcclist").empty();
+    }
+    if ($replyeto !== event.target && !$replyeto.has(event.target).length) {
+        $(".replytolist").empty();
+    }
+    if ($replycc !== event.target && !$replycc.has(event.target).length) {
+        $(".replycclist").empty();
+    }
+    if ($draftto !== event.target && !$draftto.has(event.target).length) {
+        $(".drafttolist").empty();
+    }
+    if ($draftcc !== event.target && !$draftcc.has(event.target).length) {
+        $(".draftcclist").empty();
+    }
+});
 
 /*
 var submitTextArea = document.getElementById("to");

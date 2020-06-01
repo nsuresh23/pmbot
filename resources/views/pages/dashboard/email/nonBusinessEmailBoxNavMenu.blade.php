@@ -3,9 +3,6 @@
 		<a href="#emailSendModal" data-toggle="modal" title="Compose" class="btn btn-success btn-block email-compose-btn">
             {{ __("job.email_compose_label") }}
         </a>
-        @include('pages.email.composeModal')
-		@include('pages.email.replyModal')
-		@include('pages.email.draftModal')
     </div>
     <ul class="inbox-nav mb-30">
         <li class="active">

@@ -450,11 +450,11 @@ class ApiController extends Controller
 
                     }
 
-                    if ($isGeneric == "true") {
+                    // if ($isGeneric == "true") {
 
-                        $jsonData["pmbot_type"] = "generic";
+                    //     $jsonData["pmbot_type"] = "generic";
 
-                    }
+                    // }
 
                     $jsonDataEncoded = json_encode($jsonData);
 
@@ -487,12 +487,12 @@ class ApiController extends Controller
                 'status' => '2',
             );
 
-            if($isGeneric == "true" ) {
+            // if($isGeneric == "true" ) {
 
-                $jsonData["status"] = '1';
-                $jsonData["type"] = 'generic';
+            //     // $jsonData["status"] = '1';
+            //     // $jsonData["type"] = 'generic';
 
-            }
+            // }
 
             if ($start_time != "") {
 

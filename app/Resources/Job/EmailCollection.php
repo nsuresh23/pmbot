@@ -64,11 +64,10 @@ class EmailCollection
 
             $responseData = $this->postRequest($url, []);
 
+            
             if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
-
+                
                 $responseData = $this->pmsEmailCountFormatData($responseData["data"]);
-
-                $responseData = $responseData["data"];
 
                 if ($responseData) {
 
@@ -114,18 +113,19 @@ class EmailCollection
 
         try {
 
+            $responseData = [];
+
             $url = $this->emailListApiUrl;
 
-            $responseData = $this->postRequest($url, $field);
+            $returnResponseData = $this->postRequest($url, $field);
 
-            if ($responseData["success"] == "true") {
+            if ($returnResponseData["success"] == "true") {
 
                 $returnResponse["success"] = "true";
 
+                if (is_array($returnResponseData["data"]) && count($returnResponseData["data"]) > 0 && $returnResponseData["data"] != "") {
 
-                if (is_array($responseData["data"]) && count($responseData["data"]) > 0 && $responseData["data"] != "") {
-
-                    $responseData = $this->formatData($responseData["data"], $field);
+                    $responseData = $this->formatData($returnResponseData["data"], $field);
 
                     if ($responseData) {
 
@@ -137,12 +137,30 @@ class EmailCollection
 
                             $returnResponse["result_count"] = count($responseData);
 
-                            if(!isset($returnResponse["last_updated"]) || $returnResponse["last_updated"] == "") {
+                            if (!isset($returnResponseData["last_updated"]) || $returnResponseData["last_updated"] == "") {
 
                                 $date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
                                 $lastUpdated =  $date->format('y/m/d h:i:s A');
 
                                 $returnResponse["last_updated"] = $lastUpdated;
+
+                            }
+
+                            if (isset($returnResponseData["result_count"]) && $returnResponseData["result_count"] != "") {
+
+                                $returnResponse["result_count"] = $returnResponseData["result_count"];
+
+                            }
+
+                            if (isset($returnResponseData["last_updated"]) && $returnResponseData["last_updated"] != "") {
+
+                                $returnResponse["last_updated"] = $returnResponseData["last_updated"];
+
+                            }
+
+                            if (isset($returnResponseData["unread_count"]) && $returnResponseData["unread_count"] != "") {
+
+                                $returnResponse["unread_count"] = $returnResponseData["unread_count"];
 
                             }
 
@@ -153,7 +171,6 @@ class EmailCollection
 
                         }
                     }
-
                 }
             }
         } catch (Exception $e) {
@@ -163,8 +180,8 @@ class EmailCollection
             $this->error(
                 "app_error_log_" . date('Y-m-d'),
                 " => FILE => " . __FILE__ . " => " .
-                    " => LINE => " . __LINE__ . " => " .
-                    " => MESSAGE => " . $e->getMessage() . " "
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
             );
         }
 

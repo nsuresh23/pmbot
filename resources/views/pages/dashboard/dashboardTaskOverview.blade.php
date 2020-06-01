@@ -50,16 +50,16 @@
 
                             <?php } ?>
 
-                            <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+                            <?php //if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
-                                <li class="" role="presentation">
+                                {{-- <li class="" role="presentation">
                                     <a aria-expanded="true" data-toggle="tab" role="tab" id="businessEmailsTab" class="capitalize-font"
                                         href="#businessEmails">
                                         {{ __('dashboard.business_emails_tab_label') }}
                                     </a>
-                                </li>
+                                </li> --}}
 
-                            <?php } ?>
+                            <?php //} ?>
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
@@ -168,15 +168,15 @@
 
                             <?php } ?>
 
-                            <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+                            <?php //if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
-                                <div id="businessEmails" class="businessEmails tab-pane fade" role="tabpanel">
+                                {{-- <div id="businessEmails" class="businessEmails tab-pane fade" role="tabpanel">
 
                                     @include('pages.dashboard.email.dashboardBusinessEmails')
 
-                                </div>
+                                </div> --}}
 
-                            <?php } ?>
+                            <?php //} ?>
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
@@ -196,3 +196,6 @@
     </div>
 </div>
 <!-- /Row -->
+@include('pages.email.composeModal')
+@include('pages.email.replyModal')
+@include('pages.email.draftModal')
