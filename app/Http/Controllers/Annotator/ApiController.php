@@ -407,7 +407,7 @@ class ApiController extends Controller
                             "stage" => $completedlist->stage,
                             "job_id" => $completedlist->jobid,
                             "email_id"  => $completedlist->page_id,
-                            "category" => "medium",
+                            "category" => "high",
                             "assignedto_empcode" => $completedlist->createdempcode,
                             "users" => $taskassignuser,
                             "title" => base64_encode($completedlist->tasktitle),
@@ -429,7 +429,7 @@ class ApiController extends Controller
                             "stage" => $completedlist->stage,
                             "job_id" => $completedlist->jobid,
                             "email_id"  => $completedlist->page_id,
-                            "category" => "medium",
+                            "category" => "high",
                             "assignedto_empcode" => $completedlist->userid,
                             "title" => base64_encode($completedlist->tasktitle),
                             "description" => base64_encode($completedlist->taskdescription),
@@ -441,6 +441,14 @@ class ApiController extends Controller
                             "status" => "progress",
                             "type" => "task"
                         );
+                    }
+
+                    $categoryFollowupTimeList = Config::get('constants.taskCategoryFollowupTime');
+
+                    if(isset($jsonData["category"]) && is_array($categoryFollowupTimeList) && isset($categoryFollowupTimeList[$jsonData["category"]])) {
+
+                        $jsonData["followup_date"] = date("Y-m-d H:i:s", strtotime("+" . $categoryFollowupTimeList[$jsonData["category"]] . " hour", strtotime(date("Y-m-d H:i:s"))));
+
                     }
 
                     if ($start_time != "") {
@@ -957,14 +965,15 @@ class ApiController extends Controller
         $json_data_decoded = json_decode($result, true);
         $output =    array();
 
-
-
         $output['title']         = @$json_data_decoded['result']['data'][0]['title'];
         $output['description']     = @$json_data_decoded['result']['data'][0]['description'];
+        $output['assignedto_empcode']     = @$json_data_decoded['result']['data'][0]['assignedto_empcode'];
+
 
         if ($output['title'] == '' && $output['description'] == '') {
             $output['title'] = '';
             $output['description'] = '';
+            $output['assignedto_empcode'] = '';
         }
         //$output = json_encode($output);
         return response()->json([$output]);

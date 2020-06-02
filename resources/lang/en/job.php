@@ -65,6 +65,9 @@ return [
     'job_project_manager_placeholder_text' => 'Select project manager',
     'job_isbn_label' => 'isbn',
     'job_isbn_placeholder_text' => 'Enter ISBN',
+    'job_workflow_label' => 'workflow',
+    'job_workflow_placeholder_text' => 'select workflow',
+    'job_default_workflow_text' => '',
     'job_location_label' => 'location',
     'job_location_placeholder_text' => 'Select location',
     'job_due_date_label' => 'Due date',
@@ -76,6 +79,7 @@ return [
 
     'job_project_manager_error_msg' => 'required',
     'job_due_date_error_msg' => 'required',
+    'job_workflow_error_msg' => 'required',
 
     /* job detail page */
 

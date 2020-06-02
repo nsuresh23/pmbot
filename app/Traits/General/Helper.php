@@ -185,7 +185,7 @@ trait Helper
 
         if (in_array($item["tablename"], Config::get("constants.jobHistory.changedTables"))) {
 
-            $returnData .= ' changed the ' . $item["field_value"] . ' from ' . $item["original_value"] . ' to ' . $item["modified_value"];
+            $returnData .= ' changed the ' . $item["field_value"] . ' from ' . htmlspecialchars($item["original_value"]) . ' to ' . htmlspecialchars($item["modified_value"]);
         }
 
         $returnData .= '</span>';
@@ -204,7 +204,7 @@ trait Helper
 
             // }
 
-            $title = $item["title"];
+            $title = htmlspecialchars($item["title"]);
 
             $returnData .= ' ' . $title;
 
@@ -216,7 +216,7 @@ trait Helper
 
                 $returnData .= '<span>';
 
-                $additionalNote = $item["additional_note"];
+                $additionalNote = htmlspecialchars($item["additional_note"]);
 
                 $returnData .= ' ' . $additionalNote;
 
@@ -228,7 +228,7 @@ trait Helper
 
                 $returnData .= '<p>';
 
-                $attachmentPath = $item["attachment_path"];
+                $attachmentPath = htmlspecialchars($item["attachment_path"]);
 
                 $returnData .= ' ' . $attachmentPath;
 

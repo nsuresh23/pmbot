@@ -50,6 +50,18 @@
 
                             <?php } ?>
 
+                            <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+                            
+                                <li class="" role="presentation">
+                                    <a aria-expanded="false" title="Add this item" data-toggle="modal" role="tab" id="genericJobsTab" class="capitalize-font job-list"
+                                        data-type="{{ __('dashboard.generic_job_text') }}"
+                                        data-count="1">
+                                        {{ __('dashboard.generic_jobs_tab_label') }}
+                                    </a>
+                                </li>
+                            
+                            <?php } ?>
+
                             <?php //if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
                                 {{-- <li class="" role="presentation">

@@ -270,6 +270,16 @@ $(function() {
 
         if (count > 0) {
 
+            var jobModalTitleElement = $('.job-list-modal-title').attr('class');
+
+            if (jobModalTitleElement != undefined && jobModalTitleElement != '') {
+
+                var jobModalTitle = status + ' job list';
+
+                $('.job-list-modal-title').text(jobModalTitle);
+
+            }
+
             getJobList(selector, stage, status, gridType, getUrl, jobDetailUrl);
 
         }

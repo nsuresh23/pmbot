@@ -415,7 +415,7 @@ class TaskCollection
             $rules = array(
                 'task_id'       => 'required',
                 // 'job_id'       => 'required',
-                'stage'       => 'required',
+                // 'stage'       => 'required',
                 'title'       => 'required',
                 'category'       => 'required',
                 // 'status'       => 'required',

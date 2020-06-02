@@ -152,7 +152,7 @@ $(function() {
 
                     var rowClassName = 'parent-task-row';
 
-                    if (item.parent_task_id != undefined && item.parent_task_id != 'null' && item.parent_task_id != '') {
+                    if (item.parent_task_id != undefined && item.parent_task_id != 'null' && item.parent_task_id != '' && item.parent_task_id != '0') {
 
                         rowClassName = 'sub-task-row';
 

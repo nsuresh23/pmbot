@@ -262,7 +262,7 @@
                                                                     $returnData["stage_list"], $selectedStage,
                                                                     ['class' =>
                                                                     'form-control select2 '.$checkField,
-                                                                    'required']) !!}
+                                                                    ]) !!}
                                                                     <div class="help-block with-errors"></div>
                                                                 </div>
                                                             </div>
@@ -290,6 +290,7 @@
                                                                     $returnData["job_list"],
                                                                     $selectedJobId, [
                                                                     'class' => 'form-control select2 task-job-select'. $checkField,
+                                                                    'required'
                                                                     ]) !!}
                                                                     <div class="help-block with-errors"></div>
                                                                 </div>

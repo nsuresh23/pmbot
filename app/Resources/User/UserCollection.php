@@ -121,7 +121,7 @@ class UserCollection
 
             $responseData = $this->postRequest($url, $field);
 
-            if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
+            if ($responseData["success"] == "true" && isset($responseData["data"]) && is_array($responseData["data"]) && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
                 $responseData = $this->formatUserActivityData($responseData["data"]);
 

@@ -113,6 +113,8 @@ class DashboardController extends Controller
 
             $returnResponse["user_list"] = $this->userResource->getPMUsers();
 
+            $returnResponse["workflow_list"] = $this->jobResource->getWorkflowList($request);
+
             $returnResponse["location_list"] = Config::get('constants.locationList');
 
 

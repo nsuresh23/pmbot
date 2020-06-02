@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h5 class="modal-title" id="myLargeModalLabel">{{ __('job.job_list_label') }}</h5>
+                <h5 class="modal-title job-list-modal-title capitalize-font" id="myLargeModalLabel">{{ __('job.job_list_label') }}</h5>
             </div>
         <div class="modal-body pa-0 pl-5 pr-5 list-modal-body">
 

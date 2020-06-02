@@ -56,6 +56,8 @@ return [
     'new_job_text' => 'new',
     'jobs_in_hand_label' => 'Jobs in hand',
     'in_hand_job_text' => 'inhand',
+    'generic_jobs_tab_label' => 'Generic jobs',
+    'generic_job_text' => 'generic',
     'appreciation_job_label' => 'appreciation',
     'appreciation_job_text' => 'appreciation',
     'escalation_job_label' => 'Escalation',

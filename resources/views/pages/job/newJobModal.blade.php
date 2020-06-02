@@ -14,12 +14,30 @@
                                 <input type="hidden" id="redirectTo" name="redirectTo" value="{{$redirectTo ?? '#'}}">
                                 <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
                                 <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                         <div class="form-group">
-                                            <label class="col-lg-2 control-label uppercase-font">{{__("job.job_isbn_label")}}</label>
-                                            <div class="col-lg-10">
-                                                <input type="text" id="womat_job_id" name="womat_job_id" class="form-control job-isbn" value="{{ $returnResponse["data"]["isbn"] ?? '' }}"
-                                                    placeholder="{{ __('job.job_isbn_placeholder_text') }}" data-error="{{ __('job.job_isbn_error_msg') }}" required/>
+                                            <label class="col-lg-4 control-label uppercase-font">{{__("job.job_isbn_label")}}</label>
+                                            <div class="col-lg-8 pl-20">
+                                                <input type="text" id="womat_job_id" name="womat_job_id" class="form-control job-isbn"
+                                                    value="{{ $returnResponse["data"]["isbn"] ?? '' }}"
+                                                    placeholder="{{ __('job.job_isbn_placeholder_text') }}" data-error="{{ __('job.job_isbn_error_msg') }}"
+                                                    required />
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">{{ __('job.job_workflow_label') }}</label>
+                                            <div class="col-lg-8">
+                                                {!! Form::select('workflow_version', [ null =>
+                                                __('job.job_workflow_placeholder_text') ] +
+                                                $returnResponse["workflow_list"],
+                                                null,
+                                                ['class' =>
+                                                'form-control select2',
+                                                'data-error' => __('job.job_workflow_error_msg'),
+                                                'required']) !!}
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>

@@ -43,7 +43,7 @@
                                 $returnData["stage_list"], $selectedStage,
                                 ['class' =>
                                 'form-control select2 checkField',
-                                'previous_value' => $selectedStage, 'required']) !!}
+                                'previous_value' => $selectedStage]) !!}
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>

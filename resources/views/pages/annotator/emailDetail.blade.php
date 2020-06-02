@@ -357,17 +357,22 @@ function gettaskval(sel){
 			var insertText = $('#taskdescription').val();
 			var oldtasktitle = data[0]['title'];
 			var oldtaskdescription = data[0]['description']+' '+ insertText;
+			var oldAssignedtoEmpcode = data[0]['assignedto_empcode'];
 			if(data[0]['title'] =='' && data[0]['description'] ==''){
 				$('input[id=newtasktitle]').attr('value','');
 				$('input[id=newtasktitle]').removeAttr('disabled');
 				$("textarea[id=taskdescription]").text('');
 				$('textarea[id=taskdescription]').removeAttr('disabled');
+				$('#multi-select-user-newtask').select2().val('').trigger('change');
+				$('#multi-select-user-newtask').removeAttr('disabled');
 			} else {
 				$('input[id=newtasktitle]').attr('value',oldtasktitle);
 				$('input[id=newtasktitle]').prop('disabled','disabled');
 				$("textarea#taskdescription").text(oldtaskdescription);
 				$('textarea[id=taskdescription]').prop('disabled','disabled');
 				$("textarea#newtasknotes").text(insertText);
+				$('#multi-select-user-newtask').select2().val(oldAssignedtoEmpcode).trigger('change');
+				$('#multi-select-user-newtask').prop('disabled','disabled');
 			}
 		},
 		error: function()
