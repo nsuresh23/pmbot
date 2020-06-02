@@ -544,13 +544,20 @@
                             .emailGrid .label {
                                 border-radius: 1em !important;
                             }
-							
-							.email-attachment-item-block {
+                            
+                            .email-attachment-item-block {
                                 border: gray solid 1px;
                                 padding: 0.3em;
                             }
- 
+                            
                             .email-attachment-item-name {
                                 vertical-align: top;
                                 font-size: 0.8em;
+                            }
+                            
+                            .updated-flag {
+                                color: #e32;
+                                position: relative;
+                                bottom: 5px;
+                                padding-left: 2px;
                             }

@@ -1224,7 +1224,7 @@ class TaskCollection
 
                 $partialcomplete = "false";
 
-                $typeSuffix = "";
+                $typeSuffix = $isUpdatedFlag = "";
 
 				//$jobViewUrl = route(__("job.job_detail_url"), $item["job_id"]);
 
@@ -1318,7 +1318,13 @@ class TaskCollection
 
                 }
 
-                $item['title'] = '<a class="btn-link" href="' . $taskViewUrl . '">' . mb_strimwidth($item["title"], 0, 50, "...") . '</a>';
+                if (isset($item["is_updated"]) && $item["is_updated"] == "1") {
+
+                    $isUpdatedFlag = '<i class="fa fa-info-circle updated-flag"></i>';
+
+                }
+
+                $item['title'] = '<a class="btn-link" href="' . $taskViewUrl . '">' . mb_strimwidth($item["title"], 0, 50, "...") . $isUpdatedFlag .'</a>';
 
                 // }
 
