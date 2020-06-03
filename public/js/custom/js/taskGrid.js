@@ -131,6 +131,7 @@ $(function() {
                                 (!filter.type || client.type.indexOf(filter.type) > -1) &&
                                 (!filter.assignedto_empname || client.assignedto_empname.indexOf(filter.assignedto_empname) > -1) &&
                                 (!filter.createdby_empname || client.createdby_empname.indexOf(filter.createdby_empname) > -1) &&
+                                (!filter.followup_date || client.followup_date.indexOf(filter.followup_date) > -1) &&
                                 (!filter.status || client.status.indexOf(filter.status) > -1) &&
                                 (!filter.stage || client.stage.indexOf(filter.stage) > -1) &&
                                 (!filter.category || client.category.indexOf(filter.category) > -1) &&
@@ -311,6 +312,13 @@ $(function() {
             });
 
         }
+
+        field.push({
+            title: "DUE DATE",
+            name: "followup_date",
+            type: "text",
+            // width: 50
+        });
 
         if (gridType == 'dashboard') {
 
@@ -623,6 +631,8 @@ $(function() {
         });
 
         var taskListPostData = {};
+
+        $(gridSelector).parent().prev().find('.result-count').html('');
 
         // if (gridType == 'dashboard') {
 

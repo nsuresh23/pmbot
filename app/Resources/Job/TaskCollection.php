@@ -1326,6 +1326,12 @@ class TaskCollection
 
                 $item['title'] = '<a class="btn-link" href="' . $taskViewUrl . '">' . mb_strimwidth($item["title"], 0, 50, "...") . $isUpdatedFlag .'</a>';
 
+                if (isset($item["followup_date"]) && $item["followup_date"] != "") {
+
+                    $item["followup_date"] = date("y/m/d H:i:s", strtotime($item["followup_date"]));
+
+                }
+
                 // }
 
                 // $item['diary_view'] = $this->diaryView($item);

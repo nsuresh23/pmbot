@@ -185,7 +185,8 @@ trait Helper
 
         if (in_array($item["tablename"], Config::get("constants.jobHistory.changedTables"))) {
 
-            $returnData .= ' changed the ' . $item["field_value"] . ' from ' . htmlspecialchars($item["original_value"]) . ' to ' . htmlspecialchars($item["modified_value"]);
+            // $returnData .= ' changed the ' . $item["field_value"] . ' from ' . htmlspecialchars($item["original_value"]) . ' to ' . htmlspecialchars($item["modified_value"]);
+            $returnData .= ' changed the ' . $item["field_value"] . ' from ' . strip_tags($item["original_value"]) . ' to ' . strip_tags($item["modified_value"]);
         }
 
         $returnData .= '</span>';
@@ -204,7 +205,8 @@ trait Helper
 
             // }
 
-            $title = htmlspecialchars($item["title"]);
+            // $title = htmlspecialchars($item["title"]);
+            $title = strip_tags($item["title"]);
 
             $returnData .= ' ' . $title;
 
@@ -216,7 +218,9 @@ trait Helper
 
                 $returnData .= '<span>';
 
-                $additionalNote = htmlspecialchars($item["additional_note"]);
+                // $additionalNote = htmlspecialchars($item["additional_note"]);
+                $additionalNote = strip_tags($item["additional_note"]);
+                $additionalNote = $item["additional_note"];
 
                 $returnData .= ' ' . $additionalNote;
 
@@ -228,7 +232,9 @@ trait Helper
 
                 $returnData .= '<p>';
 
-                $attachmentPath = htmlspecialchars($item["attachment_path"]);
+                // $attachmentPath = htmlspecialchars($item["attachment_path"]);
+                $attachmentPath = strip_tags($item["attachment_path"]);
+                $attachmentPath = $item["attachment_path"];
 
                 $returnData .= ' ' . $attachmentPath;
 
@@ -253,19 +259,228 @@ trait Helper
 
     }
 
-    public function userActiondiaryView($item)
+    /**
+     * format job diary view.
+     *
+     * @return array $item
+     */
+
+    public function jobDiaryView($item)
     {
 
-        $eventMessage = "";
+        $eventMessage = $actionTypePrefixText = "";
         $actionItemUrl = $jobUrl = "#";
 
         if (isset($item["action_item"]) && $item["action_item"] != "") {
 
-            if ($item["action_item"] == "task" && !isset($item["job_id"]) || $item["job_id"] == "" || $item["job_id"] == null) {
+            if ($item["action_item"] == "task" && (!isset($item["job_id"]) || $item["job_id"] == "" || $item["job_id"] == null)) {
 
-                $eventMessage .= "Generic";
+                $actionTypePrefixText = "Generic";
+            }
+
+            if ($item["action_item"] == "email" && (!isset($item["job_id"]) || $item["job_id"] == "" || $item["job_id"] == null)) {
+
+                if (isset($item["action_type"]) && in_array($item["action_type"], ["reply", "forward", "sent"])) {
+
+                    $actionTypePrefixText = "Non-business";
+                }
+            }
+
+            // if ($item["action_item"] == "email" && !isset($item["job_id"]) || $item["job_id"] == "" || $item["job_id"] == null) {
+
+            //     $actionTypePrefixText = "Generic";
+
+            // }
+
+            $eventMessage .= $actionTypePrefixText;
+
+            $eventMessage .= '<span class="capitalize-font pl-5">';
+            $eventMessage .= ucwords($item["action_item"]);
+            $eventMessage .= '</span>';
+
+            if (isset($item[$item["action_item"] . "_title"]) && $item[$item["action_item"] . "_title"] != "") {
+
+                if ($item["action_item"] == "job") {
+
+                    $actionItemUrl = route(__("job.job_detail_url"), $item[$item["action_item"] . "_id"]);
+                }
+
+                if ($item["action_item"] == "task") {
+
+                    $actionItemUrl = route(__("job.task_view_url"), $item[$item["action_item"] . "_id"]);
+                }
+
+                if ($item["action_item"] == "checklist") {
+
+                    $actionItemUrl = route(__("job.check_list_view_url"), $item[$item["action_item"] . "_id"]);
+                }
+
+                if ($item["action_item"] == "email") {
+
+                    $actionItemUrl = route(__("job.email_view_url"), $item[$item["action_item"] . "_id"]);
+                }
+
+                $eventMessage .= " with title ";
+
+                $eventMessage .=  '<a class="btn-link" href="' . $actionItemUrl . '" target="_blank" title="' . $item[$item["action_item"] . "_title"] . '">' . mb_strimwidth($item[$item["action_item"] . "_title"], 0, 75, "...") . '</a>';
+                // $eventMessage .= '<span class="text-success">';
+                // $eventMessage .= $item[$item["action_item"] . "_title"];
+                // $eventMessage .= '</span>';
 
             }
+        }
+
+        if (isset($item["action_type"]) && $item["action_type"] != "") {
+
+            if ($item["action_type"] == "add") {
+
+                $actionTypeAddText = " was created";
+
+                if (isset($item["action_item"]) && $item["action_item"] == "email") {
+
+                    $actionTypeAddText = " was received";
+                }
+
+                $eventMessage .= $actionTypeAddText;
+            }
+
+            if ($item["action_type"] == "edit" || $item["action_type"] == "update") {
+
+                $eventMessage .= " was modified";
+            }
+
+            if ($item["action_type"] == "delete") {
+
+                $eventMessage .= " was deleted";
+            }
+
+            if ($item["action_type"] == "closed") {
+
+                $eventMessage .= " was closed";
+            }
+
+            if ($item["action_type"] == "hold") {
+
+                $eventMessage .= " on hold";
+            }
+
+            if ($item["action_type"] == "job_tagging") {
+
+                $eventMessage .= " was associated";
+            }
+
+            if ($item["action_type"] == "nb_tagging") {
+
+                $eventMessage .= " tagged as Non-Business";
+            }
+
+            if ($item["action_type"] == "reply") {
+
+                $eventMessage .= " was replied";
+            }
+
+            if ($item["action_type"] == "forward") {
+
+                $eventMessage .= " was forwarded";
+            }
+
+            if ($item["action_type"] == "sent") {
+
+                $eventMessage .= " was sent";
+            }
+
+            // if (isset($item["action_item"]) && $item["action_item"] != "job" && isset($item["job_title"]) && $item["job_title"] != "") {
+
+            //     $eventMessage .= " for Job ";
+
+            //     $jobUrl = route(__("job.job_detail_url"), $item["job_id"]);
+
+            //     $eventMessage .=  '<a class="btn-link" href="' . $jobUrl . '" target="_blank" title="' . $item["job_title"] . '">' . mb_strimwidth($item["job_title"], 0, 75, "...") . '</a>';
+
+            //     // $eventMessage .= '<span class="text-warning">';
+            //     // $eventMessage .= $item["job_title"];
+            //     // $eventMessage .= '</span>';
+
+            // }
+
+        }
+
+        if (isset($item["empcode"]) && $item["empcode"] != "") {
+
+            $eventMessage .= " by ";
+
+            $eventMessage .=  $item["empcode"];
+
+            // $eventMessage .= '<span class="text-warning">';
+            // $eventMessage .= $item["job_title"];
+            // $eventMessage .= '</span>';
+
+        }
+
+        $returnData = '<div class="sl-item">';
+
+        $returnData .= '<p>';
+
+        $returnData .= '<span class="block txt-dark font-14 pl-5">';
+        $returnData .= '<i class="fa fa-calendar grey"></i>';
+        $returnData .= '<span class="pl-5">';
+        $returnData .= date('jS F Y h:i A', strtotime($item['date_time']));
+        $returnData .= '</span>';
+
+        if ($eventMessage) {
+
+            $returnData .= '<span class="pl-5">';
+            $returnData .= $eventMessage . ".";
+            $returnData .= '</span>';
+        }
+
+        $returnData .= '</span>';
+
+        $returnData .= '</p>';
+
+        $returnData .= '</div>';
+
+        return $returnData;
+    }
+
+    /**
+     * format user action diary view.
+     *
+     * @return array $item
+     */
+
+    public function userActiondiaryView($item)
+    {
+
+        $eventMessage = $actionTypePrefixText = "" ;
+        $actionItemUrl = $jobUrl = "#";
+
+        if (isset($item["action_item"]) && $item["action_item"] != "") {
+
+            if ($item["action_item"] == "task" && (!isset($item["job_id"]) || $item["job_id"] == "" || $item["job_id"] == null)) {
+
+                $actionTypePrefixText = "Generic";
+
+            }
+
+            if ($item["action_item"] == "email" && (!isset($item["job_id"]) || $item["job_id"] == "" || $item["job_id"] == null)) {
+
+                if (isset($item["action_type"]) && in_array($item["action_type"], ["reply", "forward", "sent"])) {
+
+                    $actionTypePrefixText = "Non-business";
+
+                }
+
+
+            }
+
+            // if ($item["action_item"] == "email" && !isset($item["job_id"]) || $item["job_id"] == "" || $item["job_id"] == null) {
+
+            //     $actionTypePrefixText = "Generic";
+
+            // }
+
+            $eventMessage .= $actionTypePrefixText;
 
             $eventMessage .= '<span class="capitalize-font pl-5">';
             $eventMessage .= ucwords($item["action_item"]);
@@ -312,11 +527,19 @@ trait Helper
 
             if($item["action_type"] == "add") {
 
-                $eventMessage .= " was created";
+                $actionTypeAddText = " was created";
+
+                if (isset($item["action_item"]) && $item["action_item"] == "email") {
+
+                    $actionTypeAddText = " was received";
+
+                }
+
+                $eventMessage .= $actionTypeAddText;
 
             }
 
-            if ($item["action_type"] == "edit") {
+            if ($item["action_type"] == "edit" || $item["action_type"] == "update") {
 
                 $eventMessage .= " was modified";
 
@@ -349,6 +572,24 @@ trait Helper
             if ($item["action_type"] == "nb_tagging") {
 
                 $eventMessage .= " tagged as Non-Business";
+
+            }
+
+            if ($item["action_type"] == "reply") {
+
+                $eventMessage .= " was replied";
+
+            }
+
+            if ($item["action_type"] == "forward") {
+
+                $eventMessage .= " was forwarded";
+
+            }
+
+            if ($item["action_type"] == "sent") {
+
+                $eventMessage .= " was sent";
 
             }
 

@@ -404,7 +404,9 @@ class NoteCollection
 
                 if (isset($item['additional_note']) && $item['additional_note'] != "") {
 
-                    $item['additional_note'] = htmlentities($item['additional_note']);
+                    // $item['additional_note'] = strip_tags($item['additional_note']);
+                    $item['additional_note_text'] = htmlspecialchars($item['additional_note']);
+                    // $item['additional_note'] = htmlentities($item['additional_note']);
 
                 }
 

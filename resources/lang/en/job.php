@@ -32,6 +32,7 @@ return [
     'book_info_author_info_label' => 'Author info',
     'book_info_publisher_info_label' => 'Publisher info',
     'book_info_editor_info_label' => 'Editor info',
+    'book_info_workflow_version_label' => 'Workflow version',
     'book_info_DOI_label' => 'DOI',
     'book_info_ISBN_label' => 'ISBN',
     'book_info_E_ISBN_label' => 'E - ISBN',

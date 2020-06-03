@@ -1011,7 +1011,7 @@ class ApiController extends Controller
             'status'            => Config::get('constants.job_add_status'),
             'isbn'                => $isbn,
             'e_isbn'            => $isbn,
-            'workflow_version'  => '1',
+            // 'workflow_version'  => '1',
         );
 
         if ($start_time != "") {

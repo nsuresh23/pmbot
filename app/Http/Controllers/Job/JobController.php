@@ -156,7 +156,6 @@ class JobController extends Controller
 
         $redirectRouteAction = "";
 
-
         try {
 
             $request->merge(['am_empcode' => Config::get('constants.job_add_am_empcode')]);
@@ -337,6 +336,18 @@ class JobController extends Controller
         if (isset($returnResponse['data']) && is_array($returnResponse['data'])) {
 
             $responseData = $returnResponse;
+
+            if (isset($responseData['data']['workflow_version']) && $responseData['data']['workflow_version'] != ""&& $responseData['data']['workflow_version'] > 0) {
+
+                $workflowList = $this->jobResource->getWorkflowList($request);
+
+                if(isset($workflowList[$responseData['data']['workflow_version']])) {
+
+                    $responseData['data']['workflow_version_text'] = $workflowList[$responseData['data']['workflow_version']];
+
+                }
+
+            }
 
 			if($responseData['data']['pm_empcode'] != auth()->user()->empcode && $responseData['data']['am_empcode'] != auth()->user()->empcode){
 

@@ -324,6 +324,8 @@ function getCheckListTableList(gridSelector) {
 
     var checkListPostData = {};
 
+    $(gridSelector).parent().prev().find('.result-count').html('');
+
     if (type != undefined && type != '') {
 
         checkListPostData.type = type;

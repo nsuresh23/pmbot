@@ -7,7 +7,7 @@ return [
     // "job_add_am_empname" => "Nethaji",
     "job_add_am_empcode" => "R.Bharathidasan@spi-global.com",
     "job_add_am_empname" => "Bharathi",
-    "job_add_status" => "progress",
+    "job_add_status" => "pending",
     "emailImageDownloadPath" => "http://172.24.182.52/pmbot_v2_background/api/annotator_file_download.php?fileserver=1&img_path=",
     "stageList" => [
         "s5" => "s5",

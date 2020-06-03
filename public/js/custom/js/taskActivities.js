@@ -205,7 +205,7 @@ function getTaskActivitiesTableList(gridSelector) {
         {
             // title: "NOTE_DETAIL",
             name: "noteDetail",
-            type: "text",
+            type: "textarea",
             // width: 300
         },
         {
@@ -737,7 +737,7 @@ function getTaskActivitiesTableList(gridSelector) {
 
     function formatDataItemNoteDetail(item) {
 
-        var note = item.additional_note;
+        var note = item.additional_note_text;
         var attachment = item.attachment_path;
 
         // var noteData = '<p>' +

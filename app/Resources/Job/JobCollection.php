@@ -525,7 +525,7 @@ class JobCollection
 
             if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
-                $responseData = $this->formatJobHistoryData($responseData["data"]);
+                $responseData = $this->formatJobHistory($responseData["data"]);
 
                 if ($responseData) {
 
@@ -875,6 +875,33 @@ class JobCollection
         if (count($returnData) > 0) {
 
             $returnData = implode("", array_column($returnData, "timeline_view"));
+        }
+
+        return $returnData;
+    }
+
+    /**
+     * format job history result.
+     *
+     * @return array $resource
+     */
+    public function formatJobHistory($items)
+    {
+
+        $returnData = array_map(
+
+            function ($item) {
+
+                $item['diary_view'] = $this->jobDiaryView($item);
+
+                return $item;
+            },
+            $items
+        );
+
+        if (count($returnData) > 0) {
+
+            $returnData = implode("", array_column($returnData, "diary_view"));
         }
 
         return $returnData;

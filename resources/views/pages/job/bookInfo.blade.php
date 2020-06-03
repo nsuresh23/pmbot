@@ -29,6 +29,13 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <label class="control-label mb-10">{{ __('job.book_info_workflow_version_label') }}</label>
+                                    <input type="text" id="workflow_version" class="form-control" value="{{ $responseData["data"]["workflow_version_text"] ?? '-' }}"
+                                        readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_DOI_label') }}</label>
                                     <input type="text" id="bookDOI" class="form-control" value="{{ $responseData["data"]["doi"] ?? '-' }}"
                                         readonly />
