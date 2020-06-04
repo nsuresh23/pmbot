@@ -51,7 +51,8 @@ class JobCollection
         $this->jobListApiUrl = env('API_JOB_LIST_URL');
         $this->jobCountApiUrl = env('API_JOB_COUNT_URL');
         $this->jobSelectApiUrl = env('API_JOB_SELECT_URL');
-        $this->jobHistoryApiUrl = env('API_JOB_HISTORY_URL');
+        // $this->jobHistoryApiUrl = env('API_JOB_HISTORY_URL');
+        $this->jobHistoryApiUrl = env('API_MY_HISTORY_URL');
         $this->jobByFieldApiUrl = env('API_JOB_BY_FIELD_URL');
         $this->jobTaskListApiUrl = env('API_JOB_TASK_LIST_URL');
         $this->currentUserCodeField = env('CURRENT_USER_CODE_FIELD');
