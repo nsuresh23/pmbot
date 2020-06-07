@@ -104,11 +104,12 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
 	}
 
 
+    Route::any('file', 'File\FileController@getFile')->name('file');
 
-	// Route::any('/pm/dashboard', 'PM\DashboardController@index');
-	// Route::any('/stakeholders/dashboard', 'StakeHolders\DashboardController@index');
+    // Route::any('/pm/dashboard', 'PM\DashboardController@index');
+    // Route::any('/stakeholders/dashboard', 'StakeHolders\DashboardController@index');
 
-	Route::post('process-media', 'HomeController@storeMedia')->name('process-media');
+    Route::post('process-media', 'HomeController@storeMedia')->name('process-media');
 
 	// Route::any('/admin/dashboard', 'Admin\AdminController@index')->name('dashboard');
 	// Route::any('/am/dashboard', 'AM\DashboardController@index')->name('dashboard');
