@@ -213,7 +213,8 @@ function getpmbotjoblist(url) {
 		data:  {"_token": "{{ csrf_token() }}",subject:mailsubject,annotationID:annotationID,empcode:'<?php echo $returnData['empcode'];?>',associatejobid:associatejobid},
 		success: function(data){
 			$("#pmjobIDlist").html(data['message']);
-			$(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
+            // $(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
+            $(function() { $("#pmjobid").select2({ tags: true }); });
 
 			$('#btnannatorcompleted').hide();
 
@@ -372,7 +373,7 @@ function gettaskval(sel){
 				$('textarea[id=taskdescription]').prop('disabled','disabled');
 				$("textarea#newtasknotes").text(insertText);
 				$('#multi-select-user-newtask').select2().val(oldAssignedtoEmpcode).trigger('change');
-				$('#multi-select-user-newtask').prop('disabled','disabled');
+				// $('#multi-select-user-newtask').prop('disabled','disabled');
 			}
 		},
 		error: function()
@@ -480,13 +481,13 @@ $("#btnnonbusiness").click(function() {
 		"_token": "{{ csrf_token() }}",
 		'id':'<?php echo $returnData['id'];?>'
 	};
-	
+
 	var emailAnnotatorStartTime = '<?php echo isset($emailAnnotatorStartTime)? $emailAnnotatorStartTime : "" ?>';
-	
+
 	if(emailAnnotatorStartTime) {
-	
+
 		postData.start_time = emailAnnotatorStartTime;
-	
+
 	}
 
 	$.ajax({
