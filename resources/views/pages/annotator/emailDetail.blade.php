@@ -224,7 +224,8 @@ function getpmbotjoblist(url) {
 				$('#isbn').val('');
 				//$('#queryfrm').modal('hide');
 	 			$("#pmjobIDlist").html(data['message']);
-				$(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
+				// $(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
+				$(function() { $("#pmjobid").select2({ tags: true }); });
 
 				getjobID();
 				//$('#createisbnfrm').toggle(500);
