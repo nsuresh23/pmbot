@@ -110,7 +110,7 @@
             <div class="col-lg-12 col-sm-12">
                 <div class="panel card-view pt-5">
                     <div id="" class="panel-wrapper collapse in">
-                        <div class="panel-body pt-0">
+                        <div class="panel-body pt-0 pmbottype" data-pmbottype="non_pmbot">
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 

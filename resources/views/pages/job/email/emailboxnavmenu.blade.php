@@ -1,5 +1,5 @@
 <aside class="col-lg-2 col-md-2 col-sm-2 col-xs-2 pr-0">
-    <div class="mt-20 mb-20 ml-15 mr-15">
+    <div class="mt-20 mb-20 ml-15 mr-15 pmbottype" data-pmbottype="pmbot">
 
 		<a href="#emailSendModal" data-toggle="modal" title="Compose" class="btn btn-success btn-block email-compose-btn">
             {{ __("job.email_compose_label") }}

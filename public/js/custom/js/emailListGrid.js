@@ -1240,7 +1240,9 @@ $(document).on('click', '.email-send-btn-old', function(e) {
 
 });
 $(document).on('click', '.email-send-btn', function(e) {
-
+	var type = $('.pmbottype').attr('data-pmbottype');
+    $('#type').val(type);
+	
     e.preventDefault();
 
     if ($('#to').val() == '') {
@@ -1277,6 +1279,8 @@ $(document).on('click', '.email-send-btn', function(e) {
 });
 
 $(document).on('click', '.email-save-btn', function(e) {
+	var type = $('.pmbottype').attr('data-pmbottype');
+    $('#type').val(type);
 
     e.preventDefault();
 
@@ -1300,6 +1304,9 @@ $(document).on('click', '.email-save-btn', function(e) {
 
 });
 $(document).on('click', '.email-reply-send-btn', function(e) {
+	var type = $('.pmbottype').attr('data-pmbottype');
+    $('#type').val(type);
+    $('#email-type').val(type);
 
     e.preventDefault();
 
@@ -1323,6 +1330,9 @@ $(document).on('click', '.email-reply-send-btn', function(e) {
 
 
 $(document).on('click', '.email-reply-save-btn', function(e) {
+	var type = $('.pmbottype').attr('data-pmbottype');
+    $('#type').val(type);
+    $('#email-type').val(type);
 
     e.preventDefault();
 
@@ -1345,6 +1355,9 @@ $(document).on('click', '.email-reply-save-btn', function(e) {
 });
 
 $(document).on('click', '.email-draft-send-btn', function(e) {
+	var type = $('.pmbottype').attr('data-pmbottype');
+    $('#type').val(type);
+    $('#email-type').val(type);
 
     e.preventDefault();
 
@@ -1366,6 +1379,9 @@ $(document).on('click', '.email-draft-send-btn', function(e) {
 
 
 $(document).on('click', '.email-draft-save-btn', function(e) {
+	var type = $('.pmbottype').attr('data-pmbottype');
+    $('#type').val(type);
+    $('#email-type').val(type);
 
     e.preventDefault();
 
