@@ -299,13 +299,28 @@ class ApiController extends Controller
             $category = $data['category'];
         }
 
+        $userId = "";
+
+        if(isset($data['section'])) {
+
+            $userId = $data['section'];
+
+            if(is_array($userId) && count($userId) > 0) {
+
+                $userId = implode(',', $userId);
+
+            }            
+
+        }
+
         $annotation = [
             'ranges'              => isset($data['ranges']) ? $data['ranges'] : "",
             'quote'               => isset($data['quote']) ? $data['quote'] : "",
             'jobid'               => $jobId,
             'stage'               => $stage,
             'createdempcode'       => isset($data['createdempcode']) ? $data['createdempcode'] : "",
-            'userid'               => isset($data['section'])? implode(',', $data['section']) : "" ,
+            // 'userid'               => isset($data['section'])? implode(',', $data['section']) : "" ,
+            'userid'               => $userId ,
             'attachment'           => $attachment,
             'additionalattach'    => $newattachment,
             'emailnotation'        => $emailnotation,
@@ -352,15 +367,15 @@ class ApiController extends Controller
                         "email_id"  => $completedlist->page_id,
                         "title"   => base64_encode($completedlist->tasktitle),
                         "status_previous" => "progress",
-                        "createdby_status" => "pending",
-                        "assignedto_status" => "completed",
+                        // "createdby_status" => "pending",
+                        // "assignedto_status" => "completed",
                         "id" => '',
                         "additional_note" => base64_encode($completedlist->tasknotes),
                         "attachment_path" => base64_encode($completedlist->attachment),
                         "empcode" => auth()->user()->empcode,
                         "empname" => auth()->user()->empname,
                         "emprole" => auth()->user()->role,
-                        // "empcode" => $completedlist->userid,
+                        "assignedto_empcode" => $completedlist->userid,
                         // "empname" => $completedlist->userid,
                         // "emprole" => "project_manager"
                     );

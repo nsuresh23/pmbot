@@ -324,7 +324,7 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
 	Route::any('annotation/getpmuserlist', 'Annotator\ApiController@getpmuserlist');
 	Route::any('annotation/gettaskdetail', 'Annotator\ApiController@gettaskdetail');
 	Route::any('annotation/newattachment', 'Annotator\ApiController@newattachment');
-	Route::any('annotation/getselectedjob', 'Annotator\ApiController@getselectedjob');
+	Route::any('annotation/getselectedjob', 'Annotator\ApiController@getselectedjob')->name('getselectedjob');
 	Route::any('annotation/getjobtasklist', 'Annotator\ApiController@getjobtasklist');
 
 	Route::any('annotation/store', 'Annotator\ApiController@store');

@@ -364,20 +364,44 @@
 
             var pmassigneduser = '';
             if (annotation.userid != null) {
-                var sectionAnnotation = annotation.userid.split(',');
-                $.each(sectionAnnotation, function(i) {
+
+                if (!Array.isArray(annotation.userid)) {
+
                     pmassigneduser +=
                         '<span style="color:#FFF; float:right; margin-right:5px;" class="label label-info">' +
-                        sectionAnnotation[i] +
+                        annotation.userid +
                         '</span>';
-                });
+
+                } else {
+
+                    var sectionAnnotation = annotation.userid.split(',');
+                    $.each(sectionAnnotation, function(i) {
+                        pmassigneduser +=
+                            '<span style="color:#FFF; float:right; margin-right:5px;" class="label label-info">' +
+                            sectionAnnotation[i] +
+                            '</span>';
+                    });
+
+                }
+
             } else {
-                $.each(annotation.section, function(key, value) {
+                if (!Array.isArray(annotation.section)) {
+
                     pmassigneduser +=
                         '<span style="color:#FFF; float:right; margin-right:5px;" class="label label-info">' +
-                        value +
+                        annotation.section +
                         '</span>';
-                });
+
+                } else {
+
+                    $.each(annotation.section, function(key, value) {
+                        pmassigneduser +=
+                            '<span style="color:#FFF; float:right; margin-right:5px;" class="label label-info">' +
+                            value +
+                            '</span>';
+                    });
+
+                }
             }
             if (notesAnnotation == '') {
                 notesAnnotation = titleAnnotation;

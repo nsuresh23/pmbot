@@ -30,7 +30,7 @@
 <!-- Main Content -->
 <div class="header_top"></div>
 <?php  date_default_timezone_set("Asia/Calcutta");  ?>
-<div class="page-content email-title" data-email-id="<?php echo $returnData['id'];?>">
+<div class="page-content email-title" data-email-id="<?php echo $returnData['id'];?>" data-job-detail-url="{{route("getselectedjob") ?? ''}}">
   <textarea id="taskuserlist" style="display:none;"></textarea>
   <textarea id="newtaskuserlist" style="display:none;"></textarea>
   <input type="hidden" name="createdpm" id="createdpm" value="<?php echo $returnData['empcode'];?>" />
@@ -365,6 +365,7 @@ function gettaskval(sel){
 				$('input[id=newtasktitle]').removeAttr('disabled');
 				$("textarea[id=taskdescription]").text('');
 				$('textarea[id=taskdescription]').removeAttr('disabled');
+				$('#multi-select-user-newtask').select2().prop('multiple', 'multiple');
 				$('#multi-select-user-newtask').select2().val('').trigger('change');
 				$('#multi-select-user-newtask').removeAttr('disabled');
 			} else {
@@ -373,6 +374,7 @@ function gettaskval(sel){
 				$("textarea#taskdescription").text(oldtaskdescription);
 				$('textarea[id=taskdescription]').prop('disabled','disabled');
 				$("textarea#newtasknotes").text(insertText);
+				$('#multi-select-user-newtask').select2().prop('multiple', '');
 				$('#multi-select-user-newtask').select2().val(oldAssignedtoEmpcode).trigger('change');
 				// $('#multi-select-user-newtask').prop('disabled','disabled');
 			}
