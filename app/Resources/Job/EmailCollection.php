@@ -756,6 +756,36 @@ class EmailCollection
 
                     }
 
+                    if (isset($item["email_to"]) && $item["email_to"] != "") {
+
+                        if (base64_decode($item["email_to"], true)) {
+
+                            $item["email_to"] = base64_decode($item["email_to"]);
+
+                        }
+
+                    }
+
+                    if (isset($item["email_cc"]) && $item["email_cc"] != "") {
+
+                        if (base64_decode($item["email_cc"], true)) {
+
+                            $item["email_cc"] = base64_decode($item["email_cc"]);
+
+                        }
+
+                    }
+
+                    if (isset($item["email_bcc"]) && $item["email_bcc"] != "") {
+
+                        if (base64_decode($item["email_bcc"], true)) {
+
+                            $item["email_bcc"] = base64_decode($item["email_bcc"]);
+
+                        }
+                        
+                    }
+
                     if (isset($item["message_start"]) && $item["message_start"] != "") {
 
                         if (base64_decode($item["message_start"], true)) {
