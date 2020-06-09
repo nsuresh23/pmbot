@@ -357,9 +357,12 @@ class ApiController extends Controller
                         "id" => '',
                         "additional_note" => base64_encode($completedlist->tasknotes),
                         "attachment_path" => base64_encode($completedlist->attachment),
-                        "empcode" => $completedlist->userid,
-                        "empname" => $completedlist->userid,
-                        "emprole" => "project_manager"
+                        "empcode" => auth()->user()->empcode,
+                        "empname" => auth()->user()->empname,
+                        "emprole" => auth()->user()->role,
+                        // "empcode" => $completedlist->userid,
+                        // "empname" => $completedlist->userid,
+                        // "emprole" => "project_manager"
                     );
 
                     if($start_time != "") {
