@@ -1099,6 +1099,7 @@ $(function() {
         $("#myTaskTab").on('click', function() {
 
             $('.email-detail-body').hide();
+            $('.email-list-body').show();
 
             var gridSelector = ".myTaskGrid";
 
