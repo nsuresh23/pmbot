@@ -4,6 +4,7 @@ namespace App\Http\Controllers\File;
 
 use Session;
 use Exception;
+use SimpleXMLElement;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Traits\General\Helper;

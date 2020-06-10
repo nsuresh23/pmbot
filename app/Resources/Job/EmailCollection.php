@@ -510,7 +510,7 @@ class EmailCollection
 
                                         if ($item) {
 
-                                            $item_file = Config::get('constants.emailImageDownloadPath');
+                                            $item_file = route('file') . Config::get('constants.emailImageDownloadPathParams');
 
                                             // if (base64_decode($item, true)) {
 
