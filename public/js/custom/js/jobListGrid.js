@@ -58,33 +58,33 @@ $(function() {
 
                         return $.grep(dbClients, function(client) {
 
-                            // return (!filter.job_id_value || client.job_id_value.indexOf(filter.job_id_value) > -1)
-                            //     && (!filter.book_id_value || client.book_id_value.indexOf(filter.book_id_value) > -1)
-                            //     && (!filter.title || client.title.indexOf(filter.title) > -1)
-                            //     && (!filter.series_title || client.series_title.indexOf(filter.series_title) > -1)
-                            //     && (!filter.category || client.category.indexOf(filter.category) > -1)
-                            //     && (!filter.copy_editing_level || client.copy_editing_level.indexOf(filter.copy_editing_level) > -1)
-                            //     && (!filter.author || client.author.indexOf(filter.author) > -1)
-                            //     && (!filter.publisher || client.publisher.indexOf(filter.publisher) > -1)
-                            //     && (!filter.status || client.status.indexOf(filter.status) > -1)
-                            //     && (!filter.start_date || client.start_date.indexOf(filter.start_date) > -1)
-                            //     && (!filter.due_date || client.due_date.indexOf(filter.due_date) > -1)
+                            // return (!filter.job_id_value || client.job_id_value.toLowerCase().indexOf(filter.job_id_value.toLowerCase()) > -1)
+                            //     && (!filter.book_id_value || client.book_id_value.toLowerCase().indexOf(filter.book_id_value.toLowerCase()) > -1)
+                            //     && (!filter.title || client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1)
+                            //     && (!filter.series_title || client.series_title.toLowerCase().indexOf(filter.series_title.toLowerCase()) > -1)
+                            //     && (!filter.category || client.category.toLowerCase().indexOf(filter.category.toLowerCase()) > -1)
+                            //     && (!filter.copy_editing_level || client.copy_editing_level.toLowerCase().indexOf(filter.copy_editing_level.toLowerCase()) > -1)
+                            //     && (!filter.author || client.author.toLowerCase().indexOf(filter.author.toLowerCase()) > -1)
+                            //     && (!filter.publisher || client.publisher.toLowerCase().indexOf(filter.publisher.toLowerCase()) > -1)
+                            //     && (!filter.status || client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1)
+                            //     && (!filter.start_date || client.start_date.toLowerCase().indexOf(filter.start_date.toLowerCase()) > -1)
+                            //     && (!filter.due_date || client.due_date.toLowerCase().indexOf(filter.due_date.toLowerCase()) > -1)
 
-                            return (!filter.job_id_value || client.job_id_value.indexOf(filter.job_id_value) > -1) &&
-                                (!filter.order_id || client.order_id.indexOf(filter.order_id) > -1) &&
-                                (!filter.title || client.title.indexOf(filter.title) > -1) &&
-                                (!filter.series_title || client.series_title.indexOf(filter.series_title) > -1) &&
-                                (!filter.task_count || client.task_count.indexOf(filter.task_count) > -1) &&
-                                (!filter.checklist_count || client.checklist_count.indexOf(filter.checklist_count) > -1) &&
-                                (!filter.pm_empname || client.pm_empname.indexOf(filter.pm_empname) > -1) &&
-                                (!filter.am_empname || client.am_empname.indexOf(filter.am_empname) > -1) &&
-                                (!filter.project_type || client.project_type.indexOf(filter.project_type) > -1) &&
-                                (!filter.copy_editing_level || client.copy_editing_level.indexOf(filter.copy_editing_level) > -1) &&
-                                (!filter.author || client.author.indexOf(filter.author) > -1) &&
-                                (!filter.stage || client.stage.indexOf(filter.stage) > -1) &&
-                                (!filter.status || client.status.indexOf(filter.status) > -1) &&
-                                (!filter.date_due || client.date_due.indexOf(filter.date_due) > -1);
-                            // && (!filter.publisher || client.publisher.indexOf(filter.publisher) > -1)
+                            return (!filter.job_id_value || client.job_id_value.toLowerCase().indexOf(filter.job_id_value.toLowerCase()) > -1) &&
+                                (!filter.order_id || client.order_id.toLowerCase().indexOf(filter.order_id.toLowerCase()) > -1) &&
+                                (!filter.title || client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1) &&
+                                (!filter.series_title || client.series_title.toLowerCase().indexOf(filter.series_title.toLowerCase()) > -1) &&
+                                (!filter.task_count || client.task_count.toLowerCase().indexOf(filter.task_count.toLowerCase()) > -1) &&
+                                (!filter.checklist_count || client.checklist_count.toLowerCase().indexOf(filter.checklist_count.toLowerCase()) > -1) &&
+                                (!filter.pm_empname || client.pm_empname.toLowerCase().indexOf(filter.pm_empname.toLowerCase()) > -1) &&
+                                (!filter.am_empname || client.am_empname.toLowerCase().indexOf(filter.am_empname.toLowerCase()) > -1) &&
+                                (!filter.project_type || client.project_type.toLowerCase().indexOf(filter.project_type.toLowerCase()) > -1) &&
+                                (!filter.copy_editing_level || client.copy_editing_level.toLowerCase().indexOf(filter.copy_editing_level.toLowerCase()) > -1) &&
+                                (!filter.author || client.author.toLowerCase().indexOf(filter.author.toLowerCase()) > -1) &&
+                                (!filter.stage || client.stage.toLowerCase().indexOf(filter.stage.toLowerCase()) > -1) &&
+                                (!filter.status || client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1) &&
+                                (!filter.date_due || client.date_due.toLowerCase().indexOf(filter.date_due.toLowerCase()) > -1);
+                            // && (!filter.publisher || client.publisher.toLowerCase().indexOf(filter.publisher.toLowerCase()) > -1)
                         });
 
                         // return $.ajax({

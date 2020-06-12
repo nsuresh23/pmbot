@@ -1,7 +1,7 @@
-$(function () {
+$(function() {
 
     //display modal form for product editing
-    $(document).on('click', '.job-list', function () {
+    $(document).on('click', '.job-list', function() {
 
         var getUrl = "";
         var stage = "";
@@ -40,7 +40,7 @@ $(function () {
             // controller: db,
 
             controller: {
-                loadData: function (filter) {
+                loadData: function(filter) {
 
 
                     filter.stage = stage;
@@ -56,13 +56,13 @@ $(function () {
                     // return $.grep(data, function (client) {
                     //     console.log("client");
                     //     console.log(client);
-                    //     return (!filter.jobTitle || client.jobTitle.indexOf(filter.jobTitle) > -1)
-                    //         && (!filter.projectManager || client.projectManager.indexOf(filter.projectManager) > -1)
-                    //         && (!filter.author || client.author.indexOf(filter.author) > -1)
-                    //         && (!filter.editor || client.editor.indexOf(filter.editor) > -1)
-                    //         && (!filter.publisher || client.publisher.indexOf(filter.publisher) > -1)
-                    //         && (!filter.startDate || client.startDate.indexOf(filter.startDate) > -1)
-                    //         && (!filter.dueDate || client.dueDate.indexOf(filter.dueDate) > -1);
+                    //     return (!filter.jobTitle || client.jobTitle.toLowerCase().indexOf(filter.jobTitle.toLowerCase()) > -1)
+                    //         && (!filter.projectManager || client.projectManager.toLowerCase().indexOf(filter.projectManager.toLowerCase()) > -1)
+                    //         && (!filter.author || client.author.toLowerCase().indexOf(filter.author.toLowerCase()) > -1)
+                    //         && (!filter.editor || client.editor.toLowerCase().indexOf(filter.editor.toLowerCase()) > -1)
+                    //         && (!filter.publisher || client.publisher.toLowerCase().indexOf(filter.publisher.toLowerCase()) > -1)
+                    //         && (!filter.startDate || client.startDate.toLowerCase().indexOf(filter.startDate.toLowerCase()) > -1)
+                    //         && (!filter.dueDate || client.dueDate.toLowerCase().indexOf(filter.dueDate.toLowerCase()) > -1);
                     // });
 
                     // return data;
@@ -213,11 +213,11 @@ $(function () {
             buttonFail: "No",
             message: "Are You Sure?"
 
-        }).done(function () {
+        }).done(function() {
 
             return true;
 
-        }).fail(function () {
+        }).fail(function() {
 
             return false;
 
@@ -228,75 +228,75 @@ $(function () {
 
     // $('.list-modal-body').html(data);
     var stakeholdersList = $("#stakeholdersList").jsGrid({
-            height: "450px",
-            width: "100%",
+        height: "450px",
+        width: "100%",
 
-            filtering: true,
-            editing: false,
-            sorting: true,
-            paging: true,
-            autoload: true,
-            editButton: false,
-            deleteButton: false,
-            sorter: "string",
+        filtering: true,
+        editing: false,
+        sorting: true,
+        paging: true,
+        autoload: true,
+        editButton: false,
+        deleteButton: false,
+        sorter: "string",
 
-            pageSize: 5,
-            pageButtonCount: 5,
+        pageSize: 5,
+        pageButtonCount: 5,
 
-            noDataContent: "No stakeholders found",
+        noDataContent: "No stakeholders found",
 
-            // deleteConfirm: "Do you really want to delete the client?",
+        // deleteConfirm: "Do you really want to delete the client?",
 
-            // controller: db,
+        // controller: db,
 
-            controller: {
-                loadData: function (filter) {
+        controller: {
+            loadData: function(filter) {
 
-                    var getUrl = "";
-                    getUrl = $("#stakeholdersList").attr('data-url');
-                    console.log(filter);
-                    console.log(getUrl);
+                var getUrl = "";
+                getUrl = $("#stakeholdersList").attr('data-url');
+                console.log(filter);
+                console.log(getUrl);
 
-                    // data =  $.ajax({
-                    //     url: getUrl,
-                    //     // data: filter,
-                    //     dataType: "json"
-                    // });
+                // data =  $.ajax({
+                //     url: getUrl,
+                //     // data: filter,
+                //     dataType: "json"
+                // });
 
-                    // return $.grep(data, function (client) {
-                    //     console.log("client");
-                    //     console.log(client);
-                    //     return (!filter.jobTitle || client.jobTitle.indexOf(filter.jobTitle) > -1)
-                    //         && (!filter.projectManager || client.projectManager.indexOf(filter.projectManager) > -1)
-                    //         && (!filter.author || client.author.indexOf(filter.author) > -1)
-                    //         && (!filter.editor || client.editor.indexOf(filter.editor) > -1)
-                    //         && (!filter.publisher || client.publisher.indexOf(filter.publisher) > -1)
-                    //         && (!filter.startDate || client.startDate.indexOf(filter.startDate) > -1)
-                    //         && (!filter.dueDate || client.dueDate.indexOf(filter.dueDate) > -1);
-                    // });
+                // return $.grep(data, function (client) {
+                //     console.log("client");
+                //     console.log(client);
+                //     return (!filter.jobTitle || client.jobTitle.toLowerCase().indexOf(filter.jobTitle.toLowerCase()) > -1)
+                //         && (!filter.projectManager || client.projectManager.toLowerCase().indexOf(filter.projectManager.toLowerCase()) > -1)
+                //         && (!filter.author || client.author.toLowerCase().indexOf(filter.author.toLowerCase()) > -1)
+                //         && (!filter.editor || client.editor.toLowerCase().indexOf(filter.editor.toLowerCase()) > -1)
+                //         && (!filter.publisher || client.publisher.toLowerCase().indexOf(filter.publisher.toLowerCase()) > -1)
+                //         && (!filter.startDate || client.startDate.toLowerCase().indexOf(filter.startDate.toLowerCase()) > -1)
+                //         && (!filter.dueDate || client.dueDate.toLowerCase().indexOf(filter.dueDate.toLowerCase()) > -1);
+                // });
 
-                    // return data;
-                    return $.ajax({
-                        url: getUrl,
-                        data: filter,
-                        dataType: "json"
-                    });
-                }
-            },
+                // return data;
+                return $.ajax({
+                    url: getUrl,
+                    data: filter,
+                    dataType: "json"
+                });
+            }
+        },
 
-            fields: [
-                { title: "ID", name: "id", type: "text", width: 150 },
-                { title: "NAME", name: "name", type: "text", width: 150 },
-                { title: "EMAIL", name: "email", type: "text", width: 150 },
-                { title: "DESIGNATION", name: "designation", type: "text", width: 150 },
-                { title: "PHONE", name: "phone", type: "text", width: 150 },
-                { title: "MOBILE", name: "mobile", type: "text", width: 150 },
-                // { type: "control", editButton: false, deleteButton: false, width: 60 }
-                { type: "control", width: 60 }
-            ]
-        });
+        fields: [
+            { title: "ID", name: "id", type: "text", width: 150 },
+            { title: "NAME", name: "name", type: "text", width: 150 },
+            { title: "EMAIL", name: "email", type: "text", width: 150 },
+            { title: "DESIGNATION", name: "designation", type: "text", width: 150 },
+            { title: "PHONE", name: "phone", type: "text", width: 150 },
+            { title: "MOBILE", name: "mobile", type: "text", width: 150 },
+            // { type: "control", editButton: false, deleteButton: false, width: 60 }
+            { type: "control", width: 60 }
+        ]
+    });
 
-    $(".stakeholders-add").on('click', function () {
+    $(".stakeholders-add").on('click', function() {
 
         $('#stakeholders-modal').modal('show');
 
@@ -304,7 +304,7 @@ $(function () {
 
     // $('stakeholders-form').on('submit', function (e) {
     // $('#stakeholdersAddButton').on('click', function (e) {
-    $(document).on('click', '#stakeholdersAddButton', function (e) {
+    $(document).on('click', '#stakeholdersAddButton', function(e) {
 
         // if (this.checkValidity && !this.checkValidity()) return;
         // if ($('#stakeholders-form').checkValidity && !$('#stakeholders-form').checkValidity()) return;
@@ -316,7 +316,7 @@ $(function () {
         console.log(postUrl);
         var row = $('#stakeholdersList').data('row');
 
-        var return_first = function () {
+        var return_first = function() {
             var tmp = null;
             $.ajax({
                 headers: {
@@ -328,7 +328,7 @@ $(function () {
                 'dataType': 'json',
                 'url': postUrl,
                 'data': $('#stakeholders-form').serialize(),
-                'success': function (data) {
+                'success': function(data) {
                     $("#stakeholdersList").jsGrid().refresh
                     tmp = data;
                 }
@@ -429,14 +429,14 @@ $(function () {
     //     $modal.modal('hide');
     // });
 
-	/*Job list modal*/
-	// $(document).on('click','.job-list-modal',function(e) {
+    /*Job list modal*/
+    // $(document).on('click','.job-list-modal',function(e) {
     //     var stage = $(this).attr('data-stage');
     //     var status = $(this).attr('data-status');
     //     return false;
 
     // });
- 
+
 });
 
 

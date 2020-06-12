@@ -4,11 +4,11 @@
 
         loadData: function(filter) {
             return $.grep(this.clients, function(client) {
-                return (!filter.Name || client.Name.indexOf(filter.Name) > -1)
-                    && (!filter.Age || client.Age === filter.Age)
-                    && (!filter.Address || client.Address.indexOf(filter.Address) > -1)
-                    && (!filter.Country || client.Country === filter.Country)
-                    && (filter.Married === undefined || client.Married === filter.Married);
+                return (!filter.Name || client.Name.toLowerCase().indexOf(filter.Name.toLowerCase()) > -1) &&
+                    (!filter.Age || client.Age.toLowerCase() === filter.Age.toLowerCase()) &&
+                    (!filter.Address || client.Address.toLowerCase().indexOf(filter.Address.toLowerCase()) > -1) &&
+                    (!filter.Country || client.Country.toLowerCase() === filter.Country.toLowerCase()) &&
+                    (filter.Married === undefined || client.Married.toLowerCase() === filter.Married.toLowerCase());
             });
         },
 
@@ -16,7 +16,7 @@
             this.clients.push(insertingClient);
         },
 
-        updateItem: function(updatingClient) { },
+        updateItem: function(updatingClient) {},
 
         deleteItem: function(deletingClient) {
             var clientIndex = $.inArray(deletingClient, this.clients);
@@ -39,8 +39,7 @@
         { Name: "Russia", Id: 7 }
     ];
 
-    db.clients = [
-        {
+    db.clients = [{
             "Name": "Otto Clay",
             "Age": 61,
             "Country": 6,
@@ -742,8 +741,7 @@
         }
     ];
 
-    db.users = [
-        {
+    db.users = [{
             "ID": "x",
             "Account": "A758A693-0302-03D1-AE53-EEFE22855556",
             "Name": "Carson Kelley",
@@ -879,6 +877,6 @@
             "Name": "Solomon Green",
             "RegisterDate": "2013-09-04T01:44:47-07:00"
         }
-     ];
+    ];
 
 }());

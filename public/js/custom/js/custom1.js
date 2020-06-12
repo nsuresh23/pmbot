@@ -1,7 +1,7 @@
-$(function () {
+$(function() {
 
     //display modal form for product editing
-    $(document).on('click', '.job-list', function () {
+    $(document).on('click', '.job-list', function() {
 
         var getUrl = "";
         var stage = "";
@@ -19,7 +19,7 @@ $(function () {
             getUrl = getUrl + "/" + status;
         }
 
-        var return_first = function () {
+        var return_first = function() {
             var tmp = null;
             $.ajax({
                 'async': false,
@@ -28,7 +28,7 @@ $(function () {
                 'dataType': 'json',
                 'url': getUrl,
                 // data: filter,
-                'success': function (data) {
+                'success': function(data) {
                     tmp = data;
                 }
             });
@@ -101,13 +101,13 @@ $(function () {
             //         // return $.grep(data, function (client) {
             //         //     console.log("client");
             //         //     console.log(client);
-            //         //     return (!filter.jobTitle || client.jobTitle.indexOf(filter.jobTitle) > -1)
-            //         //         && (!filter.projectManager || client.projectManager.indexOf(filter.projectManager) > -1)
-            //         //         && (!filter.author || client.author.indexOf(filter.author) > -1)
-            //         //         && (!filter.editor || client.editor.indexOf(filter.editor) > -1)
-            //         //         && (!filter.publisher || client.publisher.indexOf(filter.publisher) > -1)
-            //         //         && (!filter.startDate || client.startDate.indexOf(filter.startDate) > -1)
-            //         //         && (!filter.dueDate || client.dueDate.indexOf(filter.dueDate) > -1);
+            //         //     return (!filter.jobTitle || client.jobTitle.toLowerCase().indexOf(filter.jobTitle.toLowerCase()) > -1)
+            //         //         && (!filter.projectManager || client.projectManager.toLowerCase().indexOf(filter.projectManager.toLowerCase()) > -1)
+            //         //         && (!filter.author || client.author.toLowerCase().indexOf(filter.author.toLowerCase()) > -1)
+            //         //         && (!filter.editor || client.editor.toLowerCase().indexOf(filter.editor.toLowerCase()) > -1)
+            //         //         && (!filter.publisher || client.publisher.toLowerCase().indexOf(filter.publisher.toLowerCase()) > -1)
+            //         //         && (!filter.startDate || client.startDate.toLowerCase().indexOf(filter.startDate.toLowerCase()) > -1)
+            //         //         && (!filter.dueDate || client.dueDate.toLowerCase().indexOf(filter.dueDate.toLowerCase()) > -1);
             //         // });
 
             //         // return data;
@@ -189,8 +189,8 @@ $(function () {
         // })
     });
 
-	/*Job list modal*/
-	// $(document).on('click','.job-list-modal',function(e) {
+    /*Job list modal*/
+    // $(document).on('click','.job-list-modal',function(e) {
     //     var stage = $(this).attr('data-stage');
     //     var status = $(this).attr('data-status');
     //     return false;

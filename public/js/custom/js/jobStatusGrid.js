@@ -33,15 +33,15 @@ $(function() {
                     loadData: function(filter) {
 
                         return $.grep(dbClients, function(client) {
-                            return (!filter.jobId || client.jobId.indexOf(filter.jobId) > -1) &&
-                                (!filter.orderId || client.orderId.indexOf(filter.orderId) > -1) &&
-                                (!filter.currentStatus || client.currentStatus.indexOf(filter.currentStatus) > -1) &&
-                                (!filter.projectManager || client.projectManager.indexOf(filter.projectManager) > -1) &&
-                                (!filter.author || client.author.indexOf(filter.author) > -1) &&
-                                (!filter.editor || client.editor.indexOf(filter.editor) > -1) &&
-                                (!filter.publisher || client.publisher.indexOf(filter.publisher) > -1) &&
-                                (!filter.startDate || client.startDate.indexOf(filter.startDate) > -1) &&
-                                (!filter.dueDate || client.dueDate.indexOf(filter.dueDate) > -1)
+                            return (!filter.jobId || client.jobId.toLowerCase().indexOf(filter.jobId.toLowerCase()) > -1) &&
+                                (!filter.orderId || client.orderId.toLowerCase().indexOf(filter.orderId.toLowerCase()) > -1) &&
+                                (!filter.currentStatus || client.currentStatus.toLowerCase().indexOf(filter.currentStatus.toLowerCase()) > -1) &&
+                                (!filter.projectManager || client.projectManager.toLowerCase().indexOf(filter.projectManager.toLowerCase()) > -1) &&
+                                (!filter.author || client.author.toLowerCase().indexOf(filter.author.toLowerCase()) > -1) &&
+                                (!filter.editor || client.editor.toLowerCase().indexOf(filter.editor.toLowerCase()) > -1) &&
+                                (!filter.publisher || client.publisher.toLowerCase().indexOf(filter.publisher.toLowerCase()) > -1) &&
+                                (!filter.startDate || client.startDate.toLowerCase().indexOf(filter.startDate.toLowerCase()) > -1) &&
+                                (!filter.dueDate || client.dueDate.toLowerCase().indexOf(filter.dueDate.toLowerCase()) > -1)
                         });
 
                         // return $.ajax({

@@ -56,8 +56,8 @@ $(function() {
                     loadData: function(filter) {
 
                         return $.grep(dbClients, function(client) {
-                            return (!filter.title || client.title.indexOf(filter.title) > -1) &&
-                                (!filter.message || client.stage.indexOf(filter.message) > -1);
+                            return (!filter.title || client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1) &&
+                                (!filter.message || client.stage.toLowerCase().indexOf(filter.message.toLowerCase()) > -1);
                         });
                     }
                 },
@@ -277,7 +277,7 @@ $(function() {
 
             if (response.success == "true") {
 
-                // response.data = formatDataItem(response.data);                
+                // response.data = formatDataItem(response.data);
 
                 dbClients = response.data;
 
