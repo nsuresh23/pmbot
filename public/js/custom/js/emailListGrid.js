@@ -92,17 +92,17 @@ function getEmailTableList(gridSelector) {
                 loadData: function(filter) {
 
                     return $.grep(dbClients, function(client) {
-                        return (!filter.created_date || client.created_date.indexOf(filter.created_date) > -1) &&
-                            // (!filter.status_text || client.status_text.indexOf(filter.status_text) > -1) &&
-                            (!filter.subject_link || client.subject_link.indexOf(filter.subject_link) > -1) &&
-                            (!filter.email_from || client.email_from.indexOf(filter.email_from) > -1) &&
-                            (!filter.email_to || client.email_to.indexOf(filter.email_to) > -1) &&
-                            (!filter.message_start || client.message.indexOf(filter.message_start) > -1);
-                        // (!filter.message || client.message.indexOf(filter.message) > -1);
-                        // (!filter.message || client.message.indexOf(filter.message) > -1) &&
-                        // (!filter.email_cc || client.email_cc.indexOf(filter.email_cc) > -1) &&
-                        // (!filter.priority || client.priority.indexOf(filter.priority) > -1) &&
-                        // (!filter.score || client.score.indexOf(filter.score) > -1);
+                        return (!filter.created_date || client.created_date.toLowerCase().indexOf(filter.created_date.toLowerCase()) > -1) &&
+                            // (!filter.status_text || client.status_text.toLowerCase().indexOf(filter.status_text.toLowerCase()) > -1) &&
+                            (!filter.subject_link || client.subject_link.toLowerCase().indexOf(filter.subject_link.toLowerCase()) > -1) &&
+                            (!filter.email_from || client.email_from.toLowerCase().indexOf(filter.email_from.toLowerCase()) > -1) &&
+                            (!filter.email_to || client.email_to.toLowerCase().indexOf(filter.email_to.toLowerCase()) > -1) &&
+                            (!filter.message_start || client.message.toLowerCase().indexOf(filter.message_start.toLowerCase()) > -1);
+                        // (!filter.message || client.message.toLowerCase().indexOf(filter.message.toLowerCase()) > -1);
+                        // (!filter.message || client.message.toLowerCase().indexOf(filter.message.toLowerCase()) > -1) &&
+                        // (!filter.email_cc || client.email_cc.toLowerCase().indexOf(filter.email_cc.toLowerCase()) > -1) &&
+                        // (!filter.priority || client.priority.toLowerCase().indexOf(filter.priority.toLowerCase()) > -1) &&
+                        // (!filter.score || client.score.toLowerCase().indexOf(filter.score.toLowerCase()) > -1);
                     });
 
                 }
@@ -536,11 +536,11 @@ function getPmsEmailCountTableList(gridSelector) {
                 loadData: function(filter) {
 
                     return $.grep(dbClients, function(client) {
-                        return (!filter.empname || client.empname.indexOf(filter.empname) > -1) &&
-                            (!filter.email_count || client.email_count.indexOf(filter.email_count) > -1) &&
-                            (!filter.last_annotated_time || client.last_annotated_time.indexOf(filter.last_annotated_time) > -1) &&
-                            (!filter.task_count || client.task_count.indexOf(filter.task_count) > -1) &&
-                            (!filter.last_processed_time || client.last_processed_time.indexOf(filter.last_processed_time) > -1);
+                        return (!filter.empname || client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1) &&
+                            (!filter.email_count || client.email_count.toLowerCase().indexOf(filter.email_count.toLowerCase()) > -1) &&
+                            (!filter.last_annotated_time || client.last_annotated_time.toLowerCase().indexOf(filter.last_annotated_time.toLowerCase()) > -1) &&
+                            (!filter.task_count || client.task_count.toLowerCase().indexOf(filter.task_count.toLowerCase()) > -1) &&
+                            (!filter.last_processed_time || client.last_processed_time.toLowerCase().indexOf(filter.last_processed_time.toLowerCase()) > -1);
                     });
 
                 }
@@ -1240,9 +1240,9 @@ $(document).on('click', '.email-send-btn-old', function(e) {
 
 });
 $(document).on('click', '.email-send-btn', function(e) {
-	var type = $('.pmbottype').attr('data-pmbottype');
+    var type = $('.pmbottype').attr('data-pmbottype');
     $('#type').val(type);
-	
+
     e.preventDefault();
 
     if ($('#to').val() == '') {
@@ -1279,7 +1279,7 @@ $(document).on('click', '.email-send-btn', function(e) {
 });
 
 $(document).on('click', '.email-save-btn', function(e) {
-	var type = $('.pmbottype').attr('data-pmbottype');
+    var type = $('.pmbottype').attr('data-pmbottype');
     $('#type').val(type);
 
     e.preventDefault();
@@ -1304,7 +1304,7 @@ $(document).on('click', '.email-save-btn', function(e) {
 
 });
 $(document).on('click', '.email-reply-send-btn', function(e) {
-	var type = $('.pmbottype').attr('data-pmbottype');
+    var type = $('.pmbottype').attr('data-pmbottype');
     $('#type').val(type);
     $('#email-type').val(type);
 
@@ -1330,7 +1330,7 @@ $(document).on('click', '.email-reply-send-btn', function(e) {
 
 
 $(document).on('click', '.email-reply-save-btn', function(e) {
-	var type = $('.pmbottype').attr('data-pmbottype');
+    var type = $('.pmbottype').attr('data-pmbottype');
     $('#type').val(type);
     $('#email-type').val(type);
 
@@ -1355,7 +1355,7 @@ $(document).on('click', '.email-reply-save-btn', function(e) {
 });
 
 $(document).on('click', '.email-draft-send-btn', function(e) {
-	var type = $('.pmbottype').attr('data-pmbottype');
+    var type = $('.pmbottype').attr('data-pmbottype');
     $('#type').val(type);
     $('#email-type').val(type);
 
@@ -1379,7 +1379,7 @@ $(document).on('click', '.email-draft-send-btn', function(e) {
 
 
 $(document).on('click', '.email-draft-save-btn', function(e) {
-	var type = $('.pmbottype').attr('data-pmbottype');
+    var type = $('.pmbottype').attr('data-pmbottype');
     $('#type').val(type);
     $('#email-type').val(type);
 
