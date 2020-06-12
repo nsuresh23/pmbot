@@ -118,18 +118,18 @@ function getCheckListTableList(gridSelector) {
                     if (gridType == 'jobDetail' && gridCategory == 'job') {
 
                         return $.grep(dbClients, function(client) {
-                            return (!filter.title || client.title.indexOf(filter.title) > -1) &&
-                                (!filter.task_title || client.task_title.indexOf(filter.task_title) > -1) &&
-                                (!filter.empcode || client.empcode.indexOf(filter.empcode) > -1);
+                            return (!filter.title || client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1) &&
+                                (!filter.task_title || client.task_title.toLowerCase().indexOf(filter.task_title.toLowerCase()) > -1) &&
+                                (!filter.empcode || client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1);
                         });
 
                     } else {
 
                         return $.grep(dbClients, function(client) {
 
-                            return (!filter.title || client.title.indexOf(filter.title) > -1) &&
-                                (!filter.location || client.location.indexOf(filter.location) > -1) &&
-                                (!filter.empcode || client.empcode.indexOf(filter.empcode) > -1);
+                            return (!filter.title || client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1) &&
+                                (!filter.location || client.location.toLowerCase().indexOf(filter.location.toLowerCase()) > -1) &&
+                                (!filter.empcode || client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1);
                         });
 
                     }

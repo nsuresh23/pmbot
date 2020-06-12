@@ -72,8 +72,8 @@ function getTaskActivitiesTableList(gridSelector) {
 
                     return $.grep(dbClients, function(client) {
 
-                        return (!filter.detail || client.detail.indexOf(filter.detail) > -1) &&
-                            (!filter.note || client.note.indexOf(filter.note) > -1);
+                        return (!filter.detail || client.detail.toLowerCase().indexOf(filter.detail.toLowerCase()) > -1) &&
+                            (!filter.note || client.note.toLowerCase().indexOf(filter.note.toLowerCase()) > -1);
                     });
                 }
             },
@@ -450,7 +450,7 @@ function getTaskActivitiesTableList(gridSelector) {
 
         // $("#taskNoteMediaDropzone .dz-preview").html("");
 
-        // if (Dropzone.instances.length > 0) Dropzone.instances.forEach(dz => dz.destroy()) 
+        // if (Dropzone.instances.length > 0) Dropzone.instances.forEach(dz => dz.destroy())
 
         // Dropzone.autoDiscover = false;
 
@@ -467,7 +467,7 @@ function getTaskActivitiesTableList(gridSelector) {
 
         //         init: function () {
 
-        //             myDropzone = this;                        
+        //             myDropzone = this;
 
         //             // this.removeAllFiles(true);
 
@@ -830,7 +830,7 @@ function getTaskActivitiesTableList(gridSelector) {
             '</a>' +
             '</div>';
 
-        // for (var i = 0, len = attachment.length; i < len; i++) {                
+        // for (var i = 0, len = attachment.length; i < len; i++) {
 
         //     if (attachment[i].name != "") {
 

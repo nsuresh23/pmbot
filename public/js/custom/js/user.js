@@ -47,31 +47,31 @@ $(function() {
 
                             return $.grep(dbClients, function(client) {
 
-                                return (!filter.id || client.id.indexOf(filter.id) > -1) &&
-                                    (!filter.empcode || client.empcode.indexOf(filter.empcode) > -1) &&
-                                    (!filter.empname || client.empname.indexOf(filter.empname) > -1) &&
-                                    (!filter.email || client.email.indexOf(filter.email) > -1) &&
-                                    (!filter.role || client.role.indexOf(filter.role) > -1) &&
-                                    (!filter.location || client.location.indexOf(filter.location) > -1) &&
-                                    (!filter.mobile || client.mobile.indexOf(filter.mobile) > -1) &&
-                                    (!filter.cisco || client.cisco.indexOf(filter.cisco) > -1) &&
-                                    (filter.status === undefined || client.status === filter.status);
-                                // && (filter.status === undefined || client.status === filter.status || !filter.status || client.status.indexOf(filter.status) > -1)
-                                // && (!filter.created_at || client.created_at.indexOf(filter.created_at) > -1)
-                                // && (!filter.updated_at || client.updated_at.indexOf(filter.updated_at) > -1);
+                                return (!filter.id || client.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1) &&
+                                    (!filter.empcode || client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1) &&
+                                    (!filter.empname || client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1) &&
+                                    (!filter.email || client.email.toLowerCase().indexOf(filter.email.toLowerCase()) > -1) &&
+                                    (!filter.role || client.role.toLowerCase().indexOf(filter.role.toLowerCase()) > -1) &&
+                                    (!filter.location || client.location.toLowerCase().indexOf(filter.location.toLowerCase()) > -1) &&
+                                    (!filter.mobile || client.mobile.toLowerCase().indexOf(filter.mobile.toLowerCase()) > -1) &&
+                                    (!filter.cisco || client.cisco.toLowerCase().indexOf(filter.cisco.toLowerCase()) > -1) &&
+                                    (filter.status === undefined || client.status.toLowerCase() === filter.status.toLowerCase());
+                                // && (filter.status === undefined || client.status.toLowerCase() === filter.status.toLowerCase() || !filter.status || client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1)
+                                // && (!filter.created_at || client.created_at.toLowerCase().indexOf(filter.created_at.toLowerCase()) > -1)
+                                // && (!filter.updated_at || client.updated_at.toLowerCase().indexOf(filter.updated_at.toLowerCase()) > -1);
                             });
 
                         } else {
 
                             return $.grep(dbClients, function(client) {
 
-                                return (!filter.id || client.id.indexOf(filter.id) > -1) &&
-                                    (!filter.name || client.name.indexOf(filter.name) > -1) &&
-                                    (filter.status === undefined || client.status === filter.status)
-                                    // && (filter.status === undefined || client.status === filter.status || !filter.status || client.status.indexOf(filter.status) > -1)
+                                return (!filter.id || client.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1) &&
+                                    (!filter.name || client.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1) &&
+                                    (filter.status === undefined || client.status.toLowerCase() === filter.status.toLowerCase())
+                                    // && (filter.status === undefined || client.status.toLowerCase() === filter.status.toLowerCase() || !filter.status || client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1)
                                     &&
-                                    (!filter.created_at || client.created_at.indexOf(filter.created_at) > -1) &&
-                                    (!filter.updated_at || client.updated_at.indexOf(filter.updated_at) > -1);
+                                    (!filter.created_at || client.created_at.toLowerCase().indexOf(filter.created_at.toLowerCase()) > -1) &&
+                                    (!filter.updated_at || client.updated_at.toLowerCase().indexOf(filter.updated_at.toLowerCase()) > -1);
                             });
 
                         }
@@ -80,11 +80,11 @@ $(function() {
 
                 // fields: [
                 //     { title: "ID", name: "id", type: "text", inserting: false, editing: false, width: 150 },
-                //     { 
+                //     {
                 //         title: "NAME",
                 //         name: "name",
                 //         type: "text",
-                //         // validate: function (value, item) { 
+                //         // validate: function (value, item) {
 
                 //         //     return itemEmptyOrExistsCheck(gridSelector, 'name', value);
 
@@ -105,10 +105,10 @@ $(function() {
                 //         //     // }
 
 
-                //         // }, 
+                //         // },
                 //         width: 150
                 //     },
-                //     { 
+                //     {
                 //         title: "STATUS",
                 //         name: "status",
                 //         type: "checkbox",
@@ -127,7 +127,7 @@ $(function() {
                 //     },
                 //     { title: "CREATED AT", name: "created_at", type: "text", inserting: false, editing: false, width: 150 },
                 //     { title: "UPDATED AT", name: "updated_at", type: "text", inserting: false, editing: false, width: 150 },
-                //     { 
+                //     {
                 //         type: "control",
                 //         updateButtonClass: "jsgrid-update-button edit-alert",
                 //     },
@@ -277,7 +277,7 @@ $(function() {
                 title: "NAME",
                 name: "name",
                 type: "text",
-                // validate: function (value, item) { 
+                // validate: function (value, item) {
 
                 //     return itemEmptyOrExistsCheck(gridSelector, 'name', value);
 
@@ -298,7 +298,7 @@ $(function() {
                 //     // }
 
 
-                // }, 
+                // },
                 width: 150
             },
             {
@@ -405,7 +405,7 @@ $(function() {
                     css: "user-jsgrid-checkbox-width",
                     width: 60
                 },
-                // { 
+                // {
                 //     title: "CREATED AT",
                 //     name: "created_at",
                 //     type: "text",
