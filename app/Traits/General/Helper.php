@@ -942,6 +942,9 @@ trait Helper
                 case 'pdf':
                     $type = $extension;
                     break;
+                case 'txt':
+                    $type = 'text';
+                    break;
                 case 'docx':
                 case 'doc':
                     $type = 'word';
@@ -970,7 +973,7 @@ trait Helper
                     $type = 'image';
                     break;
                 default:
-                    $type = 'alt';
+                    $type = 'picture';
             }
         } catch (Exception $e) {
 

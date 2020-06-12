@@ -2030,13 +2030,3 @@ $(document).on("click", function(event) {
         $(".draftcclist").empty();
     }
 });
-
-/*
-var submitTextArea = document.getElementById("to");
-submitTextArea.addEventListener("blur", function () {
-
-   //$(".compose_to ul").empty();
-
-});*/
-
-// });

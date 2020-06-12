@@ -69,14 +69,14 @@ class ApiController extends Controller
     public function getresult(Request $request)
     {
 
-        $id            = $request->id;
-        $empcode    = auth()->user()->empcode;
+        $id = $request->id;
+        $empcode = auth()->user()->empcode;
         $sql = "SELECT id,email_id,job_id,subject,email_from,email_to,email_cc,email_bcc,body_html,email_received_date,attachments,email_path,status from email_box where id = '" . $id . "' and email_id = '" . auth()->user()->empcode . "' ";
-        $filedownloadlink    =    env('ANNOTATIONEMAILFILEDOWNLOADED');
+        // $filedownloadlink = env('ANNOTATIONEMAILFILEDOWNLOADED');
+        $filedownloadlink = route('file') . Config::get('constants.emailImageDownloadPathParams');
 
-
-        $query         =  $sql . " limit 0 , 1";
-        $list         = DB::connection('mysql')->select(DB::raw($query));
+        $query = $sql . " limit 0 , 1";
+        $list = DB::connection('mysql')->select(DB::raw($query));
         $emailcount = DB::connection('mysql')->select(DB::raw($sql));
         if (!empty($list)) {
 
@@ -99,18 +99,20 @@ class ApiController extends Controller
                     foreach ($attachment as $attach) {
                         if (!empty($attach)) {
                             $ext = pathinfo($attach, PATHINFO_EXTENSION);
-                            if ($ext == 'docx' || $ext == 'doc') {
-                                $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . '?fileserver=1&img_path=' . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-word-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . '?fileserver=1&img_path=' . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . '?fileserver=1&img_path=' . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
-                            } else if ($ext == 'pdf') {
-                                $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . '?fileserver=1&img_path=' . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-pdf-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . '?fileserver=1&img_path=' . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . '?fileserver=1&img_path=' . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
-                            } else {
-                                $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . '?fileserver=1&img_path=' . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-picture-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . '?fileserver=1&img_path=' . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . '?fileserver=1&img_path=' . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
-                            }
+
+                            $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-' . $this->getFileType($attach) . '-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
+                            
+                            // if ($ext == 'docx' || $ext == 'doc') {
+                            //     $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-word-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
+                            // } else if ($ext == 'pdf') {
+                            //     $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-pdf-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
+                            // } else {
+                            //     $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-picture-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
+                            // }
+
                         }
                     }
                 }
-
-
 
                 $mailattachdnt = '<div class="box-footer"><ul class="mailbox-attachments clearfix">' . $loop_attach . '</ul></div>';
                 $output .= '<script>document.getElementById("emailid").value=' . $list[$k]->id . ';</script>';

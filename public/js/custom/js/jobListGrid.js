@@ -151,6 +151,20 @@ $(function() {
                     //     //     console.log(item);
                     //     // }
                     // }
+
+                    {
+                        type: "control",
+                        name: "Control",
+                        editButton: false,
+                        deleteButton: false,
+                        headerTemplate: function() {
+
+                            return this._createOnOffSwitchButton("filtering", this.searchModeButtonClass, false);
+
+                        },
+                        width: 60,
+                    },
+
                 ],
 
                 // rowClick: function (args) {
