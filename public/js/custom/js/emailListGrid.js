@@ -538,6 +538,8 @@ function getPmsEmailCountTableList(gridSelector) {
                     return $.grep(dbClients, function(client) {
                         return (!filter.empname || client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1) &&
                             (!filter.email_count || client.email_count.toLowerCase().indexOf(filter.email_count.toLowerCase()) > -1) &&
+                            (!filter.priority_count || client.priority_count.toLowerCase().indexOf(filter.priority_count.toLowerCase()) > -1) &&
+                            (!filter.critical_job_count || client.critical_job_count.toLowerCase().indexOf(filter.critical_job_count.toLowerCase()) > -1) &&
                             (!filter.last_annotated_time || client.last_annotated_time.toLowerCase().indexOf(filter.last_annotated_time.toLowerCase()) > -1) &&
                             (!filter.task_count || client.task_count.toLowerCase().indexOf(filter.task_count.toLowerCase()) > -1) &&
                             (!filter.last_processed_time || client.last_processed_time.toLowerCase().indexOf(filter.last_processed_time.toLowerCase()) > -1);
@@ -583,6 +585,20 @@ function getPmsEmailCountTableList(gridSelector) {
     });
 
     field.push({
+        title: "PRIORITY EMAIL",
+        name: "priority_count",
+        type: "number",
+        // width: 40,
+    });
+
+    field.push({
+        title: "CRITICAL JOBS",
+        name: "critical_job_count",
+        type: "number",
+        // width: 40,
+    });
+
+    field.push({
         title: 'LAST ANNOTATED TIME',
         name: 'last_annotated_time',
         type: 'text',
@@ -613,7 +629,7 @@ function getPmsEmailCountTableList(gridSelector) {
             return this._createOnOffSwitchButton("filtering", this.searchModeButtonClass, false);
 
         },
-        width: 35,
+        width: 40,
     });
 
     $(gridSelector).jsGrid("option", "fields", field);
