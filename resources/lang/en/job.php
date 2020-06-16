@@ -78,6 +78,8 @@ return [
 
     /* Job add form error message */
 
+    'job_isbn_error_msg' => 'Invalid ISBN',
+    'job_isbn_match_error_msg' => 'ISBN contains only (-,_) special characters',
     'job_project_manager_error_msg' => 'required',
     'job_due_date_error_msg' => 'required',
     'job_workflow_error_msg' => 'required',

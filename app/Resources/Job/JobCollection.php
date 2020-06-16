@@ -84,7 +84,7 @@ class JobCollection
             $rules = array(
                 'womat_job_id'       => 'required',
                 'pm_empcode'       => 'required',
-                'date_due'       => 'required',
+                // 'date_due'       => 'required',
             );
 
             $url = $this->jobAddApiUrl;
@@ -94,8 +94,16 @@ class JobCollection
             // process the login
             if ($validator->fails()) {
 
+                $messages = $validator->messages();
                 $returnResponse["error"] = "true";
-                $returnResponse["message"] = "Save failed";
+                // $returnResponse["message"] = "Save failed";
+                $returnResponse["message"] = $messages->first();
+
+                if ($messages->has('womat_job_id')) {
+
+                    $returnResponse["message"] = __("job.job_isbn_error_msg");
+                }
+                
             } else {
 
                 $paramInfo = $request->all();

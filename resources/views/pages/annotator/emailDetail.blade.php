@@ -644,7 +644,9 @@ function saveisbntodb(){
     if($('#isbn').val() == ""){
         alert("ISBN is required");
         $('#isbn').focus();
-    } else {
+	} else if(/^[a-zA-Z0-9- _]*$/.test($('#isbn').val()) == false) {
+		alert('ISBN contains only (-,_) special characters.');
+	} else {
         var isbn = $('#isbn').val();
         // var emailid = 92;
         //var empcode = pmbot@spi-global.com;
