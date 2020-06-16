@@ -243,6 +243,68 @@ class JobController extends Controller
     }
 
     /**
+     * Update the job details based on job id.
+     *
+     * @return json response
+     */
+    public function jobUpdate(Request $request)
+    {
+
+        $returnResponse = [];
+        $field = [];
+
+        $redirectRouteAction = "";
+
+        try {
+
+            $field["empcode"] = auth()->user()->empcode;
+
+            if ($request->job_id) {
+
+                $field["job_id"] = $request->job_id;
+
+            }
+
+            if ($request->category) {
+
+                $field["category"] = $request->category;
+
+            }
+
+            if (count($field) > 0) {
+
+                $returnResponse = $this->jobResource->jobUpdate($field);
+
+            }
+
+            if ($request->redirectTo != __("job.job_detail_url")) {
+
+                $redirectRouteAction = $this->roleBasedDashboardRouteAction($request);
+            }
+
+        } catch (Exeception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        if ($redirectRouteAction) {
+
+            $redirectUrl = redirect()->action($redirectRouteAction);
+        }
+
+        if ($request->redirectTo == __("job.job_detail_url") && $request->current_job_id) {
+
+            $redirectUrl = redirect()->route($request->redirectTo, $request->current_job_id);
+        }
+
+        return $redirectUrl->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message" => $returnResponse["message"]]);
+
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @return json response
@@ -348,6 +410,8 @@ class JobController extends Controller
                 }
 
             }
+
+            $responseData["job_category_list"] = Config::get('constants.jobCategory');
 
 			if($responseData['data']['pm_empcode'] != auth()->user()->empcode && $responseData['data']['am_empcode'] != auth()->user()->empcode){
 

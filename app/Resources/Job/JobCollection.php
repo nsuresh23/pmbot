@@ -29,6 +29,8 @@ class JobCollection
 
     protected $jobAddApiUrl;
 
+    protected $jobUpdateApiUrl;
+
     protected $jobListApiUrl;
 
     protected $jobSelectApiUrl;
@@ -52,6 +54,7 @@ class JobCollection
         $this->jobCountApiUrl = env('API_JOB_COUNT_URL');
         $this->jobSelectApiUrl = env('API_JOB_SELECT_URL');
         // $this->jobHistoryApiUrl = env('API_JOB_HISTORY_URL');
+        $this->jobUpdateApiUrl = env('API_JOB_UPDATE_URL');
         $this->jobHistoryApiUrl = env('API_MY_HISTORY_URL');
         $this->jobByFieldApiUrl = env('API_JOB_BY_FIELD_URL');
         $this->jobTaskListApiUrl = env('API_JOB_TASK_LIST_URL');
@@ -103,7 +106,7 @@ class JobCollection
 
                     $returnResponse["message"] = __("job.job_isbn_error_msg");
                 }
-                
+
             } else {
 
                 $paramInfo = $request->all();
@@ -122,6 +125,77 @@ class JobCollection
                     $returnResponse["error"] = "true";
                     $returnResponse["message"] = "Save unsuccessfull";
 
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
+     * Update job based on job field array.
+     *
+     * @param  array $field
+     * @return array $returnData
+     */
+    public function jobUpdate($field)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // validate
+            // read more on validation at http://laravel.com/docs/validation
+            $rules = array(
+                'job_id'       => 'required',
+                'empcode'       => 'required',
+                // 'date_due'       => 'required',
+            );
+
+            $url = $this->jobUpdateApiUrl;
+
+            $validator = Validator::make($field, $rules);
+
+            // process the login
+            if ($validator->fails()) {
+
+                $messages = $validator->messages();
+                $returnResponse["error"] = "true";
+                // $returnResponse["message"] = "Save failed";
+                $returnResponse["message"] = $messages->first();
+
+            } else {
+
+                $paramInfo = $field;
+
+                unset($paramInfo["redirectTo"]);
+
+                $returnData = $this->postRequest($url, $paramInfo);
+
+                if (isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["message"] = "Save successfull";
+                } else {
+
+                    $returnResponse["error"] = "true";
+                    $returnResponse["message"] = "Save unsuccessfull";
                 }
             }
         } catch (Exception $e) {

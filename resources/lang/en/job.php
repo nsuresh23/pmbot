@@ -55,6 +55,7 @@ return [
     /* Job URL */
 
     'job_store_url' => 'job-store',
+    'job_update_url' => 'job-update',
     'job_add_opm_url' => 'job-add-opm',
     'job_store_opm_url' => 'job-store-opm',
     'annotator_job_add_url' => 'annotator-job-add',
@@ -74,6 +75,7 @@ return [
     'job_due_date_label' => 'Due date',
     'job_due_date_placeholder_text' => 'Select date',
     'job_submit_button_label' => 'submit',
+    'job_update_button_label' => 'update',
     'job_cancel_button_label' => 'cancel',
 
     /* Job add form error message */
@@ -83,6 +85,14 @@ return [
     'job_project_manager_error_msg' => 'required',
     'job_due_date_error_msg' => 'required',
     'job_workflow_error_msg' => 'required',
+
+    /* Job UPDATE Form */
+    'book_info_category_label' => 'category',
+    'book_info_category_placeholder_text' => 'Select category',
+
+    /* Job update form error message */
+
+    'book_info_category_error_msg' => 'required',
 
     /* job detail page */
 

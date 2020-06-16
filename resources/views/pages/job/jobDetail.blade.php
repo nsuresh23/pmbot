@@ -31,10 +31,13 @@ $emailStatusUpdateUrl = route(__("job.email_status_update_url"));
 $getEmailid  = route(__("job.get_email_id"));
 
 $redirectTo = __("job.job_detail_url");
+$redirectToJobUrl = __("job.job_detail_url");
 
 
 
 $jobId = $jobStatus = "";
+
+$selectedJobCategory = null;
 
 if(isset($responseData["data"]) && $responseData["data"]) {
 
@@ -42,11 +45,19 @@ if(isset($responseData["data"]) && $responseData["data"]) {
 
         $jobId = $responseData["data"]["job_id"];
 
+        $redirectToJobUrl = route(__("job.job_detail_url"), $jobId);
+
     }
 
     if(isset($responseData["data"]["status"]) && $responseData["data"]["status"]) {
 
         $jobStatus = $responseData["data"]["status"];
+
+    }
+
+    if(isset($responseData["data"]["category"]) && $responseData["data"]["category"]) {
+
+        $selectedJobCategory = $responseData["data"]["category"];
 
     }
 

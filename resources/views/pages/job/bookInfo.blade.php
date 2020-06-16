@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-sm-12 col-xs-12">
         <div class="form-wrap">
-            <form action="#">
+            <form id="job-update-form" class="job-update-form" action="{{route(__('job.job_update_url'))}}"">
                 <div class="form-body">
 
                     <h6 class="txt-dark capitalize-font font-16">
@@ -11,6 +11,9 @@
                     </h6>
                     <hr class="light-grey-hr" />
                     <div class="">
+                        <input type="hidden" id="redirectTo" name="redirectTo" value="{{$redirectTo ?? '#'}}">
+                        <input type="hidden" id="job_id" name="job_id" value="{{$jobId ?? ''}}">
+                        <input type="hidden" id="current_job_id" name="current_job_id" value="{{$jobId ?? ''}}">
                         <!-- Row -->
                         <div class="row">
                             <div class="col-md-4">
@@ -34,11 +37,30 @@
                                         readonly />
                                 </div>
                             </div>
+                        </div>
+                        <!-- /Row -->
+                        <!-- Row -->
+                        <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_DOI_label') }}</label>
                                     <input type="text" id="bookDOI" class="form-control" value="{{ $responseData["data"]["doi"] ?? '-' }}"
                                         readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label mb-10">{{ __('job.book_info_category_label') }}</label>
+                                    {!! Form::select('category', [ null =>
+                                    __('job.book_info_category_placeholder_text') ] +
+                                    $responseData["job_category_list"],
+                                    $selectedJobCategory,
+                                    ['class' =>
+                                    'form-control select2',
+                                    'data-error' => __('job.book_info_category_error_msg'),
+                                    'required']) !!}
+                                    <div class="help-block with-errors"></div>
+                                    {{-- <input type="text" id="category" class="form-control" value="{{ $responseData["data"]["category"] ?? '-' }}" /> --}}
                                 </div>
                             </div>
                         </div>
@@ -82,6 +104,19 @@
                                     <label class="control-label mb-10">{{ __('job.book_info_E_ISBN_label') }}</label>
                                     <input type="text" id="bookEISBN" class="form-control"
                                         value="{{ $responseData["data"]["e_isbn"] ?? '-' }}" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Row -->
+                        <!-- Row -->
+                        <div class="row">
+                            <div class="col-md-12 mb-10">
+                                <div class="form-group">
+                                    {{-- <a href="{{ $redirectToJobUrl ?? '#' }}" class="btn btn-danger btn-anim pull-right">
+                                        <i class="fa fa-times"></i>
+                                        <span class="btn-text ">{{ __('job.job_cancel_button_label') }}</span>
+                                    </a> --}}
+                                    <button type="submit" id="job-update-form-submit-button" class="btn btn-success btn-anim pull-right mr-10 job-update-form-submit-button"> <i class="fa fa-check"></i><span class="btn-text">{{ __('job.job_update_button_label') }}</span></button>
                                 </div>
                             </div>
                         </div>

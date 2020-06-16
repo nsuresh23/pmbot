@@ -39,6 +39,12 @@ return [
     "jobDefaultDueDateTime" => [
         "oup" => "24",
     ],
+    "jobCategory" => [
+        "low" => "low",
+        "medium" => "medium",
+        "high" => "high",
+        "critical" => "critical"
+    ],
     "taskCategory" => [
         "low" => "low",
         "medium" => "medium",
