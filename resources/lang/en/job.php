@@ -311,6 +311,8 @@ return [
     'task_assigned_to_placeholder_text' => 'select assignee',
     'task_received_on_label' => 'received on',
     'task_received_on_placeholder_text' => 'received on',
+    'task_additional_note_label' => 'note',
+    'task_additional_note_placeholder_text' => 'enter note',
     'task_attachment_label' => 'attachment',
     'task_attachment_button_label' => 'choose files',
     'task_attachment_placeholder_text' => 'enter attachment path',

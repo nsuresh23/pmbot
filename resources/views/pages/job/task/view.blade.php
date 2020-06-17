@@ -24,7 +24,7 @@
     $createdByEmpcode = $taskId = $followupDate = $reminderDate = $followupCount = $taskType = $taskDescription = "";
     $commomDesc = $assignees = $assignessDescriptionView = $partialComplete = $taskStatus = $previousPartialcomplete = "";
 
-    $stageDisabledClass = $statusDisabledClass = $categoryDisabledClass = $assigneeDisabledClass = $multipleTaskAssigneeDisabledClass = $titleDisabledClass = "";
+    $stageDisabledClass = $statusDisabledClass = $categoryDisabledClass = $assigneeDisabledClass = $multipleTaskAssigneeDisabledClass = $titleDisabledClass = $additionalNoteDisabledClass = "";
 
     $jobUrl = "";
 

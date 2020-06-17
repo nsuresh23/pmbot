@@ -196,6 +196,16 @@
 
                 </div>
 
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 {{$additionalNoteDisabledClass}}">
+                    <div class="form-group">
+                        <label for="additional_note" class="control-label mb-10">{{ __('job.task_additional_note_label') }}</label>
+                        <input type="text" class="form-control" id="additional-note" name="additional_note"
+                            value=""
+                            placeholder="{{ __('job.task_additional_note_placeholder_text') }}">
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+
                 <?php // if($partialComplete == "1") { ?>
 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 {{$attachmentPathDisabledClass}}">

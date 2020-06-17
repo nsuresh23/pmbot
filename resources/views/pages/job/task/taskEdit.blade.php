@@ -17,7 +17,7 @@
 
     $statusDisplayBlock = $statusDisplayBlockOffset = $subTaskUsers = $previousAssignedUser = $partialComplete = $previousPartialcomplete = $selectedFollowupDate = "";
 
-    $stageDisabledClass = $statusDisabledClass = $categoryDisabledClass = $assigneeDisabledClass = $multipleTaskAssigneeDisabledClass = $titleDisabledClass = $descriptionDisabledClass = $attachmentPathDisabledClass = "";
+    $stageDisabledClass = $statusDisabledClass = $categoryDisabledClass = $assigneeDisabledClass = $multipleTaskAssigneeDisabledClass = $titleDisabledClass = $descriptionDisabledClass = $attachmentPathDisabledClass = $additionalNoteDisabledClass = "";
 
     $selectedCategory = "medium";
 
