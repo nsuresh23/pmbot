@@ -287,6 +287,11 @@ class EmailCollection
             } else {
                 $field["cc"] = '';
             }
+			if (isset($field['bcc']) && $field['bcc'] != "") {
+                $field["bcc"] = base64_encode($field['bcc']);
+            } else {
+                $field["bcc"] = '';
+            }
 			if (isset($field['subject']) && $field['subject'] != "") {
                 $field["subject"] = base64_encode($field['subject']);
             } else {
@@ -644,6 +649,11 @@ class EmailCollection
                 $field["email_cc"] = base64_encode($field['email_cc']);
             } else {
                 $field["email_cc"] = '';
+            }
+			if (isset($field['email_bcc']) && $field['email_bcc'] != "") {
+                $field["email_bcc"] = base64_encode($field['email_bcc']);
+            } else {
+                $field["email_bcc"] = '';
             }
 			if (isset($field['subject']) && $field['subject'] != "") {
                 $field["subject"] = base64_encode($field['subject']);

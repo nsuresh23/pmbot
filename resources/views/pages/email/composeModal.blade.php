@@ -55,6 +55,17 @@
 										</div>
 
 									</div>
+									
+									<div class="box">
+										<div class="email-label">Bcc...</div>
+										<div class="compose_bcc">
+											 <input type="text" placeholder="" id="bcc" name="bcc" class="form-control composebcc" autocomplete="off">
+											<input type="hidden" placeholder="" id="composebcc_value" class="form-control composebcc" value="">
+											<ul class="composebcclist"></ul>
+										</div>
+
+									</div>
+									
 									<div class="box">
 										<div class="email-label border-none" >Subject</div>
 										 <input type="text" placeholder="" id="subject" name="subject" class="form-control subject" >

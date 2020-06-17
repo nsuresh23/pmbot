@@ -18082,6 +18082,12 @@ ul.inbox-nav li a:focus {
 .compose_cc ul li:hover{ cursor: pointer; }
 .compose_cc ul li:nth-child(even){background: #f9f9f9;color: black;}
 
+.compose_bcc ul{list-style: none; padding: 0px;width: 50%;position: absolute;margin: 0;height: auto;z-index: 1;overflow-y: auto; max-height: 250px; left: 11%; top: 54%;}
+.compose_bcc ul li{ background:#f9f9f9;padding: 4px;width:101%;}
+.compose_bcc ul li:nth-child(even){ background:#f9f9f9; color: black; }
+.compose_bcc ul li:hover{ cursor: pointer; }
+.compose_bcc ul li:nth-child(even){background: #f9f9f9;color: black;}
+
 .reply_to ul{list-style: none; padding: 0px;width: 50%;position: absolute;margin: 0;height: auto;z-index: 1;overflow-y: auto; max-height: 250px; left: 11%; top: 21%;}
 .reply_to ul li{ background:#f9f9f9;padding: 4px;width:101%;}
 .reply_to ul li:nth-child(even){ background:#f9f9f9; color: black; }
@@ -18093,6 +18099,12 @@ ul.inbox-nav li a:focus {
 .reply_cc ul li:nth-child(even){ background:#f9f9f9; color: black; }
 .reply_cc ul li:hover{ cursor: pointer; }
 .reply_cc ul li:nth-child(even){background: #f9f9f9;color: black;}
+
+.reply_bcc ul{list-style: none; padding: 0px;width: 50%;position: absolute;margin: 0;height: auto;z-index: 1;overflow-y: auto; max-height: 250px; left: 11%; top: 54%;}
+.reply_bcc ul li{ background:#f9f9f9;padding: 4px;width:101%;}
+.reply_bcc ul li:nth-child(even){ background:#f9f9f9; color: black; }
+.reply_bcc ul li:hover{ cursor: pointer; }
+.reply_bcc ul li:nth-child(even){background: #f9f9f9;color: black;}
 
 .draft_to ul{list-style: none; padding: 0px;width: 50%;position: absolute;margin: 0;height: auto;z-index: 1;overflow-y: auto; max-height: 250px; left: 11%; top: 21%;}
 .draft_to ul li{ background:#f9f9f9;padding: 4px;width:101%;}
@@ -18107,6 +18119,11 @@ ul.inbox-nav li a:focus {
 .draft_cc ul li:hover{ cursor: pointer; }
 .draft_cc ul li:nth-child(even){background: #f9f9f9;color: black;}
 
+.draft_bcc ul{list-style: none; padding: 0px;width: 50%;position: absolute;margin: 0;height: auto;z-index: 1;overflow-y: auto; max-height: 250px; left: 11%; top: 54%;}
+.draft_bcc ul li{ background:#f9f9f9;padding: 4px;width:101%;}
+.draft_bcc ul li:nth-child(even){ background:#f9f9f9; color: black; }
+.draft_bcc ul li:hover{ cursor: pointer; }
+.draft_bcc ul li:nth-child(even){background: #f9f9f9;color: black;}
 
 
 .email-lt{float:left;width:6%;}
@@ -18114,7 +18131,7 @@ ul.inbox-nav li a:focus {
 .email-rt .box {float:left;width:100%;margin-bottom:5px;}
 .email-rt .box .email-label {float: left;height: 30px;border: 1px solid #ebebeb;line-height: 30px;width: 5%;text-align: center;margin-right:5px;}
 .border-none {border:0px !important;}
-.composeto, .composecc, .subject, .attachements, .replyattachements, .draftattachements, .compose_message, .email-reply-to, .email-reply-cc, .email-reply-subject, .email-draft-to, .email-draft-cc, .email-draft-subject {float:left !important;width:94% !important;}
+.composeto, .composecc,.composebcc, .subject, .attachements, .replyattachements, .draftattachements, .compose_message, .email-reply-to, .email-reply-cc, .email-reply-bcc, .email-reply-subject, .email-draft-to, .email-draft-cc, .email-draft-subject {float:left !important;width:94% !important;}
 .email-send-btn {float: left;width: 90%;height: 105px;padding-top:25px;;text-align: center;border:1px solid #ebebeb;cursor:pointer;}
 .email-send-btn img{width:30px;heigh:30px;}
 .email-reply-send-btn {float: left;width: 90%;height: 105px;padding-top:25px;;text-align: center;border:1px solid #ebebeb;cursor:pointer;}

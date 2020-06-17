@@ -197,7 +197,11 @@ class EmailController extends Controller
             } else {
                 $field["cc"] = '';
             }
-
+			if (isset($request->bcc) && $request->bcc != "") {
+                $field["bcc"] = $request->bcc;
+            } else {
+                $field["bcc"] = '';
+            }
             if (isset($request->subject) && $request->subject != "") {
                 $field["subject"] = $request->subject;
             } else {
@@ -297,9 +301,12 @@ class EmailController extends Controller
 			if($field['email_type'] == 'forward') {
 				$gfield['emailid'] = $field['email_id'];
 				$returnResponse = $this->emailResource->emailGet($gfield);
+				
 				if(!empty($returnResponse['data']['attachments'])) {
-					$returnResponse['data']['attachments'] = base64_decode($returnResponse['data']['attachments']);
+					//$returnResponse['data']['attachments'] = base64_decode($returnResponse['data']['attachments']);
+					$returnResponse['data']['attachments'] = $returnResponse['data']['attachments'];
 				}
+				
 
 
 				if(empty($uploadPath)) {
@@ -355,10 +362,11 @@ class EmailController extends Controller
 
 				}
 			}
+			
 			if(!empty($field["attachments"])) {
 				$field["attachments"] = base64_encode($field["attachments"]);
 			}
-
+			
             if (count($field) > 0) {
                 $returnResponse = $this->emailResource->emailSend($field);
             }
@@ -397,7 +405,11 @@ class EmailController extends Controller
             } else {
                 $field["email_cc"] = '';
             }
-
+			if (isset($request->bcc) && $request->bcc != "") {
+                $field["email_bcc"] = $request->bcc;
+            } else {
+                $field["email_bcc"] = '';
+            }
             if (isset($request->subject) && $request->subject != "") {
                 $field["subject"] = $request->subject;
             } else {

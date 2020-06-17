@@ -1625,7 +1625,6 @@ function showform(type, selector) {
                         $('.email-reply-to').val(reto + replyallto + ';');
                     }
 
-
                 } else {
                     $('.email-reply-cc').val('');
                 }
@@ -1709,6 +1708,14 @@ function showdraftform(type, selector) {
                     cc = cc.replace(/&gt;/g, ">");
                     cc = cc.replace(/;/g, "");
                     $('.email-draft-cc').val(cc + ';');
+                }
+				if (response.data.email_bcc != '' && response.data.email_bcc != null) {
+                    var bcc = response.data.email_bcc.replace(/&quot;/g, "");
+                    bcc = bcc.replace(/&quot;/g, "")
+                    bcc = bcc.replace(/&lt;/g, "<");
+                    bcc = bcc.replace(/&gt;/g, ">");
+                    bcc = bcc.replace(/;/g, "");
+                    $('.email-draft-bcc').val(bcc + ';');
                 }
                 var subject = response.data.subject;
                 $('.email-draft-subject').val(subject);
@@ -1810,7 +1817,38 @@ $(document).ready(function() {
             $(".compose_cc ul").empty();
         }
     });
+	$("#bcc").keyup(function() {
+        var search = $(this).val();
 
+        var temp = new Array();
+        temp = search.split(";");
+        if (temp.length == '1') {
+            $('#composebcc_value').val('');
+        }
+        var postUrl = $('#getemailidURL').val();
+
+        if (search != "") {
+            $.ajax({
+                url: postUrl,
+                type: 'post',
+                data: { search: search },
+                dataType: 'json',
+                success: function(response) {
+                    var len = response.data.length;
+                    $(".compose_cc ul").empty();
+                    if (len > 0) {
+                        for (var i = 0; i < len; i++) {
+                            $(".compose_bcc ul").append("<li class='composebcc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
+                        }
+                    } else {
+                        $(".compose_bcc ul").empty();
+                    }
+                }
+            });
+        } else {
+            $(".compose_bcc ul").empty();
+        }
+    });
     $("#email-reply-to").keyup(function() {
         var search = $(this).val();
 
@@ -1878,7 +1916,39 @@ $(document).ready(function() {
             $(".reply_cc ul").empty();
         }
     });
+	$("#email-reply-bcc").keyup(function() {
+        var search = $(this).val();
 
+        var temp = new Array();
+        temp = search.split(";");
+        if (temp.length == '1') {
+            $('#replybcc_value').val('');
+        }
+
+        var postUrl = $('#getemailidURL').val();
+
+        if (search != "") {
+            $.ajax({
+                url: postUrl,
+                type: 'post',
+                data: { search: search },
+                dataType: 'json',
+                success: function(response) {
+                    var len = response.data.length;
+                    $(".reply_cc ul").empty();
+                    if (len > 0) {
+                        for (var i = 0; i < len; i++) {
+                            $(".reply_bcc ul").append("<li class='replybcc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
+                        }
+                    } else {
+                        $(".reply_bcc ul").empty();
+                    }
+                }
+            });
+        } else {
+            $(".reply_bcc ul").empty();
+        }
+    });
     $("#email-draft-to").keyup(function() {
         var search = $(this).val();
 
@@ -1946,6 +2016,39 @@ $(document).ready(function() {
             $(".draft_cc ul").empty();
         }
     });
+	$("#email-draft-bcc").keyup(function() {
+        var search = $(this).val();
+
+        var temp = new Array();
+        temp = search.split(";");
+        if (temp.length == '1') {
+            $('#draftbcc_value').val('');
+        }
+
+        var postUrl = $('#getemailidURL').val();
+
+        if (search != "") {
+            $.ajax({
+                url: postUrl,
+                type: 'post',
+                data: { search: search },
+                dataType: 'json',
+                success: function(response) {
+                    var len = response.data.length;
+                    $(".draft_bcc ul").empty();
+                    if (len > 0) {
+                        for (var i = 0; i < len; i++) {
+                            $(".draft_bcc ul").append("<li class='draftbcc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
+                        }
+                    } else {
+                        $(".draft_bcc ul").empty();
+                    }
+                }
+            });
+        } else {
+            $(".draft_bcc ul").empty();
+        }
+    });
 });
 $(document).on('click', '.compose_emaillist', function(e) {
     var value = $(this).attr('value');
@@ -1963,6 +2066,14 @@ $(document).on('click', '.composecc_emaillist', function(e) {
     $('.composecc').val(ccvalue + value + ';');
     $(".compose_cc ul").empty();
 });
+$(document).on('click', '.composebcc_emaillist', function(e) {
+    var value = $(this).attr('value');
+    var bccvalue = $('#composebcc_value').val();
+    value = value.replace(/"/g, "");
+    $('#composebcc_value').val(bccvalue + value + ';');
+    $('.composebcc').val(bccvalue + value + ';');
+    $(".compose_bcc ul").empty(); 
+});
 $(document).on('click', '.replyto_emaillist', function(e) {
     var value = $(this).attr('value');
     var tovalue = $('#replyto_value').val();
@@ -1979,6 +2090,14 @@ $(document).on('click', '.replycc_emaillist', function(e) {
     $('.email-reply-cc').val(reccvalue + value + ';');
     $(".reply_cc ul").empty();
 });
+$(document).on('click', '.replybcc_emaillist', function(e) {
+    var value = $(this).attr('value');
+    var rebccvalue = $('#replybcc_value').val();
+    value = value.replace(/"/g, "");
+    $('#replybcc_value').val(rebccvalue + value + ';');
+    $('.email-reply-bcc').val(rebccvalue + value + ';');
+    $(".reply_bcc ul").empty();
+});
 $(document).on('click', '.draftto_emaillist', function(e) {
     var value = $(this).attr('value');
     var reccvalue = $('#draftto_value').val();
@@ -1994,6 +2113,14 @@ $(document).on('click', '.draftcc_emaillist', function(e) {
     $('#draftcc_value').val(reccvalue + value + ';');
     $('.email-draft-cc').val(reccvalue + value + ';');
     $(".draft_cc ul").empty();
+});
+$(document).on('click', '.draftbcc_emaillist', function(e) {
+    var value = $(this).attr('value');
+    var rebccvalue = $('#draftbcc_value').val();
+    value = value.replace(/"/g, "");
+    $('#draftbcc_value').val(rebccvalue + value + ';');
+    $('.email-draft-bcc').val(rebccvalue + value + ';');
+    $(".draft_bcc ul").empty();
 });
 $(document).on('click', '.email-compose-btn', function(e) {
     $('#to').val('');
@@ -2015,13 +2142,15 @@ $('.pmsEmailCountGrid .jsgrid-grid-body').slimscroll({
     height: '520px',
 });
 $(document).on("click", function(event) {
-    var $composeto = $(".composetolist");
-    var $composecc = $(".composecclist");
+    var $composeto  = $(".composetolist");
+    var $composecc  = $(".composecclist");
     var $composebcc = $(".composebcclist");
-    var $replyeto = $(".replytolist");
-    var $replycc = $(".replycclist");
-    var $draftto = $(".drafttolist");
-    var $draftcc = $(".draftcclist");
+    var $replyeto   = $(".replytolist");
+    var $replycc    = $(".replycclist");
+	var $replybcc   = $(".replybcclist");
+    var $draftto    = $(".drafttolist");
+    var $draftcc    = $(".draftcclist");
+	var $draftbcc   = $(".draftbcclist");
 
 
     if ($composeto !== event.target && !$composeto.has(event.target).length) {
@@ -2039,10 +2168,16 @@ $(document).on("click", function(event) {
     if ($replycc !== event.target && !$replycc.has(event.target).length) {
         $(".replycclist").empty();
     }
+	if ($replybcc !== event.target && !$replybcc.has(event.target).length) {
+        $(".replybcclist").empty();
+    }
     if ($draftto !== event.target && !$draftto.has(event.target).length) {
         $(".drafttolist").empty();
     }
     if ($draftcc !== event.target && !$draftcc.has(event.target).length) {
         $(".draftcclist").empty();
+    }
+	if ($draftbcc !== event.target && !$draftbcc.has(event.target).length) {
+        $(".draftbcclist").empty();
     }
 });

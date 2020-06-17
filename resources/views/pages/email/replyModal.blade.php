@@ -65,6 +65,14 @@
 									</div>
 								</div>
 								<div class="box">
+									<div class="email-label">Bcc...</div>
+									<div class="reply_bcc">
+										 <input type="text" placeholder="" id="email-reply-bcc" name="bcc" class="form-control email-reply-bcc" autocomplete="off">
+										 <input type="hidden" placeholder="" id="replybcc_value" class="form-control email-reply-bcc" value="">
+										 <ul class="replybcclist"></ul>
+									</div>
+								</div>
+								<div class="box">
 									<div class="email-label border-none" >Subject</div>
 									<input type="text" placeholder="" id="email-reply-subject" name="subject" class="form-control email-reply-subject">
 								</div>

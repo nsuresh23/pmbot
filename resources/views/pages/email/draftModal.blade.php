@@ -65,6 +65,14 @@
 									</div>
 								</div>
 								<div class="box">
+									<div class="email-label">Bcc...</div>
+									<div class="draft_bcc">
+										 <input type="text" placeholder="" id="email-draft-bcc" name="bcc" class="form-control email-draft-bcc" autocomplete="off">
+										 <input type="hidden" placeholder="" id="draftbcc_value" class="form-control email-draft-bcc" value="">
+										 <ul class="draftbcclist"></ul>
+									</div>
+								</div>
+								<div class="box">
 									<div class="email-label border-none" >Subject</div>
 									<input type="text" placeholder="" id="email-draft-subject" name="subject" class="form-control email-draft-subject">
 								</div>
