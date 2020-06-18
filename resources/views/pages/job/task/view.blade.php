@@ -83,7 +83,7 @@
 
             $jobUrl = route(__('job.job_detail_url'), $jobId);
 
-            $taskAddUrl = $taskAddUrl . "?job_id=" . $jobId . "&redirectTo=" . __('job.job_detail_url');
+            $taskAddUrl = $taskAddUrl . "?job_id=" . $jobId . "&type=job" . "&redirectTo=" . __('job.job_detail_url');
 
             $checkListAddUrl = $checkListAddUrl . "&type=job" . "&job_id=" . $jobId . "&redirectTo=" . __('job.job_detail_url');
 
