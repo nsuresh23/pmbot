@@ -467,4 +467,24 @@ $(function() {
 
     });
 
+    // $(document).on('click', '.job-add-submit-btn', function(e) {
+
+    //     // e.preventDefault();
+
+    //     if (/^[a-zA-Z0-9-_]*$/.test($('.job-isbn').val()) == false) {
+
+    //         $('.job-isbn-error').addClass('text-danger');
+
+    //         $('.job-isbn-error').text('ISBN contains only (-,_) special characters.');
+
+    //         return false;
+
+    //     }
+
+    //     // return true;
+
+    //     // $('.job-add-form').submit();
+
+    // });
+
 });

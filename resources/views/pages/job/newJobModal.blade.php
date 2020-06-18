@@ -20,9 +20,9 @@
                                             <div class="col-lg-8 pl-20">
                                                 <input type="text" id="womat_job_id" name="womat_job_id" class="form-control job-isbn"
                                                     value="{{ $returnResponse["data"]["isbn"] ?? '' }}"
-                                                    placeholder="{{ __('job.job_isbn_placeholder_text') }}" pattern="[\w\s-]+" title="{{ __('job.job_isbn_match_error_msg') }}" data-error="{{ __('job.job_isbn_error_msg') }}" data-match-error="{{ __('job.job_isbn_error_msg') }}"
+                                                    placeholder="{{ __('job.job_isbn_placeholder_text') }}" pattern="[\w-]+" title="{{ __('job.job_isbn_match_error_msg') }}" data-error="{{ __('job.job_isbn_error_msg') }}" data-match-error="{{ __('job.job_isbn_error_msg') }}"
                                                     required />
-                                                <div class="help-block with-errors"></div>
+                                                <div class="help-block with-errors job-isbn-error"></div>
                                             </div>
                                         </div>
                                     </div>
