@@ -539,6 +539,7 @@ function getPmsEmailCountTableList(gridSelector) {
                         return (!filter.empname || client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1) &&
                             (!filter.email_count || client.email_count.toLowerCase().indexOf(filter.email_count.toLowerCase()) > -1) &&
                             (!filter.priority_count || client.priority_count.toLowerCase().indexOf(filter.priority_count.toLowerCase()) > -1) &&
+                            (!filter.critical_jobs_email_count || client.critical_jobs_email_count.toLowerCase().indexOf(filter.critical_jobs_email_count.toLowerCase()) > -1) &&
                             (!filter.critical_job_count || client.critical_job_count.toLowerCase().indexOf(filter.critical_job_count.toLowerCase()) > -1) &&
                             (!filter.last_annotated_time || client.last_annotated_time.toLowerCase().indexOf(filter.last_annotated_time.toLowerCase()) > -1) &&
                             (!filter.task_count || client.task_count.toLowerCase().indexOf(filter.task_count.toLowerCase()) > -1) &&
@@ -590,6 +591,15 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "number",
         // width: 40,
     });
+
+    field.push({
+        title: "CRITICAL EMAILS",
+        name: "critical_jobs_email_count",
+        type: "number",
+        // width: 40,
+    });
+
+
 
     field.push({
         title: "CRITICAL JOBS",
@@ -1578,13 +1588,15 @@ function showform(type, selector) {
     } else {
         $('.modeltitle').html(type);
     }
-
-
+	
+	l
     $.ajax({
         url: postUrl,
         data: emailPostData,
         dataType: 'json',
         type: 'POST',
+		
+		
 
     }).done(function(response) {
 
@@ -1709,7 +1721,7 @@ function showdraftform(type, selector) {
                     cc = cc.replace(/;/g, "");
                     $('.email-draft-cc').val(cc + ';');
                 }
-				if (response.data.email_bcc != '' && response.data.email_bcc != null) {
+                if (response.data.email_bcc != '' && response.data.email_bcc != null) {
                     var bcc = response.data.email_bcc.replace(/&quot;/g, "");
                     bcc = bcc.replace(/&quot;/g, "")
                     bcc = bcc.replace(/&lt;/g, "<");
@@ -1817,7 +1829,7 @@ $(document).ready(function() {
             $(".compose_cc ul").empty();
         }
     });
-	$("#bcc").keyup(function() {
+    $("#bcc").keyup(function() {
         var search = $(this).val();
 
         var temp = new Array();
@@ -1916,7 +1928,7 @@ $(document).ready(function() {
             $(".reply_cc ul").empty();
         }
     });
-	$("#email-reply-bcc").keyup(function() {
+    $("#email-reply-bcc").keyup(function() {
         var search = $(this).val();
 
         var temp = new Array();
@@ -2016,7 +2028,7 @@ $(document).ready(function() {
             $(".draft_cc ul").empty();
         }
     });
-	$("#email-draft-bcc").keyup(function() {
+    $("#email-draft-bcc").keyup(function() {
         var search = $(this).val();
 
         var temp = new Array();
@@ -2072,7 +2084,7 @@ $(document).on('click', '.composebcc_emaillist', function(e) {
     value = value.replace(/"/g, "");
     $('#composebcc_value').val(bccvalue + value + ';');
     $('.composebcc').val(bccvalue + value + ';');
-    $(".compose_bcc ul").empty(); 
+    $(".compose_bcc ul").empty();
 });
 $(document).on('click', '.replyto_emaillist', function(e) {
     var value = $(this).attr('value');
@@ -2142,15 +2154,15 @@ $('.pmsEmailCountGrid .jsgrid-grid-body').slimscroll({
     height: '520px',
 });
 $(document).on("click", function(event) {
-    var $composeto  = $(".composetolist");
-    var $composecc  = $(".composecclist");
+    var $composeto = $(".composetolist");
+    var $composecc = $(".composecclist");
     var $composebcc = $(".composebcclist");
-    var $replyeto   = $(".replytolist");
-    var $replycc    = $(".replycclist");
-	var $replybcc   = $(".replybcclist");
-    var $draftto    = $(".drafttolist");
-    var $draftcc    = $(".draftcclist");
-	var $draftbcc   = $(".draftbcclist");
+    var $replyeto = $(".replytolist");
+    var $replycc = $(".replycclist");
+    var $replybcc = $(".replybcclist");
+    var $draftto = $(".drafttolist");
+    var $draftcc = $(".draftcclist");
+    var $draftbcc = $(".draftbcclist");
 
 
     if ($composeto !== event.target && !$composeto.has(event.target).length) {
@@ -2168,7 +2180,7 @@ $(document).on("click", function(event) {
     if ($replycc !== event.target && !$replycc.has(event.target).length) {
         $(".replycclist").empty();
     }
-	if ($replybcc !== event.target && !$replybcc.has(event.target).length) {
+    if ($replybcc !== event.target && !$replybcc.has(event.target).length) {
         $(".replybcclist").empty();
     }
     if ($draftto !== event.target && !$draftto.has(event.target).length) {
@@ -2177,7 +2189,7 @@ $(document).on("click", function(event) {
     if ($draftcc !== event.target && !$draftcc.has(event.target).length) {
         $(".draftcclist").empty();
     }
-	if ($draftbcc !== event.target && !$draftbcc.has(event.target).length) {
+    if ($draftbcc !== event.target && !$draftbcc.has(event.target).length) {
         $(".draftbcclist").empty();
     }
 });
