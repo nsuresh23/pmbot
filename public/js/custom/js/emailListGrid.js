@@ -92,17 +92,17 @@ function getEmailTableList(gridSelector) {
                 loadData: function(filter) {
 
                     return $.grep(dbClients, function(client) {
-                        return (!filter.created_date || client.created_date.toLowerCase().indexOf(filter.created_date.toLowerCase()) > -1) &&
-                            // (!filter.status_text || client.status_text.toLowerCase().indexOf(filter.status_text.toLowerCase()) > -1) &&
-                            (!filter.subject_link || client.subject_link.toLowerCase().indexOf(filter.subject_link.toLowerCase()) > -1) &&
-                            (!filter.email_from || client.email_from.toLowerCase().indexOf(filter.email_from.toLowerCase()) > -1) &&
-                            (!filter.email_to || client.email_to.toLowerCase().indexOf(filter.email_to.toLowerCase()) > -1) &&
-                            (!filter.message_start || client.message.toLowerCase().indexOf(filter.message_start.toLowerCase()) > -1);
-                        // (!filter.message || client.message.toLowerCase().indexOf(filter.message.toLowerCase()) > -1);
-                        // (!filter.message || client.message.toLowerCase().indexOf(filter.message.toLowerCase()) > -1) &&
-                        // (!filter.email_cc || client.email_cc.toLowerCase().indexOf(filter.email_cc.toLowerCase()) > -1) &&
-                        // (!filter.priority || client.priority.toLowerCase().indexOf(filter.priority.toLowerCase()) > -1) &&
-                        // (!filter.score || client.score.toLowerCase().indexOf(filter.score.toLowerCase()) > -1);
+                        return (!filter.created_date || (client.created_date != undefined && client.created_date != null && (client.created_date.toLowerCase().indexOf(filter.created_date.toLowerCase()) > -1))) &&
+                            // (!filter.status_text || (client.status_text != undefined && client.status_text != null && (client.status_text.toLowerCase().indexOf(filter.status_text.toLowerCase()) > -1))) &&
+                            (!filter.subject_link || (client.subject_link != undefined && client.subject_link != null && (client.subject_link.toLowerCase().indexOf(filter.subject_link.toLowerCase()) > -1))) &&
+                            (!filter.email_from || (client.email_from != undefined && client.email_from != null && (client.email_from.toLowerCase().indexOf(filter.email_from.toLowerCase()) > -1))) &&
+                            (!filter.email_to || (client.email_to != undefined && client.email_to != null && (client.email_to.toLowerCase().indexOf(filter.email_to.toLowerCase()) > -1))) &&
+                            (!filter.message_start || (client.message_start != undefined && client.message_start != null && (client.message_start.toLowerCase().indexOf(filter.message_start.toLowerCase()) > -1)));
+                        // (!filter.message || (client.message != undefined && client.message != null && (client.message.toLowerCase().indexOf(filter.message.toLowerCase()) > -1)));
+                        // (!filter.message || (client.message != undefined && client.message != null && (client.message.toLowerCase().indexOf(filter.message.toLowerCase()) > -1))) &&
+                        // (!filter.email_cc || (client.email_cc != undefined && client.email_cc != null && (client.email_cc.toLowerCase().indexOf(filter.email_cc.toLowerCase()) > -1))) &&
+                        // (!filter.priority || (client.priority != undefined && client.priority != null && (client.priority.toLowerCase().indexOf(filter.priority.toLowerCase()) > -1))) &&
+                        // (!filter.score || (client.score != undefined && client.score != null && (client.score.toLowerCase().indexOf(filter.score.toLowerCase()) > -1)));
                     });
 
                 }
@@ -536,14 +536,14 @@ function getPmsEmailCountTableList(gridSelector) {
                 loadData: function(filter) {
 
                     return $.grep(dbClients, function(client) {
-                        return (!filter.empname || client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1) &&
-                            (!filter.email_count || client.email_count.toLowerCase().indexOf(filter.email_count.toLowerCase()) > -1) &&
-                            (!filter.priority_count || client.priority_count.toLowerCase().indexOf(filter.priority_count.toLowerCase()) > -1) &&
-                            (!filter.critical_jobs_email_count || client.critical_jobs_email_count.toLowerCase().indexOf(filter.critical_jobs_email_count.toLowerCase()) > -1) &&
-                            (!filter.critical_job_count || client.critical_job_count.toLowerCase().indexOf(filter.critical_job_count.toLowerCase()) > -1) &&
-                            (!filter.last_annotated_time || client.last_annotated_time.toLowerCase().indexOf(filter.last_annotated_time.toLowerCase()) > -1) &&
-                            (!filter.task_count || client.task_count.toLowerCase().indexOf(filter.task_count.toLowerCase()) > -1) &&
-                            (!filter.last_processed_time || client.last_processed_time.toLowerCase().indexOf(filter.last_processed_time.toLowerCase()) > -1);
+                        return (!filter.empname || (client.empname != undefined && client.empname != null && (client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1))) &&
+                            (!filter.email_count || (client.email_count != undefined && client.email_count != null && (client.email_count.toLowerCase().indexOf(filter.email_count.toLowerCase()) > -1))) &&
+                            (!filter.priority_count || (client.priority_count != undefined && client.priority_count != null && (client.priority_count.toLowerCase().indexOf(filter.priority_count.toLowerCase()) > -1))) &&
+                            (!filter.critical_jobs_email_count || (client.critical_jobs_email_count != undefined && client.critical_jobs_email_count != null && (client.critical_jobs_email_count.toLowerCase().indexOf(filter.critical_jobs_email_count.toLowerCase()) > -1))) &&
+                            (!filter.critical_job_count || (client.critical_job_count != undefined && client.critical_job_count != null && (client.critical_job_count.toLowerCase().indexOf(filter.critical_job_count.toLowerCase()) > -1))) &&
+                            (!filter.last_annotated_time || (client.last_annotated_time != undefined && client.last_annotated_time != null && (client.last_annotated_time.toLowerCase().indexOf(filter.last_annotated_time.toLowerCase()) > -1))) &&
+                            (!filter.task_count || (client.task_count != undefined && client.task_count != null && (client.task_count.toLowerCase().indexOf(filter.task_count.toLowerCase()) > -1))) &&
+                            (!filter.last_processed_time || (client.last_processed_time != undefined && client.last_processed_time != null && (client.last_processed_time.toLowerCase().indexOf(filter.last_processed_time.toLowerCase()) > -1)));
                     });
 
                 }
@@ -581,21 +581,21 @@ function getPmsEmailCountTableList(gridSelector) {
     field.push({
         title: "EMAIL COUNT",
         name: "email_count",
-        type: "number",
+        type: "text",
         // width: 40,
     });
 
     field.push({
         title: "PRIORITY EMAIL",
         name: "priority_count",
-        type: "number",
+        type: "text",
         // width: 40,
     });
 
     field.push({
         title: "CRITICAL EMAILS",
         name: "critical_jobs_email_count",
-        type: "number",
+        type: "text",
         // width: 40,
     });
 
@@ -604,7 +604,7 @@ function getPmsEmailCountTableList(gridSelector) {
     field.push({
         title: "CRITICAL JOBS",
         name: "critical_job_count",
-        type: "number",
+        type: "text",
         // width: 40,
     });
 
@@ -618,7 +618,7 @@ function getPmsEmailCountTableList(gridSelector) {
     field.push({
         title: "TASK COUNT",
         name: "task_count",
-        type: "number",
+        type: "text",
         // width: 40,
     });
 
@@ -1588,15 +1588,15 @@ function showform(type, selector) {
     } else {
         $('.modeltitle').html(type);
     }
-	
-	l
+
+    l
     $.ajax({
         url: postUrl,
         data: emailPostData,
         dataType: 'json',
         type: 'POST',
-		
-		
+
+
 
     }).done(function(response) {
 

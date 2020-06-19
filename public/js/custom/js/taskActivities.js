@@ -72,8 +72,8 @@ function getTaskActivitiesTableList(gridSelector) {
 
                     return $.grep(dbClients, function(client) {
 
-                        return (!filter.detail || client.detail.toLowerCase().indexOf(filter.detail.toLowerCase()) > -1) &&
-                            (!filter.note || client.note.toLowerCase().indexOf(filter.note.toLowerCase()) > -1);
+                        return (!filter.detail || (client.detail != undefined && client.detail != null && (client.detail.toLowerCase().indexOf(filter.detail.toLowerCase()) > -1))) &&
+                            (!filter.note || (client.note != undefined && client.note != null && (client.note.toLowerCase().indexOf(filter.note.toLowerCase()) > -1)));
                     });
                 }
             },

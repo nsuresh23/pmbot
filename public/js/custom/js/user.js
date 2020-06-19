@@ -47,31 +47,30 @@ $(function() {
 
                             return $.grep(dbClients, function(client) {
 
-                                return (!filter.id || client.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1) &&
-                                    (!filter.empcode || client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1) &&
-                                    (!filter.empname || client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1) &&
-                                    (!filter.email || client.email.toLowerCase().indexOf(filter.email.toLowerCase()) > -1) &&
-                                    (!filter.role || client.role.toLowerCase().indexOf(filter.role.toLowerCase()) > -1) &&
-                                    (!filter.location || client.location.toLowerCase().indexOf(filter.location.toLowerCase()) > -1) &&
-                                    (!filter.mobile || client.mobile.toLowerCase().indexOf(filter.mobile.toLowerCase()) > -1) &&
-                                    (!filter.cisco || client.cisco.toLowerCase().indexOf(filter.cisco.toLowerCase()) > -1) &&
-                                    (filter.status === undefined || client.status.toLowerCase() === filter.status.toLowerCase());
-                                // && (filter.status === undefined || client.status.toLowerCase() === filter.status.toLowerCase() || !filter.status || client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1)
-                                // && (!filter.created_at || client.created_at.toLowerCase().indexOf(filter.created_at.toLowerCase()) > -1)
-                                // && (!filter.updated_at || client.updated_at.toLowerCase().indexOf(filter.updated_at.toLowerCase()) > -1);
+                                return (!filter.id || (client.id != undefined && client.id != null && (client.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1))) &&
+                                    (!filter.empcode || (client.empcode != undefined && client.empcode != null && (client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1))) &&
+                                    (!filter.empname || (client.empname != undefined && client.empname != null && (client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1))) &&
+                                    (!filter.email || (client.email != undefined && client.email != null && (client.email.toLowerCase().indexOf(filter.email.toLowerCase()) > -1))) &&
+                                    (!filter.role || (client.role != undefined && client.role != null && (client.role.toLowerCase().indexOf(filter.role.toLowerCase()) > -1))) &&
+                                    (!filter.location || (client.location != undefined && client.location != null && (client.location.toLowerCase().indexOf(filter.location.toLowerCase()) > -1))) &&
+                                    (!filter.mobile || (client.mobile != undefined && client.mobile != null && (client.mobile.toLowerCase().indexOf(filter.mobile.toLowerCase()) > -1))) &&
+                                    (!filter.cisco || (client.cisco != undefined && client.cisco != null && (client.cisco.toLowerCase().indexOf(filter.cisco.toLowerCase()) > -1))) &&
+                                    (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status));
+                                // && (filter.status === undefined || (client.status != undefined && client.status != null && (client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1)));
+                                // && (!filter.created_at || (client.created_at != undefined && client.created_at != null && (client.created_at.toLowerCase().indexOf(filter.created_at.toLowerCase()) > -1))) &&
+                                // && (!filter.updated_at || (client.updated_at != undefined && client.updated_at != null && (client.updated_at.toLowerCase().indexOf(filter.updated_at.toLowerCase()) > -1))) &&
                             });
 
                         } else {
 
                             return $.grep(dbClients, function(client) {
 
-                                return (!filter.id || client.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1) &&
-                                    (!filter.name || client.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1) &&
-                                    (filter.status === undefined || client.status.toLowerCase() === filter.status.toLowerCase())
-                                    // && (filter.status === undefined || client.status.toLowerCase() === filter.status.toLowerCase() || !filter.status || client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1)
-                                    &&
-                                    (!filter.created_at || client.created_at.toLowerCase().indexOf(filter.created_at.toLowerCase()) > -1) &&
-                                    (!filter.updated_at || client.updated_at.toLowerCase().indexOf(filter.updated_at.toLowerCase()) > -1);
+                                return (!filter.id || (client.id != undefined && client.id != null && (client.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1))) &&
+                                    (!filter.name || (client.name != undefined && client.name != null && (client.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1))) &&
+                                    (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status)) &&
+                                    // (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status)) &&
+                                    (!filter.created_at || (client.created_at != undefined && client.created_at != null && (client.created_at.toLowerCase().indexOf(filter.created_at.toLowerCase()) > -1))) &&
+                                    (!filter.updated_at || (client.updated_at != undefined && client.updated_at != null && (client.updated_at.toLowerCase().indexOf(filter.updated_at.toLowerCase()) > -1)));
                             });
 
                         }
