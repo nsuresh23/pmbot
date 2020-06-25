@@ -258,19 +258,27 @@ class JobController extends Controller
 
         try {
 
+            $field = $request->all();
+
+            if(isset($field["redirectTo"]) && $field["redirectTo"]) {
+
+                unset($field["redirectTo"]);
+
+            }
+
             $field["empcode"] = auth()->user()->empcode;
 
-            if ($request->job_id) {
+            // if ($request->job_id) {
 
-                $field["job_id"] = $request->job_id;
+            //     $field["job_id"] = $request->job_id;
 
-            }
+            // }
 
-            if ($request->category) {
+            // if ($request->category) {
 
-                $field["category"] = $request->category;
+            //     $field["category"] = $request->category;
 
-            }
+            // }
 
             if (count($field) > 0) {
 
@@ -404,6 +412,8 @@ class JobController extends Controller
             if (isset($responseData['data']['workflow_version']) && $responseData['data']['workflow_version'] != ""&& $responseData['data']['workflow_version'] > 0) {
 
                 $workflowList = $this->jobResource->getWorkflowList($request);
+
+                $responseData["workflow_list"] = $workflowList;
 
                 if(isset($workflowList[$responseData['data']['workflow_version']])) {
 

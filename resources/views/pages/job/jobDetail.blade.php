@@ -37,7 +37,7 @@ $redirectToJobUrl = __("job.job_detail_url");
 
 $jobId = $jobStatus = "";
 
-$selectedJobCategory = null;
+$selectedJobCategory = $selectedWorkflowVersion = null;
 
 if(isset($responseData["data"]) && $responseData["data"]) {
 
@@ -52,6 +52,12 @@ if(isset($responseData["data"]) && $responseData["data"]) {
     if(isset($responseData["data"]["status"]) && $responseData["data"]["status"]) {
 
         $jobStatus = $responseData["data"]["status"];
+
+    }
+
+    if(isset($responseData["data"]["workflow_version"]) && $responseData["data"]["workflow_version"]) {
+
+        $selectedWorkflowVersion = $responseData["data"]["workflow_version"];
 
     }
 
