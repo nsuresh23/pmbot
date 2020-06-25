@@ -118,18 +118,18 @@ function getCheckListTableList(gridSelector) {
                     if (gridType == 'jobDetail' && gridCategory == 'job') {
 
                         return $.grep(dbClients, function(client) {
-                            return (!filter.title || client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1) &&
-                                (!filter.task_title || client.task_title.toLowerCase().indexOf(filter.task_title.toLowerCase()) > -1) &&
-                                (!filter.empcode || client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1);
+                            return (!filter.title || (client.title != undefined && client.title != null && (client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1))) &&
+                                (!filter.task_title || (client.task_title != undefined && client.task_title != null && (client.task_title.toLowerCase().indexOf(filter.task_title.toLowerCase()) > -1))) &&
+                                (!filter.empcode || (client.empcode != undefined && client.empcode != null && (client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1)));
                         });
 
                     } else {
 
                         return $.grep(dbClients, function(client) {
 
-                            return (!filter.title || client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1) &&
-                                (!filter.location || client.location.toLowerCase().indexOf(filter.location.toLowerCase()) > -1) &&
-                                (!filter.empcode || client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1);
+                            return (!filter.title || (client.title != undefined && client.title != null && (client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1))) &&
+                                (!filter.location || (client.location != undefined && client.location != null && (client.location.toLowerCase().indexOf(filter.location.toLowerCase()) > -1))) &&
+                                (!filter.empcode || (client.empcode != undefined && client.empcode != null && (client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1)));
                         });
 
                     }

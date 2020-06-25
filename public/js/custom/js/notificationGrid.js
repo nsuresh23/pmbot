@@ -56,8 +56,8 @@ $(function() {
                     loadData: function(filter) {
 
                         return $.grep(dbClients, function(client) {
-                            return (!filter.title || client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1) &&
-                                (!filter.message || client.stage.toLowerCase().indexOf(filter.message.toLowerCase()) > -1);
+                            return (!filter.title || (client.title != undefined && client.title != null && (client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1))) &&
+                                (!filter.message || (client.message != undefined && client.message != null && (client.message.toLowerCase().indexOf(filter.message.toLowerCase()) > -1)));
                         });
                     }
                 },

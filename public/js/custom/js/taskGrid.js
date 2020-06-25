@@ -127,17 +127,17 @@ $(function() {
                     loadData: function(filter) {
 
                         return $.grep(dbClients, function(client) {
-                            return (!filter.title || client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1) &&
-                                (!filter.type || client.type.toLowerCase().indexOf(filter.type.toLowerCase()) > -1) &&
-                                (!filter.assignedto_empname || client.assignedto_empname.toLowerCase().indexOf(filter.assignedto_empname.toLowerCase()) > -1) &&
-                                (!filter.createdby_empname || client.createdby_empname.toLowerCase().indexOf(filter.createdby_empname.toLowerCase()) > -1) &&
-                                (!filter.followup_date || client.followup_date.toLowerCase().indexOf(filter.followup_date.toLowerCase()) > -1) &&
-                                (!filter.status || client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1) &&
-                                (!filter.stage || client.stage.toLowerCase().indexOf(filter.stage.toLowerCase()) > -1) &&
-                                (!filter.category || client.category.toLowerCase().indexOf(filter.category.toLowerCase()) > -1) &&
-                                (!filter.book_job_id || client.book_job_id.toLowerCase().indexOf(filter.book_job_id.toLowerCase()) > -1) &&
-                                //(!filter.womat_job_id || client.womat_job_id.toLowerCase().indexOf(filter.womat_job_id.toLowerCase()) > -1) &&
-                                (!filter.job_title || client.job_title.toLowerCase().indexOf(filter.job_title.toLowerCase()) > -1);
+                            return (!filter.title || (client.title != undefined && client.title != null && (client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1))) &&
+                                (!filter.type || (client.type != undefined && client.type != null && (client.type.toLowerCase().indexOf(filter.type.toLowerCase()) > -1))) &&
+                                (!filter.assignedto_empname || (client.assignedto_empname != undefined && client.assignedto_empname != null && (client.assignedto_empname.toLowerCase().indexOf(filter.assignedto_empname.toLowerCase()) > -1))) &&
+                                (!filter.createdby_empname || (client.createdby_empname != undefined && client.createdby_empname != null && (client.createdby_empname.toLowerCase().indexOf(filter.createdby_empname.toLowerCase()) > -1))) &&
+                                (!filter.followup_date || (client.followup_date != undefined && client.followup_date != null && (client.followup_date.toLowerCase().indexOf(filter.followup_date.toLowerCase()) > -1))) &&
+                                (!filter.status || (client.status != undefined && client.status != null && (client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1))) &&
+                                (!filter.stage || (client.stage != undefined && client.stage != null && (client.stage.toLowerCase().indexOf(filter.stage.toLowerCase()) > -1))) &&
+                                (!filter.category || (client.category != undefined && client.category != null && (client.category.toLowerCase().indexOf(filter.category.toLowerCase()) > -1))) &&
+                                (!filter.book_job_id || (client.book_job_id != undefined && client.book_job_id != null && (client.book_job_id.toLowerCase().indexOf(filter.book_job_id.toLowerCase()) > -1))) &&
+                                //(!filter.womat_job_id || (client.womat_job_id != undefined && client.womat_job_id != null && (client.womat_job_id.toLowerCase().indexOf(filter.womat_job_id.toLowerCase()) > -1))) &&
+                                (!filter.job_title || (client.job_title != undefined && client.job_title != null && (client.job_title.toLowerCase().indexOf(filter.job_title.toLowerCase()) > -1)));
                         });
 
                     }
