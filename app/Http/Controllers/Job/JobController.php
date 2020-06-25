@@ -167,6 +167,7 @@ class JobController extends Controller
 
                 $request->merge(['isbn' => $request->womat_job_id]);
                 $request->merge(['e_isbn' => $request->womat_job_id]);
+                $request->merge(['order_id' => $request->womat_job_id]);
             }
 
             $returnResponse = $this->jobResource->jobAdd($request);
@@ -328,6 +329,7 @@ class JobController extends Controller
 
                 $request->merge(['isbn' => $request->womat_job_id]);
                 $request->merge(['e_isbn' => $request->womat_job_id]);
+                $request->merge(['order_id' => $request->womat_job_id]);
                 // $request->merge(['start_time' => date('yy-m-d H:i:s')]);
             }
 

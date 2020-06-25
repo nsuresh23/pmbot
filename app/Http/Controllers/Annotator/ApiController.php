@@ -101,7 +101,7 @@ class ApiController extends Controller
                             $ext = pathinfo($attach, PATHINFO_EXTENSION);
 
                             $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-' . $this->getFileType($attach) . '-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
-                            
+
                             // if ($ext == 'docx' || $ext == 'doc') {
                             //     $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-word-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
                             // } else if ($ext == 'pdf') {
@@ -311,7 +311,7 @@ class ApiController extends Controller
 
                 $userId = implode(',', $userId);
 
-            }            
+            }
 
         }
 
@@ -1031,6 +1031,7 @@ class ApiController extends Controller
             'status'            => Config::get('constants.job_add_status'),
             'isbn'                => $isbn,
             'e_isbn'            => $isbn,
+            'order_id'            => $isbn,
             // 'workflow_version'  => '1',
         );
 
