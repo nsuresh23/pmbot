@@ -258,15 +258,22 @@ class JobController extends Controller
 
         try {
 
-            $field = $request->all();
+            $requestData = $request->all();
 
-            if(isset($field["redirectTo"]) && $field["redirectTo"]) {
+            if ($requestData && is_array($requestData) && count($requestData) > 0) {
 
-                unset($field["redirectTo"]);
-
+                $field = $requestData;
             }
 
-            $field["empcode"] = auth()->user()->empcode;
+            if (isset($field["redirectTo"]) && $field["redirectTo"]) {
+
+                unset($field["redirectTo"]);
+            }
+
+            if (isset($field["current_job_id"]) && $field["current_job_id"]) {
+
+                unset($field["current_job_id"]);
+            }
 
             // if ($request->job_id) {
 
@@ -282,15 +289,17 @@ class JobController extends Controller
 
             if (count($field) > 0) {
 
-                $returnResponse = $this->jobResource->jobUpdate($field);
+                $field["empcode"] = auth()->user()->empcode;
 
+                $field["ip_address"] = $request->ip();
+
+                $returnResponse = $this->jobResource->jobUpdate($field);
             }
 
             if ($request->redirectTo != __("job.job_detail_url")) {
 
                 $redirectRouteAction = $this->roleBasedDashboardRouteAction($request);
             }
-
         } catch (Exeception $e) {
 
             $returnResponse["success"] = "false";

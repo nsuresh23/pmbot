@@ -79,6 +79,14 @@ if(in_array(auth()->user()->role, config('constants.jobCheckListAddUserRoles')))
 
 }
 
+$jobEditReadonly = "readonly";
+
+if(in_array(auth()->user()->role, config('constants.jobEditUserRoles'))) {
+
+    $jobEditReadonly = "";
+
+}
+
 @endphp
 
 @section('content')

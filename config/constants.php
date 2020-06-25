@@ -103,6 +103,10 @@ return [
         "project_manager",
         "account_manager",
     ],
+    "jobEditUserRoles" => [
+        "project_manager",
+        "account_manager",
+    ],
     "taskFollowupResetUserRoles" => [
         "project_manager",
         "account_manager",
