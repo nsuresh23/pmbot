@@ -170,7 +170,13 @@ function getEmailTableList(gridSelector) {
         });
     }
 
-
+    field.push({
+        title: "",
+        name: "is_priority",
+        type: "text",
+        filtering: false,
+        width: 10,
+    });
 
     field.push({
         title: "SUBJECT",
@@ -612,7 +618,7 @@ function getPmsEmailCountTableList(gridSelector) {
         title: 'LAST ANNOTATED TIME',
         name: 'last_annotated_time',
         type: 'text',
-        // width: 40,
+        width: 110,
     });
 
     field.push({
@@ -626,7 +632,7 @@ function getPmsEmailCountTableList(gridSelector) {
         title: 'LAST PROCEESED TIME',
         name: 'last_processed_time',
         type: 'text',
-        // width: 40,
+        width: 110,
     });
 
     field.push({
@@ -639,7 +645,7 @@ function getPmsEmailCountTableList(gridSelector) {
             return this._createOnOffSwitchButton("filtering", this.searchModeButtonClass, false);
 
         },
-        width: 40,
+        width: 70,
     });
 
     $(gridSelector).jsGrid("option", "fields", field);
@@ -1588,15 +1594,14 @@ function showform(type, selector) {
     } else {
         $('.modeltitle').html(type);
     }
-	
-	l
+
     $.ajax({
         url: postUrl,
         data: emailPostData,
         dataType: 'json',
         type: 'POST',
-		
-		
+
+
 
     }).done(function(response) {
 

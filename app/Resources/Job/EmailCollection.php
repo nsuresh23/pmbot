@@ -66,9 +66,9 @@ class EmailCollection
 
             $responseData = $this->postRequest($url, []);
 
-            
+
             if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
-                
+
                 $responseData = $this->pmsEmailCountFormatData($responseData["data"]);
 
                 if ($responseData) {
@@ -142,7 +142,7 @@ class EmailCollection
                             if (!isset($returnResponseData["last_updated"]) || $returnResponseData["last_updated"] == "") {
 
                                 $date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
-                                $lastUpdated =  $date->format('y/m/d h:i:s A');
+                                $lastUpdated =  $date->format('yy/m/d h:i:s A');
 
                                 $returnResponse["last_updated"] = $lastUpdated;
 
@@ -167,9 +167,9 @@ class EmailCollection
                             }
 
                             // $date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
-                            // $returnResponse["last_updated"] =  $date->format('y/m/d h:i:s a');
+                            // $returnResponse["last_updated"] =  $date->format('yy/m/d h:i:s a');
 
-                            // $returnResponse["last_updated"] = date('y/m/d h:i:s a');
+                            // $returnResponse["last_updated"] = date('yy/m/d h:i:s a');
 
                         }
                     }
@@ -704,6 +704,14 @@ class EmailCollection
                     $emailTypeClass = "";
                     $emailGetUrl = route(__("job.email_get_url"));
 
+                    $item["is_priority"] = "";
+
+                    if (isset($item["priority"]) && $item["priority"] == "1") {
+
+                        $item["is_priority"] = '<i class="fa fa-exclamation inline-block txt-danger font-16"></i>';
+
+                    }
+
                     $item["is_attachments"] = "";
 
                     if (isset($item["attachments"]) && $item["attachments"] != "") {
@@ -727,8 +735,10 @@ class EmailCollection
 
 							if(isset($item["created_date"]) && $item["created_date"] != ""){
 
-								$emailDate = $item["created_date"];
-							}
+                                $emailDate = $item["created_date"];
+
+                            }
+
 						}
 
 						if( in_array($item["status"], ["6"])){
@@ -745,7 +755,7 @@ class EmailCollection
 
 						//	$returnResponse["data"]["create_date_formatted_text"] = date("dS M Y h:i:s a", strtotime($emailDate));
 
-							$item["created_date"] = date("y/m/d H:i:s", strtotime($emailDate));
+							$item["created_date"] = date("yy/m/d H:i:s", strtotime($emailDate));
 						}
 
                     /*  if (isset($item["created_date"]) && $item["created_date"] != "") {
@@ -753,7 +763,7 @@ class EmailCollection
                         $item["created_date_text"] = $item["created_date"];
                         // $item["created_date"] = date("d/m/y", strtotime($item["created_date"]));
                         //$item["created_date"] = date("d/m/y h:i:s a", strtotime($item["created_date"]));
-						$item["created_date"] = date("y/m/d H:i:s", strtotime($item["created_date"]));
+						$item["created_date"] = date("yy/m/d H:i:s", strtotime($item["created_date"]));
                     } */
 
                     if (isset($item["email_from"]) && $item["email_from"] != "") {
@@ -793,7 +803,7 @@ class EmailCollection
                             $item["email_bcc"] = base64_decode($item["email_bcc"]);
 
                         }
-                        
+
                     }
 
                     if (isset($item["message_start"]) && $item["message_start"] != "") {
@@ -895,13 +905,13 @@ class EmailCollection
 
                     if(isset($item["last_processed_time"]) && $item["last_processed_time"] != "") {
 
-                        $item["last_processed_time"] = date("y/m/d H:i:s", strtotime($item["last_processed_time"]));
+                        $item["last_processed_time"] = date("yy/m/d H:i:s", strtotime($item["last_processed_time"]));
 
                     }
 
                     if (isset($item["last_annotated_time"]) && $item["last_annotated_time"] != "") {
 
-                        $item["last_annotated_time"] = date("y/m/d H:i:s", strtotime($item["last_annotated_time"]));
+                        $item["last_annotated_time"] = date("yy/m/d H:i:s", strtotime($item["last_annotated_time"]));
                     }
 
                     return $item;
