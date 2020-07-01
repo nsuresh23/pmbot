@@ -17,7 +17,7 @@
 
             $selectedStatus = "checked";
 
-            $selectedRole = $selectedGroup = $selectedLocation = null;
+            $selectedRole = $selectedGroup = $selectedLocation = $selectedMembers = null;
 
             $postUrl = route(__("user.user_store_url"));
 
@@ -40,6 +40,12 @@
                 if(isset($userData["data"]["role"]) && $userData["data"]["role"]) {
 
                     $selectedRole = $userData["data"]["role"];
+
+                }
+
+                if(isset($userData["data"]["members"]) && $userData["data"]["members"]) {
+
+                    $selectedMembers = $userData["data"]["members"];
 
                 }
 
@@ -115,20 +121,12 @@
                                                     <input type="hidden" id="empcode" name="empcode" value="{{$userData['data']['empcode'] ?? ''}}">
                                                     <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                        <div class="form-group">
-                                                        <label for="empname" class="control-label mb-10">{{ __('user.user_name_label') }}</label>
-                                                        <input type="text" class="form-control" id="empname" name="empname" value="{{$userData['data']['empname'] ?? ''}}"
-                                                                placeholder="{{ __('user.user_name_placeholder_text') }}" data-error="{{ __('user.user_name_error_msg') }}" required>
-                                                            <div class="help-block with-errors"></div>
-                                                            </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                         <div class="row">
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                 <div class="form-group">
-                                                                    <label for="email" class="control-label mb-10">{{ __('user.user_email_label') }}</label>
-                                                                    <input type="email" class="form-control" id="email" name="email" value="{{$userData['data']['email'] ?? ''}}"
-                                                                        placeholder="{{ __('user.user_email_placeholder_text') }}" data-error="{{ __('user.user_email_error_msg') }}" {{ $disabledField }}
+                                                                    <label for="empname" class="control-label mb-10">{{ __('user.user_name_label') }}</label>
+                                                                    <input type="text" class="form-control" id="empname" name="empname" value="{{$userData['data']['empname'] ?? ''}}"
+                                                                        placeholder="{{ __('user.user_name_placeholder_text') }}" data-error="{{ __('user.user_name_error_msg') }}"
                                                                         required>
                                                                     <div class="help-block with-errors"></div>
                                                                 </div>
@@ -143,10 +141,48 @@
                                                             </div>
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                 <div class="form-group">
+                                                                    <label for="email" class="control-label mb-10">{{ __('user.user_email_label') }}</label>
+                                                                    <input type="email" class="form-control" id="email" name="email" value="{{$userData['data']['email'] ?? ''}}"
+                                                                        placeholder="{{ __('user.user_email_placeholder_text') }}" data-error="{{ __('user.user_email_error_msg') }}"
+                                                                        {{ $disabledField }} required>
+                                                                    <div class="help-block with-errors"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                <div class="form-group">
                                                                     <label for="role" class="control-label mb-10">{{ __('user.user_role_label') }}</label>
                                                                     {!! Form::select('role', $userData["role_list"], $selectedRole, ['class' => 'form-control select2',
                                                                     'data-error' => "{{ __('user.user_role_error_msg') }}", 'required']) !!}
                                                                 </div>
+                                                                {{-- <div class="form-group">
+                                                                    <label for="empcode" class="control-label mb-10">{{ __('user.user_empcode_label') }}</label>
+                                                                    <input type="text" class="form-control" id="empcode" name="empcode"
+                                                                        value="{{$userData['data']['empcode'] ?? ''}}"
+                                                                        placeholder="{{ __('user.user_empcode_placeholder_text') }}"
+                                                                        data-error="{{ __('user.user_empcode_error_msg') }}" {{ $disabledField }} required>
+                                                                    <div class="help-block with-errors"></div>
+                                                                </div> --}}
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                <div class="form-group">
+                                                                    <label for="members" class="control-label mb-10">{{ __('user.user_members_label') }}</label>
+                                                                    {!! Form::select('members[]',
+                                                                    $userData["user_list"],
+                                                                    $selectedMembers,
+                                                                    ['class' =>
+                                                                    'form-control select2 select2-multiple checklist-task-list',
+                                                                    'multiple' => 'multiple',
+                                                                    'data-placeholder' =>
+                                                                    __('user.user_members_placeholder_text'),
+                                                                    'data-error' => __('user.user_members_error_msg'),]) !!}
+                                                                    <div class="help-block with-errors"></div>
+                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>

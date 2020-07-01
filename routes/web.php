@@ -285,7 +285,9 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
 	Route::any('job/{id}', 'Job\JobController@getJobDetails')->name('job-detail');
 	Route::any('job-history/{id}', 'Job\JobController@jobHistory')->name('job-history');
 	Route::any('job-timeline/{id}', 'Job\JobController@jobTimeline')->name('job-timeline');
-	Route::any('my-history', 'User\UserController@myHistory')->name('my-history');
+    Route::any('my-history', 'User\UserController@myHistory')->name('my-history');
+
+    Route::any('member-list', 'User\UserController@memberList')->name('member-list'); //done
 
 	Route::any('email-send', 'Job\EmailController@emailSend')->name('email-send');
 	Route::any('draft-email-send', 'Job\EmailController@draftemailSend')->name('draft-email-send');

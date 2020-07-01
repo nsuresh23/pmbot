@@ -10,6 +10,10 @@
 <div class="container-fluid pa-5 pt-0">
     <?php
 
+        auth()->user()->members = '1';
+
+        $hasMembers = auth()->user()->members;
+
         $previoustUrl = Session::get('previousUrl');
         $r = explode('/', $previoustUrl);
         if(count($r) > 2) {
@@ -52,6 +56,8 @@
         $currentRoute = __("job.dashboard_label");
 
         $newJobAddUrl = route(__("job.job_store_url"));
+
+        $membersListUrl = route(__("dashboard.member_list_url"));
 
         $checkListUrl = route(__("job.check_list_url"));
         $checkListAddUrl = route(__("job.check_list_add_url"));

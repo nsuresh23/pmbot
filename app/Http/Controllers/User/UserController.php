@@ -113,6 +113,45 @@ class UserController extends Controller
         return view('pages.user.list', compact('userData'));
     }
 
+
+    /**
+     * Get member list.
+     *
+     *  @return json response
+     */
+    public function memberList(Request $request)
+    {
+
+        try {
+
+            $field = [];
+
+            $returnResponse = [];
+
+            $field["empcode"] = auth()->user()->empcode;
+
+            if (count($field) > 0) {
+
+                $returnResponse = $this->userResource->memberList($field);
+
+            }
+
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        //if ($request->ajax()) {
+
+        return $returnResponse;
+        // return json_encode($returnResponse);
+        //}
+
+    }
+
     /**
      * Get the my history.
      *
@@ -182,6 +221,9 @@ class UserController extends Controller
             ];
 
             $userData["role_list"] = Config::get('constants.roleList');
+            $userData["user_list"] = $this->userResource->getActiveUserList();
+
+            // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($userData);echo '<PRE/>';exit;
             // $userData["role_list"] = $this->roleResource->getActiveRoles();
             // $userData["group_list"] = $this->groupResource->getActiveGroups();
             // $userData["location_list"] = $this->locationResource->getActiveLocations();
@@ -227,6 +269,7 @@ class UserController extends Controller
                 $userData["data"] = $this->userResource->getUser($field);
                 $userData["role_list"] = Config::get('constants.roleList');
                 $userData["location_list"] = Config::get('constants.locationList');
+                $userData["user_list"] = $this->userResource->getActiveUserList();
 
             }
 

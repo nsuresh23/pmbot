@@ -4,6 +4,16 @@ if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) 
 
 @endphp
 
+<?php if(isset($hasMembers) && $hasMembers == "1") { ?>
+
+<div id="members" class="membersTab" style="display: none;height:200px;">
+
+    @include('pages.dashboard.members.dashboardMembers')
+
+</div>
+
+<?php } ?>
+
 <!-- Row -->
 <div class="row">
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">

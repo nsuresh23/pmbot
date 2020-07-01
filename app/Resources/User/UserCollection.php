@@ -40,6 +40,8 @@ class UserCollection
     protected $userUpdateApiUrl;
     protected $userDeleteApiUrl;
     protected $userSelectApiUrl;
+    protected $userListSelectApiUrl;
+    protected $memberListApiUrl;
     protected $pmUserSelectApiUrl;
 
     public function __construct()
@@ -56,7 +58,9 @@ class UserCollection
         $this->userUpdateApiUrl = env('API_USER_EDIT_URL');
         $this->userDeleteApiUrl = env('API_USER_DELETE_URL');
         $this->userSelectApiUrl = env('API_USER_SELECT_URL');
+        $this->userListSelectApiUrl = env('API_USER_LIST_SELECT_URL');
         $this->pmUserSelectApiUrl = env('API_PM_USER_SELECT_URL');
+        $this->memberListApiUrl = env('API_MEMBER_LIST_URL');
 
     }
 
@@ -272,33 +276,43 @@ class UserCollection
 
             } else {
 
-                // store
-                $user = new User;
-                $user->empname = $request->get('empname');
-                $user->empcode = $request->get('empcode');
-                $user->email = $request->get('email');
-                // $user->password = bcrypt($request->get('password'));
-                $user->password = md5($request->get('password'));
-                $user->role = $request->get('role');
-                $user->location = $request->get('location');
+                // // store
+                // $user = new User;
+                // $user->empname = $request->get('empname');
+                // $user->empcode = $request->get('empcode');
+                // $user->email = $request->get('email');
+                // // $user->password = bcrypt($request->get('password'));
+                // $user->password = md5($request->get('password'));
+                // $user->role = $request->get('role');
+                // $user->location = $request->get('location');
 
-                if ($request->get('cisco')) {
+                // if ($request->get('cisco')) {
 
-                    $user->cisco = $request->get('cisco');
+                //     $user->cisco = $request->get('cisco');
+                // }
+
+                // if ($request->get('mobile')) {
+
+                //     $user->mobile = $request->get('mobile');
+                // }
+
+                // $user->status = $request->get('status');
+
+                // $userInfo = $user;
+
+                // $userInfo = $userInfo->toArray();
+
+                $userInfo = [];
+
+                $userInfo = $request->all();
+
+                if(isset($userInfo["_token"]) && $userInfo["_token"] != "") {
+
+                    unset($userInfo["_token"]);
+
                 }
 
-                if ($request->get('mobile')) {
-
-                    $user->mobile = $request->get('mobile');
-                }
-
-                $user->status = $request->get('status');
-
-                $userInfo = $user;
-
-                $userInfo = $userInfo->toArray();
-
-                $userInfo["password"] = md5($request->get('password'));
+                $userInfo["password"] = md5($userInfo["password"]);
 
                 $url = $this->userAddApiUrl;
 
@@ -379,47 +393,56 @@ class UserCollection
             } else {
 
 
-                $conditions = [
+                // $conditions = [
 
-                    ['empcode', $request->get('empcode')],
-                ];
+                //     ['empcode', $request->get('empcode')],
+                // ];
 
-                $fields = ['id'];
+                // $fields = ['id'];
 
-                $user = $this->getUserField($conditions, $fields);
+                // $user = $this->getUserField($conditions, $fields);
 
-                // update
-                // $user = new User;
-                // $user = User::find($request->get('id'));
-                $user->empname = $request->get('empname');
-                $user->empcode = $request->get('empcode');
-                $user->email = $request->get('email');
-                $user->role = $request->get('role');
-                $user->location = $request->get('location');
+                // // update
+                // // $user = new User;
+                // // $user = User::find($request->get('id'));
+                // $user->empname = $request->get('empname');
+                // $user->empcode = $request->get('empcode');
+                // $user->email = $request->get('email');
+                // $user->role = $request->get('role');
+                // $user->location = $request->get('location');
 
-                if($request->get('cisco')) {
+                // if($request->get('cisco')) {
 
-                    $user->cisco = $request->get('cisco');
-                }
-
-                if ($request->get('mobile')) {
-
-                    $user->mobile = $request->get('mobile');
-                }
-
-                // if (isset($request->updated_at)) {
-
-                //     unset($request['updated_at']);
-
+                //     $user->cisco = $request->get('cisco');
                 // }
 
-                $user->status = $request->get('status');
+                // if ($request->get('mobile')) {
 
-                $userInfo = $user;
+                //     $user->mobile = $request->get('mobile');
+                // }
 
-                $userInfo = $userInfo->toArray();
+                // // if (isset($request->updated_at)) {
 
-                unset($userInfo["id"]);
+                // //     unset($request['updated_at']);
+
+                // // }
+
+                // $user->status = $request->get('status');
+
+                // $userInfo = $user;
+
+                // $userInfo = $userInfo->toArray();
+
+                // unset($userInfo["id"]);
+
+                $userInfo = [];
+
+                $userInfo = $request->all();
+
+                if (isset($userInfo["_token"]) && $userInfo["_token"] != "") {
+
+                    unset($userInfo["_token"]);
+                }
 
                 $url = $this->userUpdateApiUrl;
 
@@ -661,6 +684,44 @@ class UserCollection
     }
 
     /**
+     * Get the list of active users from the users Table.
+     *
+     * @return array $userData
+     */
+    public function getActiveUserList()
+    {
+        $returnData = [];
+
+        try {
+
+            // $userData = User::all();
+
+            $url = $this->userListSelectApiUrl;
+
+            $params = ["empcode" => auth()->user()->empcode];
+
+            $userData = $this->postRequest($url, $params);
+
+            if ($userData["success"] == "true" && count($userData["data"]) > 0 && $userData["data"] != "") {
+
+                $returnData = $userData["data"];
+            }
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnData;
+    }
+
+    /**
      * Get the active users from the users Table.
      *
      * @return array $userData
@@ -694,6 +755,66 @@ class UserCollection
         }
 
         return $returnData;
+    }
+
+    /**
+     * Get the members of the user.
+     *
+     * @return array $userData
+     */
+    public function memberList($request)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            $url = $this->memberListApiUrl;
+
+            $responseData = $this->postRequest($url, $request);
+
+            if ($responseData["success"] == "true") {
+
+                $returnResponse["success"] = "true";
+
+                if (isset($responseData["data"]) &&  $responseData["data"] == "") {
+
+                    $responseData["data"] = [];
+                }
+
+                if (isset($responseData["data"]) && is_array($responseData["data"]) && count($responseData["data"]) > 0) {
+
+                    $responseData = $this->formatMembersData($responseData["data"], $request);
+
+                    if ($responseData) {
+
+                        $returnResponse["data"] = $responseData;
+
+                        // if (is_array($responseData)) {
+
+                        //     $returnResponse["result_count"] = count($responseData);
+                        // }
+                    }
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+
     }
 
     public function formatData($items)
@@ -772,6 +893,23 @@ class UserCollection
         return $resource;
 
     }
+
+    public function formatMembersData($items)
+    {
+
+        $resource = array_map(
+
+            function ($item) {
+
+                return $item;
+
+            },
+            $items
+        );
+
+        return $resource;
+    }
+
 
     /**
      * Get the user from the users Table by user field array.

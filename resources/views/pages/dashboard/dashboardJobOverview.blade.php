@@ -9,6 +9,14 @@
                             aria-expanded="false">{{ __('dashboard.stage_tab_label') }}</a></li>
                     <li role="presentation" class=""><a data-toggle="tab" id="financialTab" role="tab" href="#financial"
                             aria-expanded="false">{{ __('dashboard.financial_invoice_tab_label') }}</a></li>
+
+                    <?php if(isset($hasMembers) && $hasMembers == "1") { ?>
+
+                        <li role="presentation" class=""><a data-toggle="tab" id="membersTab" role="tab" href="#overview"
+                                aria-expanded="false">{{ __('dashboard.members_tab_label') }}</a></li>
+
+                    <?php } ?>
+
                 </ul>
             </div>
         </div>
