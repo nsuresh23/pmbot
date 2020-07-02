@@ -271,6 +271,12 @@ class UserController extends Controller
                 $userData["location_list"] = Config::get('constants.locationList');
                 $userData["user_list"] = $this->userResource->getActiveUserList();
 
+                if (isset($userData["user_list"]) && is_array($userData["user_list"]) && isset($userData["user_list"][$request->id])) {
+
+                    unset($userData["user_list"][$request->id]);
+                }
+
+
             }
 
         } catch (Exception $e) {

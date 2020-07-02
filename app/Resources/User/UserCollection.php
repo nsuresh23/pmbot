@@ -705,6 +705,7 @@ class UserCollection
             if ($userData["success"] == "true" && count($userData["data"]) > 0 && $userData["data"] != "") {
 
                 $returnData = $userData["data"];
+
             }
         } catch (Exception $e) {
 
@@ -900,6 +901,13 @@ class UserCollection
         $resource = array_map(
 
             function ($item) {
+
+                if(isset($item["email"]) && $item["email"] != "") {
+
+                    // $item["email"] = '<a class="btn-link member-job-count-item " href="javascript:void(0);" data-member-empcode="' . $item["empcode"] . '" >' . mb_strimwidth($item["email"], 0, 75, "...") . '</a>';
+                    $item["email"] = '<a class="btn-link member-job-count-item " href="javascript:void(0);" data-member-empcode="' . $item["empcode"] . '" >' . $item["email"] . '</a>';
+
+                }
 
                 return $item;
 

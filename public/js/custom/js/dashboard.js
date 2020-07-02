@@ -555,3 +555,24 @@ $(document).on('click', '.job-add-submit-btn', function(e) {
     $('.job-add-form').submit();
 
 });
+
+$(document).on('shown.bs.tab', '#overviewTab', function(e) {
+
+    if ($('.membersTab').attr('class') != undefined) {
+
+        $('.membersTab').hide();
+
+    }
+
+    var dataUrl = $('.jobOverviewTab').attr('data-member-job-count-url');
+
+    var empcode = 'overview';
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        getMemberJobCount(dataUrl, empcode);
+
+    }
+
+
+});

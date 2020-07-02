@@ -41,6 +41,7 @@ return [
     'task_edit_url' => 'task-edit',
     'task_delete_url' => 'task-delete',
     'pms_email_count_url' => 'pms-email-count',
+    'user_job_count_url' => 'user-job-count',
     'member_list_url' => 'member-list',
     'email_list_tab_label' => 'emails',
     'check_list_tab_label' => 'Check list',

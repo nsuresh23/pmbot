@@ -81,6 +81,14 @@ class JobController extends Controller
                 $field[env('PROJECT_MANAGER_CODE_FIELD')] =  auth()->user()->empcode;
             }
 
+            $field["empcode"] = auth()->user()->empcode;
+
+            if(session()->has("member_user")) {
+
+                $field["empcode"] = session()->get("member_user");
+
+            }
+
             if ($request->stage && $request->stage != "") {
 
                 $field["stage"] = $request->stage;
@@ -141,6 +149,60 @@ class JobController extends Controller
         }
 
         return view("pages.job.jobDetail", compact("returnData"));
+
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function userJobCount(Request $request)
+    {
+
+        try {
+
+            $field = [];
+
+            $params = $request->all();
+
+            if ($request->empcode) {
+
+                $field["empcode"] = $request->empcode;
+
+                session()->put("member_user", $request->empcode);
+
+                if($request->empcode = "overview") {
+
+                    session()->put("member_user", "");
+
+                    $field["empcode"] = auth()->user()->empcode;
+
+                }
+
+            }
+
+            if(count($field) > 0) {
+
+                $returnResponse = $this->jobResource->userJobCount($field);
+
+            }
+
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return json_encode($returnResponse);
 
     }
 

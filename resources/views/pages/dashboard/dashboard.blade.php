@@ -53,6 +53,8 @@
 
         $currentRoute = __("job.dashboard_label");
 
+        $memberJobCountUrl = route(__("dashboard.user_job_count_url"));
+
         $membersListUrl = route(__("dashboard.member_list_url"));
 
         $checkListUrl = route(__("job.check_list_url"));

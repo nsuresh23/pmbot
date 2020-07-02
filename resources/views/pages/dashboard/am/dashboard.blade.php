@@ -57,6 +57,8 @@
 
         $newJobAddUrl = route(__("job.job_store_url"));
 
+        $memberJobCountUrl = route(__("dashboard.user_job_count_url"));
+
         $membersListUrl = route(__("dashboard.member_list_url"));
 
         $checkListUrl = route(__("job.check_list_url"));

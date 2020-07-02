@@ -188,6 +188,9 @@
             </li> --}}
 
 
+            <li class="dropdown alert-drp selected-member-header-block" style="display:none;">
+                <a href="javascript:void(0)" class="dropdown-toggle selected-member-header btn btn-outline btn-info"></a>
+            </li>
             <li class="dropdown alert-drp">
                 <a href="javascript:void(0)" class="dropdown-toggle notification-count-button"
                     data-notification-count-url="{{$notificationCountUrl ?? ''}}"

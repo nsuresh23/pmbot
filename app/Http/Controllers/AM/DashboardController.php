@@ -61,8 +61,13 @@ class DashboardController extends Controller
                 $field[env('PROJECT_MANAGER_CODE_FIELD')] =  auth()->user()->empcode;
             }
 
-            $returnResponse = $this->jobResource->jobCountByField($field);
+            if($request->memberEmpcode){
 
+                $field["empcode"] = $request->memberEmpcode;
+
+            }
+
+            $returnResponse = $this->jobResource->jobCountByField($field);
 
             // $field["stage"] = "s5";
 
@@ -134,4 +139,5 @@ class DashboardController extends Controller
 
         return view('pages.dashboard.am.dashboard', compact('returnResponse'));
     }
+
 }

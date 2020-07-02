@@ -25,6 +25,8 @@ class JobCollection
 
     protected $jobCountApiUrl;
 
+    protected $userJobCountApiUrl;
+
     protected $jobByFieldApiUrl;
 
     protected $jobAddApiUrl;
@@ -58,6 +60,7 @@ class JobCollection
         $this->jobHistoryApiUrl = env('API_MY_HISTORY_URL');
         $this->jobByFieldApiUrl = env('API_JOB_BY_FIELD_URL');
         $this->jobTaskListApiUrl = env('API_JOB_TASK_LIST_URL');
+        $this->userJobCountApiUrl = env('API_USER_JOB_COUNT_URL');
         $this->currentUserCodeField = env('CURRENT_USER_CODE_FIELD');
         $this->annotatorJobAddApiUrl = env('API_ANNOTATOR_JOB_ADD_URL');
         $this->workflowListSelectApiUrl = env('API_WORKFLOW_SELECT_URL');
@@ -327,6 +330,55 @@ class JobCollection
                 " => FILE => " . __FILE__ . " => " .
                     " => LINE => " . __LINE__ . " => " .
                     " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
+     * Get the user job count based on field.
+     *
+     * @param array $field
+     * @return array $returnResponse
+     */
+    public function userJobCount($field)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            if (count($field) > 0) {
+
+                $url = $this->userJobCountApiUrl;
+
+                $responseData = $this->postRequest($url, $field);
+
+                if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
+
+                    // $responseData = $this->formatData($responseData["data"]);
+
+                    if ($responseData) {
+
+                        $returnResponse["success"] = "true";
+                        $returnResponse["data"] = $responseData["data"];
+                    }
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
             );
         }
 

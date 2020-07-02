@@ -48,7 +48,7 @@
             <div class="row">
                 <div class="pills-struct">
                     <div class="tab-content" id="">
-                        <div id="overview" class="tab-pane fade active in pt-10" role="tabpanel">
+                        <div id="overview" class="tab-pane fade active in pt-10 jobOverviewTab" role="tabpanel" data-member-job-count-url="{{ $memberJobCountUrl }}">
 
                             @include('pages.dashboard.dashboardOverview')
 
