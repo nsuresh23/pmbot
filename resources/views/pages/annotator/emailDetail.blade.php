@@ -119,6 +119,12 @@ function annotatorcompleted(){
 	var jobId = $('#pmjobid').val();
 
 	var jobTitle = $('#pmjobid option:selected').text();
+	
+	if(jobId == undefined || jobId == '') {	//CODED ADDED ON 2020-07-02 :: OVER-RIDING THE COMPLETED BUTTON TO DEFAULT SHOW(SURESH)
+	 alert('Please select the job');
+	 return false;
+	}	
+
 
     var postData = {
         "_token": "{{ csrf_token() }}",
@@ -216,7 +222,7 @@ function getpmbotjoblist(url) {
             // $(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
             $(function() { $("#pmjobid").select2({ tags: true }); });
 
-			$('#btnannatorcompleted').hide();
+			$('#btnannatorcompleted').show();  //CODED ADDED ON 2020-07-02 :: OVER-RIDING THE COMPLETED BUTTON TO DEFAULT SHOW FROM HIDE(SURESH)
 
 			if(associatejobid !=''){
 				$("#mailbodycontent").removeClass();

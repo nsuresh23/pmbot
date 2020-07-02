@@ -55,7 +55,7 @@ class ApiController extends Controller
     public function getannotatoremail(Request $request)
     {
         $returnData = [];
-        $emailData = DB::select(DB::raw("SELECT id, email_id, subject,email_from,email_to, body_html,email_received_date,attachments,email_path from email_box where id = '" . $request->id . "' and email_id = '" . auth()->user()->empcode . "'  limit 0,1"));
+        $emailData = DB::select(DB::raw(" SELECT id, email_id, subject, email_from, email_to, email_received_date, attachments, email_path, (SELECT body_html FROM email_box_details WHERE email_box_id = email_box.id ) as body_html from email_box where id = '" . $request->id . "' and email_id = '" . auth()->user()->empcode . "'  limit 0,1 "));
         $returnData['emailData']     = $emailData;
         $returnData['id']             = $request->id;
         $returnData['empcode']         = auth()->user()->empcode;
@@ -71,7 +71,7 @@ class ApiController extends Controller
 
         $id = $request->id;
         $empcode = auth()->user()->empcode;
-        $sql = "SELECT id,email_id,job_id,subject,email_from,email_to,email_cc,email_bcc,body_html,email_received_date,attachments,email_path,status from email_box where id = '" . $id . "' and email_id = '" . auth()->user()->empcode . "' ";
+        $sql = "SELECT id,email_id,job_id,subject,email_from,email_to,email_cc,email_bcc,(SELECT body_html FROM email_box_details WHERE email_box_id = email_box.id ) as body_html,email_received_date,attachments,email_path,status from email_box where id = '" . $id . "' and email_id = '" . auth()->user()->empcode . "' ";
         // $filedownloadlink = env('ANNOTATIONEMAILFILEDOWNLOADED');
         $filedownloadlink = route('file') . Config::get('constants.emailImageDownloadPathParams');
 
