@@ -10,9 +10,9 @@
 <div class="container-fluid pa-5 pt-0">
     <?php
 
-        auth()->user()->members = '1';
+        // auth()->user()->is_members = '1';
 
-        $hasMembers = auth()->user()->members;
+        $hasMembers = auth()->user()->is_members;
 
         $previoustUrl = Session::get('previousUrl');
         $r = explode('/', $previoustUrl);
