@@ -480,11 +480,11 @@ class JobController extends Controller
 
             $responseData = $returnResponse;
 
+            $workflowList = $this->jobResource->getWorkflowList($request);
+
+            $responseData["workflow_list"] = $workflowList;
+
             if (isset($responseData['data']['workflow_version']) && $responseData['data']['workflow_version'] != ""&& $responseData['data']['workflow_version'] > 0) {
-
-                $workflowList = $this->jobResource->getWorkflowList($request);
-
-                $responseData["workflow_list"] = $workflowList;
 
                 if(isset($workflowList[$responseData['data']['workflow_version']])) {
 

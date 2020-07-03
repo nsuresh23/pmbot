@@ -42,6 +42,12 @@ Breadcrumbs::register('am-dashboard', function ($breadcrumbs) {
 
 });
 
+Breadcrumbs::register('member-dashboard', function ($breadcrumbs) {
+
+    // $breadcrumbs->push('Home', route('am-dashboard'));
+
+});
+
 Breadcrumbs::register('stakeholders-dashboard', function ($breadcrumbs) {
 
     // $breadcrumbs->push('Home', route('stakeholders-dashboard'));

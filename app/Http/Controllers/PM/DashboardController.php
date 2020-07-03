@@ -47,16 +47,23 @@ class DashboardController extends Controller
             //     $field["am_empcode"] =  auth()->user()->empcode;
             // }
 
-            if (auth()->user()->role == env('ACCOUNT_MANAGER_ROLE_NAME')) {
+            // if (auth()->user()->role == env('ACCOUNT_MANAGER_ROLE_NAME')) {
 
-                $field[env('ACCOUNT_MANAGER_CODE_FIELD')] =  auth()->user()->empcode;
-            }
+            //     $field[env('ACCOUNT_MANAGER_CODE_FIELD')] =  auth()->user()->empcode;
+            // }
 
-            if (auth()->user()->role == env('PROJECT_MANAGER_ROLE_NAME')) {
+            // if (auth()->user()->role == env('PROJECT_MANAGER_ROLE_NAME')) {
 
-                $field[env('PROJECT_MANAGER_CODE_FIELD')] =  auth()->user()->empcode;
-            }
+            //     $field[env('PROJECT_MANAGER_CODE_FIELD')] =  auth()->user()->empcode;
+            // }
 
+            // if ($request->empcode) {
+
+            //     $field["empcode"] = $request->empcode;
+
+            // }
+
+            $field["empcode"] = auth()->user()->empcode;
             $returnResponse = $this->jobResource->jobCountByField($field);
 
 

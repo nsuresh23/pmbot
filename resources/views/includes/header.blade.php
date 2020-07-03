@@ -188,9 +188,14 @@
             </li> --}}
 
 
-            <li class="dropdown alert-drp selected-member-header-block" style="display:none;">
-                <a href="javascript:void(0)" class="dropdown-toggle selected-member-header btn btn-outline btn-info"></a>
-            </li>
+            <?php if(session()->has("current_empcode") && session()->get("current_empcode") != auth()->user()->empcode){ ?>
+                {{-- <li class="dropdown alert-drp selected-member-header-block" style="display:none;"> --}}
+                    {{-- <a href="javascript:void(0)" class="dropdown-toggle selected-member-header btn btn-outline btn-info"></a> --}}
+                {{-- </li> --}}
+                <li class="dropdown alert-drp">
+                <a href="{{ route(__('dashboard.current_user_login_url')) ?? 'javascript:void(0);'}}" class="dropdown-toggle btn btn-outline btn-info">{{ session()->get("current_empcode") ?? ''}}</a>
+                </li>
+            <?php } ?>
             <li class="dropdown alert-drp">
                 <a href="javascript:void(0)" class="dropdown-toggle notification-count-button"
                     data-notification-count-url="{{$notificationCountUrl ?? ''}}"

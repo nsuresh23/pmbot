@@ -564,15 +564,15 @@ $(document).on('shown.bs.tab', '#overviewTab', function(e) {
 
     }
 
-    var dataUrl = $('.jobOverviewTab').attr('data-member-job-count-url');
+    // var dataUrl = $('.jobOverviewTab').attr('data-member-job-count-url');
 
-    var empcode = 'overview';
+    // var empcode = 'overview';
 
-    if (dataUrl != undefined && dataUrl != "") {
+    // if (dataUrl != undefined && dataUrl != "") {
 
-        getMemberJobCount(dataUrl, empcode);
+    //     getMemberJobCount(dataUrl, empcode);
 
-    }
+    // }
 
 
 });
