@@ -587,6 +587,18 @@ class UserCollection
 
                 $userData = $returnData["data"];
 
+                // if(isset($userData['members']) && is_array($userData['members']) && count($userData['members']) > 0) {
+
+                //     $memberList = explode(",", $userData['members'][0]);
+                //     array_walk($memberList, function ($arr) {
+                //         return trim($arr, "'");
+                //     });
+                //     $userData['members'] = $memberList;
+
+                // }
+
+                // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($userData);echo '<PRE/>';exit;
+
             }
 
         } catch (Exception $e) {
@@ -902,10 +914,16 @@ class UserCollection
 
             function ($item) {
 
+                $memberDashboardUrl = "javascript:void(0);";
+
                 if(isset($item["email"]) && $item["email"] != "") {
 
                     // $item["email"] = '<a class="btn-link member-job-count-item " href="javascript:void(0);" data-member-empcode="' . $item["empcode"] . '" >' . mb_strimwidth($item["email"], 0, 75, "...") . '</a>';
-                    $item["email"] = '<a class="btn-link member-job-count-item " href="javascript:void(0);" data-member-empcode="' . $item["empcode"] . '" >' . $item["email"] . '</a>';
+                    // $item["email"] = '<a class="btn-link member-job-count-item " href="javascript:void(0);" data-member-empcode="' . $item["empcode"] . '" >' . $item["email"] . '</a>';
+
+                    $memberDashboardUrl = route(__("dashboard.member_dashboard_url"), ["empcode" => urlencode(base64_encode($item["id"])),"currentempcode" => urlencode(base64_encode(auth()->user()->id))]);
+                    // $item["email"] = '<a class="btn-link" href="' . $memberDashboardUrl . '" data-member-empcode="' . $item["empcode"] . '" target="_blank">' . $item["email"] . '</a>';
+                    $item["email"] = '<a class="btn-link" href="' . $memberDashboardUrl . '" data-member-empcode="' . $item["empcode"] . '">' . $item["email"] . '</a>';
 
                 }
 

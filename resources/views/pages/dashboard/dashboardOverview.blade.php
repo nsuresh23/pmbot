@@ -8,7 +8,7 @@ if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) 
 
     <div id="members" class="membersTab mb-15" style="display: none;">
 
-        @include('pages.dashboard.members.dashboardMembers')
+        @include('pages.dashboard.members.members')
 
     </div>
 

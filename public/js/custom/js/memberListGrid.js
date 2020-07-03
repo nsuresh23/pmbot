@@ -183,23 +183,23 @@ $(function() {
 
     });
 
-    $(document).on('click', '.member-job-count-item', function() {
+    // $(document).on('click', '.member-job-count-item', function() {
 
-        var dataUrl = $('.membersGrid').attr('data-member-job-count-url');
+    //     var dataUrl = $('.membersGrid').attr('data-member-job-count-url');
 
-        var empcode = $(this).attr('data-member-empcode');
+    //     var empcode = $(this).attr('data-member-empcode');
 
-        // var dataUrl = $(this).attr('data-list-url');
+    //     // var dataUrl = $(this).attr('data-list-url');
 
-        // dataUrl = "fd";
+    //     // dataUrl = "fd";
 
-        if (dataUrl != undefined && dataUrl != "") {
+    //     if (dataUrl != undefined && dataUrl != "") {
 
-            getMemberJobCount(dataUrl, empcode);
+    //         getMemberJobCount(dataUrl, empcode);
 
-        }
+    //     }
 
-    });
+    // });
 
 });
 

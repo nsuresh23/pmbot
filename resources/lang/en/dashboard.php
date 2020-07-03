@@ -43,6 +43,8 @@ return [
     'pms_email_count_url' => 'pms-email-count',
     'user_job_count_url' => 'user-job-count',
     'member_list_url' => 'member-list',
+    'member_dashboard_url' => 'member-dashboard',
+    'current_user_login_url' => 'current-user-login',
     'email_list_tab_label' => 'emails',
     'check_list_tab_label' => 'Check list',
     // 'email_check_list_tab_label' => 'Email check list',

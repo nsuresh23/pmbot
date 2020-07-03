@@ -288,6 +288,8 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
 	Route::any('job-timeline/{id}', 'Job\JobController@jobTimeline')->name('job-timeline');
     Route::any('my-history', 'User\UserController@myHistory')->name('my-history');
 
+    Route::any('member-dashboard/{empcode}/{currentempcode}', 'Members\MembersController@index')->name('member-dashboard'); //done
+    Route::any('current-user-login', 'Members\MembersController@currentUserLogin')->name('current-user-login'); //done
     Route::any('member-list', 'User\UserController@memberList')->name('member-list'); //done
 
 	Route::any('email-send', 'Job\EmailController@emailSend')->name('email-send');
