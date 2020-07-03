@@ -17,7 +17,7 @@
             <div class="modal-body">
                 <form role="form" class="form-horizontal email-send-form" action="{{ $emailSendUrl ?? '#'}}">
 				<input type="hidden" id="status" name="status" value="0" class="form-control email-status">
-				<input type="hidden" placeholder="" id="type" name="type" value="" class="form-control">
+				<input type="hidden" placeholder="" id="type" name="type" value="" class="form-control type">
 				<input type="hidden" placeholder="" id="job_id" name="job_id" value="{{$jobId ?? ''}}" class="form-control">
 				<input type="hidden" id="redirectTo" name="redirectTo" value="{{$redirectTo ?? '#'}}">
 				<input type="hidden" id="getemailidURL" name="getemailidURL" value="{{$getEmailid ?? '#'}}">
@@ -81,7 +81,7 @@
 				 <div class="form-group">
 
                         <div class="col-lg-12">
-                            <textarea class="textarea_editor form-control compose_message" name="body_html" id="body_html" rows="15"
+                            <textarea class="email_textarea_editor form-control compose_message" name="body_html" id="body_html" rows="15"
                                 placeholder="Enter text ..."></textarea>
                         </div>
                     </div>

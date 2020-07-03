@@ -25,7 +25,7 @@
             <div class="modal-body">
 				<form role="form" class="form-horizontal email-draft-form"  action="{{ $draftemailSendUrl ?? '#'}}">
 					<input type="hidden" id="email-status" name="status" value="0" class="form-control email-status">
-					<input type="hidden" id="type" name="type" value="" class="form-control">
+					<input type="hidden" id="type" name="type" value="" class="form-control type">
 					<input type="hidden" id="email_id" name="email_id" value="" class="form-control email_id">
 					<input type="hidden" id="draft_email_type" name="email_type" value="reply" class="form-control draft_email_type">
 					<input type="hidden" id="email-type" name="type" value="" class="form-control email-type">
