@@ -232,6 +232,18 @@ class JobController extends Controller
                 $request->merge(['order_id' => $request->womat_job_id]);
             }
 
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
+
             $returnResponse = $this->jobResource->jobAdd($request);
 
             if ($request->redirectTo != __("job.job_detail_url")) {
@@ -355,6 +367,18 @@ class JobController extends Controller
 
                 $field["ip_address"] = $request->ip();
 
+                if (auth()->check()) {
+
+                    $field["creator_empcode"] = auth()->user()->empcode;
+
+                    if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                        $field["creator_empcode"] = session()->get("current_empcode");
+
+                    }
+
+                }
+
                 $returnResponse = $this->jobResource->jobUpdate($field);
             }
 
@@ -410,6 +434,18 @@ class JobController extends Controller
                 $request->merge(['e_isbn' => $request->womat_job_id]);
                 $request->merge(['order_id' => $request->womat_job_id]);
                 // $request->merge(['start_time' => date('yy-m-d H:i:s')]);
+            }
+
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+                
+                }
+
             }
 
             $returnResponse = $this->jobResource->annotatorJobAdd($request);

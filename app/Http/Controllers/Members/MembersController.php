@@ -210,6 +210,12 @@ class MembersController extends Controller
 
                 Auth::loginUsingId(session()->get("current_empid"), false);
 
+                session()->forget("current_empid");
+                session()->forget("current_empcode");
+                session()->forget("current_empname");
+                session()->forget("current_email");
+                session()->forget("current_role");
+
                 return redirect()->route("home");
 
             }

@@ -471,7 +471,6 @@ trait Helper
 
                 }
 
-
             }
 
             // if ($item["action_item"] == "email" && !isset($item["job_id"]) || $item["job_id"] == "" || $item["job_id"] == null) {
@@ -604,6 +603,14 @@ trait Helper
                 // $eventMessage .= '<span class="text-warning">';
                 // $eventMessage .= $item["job_title"];
                 // $eventMessage .= '</span>';
+
+            }
+
+            if (isset($item["creator_empcode"]) && $item["creator_empcode"] != "" && $item["creator_empcode"] != null) {
+
+                $eventMessage .= " by ";
+
+                $eventMessage .= $item["creator_empcode"];
 
             }
 

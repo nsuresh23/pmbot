@@ -382,6 +382,17 @@ class ApiController extends Controller
                         // "emprole" => "project_manager"
                     );
 
+                    if (auth()->check()) {
+
+                        $jsonDataTaskNotes["creator_empcode"] = auth()->user()->empcode;
+
+                        if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                            $jsonDataTaskNotes["creator_empcode"] = session()->get("current_empcode");
+                        }
+
+                    }
+
                     if($start_time != "") {
 
                         $jsonDataTaskNotes["start_time"] = $start_time;
@@ -471,6 +482,17 @@ class ApiController extends Controller
 
                     }
 
+                    if (auth()->check()) {
+
+                        $jsonData["creator_empcode"] = auth()->user()->empcode;
+
+                        if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                            $jsonData["creator_empcode"] = session()->get("current_empcode");
+                        }
+
+                    }
+
                     if ($start_time != "") {
 
                         $jsonData["start_time"] = $start_time;
@@ -521,6 +543,17 @@ class ApiController extends Controller
             //     // $jsonData["type"] = 'generic';
 
             // }
+
+            if (auth()->check()) {
+
+                $jsonData["creator_empcode"] = auth()->user()->empcode;
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $jsonData["creator_empcode"] = session()->get("current_empcode");
+                }
+
+            }
 
             if ($start_time != "") {
 
@@ -588,10 +621,7 @@ class ApiController extends Controller
             $annotationID    =    $_POST['annotationID'];
             $associatejobid    =    $_POST['associatejobid'];
 
-
             $getjobid_url    =    env('GETPMJOBID');
-
-
 
             $getjoblist_url    =    env('GETPMJOBLIST');
             // Prepare new cURL resource
@@ -1035,6 +1065,17 @@ class ApiController extends Controller
             // 'workflow_version'  => '1',
         );
 
+        if (auth()->check()) {
+
+            $jsonData["creator_empcode"] = auth()->user()->empcode;
+
+            if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                $jsonData["creator_empcode"] = session()->get("current_empcode");
+            }
+
+        }
+
         if ($start_time != "") {
 
             $jsonData["start_time"] = $start_time;
@@ -1093,6 +1134,17 @@ class ApiController extends Controller
             'status'             => $status,
             'job_id'             => Null
         );
+
+        if (auth()->check()) {
+
+            $jsonData["creator_empcode"] = auth()->user()->empcode;
+
+            if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                $jsonData["creator_empcode"] = session()->get("current_empcode");
+            }
+            
+        }
 
         if ($start_time != "") {
 

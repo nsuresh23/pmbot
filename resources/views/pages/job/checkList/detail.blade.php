@@ -89,6 +89,19 @@
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <p class="mb-10 font-italic">
                                                     Added by
+
+                                                    <?php if(isset($returnData['data']['creator_empcode'])) { ?>
+                                                    
+                                                        <span class="weight-500 capitalize-font txt-primary">
+                                                        
+                                                            <span class="pl-5">{{$returnData['data']['creator_empcode'] ?? '-'}}</span>
+                                                        
+                                                        </span>
+                                                        
+                                                        for
+                                                    
+                                                    <?php } ?>
+
                                                     <span class="weight-500 capitalize-font txt-primary">
                                                         <span class="pl-5">{{$returnData['data']['empname'] ?? '-'}}</span>
                                                     </span>

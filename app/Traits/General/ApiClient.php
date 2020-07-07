@@ -10,6 +10,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
 use Monolog\Handler\StreamHandler;
 use App\Traits\General\CustomLogger;
+use Illuminate\Support\Facades\Auth;
 
 trait ApiClient
 {
@@ -181,6 +182,19 @@ trait ApiClient
 
                 $paramData["attachment_path"] = base64_encode($paramData["attachment_path"]);
             }
+
+            // if(Auth::check()) {
+
+            //     $paramData["creator_empcode"] = auth()->user()->empcode;
+
+            //     if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+            //         $paramData["creator_empcode"] = session()->get("current_empcode");
+            //     }
+
+            // }
+
+            
 
             // $paramData["ip_address"] = request()->ip();
             // $paramData["ipaddress"] = request()->ip();

@@ -209,6 +209,18 @@ class NoteController extends Controller
                 unset($request["redirectTo"]);
             }
 
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
+
             $returnResponse = $this->noteResource->taskNoteAdd($request);
 
         } catch (Exeception $e) {
@@ -266,6 +278,18 @@ class NoteController extends Controller
 
             $request->merge(['ip_address' => $request->ip()]);
 
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
+
             $returnResponse = $this->noteResource->taskNoteEdit($request);
 
             if (isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
@@ -314,6 +338,18 @@ class NoteController extends Controller
         $returnResponse = [];
 
         try {
+
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+                    
+                }
+
+            }
 
             $returnResponse = $this->noteResource->taskNoteDelete($request);
 

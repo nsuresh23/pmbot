@@ -320,6 +320,18 @@ class UserController extends Controller
                 $request->merge(['empcode' => $request->email]);
             }
 
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
+
             // $responseData = $this->userResource->userAdd($request);
             $returnResponse = $this->userResource->userAdd($request);
 
@@ -367,6 +379,18 @@ class UserController extends Controller
 
             // $request->set('status', $status);
 
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
+
             $request = $this->formatHistoryData($request, "history", "~");
 
             $returnResponse = $this->userResource->userEdit($request);
@@ -399,6 +423,18 @@ class UserController extends Controller
     {
 
         try {
+
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
 
             $returnResponse = $this->userResource->userDelete($request);
 
@@ -444,6 +480,17 @@ class UserController extends Controller
 
                 if ($request->isMethod('post')) {
 
+                    if (auth()->check()) {
+
+                        $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                        if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                            $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                        }
+                        
+                    }
 
                     $returnResponse = $this->userResource->changePassword($request);
 

@@ -123,6 +123,18 @@ class NotificationController extends Controller
 
                 $request->merge(["read" => "1"]);
 
+                if (auth()->check()) {
+
+                    $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                    if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                        $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                    }
+
+                }
+
                 $returnResponse = $this->notificationResource->notificationEdit($request);
 
             } catch (Exception $e) {
@@ -166,6 +178,18 @@ class NotificationController extends Controller
                     if (isset($request->type) && $request->type) {
 
                         $request->merge(["type" => $request->type]);
+
+                    }
+
+                    if (auth()->check()) {
+
+                        $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                        if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                            $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                        }
 
                     }
 
@@ -241,6 +265,18 @@ class NotificationController extends Controller
 
                 // $request->merge(["read" => "1"]);
                 $request->merge(["empcode" => auth()->user()->empcode]);
+
+                if (auth()->check()) {
+
+                    $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                    if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                        $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                    }
+                    
+                }
 
                 $returnResponse = $this->notificationResource->notificationReadAll($request);
 

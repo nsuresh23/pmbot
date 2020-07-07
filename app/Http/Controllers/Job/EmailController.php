@@ -153,6 +153,18 @@ class EmailController extends Controller
 
             $redirectRouteAction = $this->roleBasedDashboardRouteAction($request);
 
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
+
             $returnResponse = $this->emailResource->emailStatusUpdate($request);
 
         } catch (Exeception $e) {
@@ -365,7 +377,19 @@ class EmailController extends Controller
 			
 			if(!empty($field["attachments"])) {
 				$field["attachments"] = base64_encode($field["attachments"]);
-			}
+            }
+
+            if(auth()->check()) {
+
+               $field['creator_empcode'] = auth()->user()->empcode;
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $field['creator_empcode'] = session()->get("current_empcode");
+
+                }
+
+            }
 			
             if (count($field) > 0) {
                 $returnResponse = $this->emailResource->emailSend($field);
@@ -480,7 +504,17 @@ class EmailController extends Controller
 			}
 			if(!empty($field["attachments"])) {
 				$field["attachments"] = base64_encode($field["attachments"]);
-			}
+            }
+
+            if (auth()->check()) {
+
+                $field['creator_empcode'] = auth()->user()->empcode;
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $field['creator_empcode'] = session()->get("current_empcode");
+                }
+            }
 
             if (count($field) > 0) {
                 $returnResponse = $this->emailResource->draftemailSend($field);

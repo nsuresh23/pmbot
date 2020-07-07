@@ -193,7 +193,7 @@
                     {{-- <a href="javascript:void(0)" class="dropdown-toggle selected-member-header btn btn-outline btn-info"></a> --}}
                 {{-- </li> --}}
                 <li class="dropdown alert-drp">
-                <a href="{{ route(__('dashboard.current_user_login_url')) ?? 'javascript:void(0);'}}" class="dropdown-toggle btn btn-outline btn-info">{{ session()->get("current_empcode") ?? ''}}</a>
+                <a href="{{ route(__('dashboard.current_user_login_url')) ?? 'javascript:void(0);'}}" class="dropdown-toggle btn btn-outline btn-info" style="text-transform:none;">{{ session()->get("current_empcode") ?? ''}}</a>
                 </li>
             <?php } ?>
             <li class="dropdown alert-drp">

@@ -40,8 +40,8 @@
                                     $selectedWorkflowVersion,
                                     ['class' => 'form-control select2',
                                     'data-error' => __('job.book_info_workflow_version_error_msg'),
-                                    $jobEditReadonly,
-                                    'required']) !!}
+                                    $jobEditReadonly
+									]) !!}
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>

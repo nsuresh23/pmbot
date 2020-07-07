@@ -36,8 +36,8 @@
                                                 null,
                                                 ['class' =>
                                                 'form-control select2',
-                                                'data-error' => __('job.job_workflow_error_msg'),
-                                                'required']) !!}
+                                                'data-error' => __('job.job_workflow_error_msg')
+												]) !!}
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>

@@ -650,7 +650,7 @@ function getTaskActivitiesTableList(gridSelector) {
 
                 dataValue[i].s_no = i + 1;
 
-                dataValue[i].userDetail = formatDataItemUserDetail(dataValue[i].user_image, dataValue[i].empinitial, dataValue[i].empname, dataValue[i].empcode, dataValue[i].created_date, dataValue[i].emprole, dataValue[i].modified_date);
+                dataValue[i].userDetail = formatDataItemUserDetail(dataValue[i].user_image, dataValue[i].empinitial, dataValue[i].empname, dataValue[i].empcode, dataValue[i].created_date, dataValue[i].emprole, dataValue[i].modified_date, dataValue[i].creator_empcode);
 
                 dataValue[i].noteDetail = formatDataItemNoteDetail(dataValue[i]);
 
@@ -662,7 +662,24 @@ function getTaskActivitiesTableList(gridSelector) {
 
     }
 
-    function formatDataItemUserDetail(image, initial, name, team, created_at, role, updated_at) {
+    function formatDataItemUserDetail(image, initial, name, team, created_at, role, updated_at, creator_name) {
+
+        var creatorHtml = '';
+
+        if (creator_name != undefined && creator_name != '') {
+
+            creatorHtml = '<p class="ma-0">' +
+                '<span class="block weight-500 txt-warning' +
+                '">' +
+                // 'Designation: ' +
+                '(' +
+                'By ' +
+                creator_name +
+                ')' +
+                '</span>' +
+                '</p>';
+
+        }
 
         var returnData = '<div class="row">' +
             '<div class="col-lg-12 col-md-12, col-sm-12 col-xs-12">' +
@@ -686,7 +703,7 @@ function getTaskActivitiesTableList(gridSelector) {
             '</div>' +
             '<div class="col-lg-9 col-md-9, col-sm-12 col-xs-12">' +
             '<div class="pull-left">' +
-            '<h5 class="block ma-0 weight-500 capitalize-font txt-primary">' +
+            '<h5 class="block ma-0 weight-500 txt-primary">' +
             '<i class="fa fa-user grey"></i>' +
             '<span class="pl-5">' +
             name +
@@ -705,6 +722,8 @@ function getTaskActivitiesTableList(gridSelector) {
             role +
             '</span>' +
             '</p>' +
+
+            creatorHtml +
 
             '<p class="ma-0 small lighter">' +
             '<i class="fa fa-clock-o grey"></i>' +

@@ -683,6 +683,18 @@ class TaskController extends Controller
 
             }
 
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
+
             $returnResponse = $this->taskResource->taskAdd($request);
 
         } catch (Exeception $e) {
@@ -944,6 +956,18 @@ class TaskController extends Controller
 
             }
 
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
+
             $returnResponse = $this->taskResource->taskEdit($request);
 
         } catch (Exeception $e) {
@@ -1003,6 +1027,18 @@ class TaskController extends Controller
                 $request->merge(['status' => __("job.task_closed_status_text")]);
                 // $request->merge(['createdby_status' => __("job.task_closed_status_text")]);
 
+                if (auth()->check()) {
+
+                    $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                    if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                        $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                    }
+
+                }
+
                 $returnResponse = $this->taskResource->taskClose($request);
 
                 $redirectRouteAction = $this->roleBasedDashboardRouteAction($request);
@@ -1050,6 +1086,18 @@ class TaskController extends Controller
             $request->merge(['empcode' => auth()->user()->empcode]);
             $request->merge(['followup_type' => $followupType]);
             // $request->merge(['ip_address' => $request->ip()]);
+
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
 
             $returnResponse = $this->taskResource->taskFollowupUpdate($request);
 
@@ -1123,6 +1171,18 @@ class TaskController extends Controller
             $request->merge(['task_id' => $request->task_id]);
             $request->merge(['empcode' => auth()->user()->empcode]);
             $request->merge(['ip_address' => $request->ip()]);
+
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
 
             $returnResponse = $this->taskResource->taskUpdate($request);
 
@@ -1217,6 +1277,18 @@ class TaskController extends Controller
                 if ($request->redirectTo != __("job.job_detail_url")) {
 
                     $redirectRouteAction = $this->roleBasedDashboardRouteAction($request);
+                }
+
+                if (auth()->check()) {
+
+                    $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                    if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                        $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                    }
+                    
                 }
 
                 $returnResponse = $this->taskResource->taskDelete($request);

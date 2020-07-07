@@ -462,6 +462,18 @@ class CheckListController extends Controller
 
             // }
 
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
+
             $returnResponse = $this->checkListResource->checkListAdd($request);
 
         } catch (Exeception $e) {
@@ -540,6 +552,18 @@ class CheckListController extends Controller
 
             $request->merge(['empcode' => auth()->user()->empcode]);
             $request->merge(['ip_address' => $request->ip()]);
+
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
             
             $returnResponse = $this->checkListResource->checkListEdit($request);
 
@@ -598,6 +622,18 @@ class CheckListController extends Controller
 
                     $redirectRouteAction = $this->roleBasedDashboardRouteAction($request);
 
+                }
+
+                if (auth()->check()) {
+
+                    $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                    if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                        $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                    }
+                    
                 }
 
                 $returnResponse = $this->checkListResource->checkListDelete($request);

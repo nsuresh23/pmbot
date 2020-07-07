@@ -476,6 +476,18 @@ class QueriesController extends Controller
                 $redirectRouteAction = $this->roleBasedDashboardRouteAction($request);
             }
 
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
+
             $returnResponse = $this->taskResource->taskAdd($request);
         } catch (Exeception $e) {
 
@@ -652,7 +664,20 @@ class QueriesController extends Controller
                 unset($request["history"]);
             }
 
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
+
             $returnResponse = $this->taskResource->taskEdit($request);
+
         } catch (Exeception $e) {
 
             $returnResponse["success"] = "false";
@@ -705,6 +730,18 @@ class QueriesController extends Controller
                 $request->merge(['partialcomplete' => "0"]);
                 $request->merge(['status' => __("job.task_closed_status_text")]);
                 // $request->merge(['createdby_status' => __("job.task_closed_status_text")]);
+
+                if (auth()->check()) {
+
+                    $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                    if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                        $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                    }
+                    
+                }
 
                 $returnResponse = $this->taskResource->taskClose($request);
 
