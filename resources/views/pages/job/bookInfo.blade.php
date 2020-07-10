@@ -45,6 +45,21 @@
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
+
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label mb-10">{{ __('job.book_info_due_date_label') }}</label>
+                                    <div class="input-group date datetimepicker">
+                                        <input type="text" id="due_date" name="date_due" class="due_date form-control" value="{{$selectedDueDate}}" placeholder="{{ __('job.book_info_due_date_placeholder_text') }}" data-error="{{ __('job.book_info_due_date_error_msg') }}">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </span>
+                                    </div>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
                         </div>
                         <!-- /Row -->
                         <!-- Row -->

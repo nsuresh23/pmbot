@@ -75,6 +75,7 @@ $(function() {
                                 // (!filter.order_id || (client.order_id != undefined && client.order_id != null && (client.order_id.toLowerCase().indexOf(filter.order_id.toLowerCase()) > -1))) &&
                                 (!filter.title || (client.title != undefined && client.title != null && (client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1))) &&
                                 (!filter.series_title || (client.series_title != undefined && client.series_title != null && (client.series_title.toLowerCase().indexOf(filter.series_title.toLowerCase()) > -1))) &&
+                                (!filter.category || (client.category != undefined && client.category != null && (client.category.toLowerCase().indexOf(filter.category.toLowerCase()) > -1))) &&
                                 (!filter.task_count || (client.task_count != undefined && client.task_count != null && (client.task_count.toLowerCase().indexOf(filter.task_count.toLowerCase()) > -1))) &&
                                 (!filter.checklist_count || (client.checklist_count != undefined && client.checklist_count != null && (client.checklist_count.toLowerCase().indexOf(filter.checklist_count.toLowerCase()) > -1))) &&
                                 (!filter.pm_empname || (client.pm_empname != undefined && client.pm_empname != null && (client.pm_empname.toLowerCase().indexOf(filter.pm_empname.toLowerCase()) > -1))) &&
@@ -132,7 +133,7 @@ $(function() {
                     // { title: "BOOK ID", name: "order_id", type: "text"},
                     { title: "TITLE", name: "title", type: "text" },
                     // { title: "SERIES TITLE", name: "series_title", type: "text"},
-                    // { title: "CATEGORY", name: "project_type", type: "text"},
+                    { title: "CATEGORY", name: "category", type: "text" },
                     { title: "TASKS", name: "task_count", type: "text" },
                     { title: "CHECKLIST", name: "checklist_count", type: "text" },
                     { title: "PROJECT MANAGER", name: "pm_empname", type: "text" },

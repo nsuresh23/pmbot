@@ -244,6 +244,12 @@ class JobController extends Controller
 
             }
 
+            if ($request->workflow_version && $request->workflow_version != "" && $request->workflow_version != null) {
+
+                $request->merge(['status' => "pending"]);
+
+            }
+
             $returnResponse = $this->jobResource->jobAdd($request);
 
             if ($request->redirectTo != __("job.job_detail_url")) {
@@ -443,7 +449,7 @@ class JobController extends Controller
                 if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
 
                     $request->merge(['creator_empcode' => session()->get("current_empcode")]);
-                
+
                 }
 
             }

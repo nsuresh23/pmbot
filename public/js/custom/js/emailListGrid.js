@@ -548,6 +548,7 @@ function getPmsEmailCountTableList(gridSelector) {
                             (!filter.critical_jobs_email_count || (client.critical_jobs_email_count != undefined && client.critical_jobs_email_count != null && (client.critical_jobs_email_count.toLowerCase().indexOf(filter.critical_jobs_email_count.toLowerCase()) > -1))) &&
                             (!filter.critical_job_count || (client.critical_job_count != undefined && client.critical_job_count != null && (client.critical_job_count.toLowerCase().indexOf(filter.critical_job_count.toLowerCase()) > -1))) &&
                             (!filter.last_annotated_time || (client.last_annotated_time != undefined && client.last_annotated_time != null && (client.last_annotated_time.toLowerCase().indexOf(filter.last_annotated_time.toLowerCase()) > -1))) &&
+                            (!filter.over_due_task_count || (client.over_due_task_count != undefined && client.over_due_task_count != null && (client.over_due_task_count.toLowerCase().indexOf(filter.over_due_task_count.toLowerCase()) > -1))) &&
                             (!filter.task_count || (client.task_count != undefined && client.task_count != null && (client.task_count.toLowerCase().indexOf(filter.task_count.toLowerCase()) > -1))) &&
                             (!filter.last_processed_time || (client.last_processed_time != undefined && client.last_processed_time != null && (client.last_processed_time.toLowerCase().indexOf(filter.last_processed_time.toLowerCase()) > -1)));
                     });
@@ -619,6 +620,13 @@ function getPmsEmailCountTableList(gridSelector) {
         name: 'last_annotated_time',
         type: 'text',
         width: 110,
+    });
+
+    field.push({
+        title: "OVER DUE TASK COUNT",
+        name: "over_due_task_count",
+        type: "text",
+        // width: 40,
     });
 
     field.push({

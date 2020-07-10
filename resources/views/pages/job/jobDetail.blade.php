@@ -35,7 +35,7 @@ $redirectToJobUrl = __("job.job_detail_url");
 
 
 
-$jobId = $jobStatus = "";
+$jobId = $jobStatus = $selectedDueDate = "";
 
 $selectedJobCategory = $selectedWorkflowVersion = null;
 
@@ -52,6 +52,12 @@ if(isset($responseData["data"]) && $responseData["data"]) {
     if(isset($responseData["data"]["status"]) && $responseData["data"]["status"]) {
 
         $jobStatus = $responseData["data"]["status"];
+
+    }
+
+    if(isset($responseData["data"]["due_date"]) && $responseData["data"]["due_date"]) {
+
+        $selectedDueDate = $responseData["data"]["due_date"];
 
     }
 
@@ -99,7 +105,7 @@ if(in_array(auth()->user()->role, config('constants.jobEditUserRoles'))) {
             <div class="panel panel-default card-view">
                 <div class="panel-heading">
                     <div class="pull-left">
-                        <h6 class="panel-title capitalize txt-dark">{{__('job.job_detail_id_label')}} : {{ $responseData["data"]["womat_job_id"] ?? '-' }}</h6>
+                        <h6 class="panel-title capitalize txt-dark">{{__('job.job_detail_id_label')}} : {{ $responseData["data"]["title"] ?? '-' }}</h6>
                     </div>
                     <div class="pull-right">
 
