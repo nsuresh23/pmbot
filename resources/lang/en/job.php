@@ -71,6 +71,7 @@ return [
     'job_add_opm_url' => 'job-add-opm',
     'job_store_opm_url' => 'job-store-opm',
     'annotator_job_add_url' => 'annotator-job-add',
+    'file_upload_url' => 'file-upload',
 
     /* Job Add Form */
     'job_title_label' => 'title',

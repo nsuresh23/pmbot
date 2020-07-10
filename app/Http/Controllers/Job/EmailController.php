@@ -198,7 +198,9 @@ class EmailController extends Controller
             $field = [];
 
             $returnResponse = [];
-
+			print '<pre>';
+			print_r($request->all());
+			exit;
             $field["from"] = '';
             if (isset($request->to) && $request->to != "") {
                 $field["to"] = $request->to;
@@ -259,35 +261,33 @@ class EmailController extends Controller
             $field["empcode"]       = auth()->user()->empcode;
             $field["source"]        = 'inbox';
 			$field['email_guid']    = '';
-
+			
+			
 			if($request->file())
 			{
 				$attached_files = [];
 				$files = $request->file();
+				$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+				
+				$rand = substr(str_shuffle($permitted_chars), 0, 8);
 
-                $guid = date('Y-m-d-hms');
-                $currentTime = date('Y') . '\\' . date('m') . '\\' . date('d') . '\\' . $guid;
-                //$uploadPath = $currentTime . '\\' . auth()->user()->empcode . '\\';
-                $uploadPath = auth()->user()->empcode . '\\' . $currentTime . '\\';
-
-                //$field['email_path'] = env('UPLOAD_FILE_PATH', storage_path('app')) . '\\' .$uploadPath;
+                $guid = date('Y-m-d-hms').'-'.$rand;
+				
+                $currentTime = date('Y') . '\\' . date('m') . '\\' . date('j') . '\\' . $guid;
+                $uploadPath = strtoupper(auth()->user()->empcode) . '\\' . $currentTime . '\\';
 				$field['email_path'] = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath;
                 $field['email_guid'] = $guid;
-
+				
 				foreach($files as $file){
-					$filename = $file->getClientOriginalName();
-
+					$filename  = $file->getClientOriginalName();
 					$extension = $file->getClientOriginalExtension();
-
-					//$hasFilename = $currentTime . '_' .$filename;
 					$hasFilename = $filename;
 
-					//$filename = $file->store($uploadPath);
-
-
-					//Storage::put($uploadPath, $file);
-					Storage::putFileAs($uploadPath . '/',$file, $hasFilename);
-					//$filename = $file->store(strtotime("now") . '/' . auth()->user()->empcode);
+					//$filePath1 = 'OUPBOOKS\\RADDEVELOPERS@SPI-GLOBAL.COM\\2020\\6\\9\\09a13be6-d963-432f-8fef-020e53074b22\\' . $filename; 
+					
+					$filePath =  env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath. $hasFilename; 
+					
+					Storage::disk('s3')->put($filePath, file_get_contents($file)); 
 					$attached_files[$filename] = $hasFilename;
 
 				}
@@ -296,6 +296,7 @@ class EmailController extends Controller
 					$field["attachments"] = implode("|", $attached_files);
 				}
 			}
+			
 			/*$field['from'] = '';
 			$field['to'] = 'test';
 			$field['cc'] = 'test';
@@ -322,54 +323,42 @@ class EmailController extends Controller
 
 
 				if(empty($uploadPath)) {
-					$guid = date('Y-m-d-hms');
-					$currentTime = date('Y') . '\\' . date('m') . '\\' . date('d') . '\\' . $guid;
-					$uploadPath = auth()->user()->empcode . '\\' . $currentTime . '\\';
+					$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+					$rand = substr(str_shuffle($permitted_chars), 0, 8);
+					$guid = date('Y-m-d-hms').'-'.$rand;
+					
+					$currentTime = date('Y') . '\\' . date('n') . '\\' . date('j') . '\\' . $guid;
+					$uploadPath = strtoupper(auth()->user()->empcode) . '\\' . $currentTime . '\\';
 					$field['email_path'] = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath;
 					$field["attachments"] = $returnResponse['data']['attachments'];
-					$upath = $_ENV['UPLOAD_FILE_PATH'].''.$uploadPath;
-					$upath = str_replace("\\","/",$upath);
-
-					mkdir($upath, 0777,true);
+					
+					$upath = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\'.$uploadPath;
+					
+					//$upath = str_replace("\\","/",$upath);
+					//mkdir($upath, 0777,true);
+					
 				} else {
 					$uploadPath = $uploadPath;
 					$field['email_path'] = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath;
 					$field["attachments"] = $field["attachments"].'|'.$returnResponse['data']['attachments'];
-					$upath = $_ENV['UPLOAD_FILE_PATH'].'\\'.$uploadPath;
+					$upath = $_ENV['UPLOAD_FILE_ROUTE_PATH'].'\\'.$uploadPath;
 				}
 
 				if(!empty($returnResponse['data'])) {
 					$spath = $returnResponse['data']['email_path'];
-
-					/******* SERVER PATH ******/
-					$spath = str_replace($_ENV['UPLOAD_FILE_ROUTE_PATH'],$_ENV['UPLOAD_FILE_PATH'],$spath);
-					$spath = str_replace($_ENV['UPLOAD_FILE_ROUTE_PATH1'],$_ENV['UPLOAD_FILE_PATH'],$spath);
-
-					//$spath = str_replace('\\172.24.134.24\AnI\ChemInfoBot',$_ENV['PRODUCTION_SERVERPATH'],$spath);
-
-					$spath = str_replace("\\","/",$spath);
-					$spath = str_replace("//","/",$spath);
-					$spath = str_replace("//","/",$spath);
-
-
-
-					/******* LOCAL PATH ******/
-					//$spath = str_replace($_ENV['UPLOAD_FILE_ROUTE_PATH'],$_ENV['UPLOAD_FILE_PATH'],$spath);
-
 					$file = explode("|",$returnResponse['data']['attachments']);
 
 					for ($i = 0; $i < count($file); $i++) {
 						if(!empty($file[$i])) {
 							$filename = $spath.$file[$i];
-							if (file_exists($filename)) {
-								$uploadPath = str_replace("\\","/",$uploadPath);
-								$upath = $_ENV['UPLOAD_FILE_PATH'].''.$uploadPath;
-								copy($filename, $upath.$file[$i]);
-
-							}
+							$upath = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\'.$uploadPath;
+							Storage::disk('s3')->copy($filename, $upath.$file[$i]); 
+							//if (file_exists($filename)) {
+								//$upath = $_ENV['UPLOAD_FILE_PATH'].''.$uploadPath;
+								//Storage::disk('s3')->copy($filePath, $upath.$file[$i]); 
+								//copy($filename, $upath.$file[$i]);
+							//}
 						}
-
-
 					}
 
 				}
@@ -466,33 +455,37 @@ class EmailController extends Controller
 
 				$attached_files = [];
 				$files = $request->file();
+				
 				if(!empty($returnResponse['data']['email_path'])) {
+					//$uploadPath = str_replace($_ENV['UPLOAD_FILE_ROUTE_PATH'].'\\',"",$returnResponse['data']['email_path']);
+					//$uploadPath = str_replace($_ENV['UPLOAD_FILE_ROUTE_PATH1'].'\\',"",$uploadPath);
 					$uploadPath = str_replace($_ENV['UPLOAD_FILE_ROUTE_PATH'].'\\',"",$returnResponse['data']['email_path']);
-					$uploadPath = str_replace($_ENV['UPLOAD_FILE_ROUTE_PATH1'].'\\',"",$uploadPath);
 				} else {
-					$guid = date('Y-m-d-hms');
+					/*$guid = date('Y-m-d-hms');
 					$currentTime = date('Y') . '\\' . date('m') . '\\' . date('d') . '\\' . $guid;
 					$uploadPath = auth()->user()->empcode . '\\' . $currentTime . '\\';
+					$field['email_path'] = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath;
+					$field['email_guid'] = $guid;*/
+					
+					$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+					$rand = substr(str_shuffle($permitted_chars), 0, 8);
+					$guid = date('Y-m-d-hms').'-'.$rand;
+					$currentTime = date('Y') . '\\' . date('n') . '\\' . date('d') . '\\' . $guid;
+					$uploadPath = strtoupper(auth()->user()->empcode) . '\\' . $currentTime . '\\';
 					$field['email_path'] = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath;
 					$field['email_guid'] = $guid;
 				}
 
 				foreach($files as $file){
-					$filename = $file->getClientOriginalName();
-
+					$filename  = $file->getClientOriginalName();
 					$extension = $file->getClientOriginalExtension();
-
-					//$hasFilename = $currentTime . '_' .$filename;
 					$hasFilename = $filename;
-
-					//$filename = $file->store($uploadPath);
-
-					//Storage::put($uploadPath, $file);
-					Storage::putFileAs($uploadPath . '/',$file, $hasFilename);
+					$filePath =  env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath. $hasFilename; 
+					Storage::disk('s3')->put($filePath, file_get_contents($file)); 
 					//$filename = $file->store(strtotime("now") . '/' . auth()->user()->empcode);
 					$attached_files[$filename] = $hasFilename;
-
 				}
+				
 
 				if(count($attached_files) > 0){
 					$field["attachments"] = implode("|", $attached_files);

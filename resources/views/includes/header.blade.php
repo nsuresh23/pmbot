@@ -67,7 +67,7 @@
 
 <div id="flashMessage" class="d-none" data-type="{{ $type }}" data-message="{{ $message }}">
 <div id="notificationRead" class="d-none" data-notification-read-url="{{ $notificationItemReadUrl }}">
-<div id="currentUserInfo" class="currentUserInfo" data-current-user-role ="{{ auth()->user()->role }}" data-read-only-user="{{ $readOnlyUser }}">
+<div id="currentUserInfo" class="currentUserInfo" data-current-user-role="{{ auth()->user()->role }}" data-read-only-user="{{ $readOnlyUser }}" data-file-upload-url="{{route(__('job.file_upload_url')) ?? ''}}">
 
 <!-- Top Menu Items -->
 <nav class="navbar navbar-inverse navbar-fixed-top">

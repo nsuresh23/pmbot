@@ -104,7 +104,8 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
 	}
 
 
-    Route::any('file', 'File\FileController@getFile')->name('file');
+	Route::any('file', 'File\FileController@getFile')->name('file');
+	Route::any('file-upload', 'File\FileController@fileUpload')->name('file-upload');
 
     // Route::any('/pm/dashboard', 'PM\DashboardController@index');
     // Route::any('/stakeholders/dashboard', 'StakeHolders\DashboardController@index');
