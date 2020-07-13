@@ -410,6 +410,12 @@ class NoteCollection
 
                 }
 
+                if (isset($item['creator_empcode']) && $item['creator_empcode'] == auth()->user()->empcode) {
+
+                    $item['creator_empcode'] = "";
+
+                }
+
                 // if(isset($item['additional_note']) && $item['additional_note'] != "") {
 
                 //     if (base64_decode($item["additional_note"], true)) {

@@ -124,7 +124,9 @@ return [
     /* job detail page */
 
     'job_detail_id_label' => 'Job id',
+    'job_detail_job_label' => 'Job',
     'job_detail_search_label' => 'Search',
+    'job_detail_search_placeholder_text' => 'Search by ISBN',
     'job_detail_timeline_tab_label' => 'Timeline',
     'job_detail_grid_tab_label' => 'Grid',
     'job_detail_diary_tab_label' => 'Diary',
@@ -281,7 +283,7 @@ return [
     'task_job_info_button_label' => 'job detail',
     'email_list_url' => 'email-list',
     'email_send_url' => 'email-send',
-	'draftemail_send_url' => 'draft-email-send',
+    'draftemail_send_url' => 'draft-email-send',
     'email_get_url' => 'email-get',
     'get_email_id'  => 'get-emailid',
     'email_status_update_url' => 'email-status-update',

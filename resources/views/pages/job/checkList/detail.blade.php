@@ -90,7 +90,7 @@
                                                 <p class="mb-10 font-italic">
                                                     Added by
 
-                                                    <?php if(isset($returnData['data']['creator_empcode'])) { ?>
+                                                    <?php if(isset($returnData['data']['creator_empcode']) && $returnData['data']['creator_empcode'] != "" && $returnData['data']['creator_empcode'] != null && $returnData['data']['creator_empcode'] != auth()->user()->empcode) { ?>
                                                     
                                                         <span class="weight-500 capitalize-font txt-primary">
                                                         

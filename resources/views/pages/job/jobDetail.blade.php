@@ -28,7 +28,7 @@ $emailSendUrl = route(__("job.email_send_url"));
 $draftemailSendUrl = route(__("job.draftemail_send_url"));
 $emailGetUrl = route(__("job.email_get_url"));
 $emailStatusUpdateUrl = route(__("job.email_status_update_url"));
-$getEmailid  = route(__("job.get_email_id"));
+$getEmailid = route(__("job.get_email_id"));
 
 $redirectTo = __("job.job_detail_url");
 $redirectToJobUrl = __("job.job_detail_url");
@@ -41,37 +41,37 @@ $selectedJobCategory = $selectedWorkflowVersion = null;
 
 if(isset($responseData["data"]) && $responseData["data"]) {
 
-    if(isset($responseData["data"]["job_id"]) && $responseData["data"]["job_id"]) {
+if(isset($responseData["data"]["job_id"]) && $responseData["data"]["job_id"]) {
 
-        $jobId = $responseData["data"]["job_id"];
+$jobId = $responseData["data"]["job_id"];
 
-        $redirectToJobUrl = route(__("job.job_detail_url"), $jobId);
+$redirectToJobUrl = route(__("job.job_detail_url"), $jobId);
 
-    }
+}
 
-    if(isset($responseData["data"]["status"]) && $responseData["data"]["status"]) {
+if(isset($responseData["data"]["status"]) && $responseData["data"]["status"]) {
 
-        $jobStatus = $responseData["data"]["status"];
+$jobStatus = $responseData["data"]["status"];
 
-    }
+}
 
-    if(isset($responseData["data"]["due_date"]) && $responseData["data"]["due_date"]) {
+if(isset($responseData["data"]["date_due"]) && $responseData["data"]["date_due"]) {
 
-        $selectedDueDate = $responseData["data"]["due_date"];
+$selectedDueDate = $responseData["data"]["date_due"];
 
-    }
+}
 
-    if(isset($responseData["data"]["workflow_version"]) && $responseData["data"]["workflow_version"]) {
+if(isset($responseData["data"]["workflow_version"]) && $responseData["data"]["workflow_version"]) {
 
-        $selectedWorkflowVersion = $responseData["data"]["workflow_version"];
+$selectedWorkflowVersion = $responseData["data"]["workflow_version"];
 
-    }
+}
 
-    if(isset($responseData["data"]["category"]) && $responseData["data"]["category"]) {
+if(isset($responseData["data"]["category"]) && $responseData["data"]["category"]) {
 
-        $selectedJobCategory = $responseData["data"]["category"];
+$selectedJobCategory = $responseData["data"]["category"];
 
-    }
+}
 
 }
 
@@ -79,9 +79,9 @@ $taskCheckListAddOption = $emailCheckListAddOption = "false";
 
 if(in_array(auth()->user()->role, config('constants.jobCheckListAddUserRoles'))) {
 
-    $taskCheckListAddOption = "true";
+$taskCheckListAddOption = "true";
 
-    $emailCheckListAddOption = "true";
+$emailCheckListAddOption = "true";
 
 }
 
@@ -89,7 +89,7 @@ $jobEditReadonly = "readonly";
 
 if(in_array(auth()->user()->role, config('constants.jobEditUserRoles'))) {
 
-    $jobEditReadonly = "";
+$jobEditReadonly = "";
 
 }
 
@@ -98,14 +98,15 @@ if(in_array(auth()->user()->role, config('constants.jobEditUserRoles'))) {
 @section('content')
 <!-- Main Content -->
 <div class="container-fluid pt-25">
-<?php // print_r($responseData["jsonData"]); exit; ?>
+    <?php // print_r($responseData["jsonData"]); exit; ?>
     <!-- Row -->
     <div class="row">
         <div class="col-lg-12 col-sm-12">
             <div class="panel panel-default card-view">
                 <div class="panel-heading">
                     <div class="pull-left">
-                        <h6 class="panel-title capitalize txt-dark">{{__('job.job_detail_id_label')}} : {{ $responseData["data"]["title"] ?? '-' }}</h6>
+                        <h6 class="panel-title capitalize txt-dark">{{__('job.job_detail_job_label')}} :
+                            {{ $responseData["data"]["title"] ?? '-' }}</h6>
                     </div>
                     <div class="pull-right">
 
@@ -114,8 +115,11 @@ if(in_array(auth()->user()->role, config('constants.jobEditUserRoles'))) {
                                 <div class="form-group">
                                     <label class="sr-only capitalize">{{__('job.job_detail_search_label')}}</label>
                                     <div class="input-group">
-                                        <input type="text" id="jobStatusSearchInput" class="form-control" placeholder="Search">
-                                        <div id="jobStatusSearch" data-job-detail-base-url="{{ route(__('job.job_detail_base_url')) }}" class="input-group-btn">
+                                        <input type="text" id="jobStatusSearchInput" class="form-control"
+                                            placeholder="{{__('job.job_detail_search_placeholder_text')}}">
+                                        <div id="jobStatusSearch"
+                                            data-job-detail-base-url="{{ route(__('job.job_detail_base_url')) }}"
+                                            class="input-group-btn">
                                             <span type="button" class="btn btn-primary">
                                                 <span class="fooicon fooicon-search"></span>
                                                 {{-- <i class="zmdi zmdi-search zmdi-hc-2x"></i> --}}
@@ -128,8 +132,9 @@ if(in_array(auth()->user()->role, config('constants.jobEditUserRoles'))) {
                         <a href="#" class="pull-left inline-block full-screen mr-15">
                             <i class="zmdi zmdi-fullscreen job-status-i"></i>
                         </a>
-                        {{-- <a id="job-status-close" class="pull-left inline-block" href="{{ route(__('job.job_detail_home_url'), 'redirectToDashboard') }}" data-effect="fadeOut">
-                            <i class="zmdi zmdi-close job-status-i"></i>
+                        {{-- <a id="job-status-close" class="pull-left inline-block" href="{{ route(__('job.job_detail_home_url'), 'redirectToDashboard') }}"
+                        data-effect="fadeOut">
+                        <i class="zmdi zmdi-close job-status-i"></i>
                         </a> --}}
                     </div>
                     <div class="clearfix"></div>
@@ -138,23 +143,33 @@ if(in_array(auth()->user()->role, config('constants.jobEditUserRoles'))) {
                     <div class="panel-body pb-0">
                         <div class="pills-struct">
                             <ul role="tablist" class="nav nav-pills nav-pills-outline" id="myTabs_7">
-                                <li class="" role="presentation"><a aria-expanded="true" data-toggle="tab" role="tab" id="jobBookInfoTab"
-                                        class="capitalize" href="#bookInfo">{{ __('job.book_detail_label') }}</a></li>
-                                <li class="jobTaskList" role="presentation"><a aria-expanded="true" data-toggle="tab" role="tab"
-                                        id="jobTimelineTab" class="capitalize"href="#jobTimeline" data-job-timeline-url="{{ route(__('job.job_timeline_url'), $jobId) }}">{{ __('job.job_detail_timeline_tab_label') }}</a></li>
-                                <li class="jobTaskList" role="presentation"><a data-toggle="tab" id="jobDiaryTab" class="capitalize" role="tab" href="#jobDiary"
-                                        data-job-history-url="{{ route(__('job.job_history_url'), $jobId) }}" aria-expanded="false">{{ __('job.job_detail_diary_tab_label') }}</a></li>
-                                <li class="jobTaskList active" role="presentation"><a data-toggle="tab" id="jobTaskTab" class="capitalize" role="tab" href="#jobTask"
-                                aria-expanded="false">{{__('job.job_task_tab_label')}}</a></li>
-								 <li class="jobClosedTaskTab" role="presentation"><a data-toggle="tab" id="jobClosedTaskTab" class="capitalize" role="tab" href="#jobClosedTask"
-                                aria-expanded="false">{{__('dashboard.closed_tasks_label')}}</a></li>
+                                <li class="" role="presentation"><a aria-expanded="true" data-toggle="tab" role="tab"
+                                        id="jobBookInfoTab" class="capitalize"
+                                        href="#bookInfo">{{ __('job.book_detail_label') }}</a></li>
+                                <li class="jobTaskList" role="presentation"><a aria-expanded="true" data-toggle="tab"
+                                        role="tab" id="jobTimelineTab" class="capitalize" href="#jobTimeline"
+                                        data-job-timeline-url="{{ route(__('job.job_timeline_url'), $jobId) }}">{{ __('job.job_detail_timeline_tab_label') }}</a>
+                                </li>
+                                <li class="jobTaskList" role="presentation"><a data-toggle="tab" id="jobDiaryTab"
+                                        class="capitalize" role="tab" href="#jobDiary"
+                                        data-job-history-url="{{ route(__('job.job_history_url'), $jobId) }}"
+                                        aria-expanded="false">{{ __('job.job_detail_diary_tab_label') }}</a></li>
+                                <li class="jobTaskList active" role="presentation"><a data-toggle="tab" id="jobTaskTab"
+                                        class="capitalize" role="tab" href="#jobTask"
+                                        aria-expanded="false">{{__('job.job_task_tab_label')}}</a></li>
+                                <li class="jobClosedTaskTab" role="presentation"><a data-toggle="tab"
+                                        id="jobClosedTaskTab" class="capitalize" role="tab" href="#jobClosedTask"
+                                        aria-expanded="false">{{__('dashboard.closed_tasks_label')}}</a></li>
                                 {{-- <li class="jobTaskList" role="presentation"><a data-toggle="tab" id="jobDraftTaskTab" class="capitalize" role="tab"
-                                        href="#jobDraftTask" aria-expanded="false">{{__('job.job_draft_task_tab_label')}}</a></li> --}}
+                                        href="#jobDraftTask" aria-expanded="false">{{__('job.job_draft_task_tab_label')}}</a>
+                                </li> --}}
                                 {{-- <li class="" role="presentation"><a data-toggle="tab" id="jobCheckListTab" class="capitalize" role="tab" href="#jobCheckList"
                                         aria-expanded="false">{{__('job.job_check_list_tab_label')}}</a></li> --}}
-                                <li class="" role="presentation"><a data-toggle="tab" id="jobEmailListTab" class="capitalize" role="tab"
-                                        href="#jobEmailList" aria-expanded="false">{{__('job.job_email_tab_label')}}</a></li>
-                                <li role="presentation" class=""><a data-toggle="tab" id="financialTab" role="tab" href="#financial"
+                                <li class="" role="presentation"><a data-toggle="tab" id="jobEmailListTab"
+                                        class="capitalize" role="tab" href="#jobEmailList"
+                                        aria-expanded="false">{{__('job.job_email_tab_label')}}</a></li>
+                                <li role="presentation" class=""><a data-toggle="tab" id="financialTab" role="tab"
+                                        href="#financial"
                                         aria-expanded="false">{{ __('job.job_invoice_tab_label') }}</a></li>
                                 {{-- <li class="dropdown" role="presentation">
                                     <a data-toggle="dropdown" class="dropdown-toggle" id="myTabDrop_7" href="#"
@@ -170,23 +185,24 @@ if(in_array(auth()->user()->role, config('constants.jobEditUserRoles'))) {
 
                                     <?php if(isset($jobStatus) && $jobStatus == "hold") { ?>
 
-                                        <a class="pull-left inline-block btn btn-primary job-resume-btn" href="#">
-                                            {{ __("job.job_resume_btn_label") }}
-                                        </a>
+                                    <a class="pull-left inline-block btn btn-primary job-resume-btn" href="#">
+                                        {{ __("job.job_resume_btn_label") }}
+                                    </a>
 
                                     <?php } ?>
 
                                     <?php if(isset($jobStatus) && $jobStatus != "hold" && $jobStatus != "completed") { ?>
 
-                                        <a class="pull-left inline-block btn btn-warning job-hold-btn mr-15" href="#">
-                                            {{ __("job.job_hold_btn_label") }}
-                                        </a>
+                                    <a class="pull-left inline-block btn btn-warning job-hold-btn mr-15" href="#">
+                                        {{ __("job.job_hold_btn_label") }}
+                                    </a>
 
-                                        <a class="pull-left inline-block btn btn-success job-completed-btn" href="#jobCompleteModal" data-toggle="modal"
-                                            title="{{ __("job.job_completed_title") }}">
-                                            {{ __("job.job_completed_btn_label") }}
-                                        </a>
-                                        {{-- @include('pages.job.newJobModal') --}}
+                                    <a class="pull-left inline-block btn btn-success job-completed-btn"
+                                        href="#jobCompleteModal" data-toggle="modal"
+                                        title="{{ __("job.job_completed_title") }}">
+                                        {{ __("job.job_completed_btn_label") }}
+                                    </a>
+                                    {{-- @include('pages.job.newJobModal') --}}
 
                                     <?php } ?>
 
@@ -209,7 +225,7 @@ if(in_array(auth()->user()->role, config('constants.jobEditUserRoles'))) {
                                 <div id="jobTask" class="tab-pane fade active in" role="tabpanel">
                                     @include('pages.job.taskListOverview')
                                 </div>
-								 <div id="jobClosedTask" class="tab-pane fade" role="tabpanel">
+                                <div id="jobClosedTask" class="tab-pane fade" role="tabpanel">
                                     @include('pages.job.task.taskList')
                                 </div>
                                 {{-- <div id="jobDraftTask" class="tab-pane fade" role="tabpanel">

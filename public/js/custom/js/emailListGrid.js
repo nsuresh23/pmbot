@@ -623,15 +623,15 @@ function getPmsEmailCountTableList(gridSelector) {
     });
 
     field.push({
-        title: "OVER DUE TASK COUNT",
-        name: "over_due_task_count",
+        title: "TASK COUNT",
+        name: "task_count",
         type: "text",
         // width: 40,
     });
 
     field.push({
-        title: "TASK COUNT",
-        name: "task_count",
+        title: "OVER DUE TASK COUNT",
+        name: "over_due_task_count",
         type: "text",
         // width: 40,
     });
@@ -1281,7 +1281,7 @@ $(document).on('click', '.email-send-btn-old', function(e) {
 });
 $(document).on('click', '.email-send-btn', function(e) {
     var type = $('.pmbottype').attr('data-pmbottype');
-    $('#type').val(type);
+    $('.type').val(type);
 
     e.preventDefault();
 
@@ -1320,7 +1320,7 @@ $(document).on('click', '.email-send-btn', function(e) {
 
 $(document).on('click', '.email-save-btn', function(e) {
     var type = $('.pmbottype').attr('data-pmbottype');
-    $('#type').val(type);
+    $('.type').val(type);
 
     e.preventDefault();
 
@@ -1345,7 +1345,7 @@ $(document).on('click', '.email-save-btn', function(e) {
 });
 $(document).on('click', '.email-reply-send-btn', function(e) {
     var type = $('.pmbottype').attr('data-pmbottype');
-    $('#type').val(type);
+    $('.type').val(type);
     $('#email-type').val(type);
 
     e.preventDefault();
@@ -1371,7 +1371,7 @@ $(document).on('click', '.email-reply-send-btn', function(e) {
 
 $(document).on('click', '.email-reply-save-btn', function(e) {
     var type = $('.pmbottype').attr('data-pmbottype');
-    $('#type').val(type);
+    $('.type').val(type);
     $('#email-type').val(type);
 
     e.preventDefault();
@@ -1396,7 +1396,7 @@ $(document).on('click', '.email-reply-save-btn', function(e) {
 
 $(document).on('click', '.email-draft-send-btn', function(e) {
     var type = $('.pmbottype').attr('data-pmbottype');
-    $('#type').val(type);
+    $('.type').val(type);
     $('#email-type').val(type);
 
     e.preventDefault();
@@ -1420,7 +1420,7 @@ $(document).on('click', '.email-draft-send-btn', function(e) {
 
 $(document).on('click', '.email-draft-save-btn', function(e) {
     var type = $('.pmbottype').attr('data-pmbottype');
-    $('#type').val(type);
+    $('.type').val(type);
     $('#email-type').val(type);
 
     e.preventDefault();
