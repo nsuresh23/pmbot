@@ -49,7 +49,7 @@ function notificationCount() {
 
 notificationCount();
 
-// setInterval(function() { notificationCount() }, 3000);
+setInterval(function() { notificationCount() }, 3000);
 
 function notificationRead(read_url) {
 
