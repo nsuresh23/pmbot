@@ -16,10 +16,15 @@
                                 aria-expanded="false">{{ __('dashboard.members_tab_label') }}</a></li>
 
                     <?php } ?>
+					
+					 
 
                 </ul>
-            </div>
+				 </div>
+				
+           
         </div>
+		
         <div class="pull-right">
 
             <?php if(isset($jobAddUrl) && $jobAddUrl != "") { ?>

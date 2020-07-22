@@ -10,9 +10,10 @@ $(function() {
         toolbar: [
             // [groupName, [list of button]]
             ['style', ['style']],
+			['fontsize', ['fontsize']],
             ['font', ['bold', 'italic', 'underline', 'clear']],
             ['font', ['fontname']],
-            ['font', ['fontsize', 'color']],
+            ['font', ['color']],
             ['insert', ['table']], // image and doc are customized buttons
             ['height', ['height']],
             ['para', ['ol', 'ul', 'paragraph']],
@@ -30,11 +31,11 @@ $(function() {
     });
     $('.email_textarea_editor').summernote({
         toolbar: [
-            // [groupName, [list of button]]
             ['style', ['style']],
+			['fontsize', ['fontsize']],
             ['font', ['bold', 'italic', 'underline', 'clear']],
             ['font', ['fontname']],
-            ['font', ['fontsize', 'color']],
+            ['font', ['color']],
             ['insert', ['table']], // image and doc are customized buttons
             ['height', ['height']],
             ['para', ['ol', 'ul', 'paragraph']],
@@ -63,6 +64,22 @@ $(document).ready(function() {
 
     // $('.textarea_editor_email').summernote({
     $('.textarea_editor_email').summernote({
+		toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['style']],
+			['fontsize', ['fontsize']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['fontname','fontsizeunit']],
+            ['font', ['color']],
+            ['insert', ['table']], // image and doc are customized buttons
+            ['height', ['height']],
+            ['para', ['ol', 'ul', 'paragraph']],
+            ['insert', ['link']],
+			
+            // ['insert', ['link', 'image', 'doc', 'video']], // image and doc are customized buttons
+            // ['misc', ['codeview', 'fullscreen']],
+        ],  
+		fontSizeUnits: ['pt'],
         height: 150, //set editable area's height
         // blockquoteBreakingLevel: 2,
         // codemirror: { // codemirror options

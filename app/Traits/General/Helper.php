@@ -369,6 +369,11 @@ trait Helper
                 $eventMessage .= " was associated";
             }
 
+            if ($item["action_type"] == "job_untagging") {
+
+                $eventMessage .= " was un-associated";
+            }
+
             if ($item["action_type"] == "nb_tagging") {
 
                 $eventMessage .= " tagged as Non-Business";
@@ -562,6 +567,12 @@ trait Helper
 
             }
 
+            if ($item["action_type"] == "job_untagging") {
+
+                $eventMessage .= " was un-associated";
+                
+            }
+
             if ($item["action_type"] == "job_tagging") {
 
                 $eventMessage .= " was associated";
@@ -606,7 +617,7 @@ trait Helper
 
             }
 
-            if (isset($item["creator_empcode"]) && $item["creator_empcode"] != "" && $item["creator_empcode"] != null) {
+            if (isset($item["creator_empcode"]) && $item["creator_empcode"] != "" && $item["creator_empcode"] != null && $item["creator_empcode"] != auth()->user()->empcode) {
 
                 $eventMessage .= " by ";
 

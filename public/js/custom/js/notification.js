@@ -252,6 +252,7 @@ $(document).on('click', '.notification-count-button', function(e) {
 
 });
 
+
 // });
 
 // if (!!window.performance && window.performance.navigation.type === 2) {

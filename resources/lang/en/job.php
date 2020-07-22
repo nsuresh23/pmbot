@@ -287,6 +287,8 @@ return [
     'email_get_url' => 'email-get',
     'get_email_id'  => 'get-emailid',
     'email_status_update_url' => 'email-status-update',
+	'signature_update' => 'signature-update',
+	'get_signature' => 'get-signature',
     'open_task_list_url' => 'open-task-list',
     'draft_task_list_url' => 'draft-task-list',
     'job_task_list_url' => 'job-task-list',

@@ -78,6 +78,9 @@
 		$getEmailid   = route(__("job.get_email_id"));
 
         $nonBusinessEmailListUrl = route(__("job.email_list_url"));
+		
+		$signatureUpdateUrl      = route(__("job.signature_update"));
+		$getSignatureUrl         = route(__("job.get_signature"));
 
         $queryListUrl = route(__("job.query_list_url"));
         // $myQueriesListUrl = route(__("job.my_queries_list_url"));

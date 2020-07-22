@@ -46,6 +46,9 @@
     $notificationListUrl = route(__("job.notification_list_url"));
     $notificationReadUrl = route(__("job.notification_read_url"), '');
     $notificationReadAllUrl = route(__("job.notification_read_all_url"));
+	
+	$signatureUpdateUrl      = route(__("job.signature_update"));
+	$getSignatureUrl         = route(__("job.get_signature"));
 
 @endphp
 
@@ -196,6 +199,44 @@
                 <a href="{{ route(__('dashboard.current_user_login_url')) ?? 'javascript:void(0);'}}" class="dropdown-toggle btn btn-outline btn-info" style="text-transform:none;">{{ session()->get("current_empcode") ?? ''}}</a>
                 </li>
             <?php } ?>
+			
+			<!--<li class="dropdown alert-drp">
+                <a href="javascript:void(0)" class="dropdown-toggle settings-count-button" data-toggle="dropdown"><i
+                        class="zmdi zmdi-settings top-nav-icon"></i>
+                   
+                </a>
+                <ul class="dropdown-menu alert-dropdown" data-dropdown-in="slideInRight" data-dropdown-out="flipOutX">
+                      <li>
+                        <div class="notification-box-head-wrap">
+                            <span class="notification-box-head pull-left inline-block">Settings</span>
+                           
+                            <div class="clearfix"></div>
+                            <hr class="light-grey-hr ma-0" />
+                        </div>
+                    </li>
+                    <li>
+                        <div class="streamline signature-list-block message-nicescroll-bar">
+							<div style="float: left;padding: 10px;color: #878787;border-radius: 4px;text-align:center;width:100%;margin-left: 5px;">
+								<a href="#signatureModal" role="menuitem" data-toggle="modal" title="reply" class="dashboard-draft-email signature" data-signature-geturl = "{{ $getSignatureUrl ?? '#'}}" data-type = "forward">
+									Signature
+								</a>
+								
+							</div>
+			
+						</div>
+                    </li>
+                    
+                </ul>
+				 
+            </li>-->
+			<li class="dropdown alert-drp">
+				<div style="float: left;padding: 5px;color: #878787;border-radius: 4px;border:2px solid #0fc5bb;text-align:center;width:100%;margin-top: 20px;">
+					<a href="#signatureModal" role="menuitem" data-toggle="modal" title="reply" class="dashboard-draft-email signature" data-signature-geturl = "{{ $getSignatureUrl ?? '#'}}" data-type = "forward">
+						Signature
+					</a>
+					
+				</div>
+			</li>
             <li class="dropdown alert-drp">
                 <a href="javascript:void(0)" class="dropdown-toggle notification-count-button"
                     data-notification-count-url="{{$notificationCountUrl ?? ''}}"
@@ -229,6 +270,7 @@
                     </li>
                 </ul>
             </li>
+            
             <li class="dropdown auth-drp">
                 <a href="javascript:void(0)" class="dropdown-toggle pr-0" data-toggle="dropdown">
                     {{-- <img src="{{ asset('public/img/user1.png') }}" alt="user_auth" class="user-auth-img img-circle" /> --}}
@@ -242,6 +284,29 @@
                         {{ Auth::user()->empname }}
                     </span>
                 </a>
+                <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="slideInRight" data-dropdown-out="flipOutX">
+                    <li>
+                        <a href="#signatureModal" role="menuitem" data-toggle="modal" title="reply" class="dashboard-draft-email signature"
+                            data-signature-geturl="{{ $getSignatureUrl ?? '#'}}" data-type="forward">
+                            <i class="zmdi zmdi-card"></i>
+                            <span>
+                                Signature
+                            </span>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            {{-- <button class="btn btn-danger btn-icon-anim btn-circle btn-sm"> --}}
+                                <i class="zmdi zmdi-power"></i>
+                                <span>Log Out</span>
+                            {{-- </button> --}}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                </ul>
             </li>
             <li class="dropdown app-drp">
                 <div class="button-list ml-10">
@@ -269,3 +334,4 @@
 </title> --}}
 
 {{-- @include('includes.breadcrumb') --}}
+@include('pages.email.signatureModal')

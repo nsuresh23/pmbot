@@ -400,6 +400,7 @@ class ApiController extends Controller
 
                     }
                     $jsonDataNotesEncoded = json_encode($jsonDataTaskNotes);
+
                     // once taks created create task notes
                     //API Request to save data to PMBOT DATABASE TASKNOTES
                     $insertnewtasknotes_url    =    env('INSERTNEWTASKNOTES');
@@ -414,9 +415,27 @@ class ApiController extends Controller
                     //Set the content type to application/json
                     // Set HTTP Header for POST request
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataNotesEncoded)));
-
+	   
+					curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+	   
                     // Submit the POST request
                     $resultnotes = curl_exec($ch);
+
+                    $this->info(
+                        "api_annotator_log_" . date('Y-m-d'),
+                        " => FILE => " . __FILE__ . " => " .
+                        " => LINE => " . __LINE__ . " => " .
+                        " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonDataTaskNotes, "CURL INFO" => curl_getinfo($ch)]) . " "
+                    );
+
+                    $this->info(
+                        "api_annotator_log_" . date('Y-m-d'),
+                        " => FILE => " . __FILE__ . " => " .
+                        " => LINE => " . __LINE__ . " => " .
+                        " => RESPONSE => " . $resultnotes . " "
+                    );
+
                     // Close cURL session handle
                     curl_close($ch);
                 } else {
@@ -523,9 +542,27 @@ class ApiController extends Controller
                     //Set the content type to application/json
                     // Set HTTP Header for POST request
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
-
+					
+					curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+					
                     // Submit the POST request
                     $result = curl_exec($ch);
+
+                    $this->info(
+                        "api_annotator_log_" . date('Y-m-d'),
+                        " => FILE => " . __FILE__ . " => " .
+                        " => LINE => " . __LINE__ . " => " .
+                        " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonData, "CURL INFO" => curl_getinfo($ch)]) . " "
+                    );
+
+                    $this->info(
+                        "api_annotator_log_" . date('Y-m-d'),
+                        " => FILE => " . __FILE__ . " => " .
+                        " => LINE => " . __LINE__ . " => " .
+                        " => RESPONSE => " . $result . " "
+                    );
+
                     // Close cURL session handle
                     curl_close($ch);
                 }
@@ -563,6 +600,7 @@ class ApiController extends Controller
             }
 
             $jsonDataEncoded = json_encode($jsonData);
+
             //API Request to save data to PMBOT DATABASE
             $completedtask_url    =    env('NONANNOTATECOMPLETEDJOB');
             // Prepare new cURL resource
@@ -579,8 +617,26 @@ class ApiController extends Controller
             // Set HTTP Header for POST request
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+					
             // Submit the POST request
             $result = curl_exec($ch);
+
+            $this->info(
+                "api_annotator_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonData, "CURL INFO" => curl_getinfo($ch)]) . " "
+            );
+
+            $this->info(
+                "api_annotator_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => RESPONSE => " . $result . " "
+            );
+
             // Close cURL session handle
             curl_close($ch);
         }
@@ -624,6 +680,7 @@ class ApiController extends Controller
             $getjobid_url    =    env('GETPMJOBID');
 
             $getjoblist_url    =    env('GETPMJOBLIST');
+            
             // Prepare new cURL resource
             $ch = curl_init($getjobid_url);            //Initiate cURL.
             $jsonData = array(                        //The JSON data.
@@ -632,6 +689,7 @@ class ApiController extends Controller
             );
 
             $jsonDataEncoded = json_encode($jsonData);
+
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLINFO_HEADER_OUT, true);
             //Encode the array into JSON.
@@ -643,9 +701,26 @@ class ApiController extends Controller
             //Set the content type to application/json
             // Set HTTP Header for POST request
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
-
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+	   
             // Submit the POST request
             $result = curl_exec($ch);
+
+            $this->info(
+                "api_annotator_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonData, "CURL INFO" => curl_getinfo($ch)]) . " "
+            );
+
+            $this->info(
+                "api_annotator_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => RESPONSE => " . $result . " "
+            );
+
             // Close cURL session handle
             curl_close($ch);
             $json_data_decoded = json_decode($result, true);
@@ -661,6 +736,7 @@ class ApiController extends Controller
                 );
 
                 $jsonDataEncoded = json_encode($jsonData);
+
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLINFO_HEADER_OUT, true);
                 //Encode the array into JSON.
@@ -672,9 +748,25 @@ class ApiController extends Controller
                 //Set the content type to application/json
                 // Set HTTP Header for POST request
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
-
+				curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+	 	  
                 // Submit the POST request
                 $result = curl_exec($ch);
+                $this->info(
+                    "api_annotator_log_" . date('Y-m-d'),
+                    " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonData, "CURL INFO" => curl_getinfo($ch)]) . " "
+                );
+
+                $this->info(
+                    "api_annotator_log_" . date('Y-m-d'),
+                    " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => RESPONSE => " . $result . " "
+                );
+
                 // Close cURL session handle
                 curl_close($ch);
                 $json_data_decoded = json_decode($result, true);
@@ -817,8 +909,26 @@ class ApiController extends Controller
         // Set HTTP Header for POST request
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+					
         // Submit the POST request
         $result = curl_exec($ch);
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonData, "CURL INFO" => curl_getinfo($ch)]) . " "
+        );
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => RESPONSE => " . $result . " "
+        );
+
         // Close cURL session handle
         curl_close($ch);
         $json_data_decoded = json_decode($result, true);
@@ -868,8 +978,26 @@ class ApiController extends Controller
         // Set HTTP Header for POST request
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+					
         // Submit the POST request
         $result = curl_exec($ch);
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonData, "CURL INFO" => curl_getinfo($ch)]) . " "
+        );
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => RESPONSE => " . $result . " "
+        );
+
         // Close cURL session handle
         curl_close($ch);
         $json_data_decoded = json_decode($result, true);
@@ -912,8 +1040,26 @@ class ApiController extends Controller
         // Set HTTP Header for POST request
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+					
         // Submit the POST request
         $result = curl_exec($ch);
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonData, "CURL INFO" => curl_getinfo($ch)]) . " "
+        );
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => RESPONSE => " . $result . " "
+        );
+
         // Close cURL session handle
         curl_close($ch);
 
@@ -961,8 +1107,26 @@ class ApiController extends Controller
         // Set HTTP Header for POST request
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+					
         // Submit the POST request
         $result = curl_exec($ch);
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonData, "CURL INFO" => curl_getinfo($ch)]) . " "
+        );
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => RESPONSE => " . $result . " "
+        );
+
         // Close cURL session handle
         curl_close($ch);
         $json_data_decoded = json_decode($result, true);
@@ -1008,8 +1172,26 @@ class ApiController extends Controller
         // Set HTTP Header for POST request
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+					
         // Submit the POST request
         $result = curl_exec($ch);
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonData, "CURL INFO" => curl_getinfo($ch)]) . " "
+        );
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => RESPONSE => " . $result . " "
+        );
+
         // Close cURL session handle
         curl_close($ch);
         $json_data_decoded = json_decode($result, true);
@@ -1086,6 +1268,7 @@ class ApiController extends Controller
         if (isset($_POST['generic']) && $_POST['generic'] == "generic") {
 
             $jsonData["pmbot_type"] = $_POST['generic'];
+
         }
 
         $jsonDataEncoded = json_encode($jsonData);
@@ -1102,8 +1285,33 @@ class ApiController extends Controller
         // Set HTTP Header for POST request
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+					
         // Submit the POST request
         $result = curl_exec($ch);
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonData, "CURL INFO" => curl_getinfo($ch)]) . " "
+        );
+		
+		$this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => CURL ERROR => " . curl_error($ch) . " "
+        );
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => RESPONSE => " . $result . " "
+        );
+
         // Close cURL session handle
         curl_close($ch);
         $json_data_decoded = json_decode($result, true);
@@ -1154,7 +1362,6 @@ class ApiController extends Controller
 
         $jsonDataEncoded = json_encode($jsonData);
 
-
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
         //Encode the array into JSON.
@@ -1167,8 +1374,26 @@ class ApiController extends Controller
         // Set HTTP Header for POST request
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+					
         // Submit the POST request
         $result = curl_exec($ch);
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonData, "CURL INFO" => curl_getinfo($ch)]) . " "
+        );
+
+        $this->info(
+            "api_annotator_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => RESPONSE => " . $result . " "
+        );
+
         // Close cURL session handle
         curl_close($ch);
         $json_data_decoded = json_decode($result, true);

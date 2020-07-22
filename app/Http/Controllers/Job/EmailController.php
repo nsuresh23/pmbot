@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Traits\General\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Annotation;
 use App\Traits\General\CustomLogger;
 use Illuminate\Support\Facades;
 use App\Resources\Job\EmailCollection as EmailResource;
@@ -149,9 +150,25 @@ class EmailController extends Controller
 
         $redirectRouteAction = "";
 
+        $emailId = $jobId = "";
+
         try {
 
             $redirectRouteAction = $this->roleBasedDashboardRouteAction($request);
+
+            $paramInfo = $request->all();
+
+            if (isset($paramInfo["id"]) && $paramInfo["id"] != "") {
+
+                $emailId = $paramInfo["id"];
+
+            }
+
+            if (isset($paramInfo["job_id"]) && $paramInfo["job_id"] != "") {
+
+                $jobId = $paramInfo["job_id"];
+                
+            }
 
             if (auth()->check()) {
 
@@ -166,6 +183,25 @@ class EmailController extends Controller
             }
 
             $returnResponse = $this->emailResource->emailStatusUpdate($request);
+
+            if (is_array($returnResponse) && isset($returnResponse["success"]) && $returnResponse["success"] == "true" && $emailId != "") {
+            
+                
+                if ($jobId != "") {
+                    
+                    Annotation::where("jobid", $jobId)->delete();
+                    
+                }
+                
+                if ($emailId != "") {
+
+                    $returnResponse["redirectTo"] = env("EMAIL_ANNOTATOR_BASE_URL") . "/id/" . $emailId;
+
+                    $redirectRouteAction = "";
+
+                }
+                
+            }
 
         } catch (Exeception $e) {
 
@@ -198,9 +234,7 @@ class EmailController extends Controller
             $field = [];
 
             $returnResponse = [];
-			print '<pre>';
-			print_r($request->all());
-			exit;
+			
             $field["from"] = '';
             if (isset($request->to) && $request->to != "") {
                 $field["to"] = $request->to;
@@ -543,6 +577,7 @@ class EmailController extends Controller
             if (isset($request->view) && $request->view != "") {
                 $field["view"] = $request->view;
             }
+			$field["empcode"]       = auth()->user()->empcode;
             if (count($field) > 0) {
                 $returnResponse = $this->emailResource->emailGet($field);
             }
@@ -571,8 +606,88 @@ class EmailController extends Controller
             if (isset($request->search) && $request->search != "") {
                 $field["search"] = $request->search;
             }
+			
             if (count($field) > 0) {
                 $returnResponse = $this->emailResource->emailidGet($field);
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        //if ($request->ajax()) {
+        return json_encode($returnResponse);
+        // }
+
+        // return view("errors.error404");
+    }
+	public function signatureUpdate(Request $request)
+    {
+
+        try {
+
+            $field = [];
+
+            $returnResponse = [];
+			
+           
+            if (isset($request->new_signature) && $request->new_signature != "") {
+                $field["new_signature"] = $request->new_signature;
+            } else {
+                $field["new_signature"] = '';
+            }
+			if (isset($request->replyforward_signature) && $request->replyforward_signature != "") {
+                $field["replyforward_signature"] = $request->replyforward_signature;
+            } else {
+                $field["replyforward_signature"] = '';
+            }
+            $field["empcode"]       = auth()->user()->empcode;
+			
+            if(auth()->check()) {
+
+               $field['creator_empcode'] = auth()->user()->empcode;
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $field['creator_empcode'] = session()->get("current_empcode");
+
+                }
+
+            }
+			
+            if (count($field) > 0) {
+                $returnResponse = $this->emailResource->signatureUpdate($field);
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        // if ($request->ajax()) {
+
+        return json_encode($returnResponse);
+        // }
+
+        // return view("errors.error404");
+    }
+	public function getSignature(Request $request)
+    {
+        try {
+
+            $field = [];
+
+            $returnResponse = [];
+
+            $field["empcode"]       = auth()->user()->empcode;
+			
+            if (count($field) > 0) {
+                $returnResponse = $this->emailResource->getSignature($field);
             }
         } catch (Exception $e) {
 

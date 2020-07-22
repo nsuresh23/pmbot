@@ -31,6 +31,9 @@ class EmailCollection
     protected $pmsEmailCountApiUrl;
     protected $emailAnnotatorBaseUrl;
     protected $emailStatusUpdateUrl;
+    protected $jobEmailStatusUpdateUrl;
+	protected $signatureupdateApiUrl;
+	protected $getsignatureApiUrl;
 
     public function __construct()
     {
@@ -44,6 +47,9 @@ class EmailCollection
         $this->pmsEmailCountApiUrl   = env('API_PMS_EMAIL_COUNT_URL');
         $this->emailAnnotatorBaseUrl = env("EMAIL_ANNOTATOR_BASE_URL");
         $this->emailStatusUpdateUrl = env("API_EMAIL_STATUS_UPDATE_URL");
+        $this->jobEmailStatusUpdateUrl = env("API_JOB_EMAIL_STATUS_UPDATE_URL");
+		$this->signatureupdateApiUrl   = env('API_SIGNATURE_UPDATE_URL');
+		$this->getsignatureApiUrl      = env('API_GET_SIGNATURE_URL');
     }
 
     /**
@@ -226,6 +232,12 @@ class EmailCollection
                 $paramInfo = $request->all();
 
                 $url = $this->emailStatusUpdateUrl;
+
+                if(isset($paramInfo["job_id"]) && $paramInfo["job_id"] != "") {
+
+                    $url = $this->jobEmailStatusUpdateUrl;
+
+                }
 
                 $returnData = $this->postRequest($url, $paramInfo);
 
@@ -486,7 +498,16 @@ class EmailCollection
                             $returnResponse["data"]["body_html"] = base64_decode($returnResponse["data"]["body_html"]);
                         }
                     }
-
+					if (isset($returnResponse["data"]["new_signature"]) && $returnResponse["data"]["new_signature"] != "") {
+                        if (base64_decode($returnResponse["data"]["new_signature"], true)) {
+                            $returnResponse["data"]["new_signature"] = base64_decode($returnResponse["data"]["new_signature"]);
+                        }
+                   }
+				   if (isset($returnResponse["data"]["replyforward_signature"]) && $returnResponse["data"]["replyforward_signature"] != "") {
+                        if (base64_decode($returnResponse["data"]["replyforward_signature"], true)) {
+                            $returnResponse["data"]["replyforward_signature"] = base64_decode($returnResponse["data"]["replyforward_signature"]);
+                        }
+                   }
                     if (isset($returnResponse["data"]["attachments"]) && $returnResponse["data"]["attachments"] && isset($returnResponse["data"]["email_path"]) && $returnResponse["data"]["email_path"]) {
 
                         $emailAttachments = [];
@@ -930,5 +951,100 @@ class EmailCollection
         );
 
         return $resource;
+    }
+	 public function signatureUpdate($field)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            $url = $this->signatureupdateApiUrl;
+			
+			if (isset($field['new_signature']) && $field['new_signature'] != "") {
+                $field["new_signature"] = base64_encode($field['new_signature']);
+				$field["new_signature"] = $field['new_signature'];
+            } else {
+                $field["new_signature"] = '';
+            }
+			if (isset($field['replyforward_signature']) && $field['replyforward_signature'] != "") {
+                $field["replyforward_signature"] = base64_encode($field['replyforward_signature']);
+				//$field["replyforward_signature"] = $field['replyforward_signature'];
+            } else {
+                $field["replyforward_signature"] = '';
+            }
+			$responseData = $this->postRequest($url, $field);
+
+			if (isset($responseData["success"]) && $responseData["success"] == "true") {
+
+				$returnResponse["success"] = "true";
+				$returnResponse["message"] = "Send successfull";
+
+			} else {
+
+				$returnResponse["error"] = "true";
+				$returnResponse["message"] = "Send unsuccessfull";
+
+			}
+
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+	public function getSignature($field)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+        try {
+			
+            $url = $this->getsignatureApiUrl;
+			$responseData = $this->postRequest($url, $field);
+			
+			 if (isset($responseData["success"]) && $responseData["success"] == "true") {
+				 
+				  if (isset($responseData["data"]["new_signature"]) && $responseData["data"]["new_signature"] != "") {
+                        if (base64_decode($responseData["data"]["new_signature"], true)) {
+                            $responseData["data"]["new_signature"] = base64_decode($responseData["data"]["new_signature"]);
+                        }
+                  }
+				  if (isset($responseData["data"]["replyforward_signature"]) && $responseData["data"]["replyforward_signature"] != "") {
+                        if (base64_decode($responseData["data"]["replyforward_signature"], true)) {
+                            $responseData["data"]["replyforward_signature"] = base64_decode($responseData["data"]["replyforward_signature"]);
+                        }
+                  }
+				  $returnResponse["data"] = $responseData["data"];
+				  $returnResponse["success"] = "true";
+			 }
+
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+        return $returnResponse;
     }
 }

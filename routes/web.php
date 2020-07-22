@@ -299,6 +299,9 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
     Route::any('pms-email-count', 'Job\EmailController@pmsEmailCount')->name('pms-email-count');
 	Route::any('get-emailid', 'Job\EmailController@emailidGet')->name('get-emailid');
 	Route::any('email-status-update', 'Job\EmailController@emailStatusUpdate')->name('email-status-update');
+	
+	Route::any('signature-update', 'Job\EmailController@signatureUpdate')->name('signature-update');
+	Route::any('get-signature', 'Job\EmailController@getSignature')->name('get-signature');
 
 	Route::any('job', 'Job\JobController@index')->name('job');
 

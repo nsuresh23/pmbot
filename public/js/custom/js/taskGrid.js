@@ -132,6 +132,7 @@ $(function() {
                                 (!filter.assignedto_empname || (client.assignedto_empname != undefined && client.assignedto_empname != null && (client.assignedto_empname.toLowerCase().indexOf(filter.assignedto_empname.toLowerCase()) > -1))) &&
                                 (!filter.createdby_empname || (client.createdby_empname != undefined && client.createdby_empname != null && (client.createdby_empname.toLowerCase().indexOf(filter.createdby_empname.toLowerCase()) > -1))) &&
                                 (!filter.followup_date || (client.followup_date != undefined && client.followup_date != null && (client.followup_date.toLowerCase().indexOf(filter.followup_date.toLowerCase()) > -1))) &&
+                                (!filter.over_due_hours || (client.over_due_hours != undefined && client.over_due_hours != null && (client.over_due_hours.toLowerCase().indexOf(filter.over_due_hours.toLowerCase()) > -1))) &&
                                 (!filter.status || (client.status != undefined && client.status != null && (client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1))) &&
                                 (!filter.stage || (client.stage != undefined && client.stage != null && (client.stage.toLowerCase().indexOf(filter.stage.toLowerCase()) > -1))) &&
                                 (!filter.category || (client.category != undefined && client.category != null && (client.category.toLowerCase().indexOf(filter.category.toLowerCase()) > -1))) &&
@@ -316,6 +317,13 @@ $(function() {
         field.push({
             title: "DUE DATE",
             name: "followup_date",
+            type: "text",
+            // width: 50
+        });
+
+        field.push({
+            title: "OVER DUE HOURS",
+            name: "over_due_hours",
             type: "text",
             // width: 50
         });

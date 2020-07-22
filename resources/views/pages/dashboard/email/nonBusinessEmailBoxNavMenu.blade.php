@@ -37,5 +37,6 @@
                 {{-- <span class="email-draft-count label bg-partial ml-10">30</span> --}}
             </a>
         </li>
+		
     </ul>
 </aside>

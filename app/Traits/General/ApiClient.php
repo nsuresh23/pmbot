@@ -115,7 +115,8 @@ trait ApiClient
             $apiClient = new Client([
                 // Base URI is used with relative requests
                 'base_uri' =>  env('API_BASE_URL'),
-                'handler' => $stack,
+                'verify' => false,
+				'handler' => $stack,
                 // You can set any number of default request options.
                 // 'timeout'  => 2.0,
             ]);
@@ -241,6 +242,7 @@ trait ApiClient
             $apiClient = new Client([
                 // Base URI is used with relative requests
                 'base_uri' =>  env('API_BASE_URL'),
+				'verify' => false,
                 'handler' => $stack,
                 // You can set any number of default request options.
                 // 'timeout'  => 2.0,

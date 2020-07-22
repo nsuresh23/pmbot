@@ -35,7 +35,6 @@ function newTaskAdd(selector) {
 
 }
 
-
 function getEmailTableList(gridSelector) {
 
     var gridType = $(gridSelector).attr('data-type');
@@ -779,6 +778,103 @@ $(document).on('click', '.amEmailListTab', function() {
 
 });*/
 
+$(document).on('click', '.job-unmark-btn', function(e) {
+
+    e.preventDefault();
+
+    Swal.fire({
+
+        title: 'Are you sure?',
+        text: "Do you want to un-associate this email from this job? If yes, then it will delete all the task related to this email!",
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        showClass: {
+            popup: 'animated slideInDown'
+        },
+        hideClass: {
+            popup: 'animated fadeOut faster'
+        },
+
+    }).then((result) => {
+
+        if (result.value != undefined && result.value == true) {
+
+            jobEmailUnmark();
+
+        }
+
+    });
+
+});
+
+
+function jobEmailUnmark() {
+
+    var emailPostData = {};
+
+    var postUrl = $('.job-unmark-btn').attr('data-email-status-update-url');
+    var emailId = $('.email-title').attr('data-email-id');
+    var jobId = $('.job-unmark-btn').attr('data-job-id');
+
+    if (jobId != undefined && jobId != '' && emailId != undefined && emailId != '' && postUrl != undefined && postUrl != '') {
+
+        emailPostData.id = emailId;
+        emailPostData.job_id = jobId;
+        emailPostData.type = 'pmbot';
+        emailPostData.status = '0';
+
+        var type = 'error';
+
+        var message = '';
+
+        var d = $.Deferred();
+
+        // AJAX call to email status update
+        $.ajax({
+
+            url: postUrl,
+            data: emailPostData,
+            dataType: "json"
+
+        }).done(function(response) {
+
+            if (response.success == "true") {
+
+                type = 'success';
+
+            } else {
+
+                type = 'error';
+
+                d.resolve();
+
+            }
+
+            if (response.message != undefined && response.message != '') {
+
+                message = response.message;
+
+            }
+
+            flashMessage(type, message);
+
+            if (response.redirectTo != undefined && response.redirectTo != '') {
+
+                window.location = response.redirectTo;
+
+            }
+
+        });
+
+        return d.promise();
+
+    }
+
+}
+
 $(document).on('click', '.non-business-unmark-btn', function(e) {
 
     e.preventDefault();
@@ -861,6 +957,9 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
         $('.non-business-unmark-btn-block').hide();
 
+        $('.job-unmark-btn-block').hide();
+        $('.job-unmark-btn').attr('data-job-id', '');
+
         $('.email-annotator-link').attr('href', 'javascript:void(0);');
         $('.email-annotator-link-block').hide();
         $('.email-draftbutton-group').hide();
@@ -937,6 +1036,18 @@ $(document).on('click', '.pmbot-email-item', function(e) {
                         if (response.data.type != undefined && response.data.type == 'non_pmbot') {
 
                             $('.non-business-unmark-btn-block').show();
+
+                        }
+
+                        if (response.data.type != undefined && response.data.type == 'pmbot') {
+
+                            if (response.data.job_id != undefined && response.data.job_id != '' && response.data.status == '2') {
+
+                                $('.job-unmark-btn').attr('data-job-id', response.data.job_id);
+
+                                $('.job-unmark-btn-block').show();
+
+                            }
 
                         }
 
@@ -1498,6 +1609,7 @@ $(document).on('click', '.email-reply-btn', function(e) {
     var type = $(this).attr('data-type');
     var selector = $(this);
     $('.reply_email_type').val('reply');
+	$('.signature_change').val('');
     $(".reply_to ul").empty();
     showform(type, selector);
 });
@@ -1507,6 +1619,7 @@ $(document).on('click', '.email-reply-all-btn', function(e) {
     var type = $(this).attr('data-type');
     var selector = $(this);
     $('.reply_email_type').val('reply');
+	$('.signature_change').val('');
     $(".reply_to ul").empty();
     showform(type, selector);
 });
@@ -1516,6 +1629,7 @@ $(document).on('click', '.email-forward-btn', function(e) {
     var type = $(this).attr('data-type');
     var selector = $(this);
     $('.reply_email_type').val('forward');
+	$('.signature_change').val('');
     $(".reply_to ul").empty();
     showform(type, selector);
 });
@@ -1663,8 +1777,19 @@ function showform(type, selector) {
                 }
                 //var message = atob(response.data.body_html);
                 var message = response.data.body_html;
+				
+				var random = Math.random().toString(36).substring(7);
+				var sig_class = 'emailsig_block_'+random;
+				sessionStorage.setItem('signature_classname', sig_class);
+				
+				
+				var stamp = '<br><div class="' + sig_class + '">'+response.data.replyforward_signature;
+				var msg = '</div>';
+				sinmessage = stamp+msg;
+				
+				//var sig = response.data.replyforward_signature;
 
-                var stamp = '<br><br><br><hr><b>From:</b> ' + response.data.email_from + '<br><b>Sent:</b> ' + response.data.email_received_date + '<br><b>To:</b> ' + response.data.email_to + '<br><b>Subject:</b> ' + response.data.subject + '<br><br>';
+                var stamp = '<br><br>'+sinmessage+'<hr><b>From:</b> ' + response.data.email_from + '<br><b>Sent:</b> ' + response.data.email_received_date + '<br><b>To:</b> ' + response.data.email_to + '<br><b>Subject:</b> ' + response.data.subject + '<br><br>';
                 message = stamp.concat(message);
 
                 $('.email-reply-subject').val(subject);
@@ -2154,7 +2279,57 @@ $(document).on('click', '.email-compose-btn', function(e) {
     $('.compose_message').summernote('code', '');
     $('#composeto_value').val('');
     $('.attachements').val('');
+	$('.signature_change').val('');
     $(".compose_to ul").empty();
+	var emailPostData = {};
+	var selector = '.signature';
+	var postUrl = $(selector).attr('data-signature-geturl');
+	
+    $.ajax({
+
+        url: postUrl,
+        data: emailPostData,
+        dataType: 'json',
+        type: 'POST',
+
+    }).done(function(response) {
+
+        if (response.success == "true") {
+            if (response.data != undefined && response.data != '') {
+				var random = Math.random().toString(36).substring(7);
+				var sig_class = 'emailsig_block_'+random;
+                //$.session.set('signature_classname', 'test');
+				sessionStorage.setItem('signature_classname', sig_class);
+
+                var message = response.data.new_signature;
+				var stamp = '<br><br><div class="' + sig_class + '">';
+                message = stamp.concat(message);
+				var msg = '</div>';
+				message = msg.concat(message);
+                $('.compose_message').summernote('code', message);
+
+            }
+        } else {
+
+            Swal.fire({
+
+                title: '',
+                text: "Signature Data Not Found!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            return false;
+
+        }
+    });
+	
+	
 });
 
 
@@ -2204,4 +2379,202 @@ $(document).on("click", function(event) {
     if ($draftbcc !== event.target && !$draftbcc.has(event.target).length) {
         $(".draftbcclist").empty();
     }
+});
+
+$(document).on('click', '.signature', function(e) {
+    e.preventDefault();
+    showsignatureform();
+});
+
+$(document).on('click', '.signature-save', function(e) {
+    e.preventDefault();
+
+    var postUrl = $('.signature-form').attr('action');
+
+    var params = new FormData($('.signature-form')[0]);
+	
+    signature(postUrl, params, '#signatureModal');
+
+});
+$(document).on('click', '.signature-cancel', function(e) {
+    $('#signatureModal').modal('hide');
+
+});
+function signature(sendUrl, params, closeBtnSelector) {
+
+    if (sendUrl != undefined && sendUrl != '') {
+
+        /* AJAX call to email item info */
+
+        var d = $.Deferred();
+
+        $.ajax({
+            url: sendUrl,
+            data: params,
+            dataType: 'json',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            enctype: "multipart/form-data",
+        }).done(function(response) {
+
+            if (response.success == "true") {
+
+                type = 'success';
+
+            } else {
+
+                type = 'error';
+
+                d.resolve();
+
+            }
+
+            message = response.message;
+
+            flashMessage(type, message);
+
+        });
+        $(closeBtnSelector).modal('hide');
+        return d.promise();
+
+
+    }
+}
+function showsignatureform() {
+    var emailPostData = {};
+   
+    //var postUrl = 'get-signature';
+	var selector = '.signature';
+	var postUrl = $(selector).attr('data-signature-geturl');
+    $.ajax({
+
+        url: postUrl,
+        data: emailPostData,
+        dataType: 'json',
+        type: 'POST',
+
+    }).done(function(response) {
+
+        if (response.success == "true") {
+            if (response.data != undefined && response.data != '') {
+                var str2 = '';
+
+                var message = response.data.new_signature;
+                $('.new_signature').summernote('code', message);
+				
+				var message1 = response.data.replyforward_signature;
+                $('.replyforward_signature').summernote('code', message1);
+
+            }
+        } else {
+
+            Swal.fire({
+
+                title: '',
+                text: "Signature Data Not Found!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            return false;
+
+        }
+    });
+	
+}
+$(document).on('change', '.signature_change', function(e) {
+	var val = this.value; 
+	var pagetype = $(this).attr('data-signature-type');
+
+	var emailPostData = {};
+	var selector = '.sig_change';
+	var postUrl = $(selector).attr('data-signature-geturl');
+	
+    $.ajax({
+
+        url: postUrl,
+        data: emailPostData,
+        dataType: 'json',
+        type: 'POST',
+
+    }).done(function(response) {
+
+        if (response.success == "true") {
+            if (response.data != undefined && response.data != '') {
+				var classname = sessionStorage.getItem('signature_classname');
+                if(val == 'new_signature') {
+					if($("div").hasClass(classname) == true) {
+						$('.'+classname).html(response.data.new_signature);
+					} else {						
+						var random = Math.random().toString(36).substring(7);
+						var sig_class = 'emailsig_block_'+random;
+						sessionStorage.setItem('signature_classname', sig_class);
+						if(pagetype == 'new') {
+							var message = $('.compose_message').val();
+							var stamp = '<br><div class="' + sig_class + '">'+response.data.new_signature;
+							var msg = '</div>';
+							message = message+stamp+msg;
+							$('.compose_message').summernote('code', message);
+						} else if(pagetype == 'reply') {
+							var message = $('.email-reply-body_html').val();
+							var stamp = '<br><div class="' + sig_class + '">'+response.data.new_signature;
+							var msg = '</div>';
+							message = stamp+msg+message;
+							$('.email-reply-body_html').summernote('code', message);
+						}
+						
+					}
+				} else  if(val == 'replyforward_signature') { 
+					if($("div").hasClass(classname) == true) {
+						$('.'+classname).html(response.data.replyforward_signature);
+					} else {
+						var random = Math.random().toString(36).substring(7);
+						var sig_class = 'emailsig_block_'+random;
+						sessionStorage.setItem('signature_classname', sig_class);
+						
+						if(pagetype == 'new') {
+							var message = $('.compose_message').val();
+							var stamp = '<br><div class="' + sig_class + '">'+response.data.replyforward_signature;
+							var msg = '</div>';
+							message = message+stamp+msg;
+							$('.compose_message').summernote('code', message);
+						} else if(pagetype == 'reply') {
+							var message = $('.email-reply-body_html').val();
+							var stamp = '<br><div class="' + sig_class + '">'+response.data.replyforward_signature;
+							var msg = '</div>';
+							message = stamp+msg+message;
+							$('.email-reply-body_html').summernote('code', message);
+						}
+						
+					}
+					
+				} else {
+					
+				}
+            }
+        } else {
+
+            Swal.fire({
+
+                title: '',
+                text: "Signature Data Not Found!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            return false;
+
+        }
+    });
 });

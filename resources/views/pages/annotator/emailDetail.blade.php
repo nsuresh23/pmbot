@@ -47,6 +47,7 @@
         <button id="btnfollowup" class="btn btn-primary btn-sm">Forward</button>
         </a><?php */?>
         <!--<button id="btnfollowup" class="btn btn-primary btn-sm">Followup</button>-->
+	<a id="btnhome" class="btn btn-primary btn-sm" href="{{route('home')}}">Back to home</a>
         <button id="btnnonbusiness" class="btn btn-warning btn-sm">Non Business</button>
       </div>
     </div>
@@ -235,7 +236,7 @@ function getpmbotjoblist(url) {
 
 				getjobID();
 				//$('#createisbnfrm').toggle(500);
-				$('#Myisbnbtn').hide();
+				//$('#Myisbnbtn').hide();
 				$('#btnannatorcompleted').show();
 			}
 
@@ -519,6 +520,7 @@ $("#btnnonbusiness").click(function() {
 });
 
 function getresult(url) {
+	
 	$.ajax({
 		url: url,
 		type: "GET",
@@ -566,6 +568,12 @@ getresult("<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/getresult");
 
 function Myisbnbtnfrm(){
 	$('#createisbnfrm').toggle(500);
+	$('#create-generic-job-frm').hide();
+}
+
+function genericBtnFrm(){
+	$('#create-generic-job-frm').toggle(500);
+	$('#createisbnfrm').hide();
 }
 
 function maskAsGeneric()
@@ -691,6 +699,59 @@ function saveisbntodb(){
                     getjobID();
                     $('#createisbnfrm').toggle(500);
                     $('#Myisbnbtn').hide();
+                    $('#btnannatorcompleted').show();
+                    return false;
+                },
+                error: function()
+                {}
+        });
+    }
+}
+
+function saveGenericToDB(){
+    if($('#generic-job-title').val() == ""){
+        alert("Title is required");
+        $('#generic-job-title').focus();
+	} else {
+        var isbn = $('#generic-job-title').val();
+        // var emailid = 92;
+        //var empcode = pmbot@spi-global.com;
+
+        var postData = {
+            "_token": "{{ csrf_token() }}",
+            'emailid':'<?php echo $returnData['id'];?>',
+            'empcode':'<?php echo $returnData['empcode'];?>',
+			isbn:isbn,
+			'generic':'generic',
+        };
+
+        var emailAnnotatorStartTime = '<?php echo isset($emailAnnotatorStartTime)? $emailAnnotatorStartTime : "" ?>';
+
+        if(emailAnnotatorStartTime) {
+
+        	postData.start_time = emailAnnotatorStartTime;
+
+        }
+
+        url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/createisbn';
+        $.ajax({
+                url: url,
+                type: "POST",
+                crossdomain:true,
+                headers: {'X-CSRF-Token': $('meta[name=""]').attr('content')},
+                data:  postData,
+                beforeSend: function(){$("#overlay").show();},
+                success: function(data){
+                    $("#mailbodycontent").removeClass();
+                    //$('#addisbn_form')[0].reset();
+                    $('#generic-job-title').val('');
+                    //$('#queryfrm').modal('hide');
+                    $("#pmjobIDlist").html(data['message']);
+                    $(function() { $("#pmjobid").select2({ tags: true,minimumResultsForSearch: -1 }); });
+
+                    getjobID();
+                    $('#create-generic-job-frm').toggle(500);
+                    $('#generic-btn').hide();
                     $('#btnannatorcompleted').show();
                     return false;
                 },

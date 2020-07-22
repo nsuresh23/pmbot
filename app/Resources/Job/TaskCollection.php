@@ -1324,7 +1324,24 @@ class TaskCollection
 
                 }
 
-                $item['title'] = '<a class="btn-link" href="' . $taskViewUrl . '">' . mb_strimwidth($item["title"], 0, 50, "...") . $isUpdatedFlag .'</a>';
+                $item["over_due_hours"] = $overdueClass = "";
+
+                if (isset($item["followup_count"]) && $item["followup_count"] != "" && $item["followup_count"] != null && $item["followup_count"] > 0 && isset($item["category"]) && $item["category"] != "" && $item["category"] != null) {
+
+                    $taskCategoryFollowupTime = [];
+
+                    $taskCategoryFollowupTime = Config::get('constants.taskCategoryFollowupTime');
+
+                    if (is_array($taskCategoryFollowupTime) && isset($taskCategoryFollowupTime[$item["category"]]) && $taskCategoryFollowupTime[$item["category"]] != "") {
+
+                        $item["over_due_hours"] = (int) $item["followup_count"] * (int) $taskCategoryFollowupTime[$item["category"]];
+
+                        $overdueClass = "text-danger";
+
+                    }
+                }
+
+                $item['title'] = '<a class="btn-link ' . $overdueClass . '" href="' . $taskViewUrl . '">' . mb_strimwidth($item["title"], 0, 50, "...") . $isUpdatedFlag .'</a>';
 
                 if (isset($item["followup_date"]) && $item["followup_date"] != "") {
 
