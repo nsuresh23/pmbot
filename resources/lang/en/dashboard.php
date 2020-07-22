@@ -24,6 +24,7 @@ return [
     'my_task_tab_label' => 'My tasks',
     'draft_task_tab_label' => 'Draft tasks',
     'open_task_tab_label' => 'Open tasks',
+    'task_calendar_tab_label' => 'Calendar',
     'non_business_emails_tab_label' => 'Non business emails',
     'business_emails_tab_label' => 'Business emails',
     'query_list_tab_label' => 'queries',

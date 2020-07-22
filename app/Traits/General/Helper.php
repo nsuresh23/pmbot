@@ -915,7 +915,7 @@ trait Helper
 
                 if (isset($returnData["data"]["assignedto_empcode"]) && $returnData["data"]["assignedto_empcode"] != auth()->user()->empcode) {
 
-                    // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($returnData);echo '<PRE/>';exit;
+                    echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($returnData);echo '<PRE/>';exit;
 
                     // return view('errors.error401');
                     redirect()->route("error401");

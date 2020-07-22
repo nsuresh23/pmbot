@@ -27,7 +27,7 @@
 						Forward
 					</a>
 			   </div>
-			   
+
 			   <div style="float:right;margin-right:5px;">
 					<a href="#replymailModal" role="menuitem" data-toggle="modal" title="reply" class="btn btn-success btn-block email-reply-all-btn" data-email-geturl = "{{ $emailGetUrl }}" data-type = "replyall">
 						Reply All
@@ -46,12 +46,12 @@
                 </div>
 
                 <div class="job-unmark-btn-block" style="float:right;margin-right:5px;display:none;">
-                    <a href="#" title="unmark" class="btn btn-success btn-block job-unmark-btn" data-job-id="" 
+                    <a href="#" title="unmark" class="btn btn-success btn-block job-unmark-btn" data-job-id=""
                         data-email-status-update-url="{{ $emailStatusUpdateUrl }}">
                         Unmark
                     </a>
                 </div>
-				
+
 				<div class="email-annotator-link-block" style="float:right;margin-right:5px;display:none;">
 					<a href="javascript:void(0);" target="_blank" class="btn btn-success btn-block email-annotator-link">
 						Annotated Email
@@ -64,9 +64,9 @@
 						Edit/Send
 					</a>
 			   </div>
-			   
+
 			</div>
-			
+
         </div>
 
         <hr class="light-grey-hr mt-5 mb-5" />

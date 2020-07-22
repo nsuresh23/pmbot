@@ -293,6 +293,7 @@ return [
     'draft_task_list_url' => 'draft-task-list',
     'job_task_list_url' => 'job-task-list',
     'job_draft_task_list_url' => 'draft-task-list',
+    'task_calendar_url' => 'task-calendar',
     'task_add_url' => 'task-add',
     'task_store_url' => 'task-store',
     'task_update_url' => 'task-update',

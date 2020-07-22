@@ -8,6 +8,7 @@ return [
     "job_add_am_empcode" => "R.Bharathidasan@spi-global.com",
     "job_add_am_empname" => "Bharathi",
     "job_add_status" => "progress",
+    "calendaf_task_count_label" => "Tasks",
     "emailImageDownloadPathParams" => "?fileserver=2&img_path=",
     "stageList" => [
         "s5" => "s5",

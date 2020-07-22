@@ -576,3 +576,201 @@ $(document).on('shown.bs.tab', '#overviewTab', function(e) {
 
 
 });
+
+$(document).on('shown.bs.tab', '#taskCalendarTab', function(e) {
+
+    var taskCalendarElement = $('.task-calendar').fullCalendar({
+
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            // right: 'month,agendaWeek,agendaDay'
+            right: ''
+        },
+        // selectable: true,
+        // editable: true,
+        // droppable: true, // this allows things to be dropped onto the calendar
+        // eventLimit: true, // allow "more" link when too many events
+        // eventBackgroundColor: '#ff6300',
+        displayEventTime: false,
+        eventClick: function(event, jsEvent, view) {
+            var date = moment(event.start).format('YYYY-MM-DD');
+            var gridSelector = ".taskCalendarGrid";
+
+            var dataUrl = $(gridSelector).attr('data-list-url');
+
+            if (dataUrl != undefined && dataUrl != "") {
+
+                $(gridSelector).attr('data-task-date', date);
+
+                getTaskTableList(gridSelector);
+
+                $('.task-calendar').fullCalendar('select', date);
+
+                $('.taskCalendarGrid .jsgrid-grid-body').slimscroll({
+                    height: '380px',
+                });
+
+            }
+
+
+        }
+    });
+
+    taskCalendarElement.find('.fc-today-button').click(function() {
+
+        var postUrl = $('.task-calendar').attr('data-post-url');
+
+        var date = moment($('.task-calendar').fullCalendar('getDate')).format('YYYY-MM-DD');
+
+        taskCalendar(postUrl, date);
+
+        var gridSelector = ".taskCalendarGrid";
+
+        var dataUrl = $(gridSelector).attr('data-list-url');
+
+        if (dataUrl != undefined && dataUrl != "") {
+
+            $(gridSelector).attr('data-task-date', date);
+
+            getTaskTableList(gridSelector);
+
+            $('.task-calendar').fullCalendar('select', date);
+
+            $('.taskCalendarGrid .jsgrid-grid-body').slimscroll({
+                height: '380px',
+            });
+
+        }
+
+    });
+
+    if ($('.task-calendar').attr('class') != undefined) {
+
+        if ($('.task-calendar').attr('data-post-url') != undefined && $('.task-calendar').attr('data-post-url') != '') {
+
+            var postUrl = $('.task-calendar').attr('data-post-url');
+
+            var date = moment($('.task-calendar').fullCalendar('getDate')).format('YYYY-MM-DD');
+
+            taskCalendar(postUrl, date);
+
+            var gridSelector = ".taskCalendarGrid";
+
+            var dataUrl = $(gridSelector).attr('data-list-url');
+
+            if (dataUrl != undefined && dataUrl != "") {
+
+                $(gridSelector).attr('data-task-date', date);
+
+                getTaskTableList(gridSelector);
+
+                $('.task-calendar').fullCalendar('select', date);
+
+                $('.taskCalendarGrid .jsgrid-grid-body').slimscroll({
+                    height: '380px',
+                });
+
+            }
+
+        }
+    }
+
+});
+
+$(document).on('click', '.fc-prev-button', function() {
+
+    var postUrl = $('.task-calendar').attr('data-post-url');
+
+    var date = moment($('.task-calendar').fullCalendar('getDate')).format('YYYY-MM-DD');
+
+    taskCalendar(postUrl, date);
+
+    var gridSelector = ".taskCalendarGrid";
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        $(gridSelector).attr('data-task-date', date);
+
+        getTaskTableList(gridSelector);
+
+        $('.task-calendar').fullCalendar('select', date);
+
+        $('.taskCalendarGrid .jsgrid-grid-body').slimscroll({
+            height: '380px',
+        });
+
+    }
+
+});
+
+$(document).on('click', '.fc-next-button', function() {
+
+    var postUrl = $('.task-calendar').attr('data-post-url');
+
+    var date = moment($('.task-calendar').fullCalendar('getDate')).format('YYYY-MM-DD');
+
+    taskCalendar(postUrl, date);
+
+    var gridSelector = ".taskCalendarGrid";
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        $(gridSelector).attr('data-task-date', date);
+
+        getTaskTableList(gridSelector);
+
+        $('.task-calendar').fullCalendar('select', date);
+
+        $('.taskCalendarGrid .jsgrid-grid-body').slimscroll({
+            height: '380px',
+        });
+
+    }
+
+});
+
+function taskCalendar(postUrl, date) {
+
+    if (postUrl != undefined && postUrl != '' && date != undefined && date != '') {
+
+        var params = {};
+
+        params.day = moment(date, 'YYYY/MM/DD').format('DD');
+        params.month = moment(date, 'YYYY/MM/DD').format('MM');
+        params.year = moment(date, 'YYYY/MM/DD').format('YYYY');
+
+        /* AJAX call to email item info */
+
+        var d = $.Deferred();
+
+        $.ajax({
+            url: postUrl,
+            data: params,
+            dataType: 'json',
+            type: 'POST',
+        }).done(function(response) {
+
+            if (response.success == "true") {
+
+                $('.task-calendar').fullCalendar('removeEvents');
+
+                $('.task-calendar').fullCalendar('addEventSource', response.data, true);
+
+            } else {
+
+                d.resolve();
+
+            }
+
+        });
+
+        return d.promise();
+
+
+    }
+}

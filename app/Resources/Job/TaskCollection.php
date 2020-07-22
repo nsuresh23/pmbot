@@ -41,6 +41,7 @@ class TaskCollection
     protected $shTaskListApiUrl;
     protected $jobTaskListApiUrl;
     protected $emailAnnotatorBaseUrl;
+    protected $taskCalendarCountApiUrl;
 
 
     public function __construct()
@@ -63,6 +64,7 @@ class TaskCollection
         $this->workflowTaskSelectApiUrl = env('API_WORKFLOW_TASK_SELECT_URL');
         $this->checkListTaskSelectApiUrl = env('API_CHECKLIST_TASK_SELECT_URL');
         $this->emailAnnotatorBaseUrl = env("EMAIL_ANNOTATOR_BASE_URL");
+        $this->taskCalendarCountApiUrl = env("API_TASK_CALENDAR_COUNT_URL");
     }
 
     /**
@@ -1207,6 +1209,93 @@ class TaskCollection
         return $returnData;
     }
 
+    /**
+     * Get the calendar task count by task field array.
+     *
+     * @param  array $field
+     * @return array $returnData
+     */
+    public function taskCalendar($request)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            $url = $this->taskCalendarCountApiUrl;
+
+            // $responseData = $this->postRequest($url, $request);
+
+            $responseData["success"] = "true";
+
+            $responseData["data"] = [
+                ["count" => "20", "due_date" => "2020-05-20"],
+                ["count" => "20", "due_date" => "2020-06-20"],
+                ["count" => "10", "due_date" => "2020-07-02"],
+                ["count" => "30", "due_date" => "2020-08-15"]
+            ];
+
+            if (is_array($responseData) && $responseData["success"] == "true" && $responseData["data"] != "") {
+
+                $responseData = $this->formattaskCalendarData($responseData["data"]);
+
+                if ($responseData) {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["data"] = $responseData;
+
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
+     * format result.
+     *
+     * @return array $resource
+     */
+    public function formatTaskCalendarData($items)
+    {
+
+        $jobResource = new JobResource();
+
+        $resource = array_map(
+
+            function ($item) {
+
+                $returnItem = [];
+
+                $returnItem["title"] = Config::get('constants.calendaf_task_count_label', 'Tasks') . ": " . $item["count"];
+                $returnItem["start"] = $item["due_date"];
+                // $returnItem["end"] = $item["due_date"];
+
+                return $returnItem;
+
+            },
+
+            $items
+
+        );
+
+        return $resource;
+
+    }
 
     /**
      * format result.

@@ -140,6 +140,7 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
 	Route::any('task-edit/{id}', 'Job\TaskController@taskEdit')->name('task-edit');
 	Route::any('task-close', 'Job\TaskController@taskClose')->name('task-close');
 	Route::any('task-delete', 'Job\TaskController@taskDelete')->name('task-delete');
+    Route::any('task-calendar', 'Job\TaskController@taskCalendar')->name('task-calendar');
 
 	// Route::any('note-list', 'Job\NoteController@noteList')->name('note-list');
 	Route::any('task-note-list/{id}', 'Job\NoteController@taskNoteList')->name('task-note-list');

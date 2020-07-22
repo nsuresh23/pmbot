@@ -195,7 +195,7 @@ trait ApiClient
 
             // }
 
-            
+
 
             // $paramData["ip_address"] = request()->ip();
             // $paramData["ipaddress"] = request()->ip();

@@ -32,7 +32,7 @@ $getEmailid = route(__("job.get_email_id"));
 
 $signatureUpdateUrl      = route(__("job.signature_update"));
 $getSignatureUrl         = route(__("job.get_signature"));
-		
+
 $redirectTo = __("job.job_detail_url");
 $redirectToJobUrl = __("job.job_detail_url");
 

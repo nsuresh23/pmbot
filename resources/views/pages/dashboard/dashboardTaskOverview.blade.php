@@ -43,7 +43,18 @@
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
                                 <li class="" role="presentation">
-                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="nonBusinessEmailsTab" class="capitalize-font" href="#nonBusinessEmails">
+                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="taskCalendarTab" class="capitalize-font" href="#taskCalendar">
+                                        {{ __('dashboard.task_calendar_tab_label') }}
+                                    </a>
+                                </li>
+
+                            <?php } ?>
+
+                            <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+
+                                <li class="" role="presentation">
+                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="nonBusinessEmailsTab" class="capitalize-font"
+                                        href="#nonBusinessEmails">
                                         {{ __('dashboard.non_business_emails_tab_label') }}
                                     </a>
                                 </li>
@@ -51,7 +62,7 @@
                             <?php } ?>
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
-                            
+
                                 <li class="" role="presentation">
                                     <a aria-expanded="false" title="Add this item" data-toggle="modal" role="tab" id="genericJobsTab" class="capitalize-font job-list"
                                         data-type="{{ __('dashboard.generic_job_text') }}"
@@ -59,7 +70,7 @@
                                         {{ __('dashboard.generic_jobs_tab_label') }}
                                     </a>
                                 </li>
-                            
+
                             <?php } ?>
 
                             <?php //if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
@@ -165,6 +176,16 @@
                                 <div id="checkList" class="tab-pane fade pt-0" role="tabpanel">
 
                                     @include('pages.dashboard.checkList.dashboardCheckListOverview')
+
+                                </div>
+
+                            <?php } ?>
+
+                            <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+
+                                <div id="taskCalendar" class="taskCalendar tab-pane fade" role="tabpanel">
+
+                                    @include('pages.dashboard.task.dashboardtaskCalendar')
 
                                 </div>
 

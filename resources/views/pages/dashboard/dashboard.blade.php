@@ -68,6 +68,7 @@
         $taskAddUrl = route(__("job.task_add_url"));
         $taskEditUrl = route(__("job.task_edit_url"), "");
         $taskDeleteUrl = route(__("job.task_delete_url"));
+        $taskCalendarUrl = route(__("job.task_calendar_url"));
 
         $myEmailListUrl = route(__("job.email_list_url"));
 

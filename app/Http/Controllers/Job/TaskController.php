@@ -119,7 +119,7 @@ class TaskController extends Controller
                 $field["job_id"] = $request->job_id;
 
             }
-			
+
 			if ($request->task_status_filter && $request->task_status_filter != "") {
 
                 $field["task_status_filter"] = $request->task_status_filter;
@@ -163,6 +163,12 @@ class TaskController extends Controller
             $returnResponse = [];
 
             $taskTypeList = [];
+
+            if($request->task_date){
+
+                $field["task_date"] = $request->task_date;
+
+            }
 
             $taskTypeList = Config::get('constants.taskType');
 
@@ -408,7 +414,7 @@ class TaskController extends Controller
         if (is_array($userList) && count($userList) > 0) {
 
             unset($userList[Config::get('constants.job_add_am_empcode')]);
-            
+
         }
 
         $returnData["type_list"] = Config::get('constants.taskType');
@@ -462,9 +468,9 @@ class TaskController extends Controller
             // $returnData["job_list"] = $this->jobResource->getActiveJobs();
 
         }
-		
+
         return view('pages.job.task.view', compact("returnData"));
-		
+
     }
 
     /**
@@ -1115,6 +1121,42 @@ class TaskController extends Controller
     }
 
     /**
+     *gent task count based on calendar in task table by task id.
+     *
+     * @return json returnResponse
+     */
+    public function taskCalendar(Request $request)
+    {
+
+        $returnResponse = [];
+
+        try {
+
+            $request->merge(['empcode' => auth()->user()->empcode]);
+            // $request->merge(['day' => date('d')]);
+            // $request->merge(['month' => date('m')]);
+            // $request->merge(['year' => date('Y')]);
+
+            $returnResponse = $this->taskResource->taskCalendar($request);
+
+        } catch (Exeception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        if ($request->ajax()) {
+
+            return json_encode($returnResponse);
+        }
+
+        return view("errors.error404");
+
+    }
+
+    /**
      * Get the task history.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -1288,7 +1330,7 @@ class TaskController extends Controller
                         $request->merge(['creator_empcode' => session()->get("current_empcode")]);
 
                     }
-                    
+
                 }
 
                 $returnResponse = $this->taskResource->taskDelete($request);

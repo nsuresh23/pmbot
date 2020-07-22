@@ -148,7 +148,7 @@ class EmailController extends Controller
 
         $returnResponse = [];
 
-        $redirectRouteAction = "";
+        $redirectRouteAction = $redirectTo = "";
 
         $emailId = $jobId = "";
 
@@ -167,7 +167,7 @@ class EmailController extends Controller
             if (isset($paramInfo["job_id"]) && $paramInfo["job_id"] != "") {
 
                 $jobId = $paramInfo["job_id"];
-                
+
             }
 
             if (auth()->check()) {
@@ -185,14 +185,14 @@ class EmailController extends Controller
             $returnResponse = $this->emailResource->emailStatusUpdate($request);
 
             if (is_array($returnResponse) && isset($returnResponse["success"]) && $returnResponse["success"] == "true" && $emailId != "") {
-            
-                
+
+
                 if ($jobId != "") {
-                    
+
                     Annotation::where("jobid", $jobId)->delete();
-                    
+
                 }
-                
+
                 if ($emailId != "") {
 
                     $returnResponse["redirectTo"] = env("EMAIL_ANNOTATOR_BASE_URL") . "/id/" . $emailId;
@@ -200,7 +200,7 @@ class EmailController extends Controller
                     $redirectRouteAction = "";
 
                 }
-                
+
             }
 
         } catch (Exeception $e) {
@@ -211,11 +211,11 @@ class EmailController extends Controller
             $returnResponse["message"] = $e->getMessage();
         }
 
-        if ($redirectRouteAction) {
+        // if ($redirectRouteAction) {
 
-            // $redirectUrl = redirect()->action($redirectRouteAction);
-            $returnResponse["redirectTo"] = route('home');
-        }
+        //     // $redirectUrl = redirect()->action($redirectRouteAction);
+        //     $returnResponse["redirectTo"] = route('home');
+        // }
 
         return json_encode($returnResponse);
 
@@ -234,7 +234,7 @@ class EmailController extends Controller
             $field = [];
 
             $returnResponse = [];
-			
+
             $field["from"] = '';
             if (isset($request->to) && $request->to != "") {
                 $field["to"] = $request->to;
@@ -295,33 +295,33 @@ class EmailController extends Controller
             $field["empcode"]       = auth()->user()->empcode;
             $field["source"]        = 'inbox';
 			$field['email_guid']    = '';
-			
-			
+
+
 			if($request->file())
 			{
 				$attached_files = [];
 				$files = $request->file();
 				$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
-				
+
 				$rand = substr(str_shuffle($permitted_chars), 0, 8);
 
                 $guid = date('Y-m-d-hms').'-'.$rand;
-				
+
                 $currentTime = date('Y') . '\\' . date('m') . '\\' . date('j') . '\\' . $guid;
                 $uploadPath = strtoupper(auth()->user()->empcode) . '\\' . $currentTime . '\\';
 				$field['email_path'] = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath;
                 $field['email_guid'] = $guid;
-				
+
 				foreach($files as $file){
 					$filename  = $file->getClientOriginalName();
 					$extension = $file->getClientOriginalExtension();
 					$hasFilename = $filename;
 
-					//$filePath1 = 'OUPBOOKS\\RADDEVELOPERS@SPI-GLOBAL.COM\\2020\\6\\9\\09a13be6-d963-432f-8fef-020e53074b22\\' . $filename; 
-					
-					$filePath =  env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath. $hasFilename; 
-					
-					Storage::disk('s3')->put($filePath, file_get_contents($file)); 
+					//$filePath1 = 'OUPBOOKS\\RADDEVELOPERS@SPI-GLOBAL.COM\\2020\\6\\9\\09a13be6-d963-432f-8fef-020e53074b22\\' . $filename;
+
+					$filePath =  env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath. $hasFilename;
+
+					Storage::disk('s3')->put($filePath, file_get_contents($file));
 					$attached_files[$filename] = $hasFilename;
 
 				}
@@ -330,7 +330,7 @@ class EmailController extends Controller
 					$field["attachments"] = implode("|", $attached_files);
 				}
 			}
-			
+
 			/*$field['from'] = '';
 			$field['to'] = 'test';
 			$field['cc'] = 'test';
@@ -348,29 +348,29 @@ class EmailController extends Controller
 			if($field['email_type'] == 'forward') {
 				$gfield['emailid'] = $field['email_id'];
 				$returnResponse = $this->emailResource->emailGet($gfield);
-				
+
 				if(!empty($returnResponse['data']['attachments'])) {
 					//$returnResponse['data']['attachments'] = base64_decode($returnResponse['data']['attachments']);
 					$returnResponse['data']['attachments'] = $returnResponse['data']['attachments'];
 				}
-				
+
 
 
 				if(empty($uploadPath)) {
 					$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
 					$rand = substr(str_shuffle($permitted_chars), 0, 8);
 					$guid = date('Y-m-d-hms').'-'.$rand;
-					
+
 					$currentTime = date('Y') . '\\' . date('n') . '\\' . date('j') . '\\' . $guid;
 					$uploadPath = strtoupper(auth()->user()->empcode) . '\\' . $currentTime . '\\';
 					$field['email_path'] = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath;
 					$field["attachments"] = $returnResponse['data']['attachments'];
-					
+
 					$upath = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\'.$uploadPath;
-					
+
 					//$upath = str_replace("\\","/",$upath);
 					//mkdir($upath, 0777,true);
-					
+
 				} else {
 					$uploadPath = $uploadPath;
 					$field['email_path'] = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath;
@@ -386,10 +386,10 @@ class EmailController extends Controller
 						if(!empty($file[$i])) {
 							$filename = $spath.$file[$i];
 							$upath = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\'.$uploadPath;
-							Storage::disk('s3')->copy($filename, $upath.$file[$i]); 
+							Storage::disk('s3')->copy($filename, $upath.$file[$i]);
 							//if (file_exists($filename)) {
 								//$upath = $_ENV['UPLOAD_FILE_PATH'].''.$uploadPath;
-								//Storage::disk('s3')->copy($filePath, $upath.$file[$i]); 
+								//Storage::disk('s3')->copy($filePath, $upath.$file[$i]);
 								//copy($filename, $upath.$file[$i]);
 							//}
 						}
@@ -397,7 +397,7 @@ class EmailController extends Controller
 
 				}
 			}
-			
+
 			if(!empty($field["attachments"])) {
 				$field["attachments"] = base64_encode($field["attachments"]);
             }
@@ -413,7 +413,7 @@ class EmailController extends Controller
                 }
 
             }
-			
+
             if (count($field) > 0) {
                 $returnResponse = $this->emailResource->emailSend($field);
             }
@@ -489,7 +489,7 @@ class EmailController extends Controller
 
 				$attached_files = [];
 				$files = $request->file();
-				
+
 				if(!empty($returnResponse['data']['email_path'])) {
 					//$uploadPath = str_replace($_ENV['UPLOAD_FILE_ROUTE_PATH'].'\\',"",$returnResponse['data']['email_path']);
 					//$uploadPath = str_replace($_ENV['UPLOAD_FILE_ROUTE_PATH1'].'\\',"",$uploadPath);
@@ -500,7 +500,7 @@ class EmailController extends Controller
 					$uploadPath = auth()->user()->empcode . '\\' . $currentTime . '\\';
 					$field['email_path'] = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath;
 					$field['email_guid'] = $guid;*/
-					
+
 					$permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
 					$rand = substr(str_shuffle($permitted_chars), 0, 8);
 					$guid = date('Y-m-d-hms').'-'.$rand;
@@ -514,12 +514,12 @@ class EmailController extends Controller
 					$filename  = $file->getClientOriginalName();
 					$extension = $file->getClientOriginalExtension();
 					$hasFilename = $filename;
-					$filePath =  env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath. $hasFilename; 
-					Storage::disk('s3')->put($filePath, file_get_contents($file)); 
+					$filePath =  env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath. $hasFilename;
+					Storage::disk('s3')->put($filePath, file_get_contents($file));
 					//$filename = $file->store(strtotime("now") . '/' . auth()->user()->empcode);
 					$attached_files[$filename] = $hasFilename;
 				}
-				
+
 
 				if(count($attached_files) > 0){
 					$field["attachments"] = implode("|", $attached_files);
@@ -606,7 +606,7 @@ class EmailController extends Controller
             if (isset($request->search) && $request->search != "") {
                 $field["search"] = $request->search;
             }
-			
+
             if (count($field) > 0) {
                 $returnResponse = $this->emailResource->emailidGet($field);
             }
@@ -632,8 +632,8 @@ class EmailController extends Controller
             $field = [];
 
             $returnResponse = [];
-			
-           
+
+
             if (isset($request->new_signature) && $request->new_signature != "") {
                 $field["new_signature"] = $request->new_signature;
             } else {
@@ -645,7 +645,7 @@ class EmailController extends Controller
                 $field["replyforward_signature"] = '';
             }
             $field["empcode"]       = auth()->user()->empcode;
-			
+
             if(auth()->check()) {
 
                $field['creator_empcode'] = auth()->user()->empcode;
@@ -657,7 +657,7 @@ class EmailController extends Controller
                 }
 
             }
-			
+
             if (count($field) > 0) {
                 $returnResponse = $this->emailResource->signatureUpdate($field);
             }
@@ -685,7 +685,7 @@ class EmailController extends Controller
             $returnResponse = [];
 
             $field["empcode"]       = auth()->user()->empcode;
-			
+
             if (count($field) > 0) {
                 $returnResponse = $this->emailResource->getSignature($field);
             }

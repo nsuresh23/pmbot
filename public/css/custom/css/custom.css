@@ -248,6 +248,25 @@
     width: 100% !important;
 }
 
+.jsgrid-grid-body:hover {
+    /* overflow-x: scroll !important; */
+    overflow: auto !important;
+    overflow-y: hidden !important;
+}
+
+.jsgrid-grid-body::-webkit-scrollbar {
+    background: rgba(0, 0, 0, 0.4);
+    width: 7px;
+    position: absolute;
+    top: 0px;
+    opacity: 0.4;
+    display: block;
+    border-radius: 7px;
+    z-index: 99;
+    right: 1px;
+    height: 10px;
+}
+
 .assignee_desc {
     height: 300px !important;
 }
