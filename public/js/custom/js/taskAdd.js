@@ -357,7 +357,9 @@ function includeAssigneeTaskTab(selectedVal, selectedText) {
 
         }
 
-        var tabName = selectedVal + '_desc';
+        selectedValText = selectedVal.replace(/([.-@])+/g, '_');
+
+        var tabName = selectedValText + '_desc';
 
         if (tabName in previousUserList) {
 
@@ -379,7 +381,7 @@ function includeAssigneeTaskTab(selectedVal, selectedText) {
 
         }
 
-        var selectedTab = '#' + selectedVal + '_descTab';
+        var selectedTab = '#' + selectedValText + '_descTab';
 
         $(selectedTab).tab('show');
 
@@ -537,7 +539,7 @@ function addTaskAssigneeTab(taskId, empcode, empname, description, status) {
 
     var tabLabel = empname;
 
-    var tabName = empcode + '_desc';
+    var tabName = empcode.replace(/([.-@])+/g, '_') + '_desc';
 
     // if (!(tabName in previousUserList)) {
 
