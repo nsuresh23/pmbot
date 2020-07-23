@@ -48,8 +48,8 @@ function getTaskTableList(gridSelector) {
     var addUrl = $(gridSelector).attr('data-add-url') + "?redirectTo=" + currentRoute;
     var editUrl = $(gridSelector).attr('data-edit-url');
     var deleteUrl = $(gridSelector).attr('data-delete-url');
-    var readOnlyUser = $('#currentUserInfo').attr('data-read-only-user');
     var taskDate = $(gridSelector).attr('data-task-date');
+    var readOnlyUser = $('#currentUserInfo').attr('data-read-only-user');
 
     var taskStatusFilter = $(gridSelector).attr('task-status-filter');
 
@@ -85,7 +85,9 @@ function getTaskTableList(gridSelector) {
 
     // }
 
-    var dbClients = "";
+    // var dbClients = "";
+
+    window.dbClients = "";
 
     deleteControlVisible = false;
 
@@ -127,12 +129,13 @@ function getTaskTableList(gridSelector) {
 
                 loadData: function(filter) {
 
-                    return $.grep(dbClients, function(client) {
+                    return $.grep(window.dbClients, function(client) {
                         return (!filter.title || (client.title != undefined && client.title != null && (client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1))) &&
                             (!filter.type || (client.type != undefined && client.type != null && (client.type.toLowerCase().indexOf(filter.type.toLowerCase()) > -1))) &&
                             (!filter.assignedto_empname || (client.assignedto_empname != undefined && client.assignedto_empname != null && (client.assignedto_empname.toLowerCase().indexOf(filter.assignedto_empname.toLowerCase()) > -1))) &&
                             (!filter.createdby_empname || (client.createdby_empname != undefined && client.createdby_empname != null && (client.createdby_empname.toLowerCase().indexOf(filter.createdby_empname.toLowerCase()) > -1))) &&
                             (!filter.followup_date || (client.followup_date != undefined && client.followup_date != null && (client.followup_date.toLowerCase().indexOf(filter.followup_date.toLowerCase()) > -1))) &&
+                            // (!filter.over_due_hours || (client.over_due_hours != undefined && client.over_due_hours != null && (client.over_due_hours.toLowerCase().indexOf(filter.over_due_hours.toLowerCase()) > -1))) &&
                             (!filter.over_due_hours || (client.over_due_hours != undefined && client.over_due_hours != null && (client.over_due_hours.toLowerCase().indexOf(filter.over_due_hours.toLowerCase()) > -1))) &&
                             (!filter.status || (client.status != undefined && client.status != null && (client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1))) &&
                             (!filter.stage || (client.stage != undefined && client.stage != null && (client.stage.toLowerCase().indexOf(filter.stage.toLowerCase()) > -1))) &&
@@ -319,12 +322,16 @@ function getTaskTableList(gridSelector) {
 
     }
 
-    field.push({
-        title: "DUE DATE",
-        name: "followup_date",
-        type: "text",
-        // width: 50
-    });
+    if (taskDate == undefined || taskDate == '') {
+
+        field.push({
+            title: "DUE DATE",
+            name: "followup_date",
+            type: "text",
+            // width: 50
+        });
+
+    }
 
     field.push({
         title: "OVER DUE HOURS",
@@ -686,6 +693,8 @@ function getTaskTableList(gridSelector) {
 
     }
 
+    $(gridSelector).jsGrid("option", "data", []);
+
     /* AJAX call to get list */
     $.ajax({
 
@@ -699,7 +708,7 @@ function getTaskTableList(gridSelector) {
 
             response.data = formatDataItem(response.data);
 
-            dbClients = response.data;
+            window.dbClients = response.data;
 
             $(gridSelector).jsGrid("option", "data", response.data);
 

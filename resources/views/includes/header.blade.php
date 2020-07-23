@@ -284,11 +284,11 @@
                         {{ Auth::user()->empname }}
                     </span>
                 </a>
-                <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="slideInRight" data-dropdown-out="flipOutX">
+                {{-- <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="slideInRight" data-dropdown-out="flipOutX">
                     <li>
                         <a href="#signatureModal" role="menuitem" data-toggle="modal" title="reply" class="dashboard-draft-email signature"
                             data-signature-geturl="{{ $getSignatureUrl ?? '#'}}" data-type="forward">
-                            <i class="zmdi zmdi-card"></i>
+                            <i class="zmdi zmdi-card txt-warning"></i>
                             <span>
                                 Signature
                             </span>
@@ -297,16 +297,14 @@
                     <li class="divider"></li>
                     <li>
                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            {{-- <button class="btn btn-danger btn-icon-anim btn-circle btn-sm"> --}}
-                                <i class="zmdi zmdi-power"></i>
-                                <span>Log Out</span>
-                            {{-- </button> --}}
+                            <i class="zmdi zmdi-power txt-danger"></i>
+                            <span>Log Out</span>
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
                         </form>
                     </li>
-                </ul>
+                </ul> --}}
             </li>
             <li class="dropdown app-drp">
                 <div class="button-list ml-10">

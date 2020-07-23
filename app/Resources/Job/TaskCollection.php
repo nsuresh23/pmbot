@@ -1228,16 +1228,49 @@ class TaskCollection
 
             $url = $this->taskCalendarCountApiUrl;
 
-            // $responseData = $this->postRequest($url, $request);
+            $requestData =  $paramInfo = [];
 
-            $responseData["success"] = "true";
+            $paramInfo = $request->all();
 
-            $responseData["data"] = [
-                ["count" => "20", "due_date" => "2020-05-20"],
-                ["count" => "20", "due_date" => "2020-06-20"],
-                ["count" => "10", "due_date" => "2020-07-02"],
-                ["count" => "30", "due_date" => "2020-08-15"]
-            ];
+            // $requestData = json_decode(json_encode($request), true);
+
+            // if(is_array($requestData) && count($requestData) > 0) {
+
+            //     if (isset($requestData["day"]) && $requestData["day"] != "") {
+
+            //         $paramInfo["day"] = $requestData["day"];
+            //     }
+
+            //     if (isset($requestData["month"]) && $requestData["month"] != "") {
+
+            //         $paramInfo["month"] = $requestData["month"];
+
+            //     }
+
+            //     if (isset($requestData["year"]) && $requestData["year"] != "") {
+
+            //         $paramInfo["year"] = $requestData["year"];
+
+            //     }
+
+            //     if (isset($requestData["empcode"]) && $requestData["empcode"] != "") {
+
+            //         $paramInfo["empcode"] = $requestData["empcode"];
+
+            //     }
+
+            // }
+
+            $responseData = $this->postRequest($url, $paramInfo);
+
+            // $responseData["success"] = "true";
+
+            // $responseData["data"] = [
+            //     ["count" => "20", "due_date" => "2020-05-20"],
+            //     ["count" => "20", "due_date" => "2020-06-20"],
+            //     ["count" => "10", "due_date" => "2020-07-02"],
+            //     ["count" => "30", "due_date" => "2020-08-15"]
+            // ];
 
             if (is_array($responseData) && $responseData["success"] == "true" && $responseData["data"] != "") {
 
@@ -1281,7 +1314,21 @@ class TaskCollection
 
                 $returnItem = [];
 
-                $returnItem["title"] = Config::get('constants.calendaf_task_count_label', 'Tasks') . ": " . $item["count"];
+                // $title = '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0 pr-0 task-box-shadow text-center btn btn-success btn-outline border-none btn-anim txt-purple">';
+                //     $title .= '<i class="font-13 capitalize-font">';
+                //         $title .= Config::get('constants.calendaf_task_count_label', 'Tasks');
+                //     $title .= '</i>';
+                //     $title .= '<span class="btn-text">';
+                //         $title .= '<span class="counter-anim weight-600 font-13">';
+                //             $title .= $item["count"];
+                //         $title .= '</span>';
+                //     $title .= '</span>';
+                // $title .= '</div>';
+
+                // $returnItem["title"] = $title;
+
+                $returnItem["title"] = '<div class="txt-brown" ><div class="" >' . Config::get('constants.calendaf_task_count_label', 'Tasks') . ": " . '</div><div class="counter-anim weight-600 font-15">' . $item["count"] .'</div></div>';
+                // $returnItem["title"] = Config::get('constants.calendaf_task_count_label', 'Tasks') . ": " . $item["count"];
                 $returnItem["start"] = $item["due_date"];
                 // $returnItem["end"] = $item["due_date"];
 
@@ -1423,7 +1470,7 @@ class TaskCollection
 
                     if (is_array($taskCategoryFollowupTime) && isset($taskCategoryFollowupTime[$item["category"]]) && $taskCategoryFollowupTime[$item["category"]] != "") {
 
-                        $item["over_due_hours"] = (int) $item["followup_count"] * (int) $taskCategoryFollowupTime[$item["category"]];
+                        $item["over_due_hours"] = (string)((int) $item["followup_count"] * (int) $taskCategoryFollowupTime[$item["category"]]);
 
                         $overdueClass = "text-danger";
 

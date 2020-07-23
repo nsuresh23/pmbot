@@ -183,9 +183,9 @@
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
-                                <div id="taskCalendar" class="taskCalendar tab-pane fade" role="tabpanel">
+                                <div id="taskCalendar" class="taskCalendar tab-pane fade pt-5" role="tabpanel">
 
-                                    @include('pages.dashboard.task.dashboardtaskCalendar')
+                                    @include('pages.dashboard.task.dashboardTaskCalendar')
 
                                 </div>
 
@@ -193,7 +193,7 @@
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
-                                <div id="nonBusinessEmails" class="nonBusinessEmails tab-pane fade" role="tabpanel">
+                                <div id="nonBusinessEmails" class="nonBusinessEmails tab-pane fade pt-0" role="tabpanel">
 
                                     @include('pages.dashboard.email.dashboardEmails')
 

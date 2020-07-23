@@ -591,8 +591,11 @@ $(document).on('shown.bs.tab', '#taskCalendarTab', function(e) {
         // editable: true,
         // droppable: true, // this allows things to be dropped onto the calendar
         // eventLimit: true, // allow "more" link when too many events
-        // eventBackgroundColor: '#ff6300',
+        eventBackgroundColor: '#f8b32d',
         displayEventTime: false,
+        eventRender: function(event, taskCalendarElement) {
+            taskCalendarElement.find('.fc-title').html(taskCalendarElement.find('.fc-title').text());
+        },
         eventClick: function(event, jsEvent, view) {
             var date = moment(event.start).format('YYYY-MM-DD');
             var gridSelector = ".taskCalendarGrid";
