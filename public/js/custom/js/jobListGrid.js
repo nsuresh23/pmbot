@@ -490,3 +490,133 @@ $(function() {
     // });
 
 });
+
+$(document).on('click', '.job-hold-btn', function(e) {
+
+    e.preventDefault();
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to hold this job!",
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        showClass: {
+            popup: 'animated fadeInDownBig faster'
+        },
+        hideClass: {
+            popup: 'animated fadeOut faster'
+        },
+    }).then((result) => {
+
+        if (result.value != undefined && result.value == true) {
+
+            $("#job_status_update_status").val('hold');
+            $("#job_status_update_remarks").val('');
+            $(".job-status-update-form").submit();
+
+        }
+    });
+
+});
+
+$(document).on('click', '.job-resume-btn', function(e) {
+
+    e.preventDefault();
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to resume this job!",
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        showClass: {
+            popup: 'animated fadeInDownBig faster'
+        },
+        hideClass: {
+            popup: 'animated fadeOut faster'
+        },
+    }).then((result) => {
+
+        if (result.value != undefined && result.value == true) {
+
+            $("#job_status_update_status").val('progress');
+            $("#job_status_update_remarks").val('');
+            $(".job-status-update-form").submit();
+
+        }
+    });
+
+});
+
+$(document).on('click', '.job-complete-btn', function(e) {
+
+    // e.preventDefault();
+
+    // const { value: text } = await Swal.fire({
+    //     input: 'textarea',
+    //     inputPlaceholder: 'Type your message here...',
+    //     showCancelButton: true
+    // })
+
+    // if (text) {
+    //     Swal.fire(text)
+    // }
+
+    Swal.fire({
+        // title: 'Are you sure?',
+        // text: "Do you want to close this job!",
+        // text: "Please enter remarks:",
+        // icon: 'warning',
+        // type: "input",
+        // inputPlaceholder: "remarks",
+        html: '<textarea class="job-complete-remarks-field col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-15" placeholder="Enter remarks"/>',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        showClass: {
+            popup: 'animated fadeInDownBig faster'
+        },
+        hideClass: {
+            popup: 'animated fadeOut faster'
+        },
+    }).then((result) => {
+
+        console.log(result);
+
+        var remarksVal = $('.job-complete-remarks-field').val();
+
+        if (remarksVal == undefined || remarksVal == false || remarksVal == '') {
+
+            Swal.fire({
+
+                title: '',
+                text: "Please enter remarks!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            return false
+        }
+
+        if (result.value != undefined && result.value == true) {
+
+            $("#job_status_update_status").val('completed');
+            $("#job_status_update_remarks").val(remarksVal);
+
+            $(".job-status-update-form").submit();
+
+        }
+    });
+
+});

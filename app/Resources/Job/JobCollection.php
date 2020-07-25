@@ -33,6 +33,8 @@ class JobCollection
 
     protected $jobUpdateApiUrl;
 
+    protected $jobInfoUpdateApiUrl;
+
     protected $jobListApiUrl;
 
     protected $jobSelectApiUrl;
@@ -57,6 +59,7 @@ class JobCollection
         $this->jobSelectApiUrl = env('API_JOB_SELECT_URL');
         // $this->jobHistoryApiUrl = env('API_JOB_HISTORY_URL');
         $this->jobUpdateApiUrl = env('API_JOB_UPDATE_URL');
+        $this->jobInfoUpdateApiUrl = env('API_JOB_INFO_UPDATE_URL');
         $this->jobHistoryApiUrl = env('API_MY_HISTORY_URL');
         $this->jobByFieldApiUrl = env('API_JOB_BY_FIELD_URL');
         $this->jobTaskListApiUrl = env('API_JOB_TASK_LIST_URL');
@@ -171,7 +174,13 @@ class JobCollection
                 // 'date_due'       => 'required',
             );
 
-            $url = $this->jobUpdateApiUrl;
+            $url = $this->jobInfoUpdateApiUrl;
+
+            if(!isset($field["isbn"])) {
+
+                $url = $this->jobUpdateApiUrl;
+
+            }
 
             $validator = Validator::make($field, $rules);
 
