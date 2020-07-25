@@ -1,4 +1,5 @@
 @extends('layouts.annotator')
+
 @push('css')
 <!-- Custom CSS -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
@@ -38,15 +39,29 @@
   <input type="hidden" name="annotatorfeature" id="annotatorfeature" />
   <div id="content">
   <div class="col-md-9">
-      <?php /*?><div class="bs-btndata" id="myDIV" style="clear:both; float:left;"> <a href="#replymailModal" role="menuitem" data-toggle="modal" title="Reply All" class="padding-0 email-reply-all-btn" data-email-geturl = "{{ $emailGetUrl }}" data-type = "replyall">
+      <?php /*?><div class="bs-btndata" id="myDIV" style="clear:both; float:left;"> <a href="#replymailModal" role="menuitem" data-toggle="modal" title="Reply All" class="padding-0 email-reply-all-btn" data-email-geturl = "{{ $emailGetUrl ?? '' }}" data-type = "replyall">
         <button id="btnreplyall" class="btn btn-success btn-sm">Reply All</button>
-        </a> <a href="#replymailModal" role="menuitem" data-toggle="modal" title="Reply" class="padding-0 email-reply-btn" data-email-geturl = "{{ $emailGetUrl }}" data-type = "reply">
+        </a> <a href="#replymailModal" role="menuitem" data-toggle="modal" title="Reply" class="padding-0 email-reply-btn" data-email-geturl = "{{ $emailGetUrl ?? '' }}" data-type = "reply">
         <button id="btnreply" class="btn btn-info btn-sm">Reply</button>
         </a> </div><?php */?>
-      <div class="bs-btndata" id="myDIV" style="float:right;"> <?php /*?><a href="#replymailModal" role="menuitem" data-toggle="modal" title="Forward" class="padding-0 email-forward-btn" data-email-geturl = "{{ $emailGetUrl }}" data-type = "forward">
+      <div class="bs-btndata" id="myDIV" style="float:right;"> <?php /*?><a href="#replymailModal" role="menuitem" data-toggle="modal" title="Forward" class="padding-0 email-forward-btn" data-email-geturl = "{{ $emailGetUrl ?? '' }}" data-type = "forward">
         <button id="btnfollowup" class="btn btn-primary btn-sm">Forward</button>
         </a><?php */?>
         <!--<button id="btnfollowup" class="btn btn-primary btn-sm">Followup</button>-->
+
+        <a href="{{route('email-forward') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply" class="btn btn-sm btn-success email-reply-button"
+            target="_blank">
+            Forward
+        </a>
+        <a href="{{route('email-reply-all') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply" class="btn btn-sm btn-success email-reply-all-button"
+            target="_blank">
+            Reply all
+        </a>
+        <a href="{{route('email-reply') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply" class="btn btn-sm btn-success email-reply-button"
+            target="_blank">
+            Reply
+        </a>
+
 	<a id="btnhome" class="btn btn-primary btn-sm" href="{{route('home')}}">Back to home</a>
         <button id="btnnonbusiness" class="btn btn-warning btn-sm">Non Business</button>
       </div>

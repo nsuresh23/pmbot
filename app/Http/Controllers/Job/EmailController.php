@@ -39,6 +39,110 @@ class EmailController extends Controller
     }
 
     /**
+     * Display a email compose form.
+     *
+     * @return Response
+     */
+    public function emailCompose(Request $request)
+    {
+
+        $returnData = [];
+
+        $returnData["redirectTo"] = "";
+
+        if ($request->redirectTo) {
+
+            $returnData["redirectTo"] = $request->redirectTo;
+        }
+
+        return view('pages.annotator.emailComposeModal', compact("returnData"));
+
+    }
+
+    /**
+     * Display a email draft form.
+     *
+     * @return Response
+     */
+    public function emailDraft(Request $request)
+    {
+
+        $returnData = [];
+
+        $returnData["redirectTo"] = "";
+
+        if ($request->redirectTo) {
+
+            $returnData["redirectTo"] = $request->redirectTo;
+        }
+
+        return view('pages.annotator.emailDraftModal', compact("returnData"));
+    }
+
+    /**
+     * Display a email reply form.
+     *
+     * @return Response
+     */
+    public function emailReply(Request $request)
+    {
+
+        $returnData = [];
+
+        $returnData["redirectTo"] = "";
+
+        if ($request->redirectTo) {
+
+            $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
+
+        }
+
+        return view('pages.annotator.emailReplyModal', compact("returnData"));
+    }
+
+    /**
+     * Display a email reply all form.
+     *
+     * @return Response
+     */
+    public function emailReplyAll(Request $request)
+    {
+
+        $returnData = [];
+
+        $returnData["redirectTo"] = "";
+
+        if ($request->redirectTo) {
+
+            $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
+
+        }
+
+        return view('pages.annotator.emailReplyAllModal', compact("returnData"));
+    }
+
+    /**
+     * Display a email forward form.
+     *
+     * @return Response
+     */
+    public function emailForward(Request $request)
+    {
+
+        $returnData = [];
+
+        $returnData["redirectTo"] = "";
+
+        if ($request->redirectTo) {
+
+            $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
+
+        }
+
+        return view('pages.annotator.emailForwardModal', compact("returnData"));
+    }
+
+    /**
      * pms email count.
      *
      *  @return json response

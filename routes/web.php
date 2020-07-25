@@ -300,7 +300,12 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
     Route::any('pms-email-count', 'Job\EmailController@pmsEmailCount')->name('pms-email-count');
 	Route::any('get-emailid', 'Job\EmailController@emailidGet')->name('get-emailid');
 	Route::any('email-status-update', 'Job\EmailController@emailStatusUpdate')->name('email-status-update');
-	
+    Route::any('email-compose', 'Job\EmailController@emailCompose')->name('email-compose');
+    Route::any('email-draft', 'Job\EmailController@emailDraft')->name('email-draft');
+    Route::any('email-reply', 'Job\EmailController@emailReply')->name('email-reply');
+    Route::any('email-reply-all', 'Job\EmailController@emailReplyAll')->name('email-reply-all');
+    Route::any('email-forward', 'Job\EmailController@emailForward')->name('email-forward');
+
 	Route::any('signature-update', 'Job\EmailController@signatureUpdate')->name('signature-update');
 	Route::any('get-signature', 'Job\EmailController@getSignature')->name('get-signature');
 

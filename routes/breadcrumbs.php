@@ -60,6 +60,36 @@ Breadcrumbs::register('user-list', function ($breadcrumbs) {
 
 });
 
+Breadcrumbs::register('email-compose', function ($breadcrumbs) {
+
+    // $breadcrumbs->push('home', route(__('job.job_detail_home_url')));
+
+});
+
+Breadcrumbs::register('email-draft', function ($breadcrumbs) {
+
+    // $breadcrumbs->push('home', route(__('job.job_detail_home_url')));
+
+});
+
+Breadcrumbs::register('email-reply', function ($breadcrumbs) {
+
+    // $breadcrumbs->push('home', route(__('job.job_detail_home_url')));
+
+});
+
+Breadcrumbs::register('email-reply-all', function ($breadcrumbs) {
+
+    // $breadcrumbs->push('home', route(__('job.job_detail_home_url')));
+
+});
+
+Breadcrumbs::register('email-forward', function ($breadcrumbs) {
+
+    // $breadcrumbs->push('home', route(__('job.job_detail_home_url')));
+
+});
+
 Breadcrumbs::register('user-add', function ($breadcrumbs) {
 
     $breadcrumbs->push('home', route(__('job.job_detail_home_url')));
