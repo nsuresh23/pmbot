@@ -89,12 +89,14 @@ class EmailController extends Controller
 
         $returnData = [];
 
-        $returnData["redirectTo"] = "";
-
         if ($request->redirectTo) {
 
-            $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
+            $request->merge(['emailid' => $request->redirectTo]);
 
+            $returnData = $this->emailGet($request);
+
+            $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
+            
         }
 
         return view('pages.annotator.emailReplyModal', compact("returnData"));
@@ -110,9 +112,11 @@ class EmailController extends Controller
 
         $returnData = [];
 
-        $returnData["redirectTo"] = "";
-
         if ($request->redirectTo) {
+
+            $request->merge(['emailid' => $request->redirectTo]);
+
+            $returnData = $this->emailGet($request);
 
             $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
 
@@ -131,12 +135,14 @@ class EmailController extends Controller
 
         $returnData = [];
 
-        $returnData["redirectTo"] = "";
-
         if ($request->redirectTo) {
 
-            $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
+            $request->merge(['emailid' => $request->redirectTo]);
 
+            $returnData = $this->emailGet($request);
+
+            $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
+            
         }
 
         return view('pages.annotator.emailForwardModal', compact("returnData"));
@@ -529,10 +535,19 @@ class EmailController extends Controller
             $returnResponse["message"] = $e->getMessage();
         }
 
+        if ($request->page_type && $request->page_type == "page") {
+
+            $returnResponse["redirectUrl"] = route(__("job.email_view_url"), $request->email_id);
+
+        }
+
         // if ($request->ajax()) {
 
-        return json_encode($returnResponse);
+            return json_encode($returnResponse);
+
         // }
+
+        
 
         // return view("errors.error404");
     }
@@ -693,9 +708,11 @@ class EmailController extends Controller
             $returnResponse["message"] = $e->getMessage();
         }
 
-        //if ($request->ajax()) {
-        return json_encode($returnResponse);
-        // }
+        if ($request->ajax()) {
+            return json_encode($returnResponse);
+        }
+        
+        return $returnResponse;
 
         // return view("errors.error404");
     }

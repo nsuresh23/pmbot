@@ -49,16 +49,13 @@
         </a><?php */?>
         <!--<button id="btnfollowup" class="btn btn-primary btn-sm">Followup</button>-->
 
-        <a href="{{route('email-forward') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply" class="btn btn-sm btn-success email-reply-button"
-            target="_blank">
+        <a href="{{route('email-forward') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="forward" class="btn btn-sm btn-success email-reply-button">
             Forward
         </a>
-        <a href="{{route('email-reply-all') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply" class="btn btn-sm btn-success email-reply-all-button"
-            target="_blank">
+        <a href="{{route('email-reply-all') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply all" class="btn btn-sm btn-success email-reply-all-button">
             Reply all
         </a>
-        <a href="{{route('email-reply') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply" class="btn btn-sm btn-success email-reply-button"
-            target="_blank">
+        <a href="{{route('email-reply') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply" class="btn btn-sm btn-success email-reply-button">
             Reply
         </a>
 

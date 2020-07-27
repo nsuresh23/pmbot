@@ -87,6 +87,16 @@
     font-size: 33px !important;
 }
 
+.job-hold-btn {	
+	text-decoration: none !important;
+	color: #ffff !important;	
+}
+
+.job-complete-btn {	
+	text-decoration: none !important;
+	color: #ffff !important;	
+}
+
 .border-right {
     border-right: 2px solid #eee!important;
 }

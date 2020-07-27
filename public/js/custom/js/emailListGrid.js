@@ -1455,6 +1455,21 @@ $(document).on('click', '.email-save-btn', function(e) {
 
 });
 $(document).on('click', '.email-reply-send-btn', function(e) {
+	
+	if ($('#email-reply-to').val() == '') {
+        $("#email-reply-to").focus();
+        return false;
+    }
+    if ($('#email-reply-subject').val() == '') {
+        $("#email-reply-subject").focus();
+        return false;
+    }
+    if ($('#reply_body_html').val() == '') {
+        $("#reply_body_html").focus();
+        return false;
+    }
+	
+	
     var type = $('.pmbottype').attr('data-pmbottype');
     $('.type').val(type);
     $('#email-type').val(type);
@@ -1585,6 +1600,12 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             message = response.message;
 
             flashMessage(type, message);
+
+            if (response.redirectUrl != undefined && response.redirectUrl != '') {
+
+                window.location = response.redirectUrl;
+
+            }
 
         });
 
