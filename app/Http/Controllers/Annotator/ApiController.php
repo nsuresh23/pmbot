@@ -769,15 +769,17 @@ class ApiController extends Controller
 
                 // Close cURL session handle
                 curl_close($ch);
-                $json_data_decoded = json_decode($result, true);
-
+                $json_data_decoded = json_decode($result, true);			
+				
                 if ($annotationID == '') {
                     $output = '<select id="pmjobid"  onchange="getjobID()">'; //multiple="multiple"
                 } else {
                     $output = '<select id="pmjobid">'; //multiple="multiple"
                 }
                 $output .= '<option disabled selected>--select--</option>';
-                foreach ($json_data_decoded['result']['data'] as $key => $val) {
+				
+				/*
+                foreach ($json_data_decoded['result']['data'] as $key => $val) { //Dropdown code changed to Group by concept (Raja-2020-July-28)
                     if ($annotationID != '') {
                         if ($val['job_id'] == $annotationID) {
                             $output .= '<option value="' . $val['job_id'] . '" selected>' . $val['womat_job_id'] . '</option>';
@@ -789,6 +791,36 @@ class ApiController extends Controller
                     }
                 }
                 $output .= '</select>';
+				*/		
+				
+				$Generic_Group 		= '';
+				$Non_Generic_Group 	= '';
+                foreach ($json_data_decoded['result']['data'] as $key => $val) {					
+					$selected = '';					
+					if ($val['job_id'] == $annotationID) {
+						$selected = 'selected';
+					} else if ($val['job_id'] == $associatejobid) {
+						$selected = 'selected';
+					}else{
+						$selected = '';
+					}	
+					
+					if($val['pmbot_type'] == 'generic'){
+						$Generic_Group 	.= '<option value="'.$val['job_id'].'" '.$selected.'>'.$val['title'].'</option>';
+					}
+					
+					if($val['pmbot_type'] == 'non_generic'){
+						$Non_Generic_Group 	.= '<option value="'.$val['job_id'].'" '.$selected.'>'.$val['title'].'</option>';
+					}					
+                }
+
+				$output .= '<optgroup label="Title-ISBN">';
+				$output .= $Non_Generic_Group;
+				$output .= '</optgroup>';				
+				$output .= '<optgroup label="Generic">';
+				$output .= $Generic_Group;
+				$output .= '</optgroup>';                
+				$output .= '</select>';
                 return response()->json(['status' => 'success', 'message' => $output]);
             } else {
 
@@ -798,7 +830,8 @@ class ApiController extends Controller
                     $output = '<select id="pmjobid">'; //multiple="multiple"
                 }
                 $output .= '<option disabled selected>--select--</option>';
-                foreach ($json_data_decoded['result']['data'] as $key => $val) {
+/*
+                foreach ($json_data_decoded['result']['data'] as $key => $val) { //Dropdown code changed to Group by concept (Raja-2020-July-28)
                     if ($annotationID != '') {
                         if ($val['job_id'] == $annotationID) {
                             $output .= '<option value="' . $val['job_id'] . '" selected>' . $val['title'] . '</option>';
@@ -810,7 +843,37 @@ class ApiController extends Controller
                     }
                 }
                 $output .= '</select>';
+*/				
+				$Generic_Group 		= '';
+				$Non_Generic_Group 	= '';
+				
+                foreach ($json_data_decoded['result']['data'] as $key => $val) {					
+					$selected = '';
+					
+					if ($val['job_id'] == $annotationID) {
+						$selected = 'selected';
+					} else if ($val['job_id'] == $associatejobid) {
+						$selected = 'selected';
+					}else{
+						$selected = '';
+					}	
+					if($val['pmbot_type'] == 'generic'){
+						$Generic_Group 	.= '<option value="'.$val['job_id'].'" '.$selected.'>'.$val['title'].'</option>';
+					}
+					
+					if($val['pmbot_type'] == 'non_generic'){
+						$Non_Generic_Group 	.= '<option value="'.$val['job_id'].'" '.$selected.'>'.$val['title'].'</option>';
+					}					
+                }
 
+				$output .= '<optgroup label="Title-ISBN">';
+				$output .= $Non_Generic_Group;
+				$output .= '</optgroup>';				
+				$output .= '<optgroup label="Generic">';
+				$output .= $Generic_Group;
+				$output .= '</optgroup>';                
+				$output .= '</select>';
+				
                 return response()->json(['status' => 'success', 'message' => $output]);
             }
         }
