@@ -39,6 +39,181 @@ class EmailController extends Controller
     }
 
     /**
+     * Display a email rules.
+     *
+     * @return Response
+     */
+    public function fetchEmailRules(Request $request)
+    {
+
+        $returnResponse = [];
+
+        try {
+
+            $method = $_SERVER['REQUEST_METHOD'];
+
+            $paramInfo = $returnData = [];
+
+            $request->merge(['empcode' => auth()->user()->empcode]);
+
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+                }
+
+            }
+
+            $paramInfo = $request->all();
+
+            if(is_array($paramInfo) && isset($paramInfo["s_no"])) {
+
+                unset($paramInfo["s_no"]);
+
+            }
+
+            if ($method == "GET") {
+
+                if (is_array($paramInfo) && isset($paramInfo["creator_empcode"])) {
+
+                    unset($paramInfo["creator_empcode"]);
+
+                }
+
+                $returnResponse = $this->emailResource->emailRules($paramInfo);
+
+            }
+
+            if ($method == "POST") {
+
+                $returnData = $this->emailResource->emailAddRule($paramInfo);
+
+                if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse = $this->emailResource->emailRules(["empcode" => auth()->user()->empcode]);
+
+                    if (is_array($returnResponse) && isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+                        $returnResponse["message"] = $returnData["message"];
+
+                    }
+
+                }
+
+            }
+
+            if ($method == "PUT") {
+
+                $returnData = $this->emailResource->emailUpdateRule($paramInfo);
+
+                if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse = $this->emailResource->emailRules(["empcode" => auth()->user()->empcode]);
+
+                    if (is_array($returnResponse) && isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+                        $returnResponse["message"] = $returnData["message"];
+
+                    }
+
+                }
+
+            }
+
+            if ($method == "DELETE") {
+
+                $returnData = $this->emailResource->emailDeleteRule($paramInfo);
+
+                if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse = $this->emailResource->emailRules(["empcode" => auth()->user()->empcode]);
+
+                    if (is_array($returnResponse) && isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+                        $returnResponse["message"] = $returnData["message"];
+
+                    }
+
+                }
+
+            }
+
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        //if ($request->ajax()) {
+
+        return json_encode($returnResponse);
+        //}
+
+        return view("errors.error404");
+
+
+
+        // $returnData["redirectTo"] = "";
+
+        // if ($request->redirectTo) {
+
+        //     $returnData["redirectTo"] = $request->redirectTo;
+        // }
+
+    }
+
+    /**
+     * Update email label in email table by email id.
+     *
+     * @return json returnResponse
+     */
+    public function emailLabelUpdate(Request $request)
+    {
+
+        $returnResponse = [];
+
+        try {
+
+            $request->merge(['empcode' => auth()->user()->empcode]);
+
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                }
+
+            }
+
+            $returnResponse = $this->emailResource->emailLabelUpdate($request);
+
+        } catch (Exeception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        // if ($redirectRouteAction) {
+
+        //     // $redirectUrl = redirect()->action($redirectRouteAction);
+        //     $returnResponse["redirectTo"] = route('home');
+        // }
+
+        return json_encode($returnResponse);
+
+    }
+
+    /**
      * Display a email compose form.
      *
      * @return Response
@@ -96,7 +271,7 @@ class EmailController extends Controller
             $returnData = $this->emailGet($request);
 
             $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
-            
+
         }
 
         return view('pages.annotator.emailReplyModal', compact("returnData"));
@@ -142,7 +317,7 @@ class EmailController extends Controller
             $returnData = $this->emailGet($request);
 
             $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
-            
+
         }
 
         return view('pages.annotator.emailForwardModal', compact("returnData"));
@@ -547,7 +722,7 @@ class EmailController extends Controller
 
         // }
 
-        
+
 
         // return view("errors.error404");
     }
@@ -696,9 +871,22 @@ class EmailController extends Controller
             if (isset($request->view) && $request->view != "") {
                 $field["view"] = $request->view;
             }
-			$field["empcode"]       = auth()->user()->empcode;
+            $field["empcode"]       = auth()->user()->empcode;
+
             if (count($field) > 0) {
+
                 $returnResponse = $this->emailResource->emailGet($field);
+
+                if (is_array($returnResponse) && isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+
+                    $returnData = $this->emailResource->emailRuleLabels();
+
+                    if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                        $returnResponse["label_list"] = $returnData["data"];
+                    }
+                }
+
             }
         } catch (Exception $e) {
 
@@ -711,7 +899,7 @@ class EmailController extends Controller
         if ($request->ajax()) {
             return json_encode($returnResponse);
         }
-        
+
         return $returnResponse;
 
         // return view("errors.error404");

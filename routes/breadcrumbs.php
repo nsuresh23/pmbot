@@ -72,6 +72,12 @@ Breadcrumbs::register('email-draft', function ($breadcrumbs) {
 
 });
 
+Breadcrumbs::register('email-rules', function ($breadcrumbs) {
+
+    // $breadcrumbs->push('home', route(__('job.job_detail_home_url')));
+
+});
+
 Breadcrumbs::register('email-reply', function ($breadcrumbs) {
 
     // $breadcrumbs->push('home', route(__('job.job_detail_home_url')));

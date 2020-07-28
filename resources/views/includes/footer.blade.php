@@ -160,6 +160,7 @@
 <script type="text/javascript" src="{{ asset('public/js/custom/js/notification.js') }}"></script>
 <script type="text/javascript" src="{{ asset('public/js/custom/js/emailListGrid.js') }}"></script>
 <script type="text/javascript" src="{{ asset('public/js/custom/js/memberListGrid.js') }}"></script>
+<script type="text/javascript" src="{{ asset('public/js/custom/js/emailRulesGrid.js') }}"></script>
 
 
 

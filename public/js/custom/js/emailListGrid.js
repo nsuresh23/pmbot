@@ -964,6 +964,10 @@ $(document).on('click', '.pmbot-email-item', function(e) {
         $('.email-annotator-link-block').hide();
         $('.email-draftbutton-group').hide();
 
+        $('.email-move-to-email-id').val('');
+        $('.email-move-to-input').select2().val('').trigger('change');
+        $('.email-move-to-input').select2({ data: [] });
+
         $('.email-title').html('');
         $('.email-title-block').hide();
 
@@ -1016,6 +1020,8 @@ $(document).on('click', '.pmbot-email-item', function(e) {
                         if (response.data.id != undefined && response.data.id != '') {
 
                             $('.email-title').attr('data-email-id', response.data.id);
+
+                            $('.email-move-to-email-id').val(response.data.id);
 
                         }
 
@@ -1116,6 +1122,23 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
                         }
 
+                        if (response.label_list != undefined && response.label_list != '') {
+
+                            $('.email-move-to-input').select2({ data: response.label_list });
+
+                            // var newState = new Option(newStateVal, newStateVal, true, true);
+                            // // Append it to the select
+                            // $("#state").append(newState).trigger('change');
+
+                            // $('.email-move-to-input').select2().val('').trigger('change');
+
+                        }
+
+                        if (response.data.label_name != undefined && response.data.label_name != '') {
+
+                            $('.email-move-to-input').select2().val(response.data.label_name).trigger('change');
+
+                        }
 
 
                         if (response.data.email_attachment_count != undefined && response.data.email_attachment_count != '') {
@@ -1164,6 +1187,58 @@ $(document).on('click', '.email-detail-back-btn', function(e) {
 
     $('.email-list-body').show();
     $('.email-detail-body').hide();
+
+});
+
+$(document).on('click', '.email-move-to-btn', function(e) {
+
+    e.preventDefault();
+
+    var postUrl = '';
+    var params = '';
+
+    postUrl = $('.email-move-to-form').attr('action');
+    params = $('.email-move-to-form').serialize();
+
+    if (postUrl != undefined && postUrl != '') {
+
+        /* AJAX call to email label update info */
+
+        var d = $.Deferred();
+
+        $.ajax({
+            url: postUrl,
+            data: params,
+            dataType: 'json',
+            type: 'POST',
+        }).done(function(response) {
+
+            if (response.success == "true") {
+
+                type = 'success';
+
+            } else {
+
+                type = 'error';
+
+                d.resolve();
+
+            }
+
+            message = response.message;
+
+            flashMessage(type, message);
+
+            $('#nonBusinessEmailsTab').trigger('click');
+
+        });
+
+        return d.promise();
+
+
+    }
+
+    emailSend(postUrl, params, '#emailSendModal');
 
 });
 
@@ -1455,8 +1530,8 @@ $(document).on('click', '.email-save-btn', function(e) {
 
 });
 $(document).on('click', '.email-reply-send-btn', function(e) {
-	
-	if ($('#email-reply-to').val() == '') {
+
+    if ($('#email-reply-to').val() == '') {
         $("#email-reply-to").focus();
         return false;
     }
@@ -1468,8 +1543,8 @@ $(document).on('click', '.email-reply-send-btn', function(e) {
         $("#reply_body_html").focus();
         return false;
     }
-	
-	
+
+
     var type = $('.pmbottype').attr('data-pmbottype');
     $('.type').val(type);
     $('#email-type').val(type);

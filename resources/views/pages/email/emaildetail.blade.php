@@ -13,7 +13,7 @@
 
 <div class="email-detail-body inbox-body pa-0" style="display:none;">
     <div class="heading-inbox">
-        <div class="container-fluid mt-5">
+        <div class="container-fluid mt-5 pr-0">
             <div class="pull-left">
                 <div class="">
                     <a class="email-detail-back-btn btn btn-sm mr-10" href="#" title="Back">
@@ -22,7 +22,35 @@
             </div>
 
             <div class="email-button-group">
-				<div style="float:right;">
+
+                <div style="float:right;margin-right:5px;">
+
+                    <div class="pull-left inline-block">
+                        <form class="form-inline email-move-to-form" action="{{ route(__('job.email_move_to_url')) }}">
+                            <input type="hidden" class="email-move-to-email-id" name="id" value="" />
+                            <div class="form-group">
+                                <div class="input-group email-move-to-input-group">
+                                    <div class="input-group-btn">
+                                        <span type="button" class="btn bg-warning txt-light pt-10 pb-10 pr-10">
+                                            {{-- <span class="fa fa-arrow-circle-right"></span> --}}
+                                            {{ __('job.email_move_to_label') }}
+                                        </span>
+                                    </div>
+                                    <select class="form-control select2 email-move-to-input" name="label_name" style="width: max-content;" placeholder="{{__('job.email_move_to_placeholder_text') }}" required ></select>
+                                    <div class="input-group-btn email-move-to-btn">
+                                        <span type="button" class="btn bg-success txt-light pa-10">
+                                            <span class="fa fa-arrow-circle-right"></span>
+                                            {{-- {{ __('job.email_move_to_label') }} --}}
+                                        </span>
+                                    </div>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+				<div style="float:right;margin-right:5px;">
 					<a href="#replymailModal" role="menuitem" data-toggle="modal" title="reply" class="btn btn-success btn-block email-forward-btn" data-email-geturl = "{{ $emailGetUrl }}" data-type = "forward">
 						Forward
 					</a>
