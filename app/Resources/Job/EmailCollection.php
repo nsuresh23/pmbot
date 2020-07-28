@@ -29,6 +29,12 @@ class EmailCollection
     protected $emailSendApiUrl;
 	protected $draftemailSendApiUrl;
     protected $pmsEmailCountApiUrl;
+    protected $emailRulesApiUrl;
+    protected $emailAddRulesApiUrl;
+    protected $emailUpdateRulesApiUrl;
+    protected $emailDeleteRulesApiUrl;
+    protected $emailRuleLabelsApiUrl;
+    protected $emailMoveToApiUrl;
     protected $emailAnnotatorBaseUrl;
     protected $emailStatusUpdateUrl;
     protected $jobEmailStatusUpdateUrl;
@@ -39,17 +45,377 @@ class EmailCollection
     {
         $this->fractal = new Manager();
 
-        $this->emailSendApiUrl       = env('API_EMAIL_SEND_URL');
-		$this->draftemailSendApiUrl  = env('API_DRAFT_EMAIL_SEND_URL');
-        $this->emailGetApiUrl        = env('API_GET_EMAIL_URL');
-		$this->emailidGetApiUrl      = env('API_GET_EMAILID_URL');
-        $this->emailListApiUrl       = env('API_EMAIL_BOX_LIST_URL');
-        $this->pmsEmailCountApiUrl   = env('API_PMS_EMAIL_COUNT_URL');
-        $this->emailAnnotatorBaseUrl = env("EMAIL_ANNOTATOR_BASE_URL");
-        $this->emailStatusUpdateUrl = env("API_EMAIL_STATUS_UPDATE_URL");
-        $this->jobEmailStatusUpdateUrl = env("API_JOB_EMAIL_STATUS_UPDATE_URL");
-		$this->signatureupdateApiUrl   = env('API_SIGNATURE_UPDATE_URL');
-		$this->getsignatureApiUrl      = env('API_GET_SIGNATURE_URL');
+        $this->emailSendApiUrl          = env('API_EMAIL_SEND_URL');
+		$this->draftemailSendApiUrl     = env('API_DRAFT_EMAIL_SEND_URL');
+        $this->emailGetApiUrl           = env('API_GET_EMAIL_URL');
+		$this->emailidGetApiUrl         = env('API_GET_EMAILID_URL');
+        $this->emailListApiUrl          = env('API_EMAIL_BOX_LIST_URL');
+        $this->pmsEmailCountApiUrl      = env('API_PMS_EMAIL_COUNT_URL');
+        $this->emailRulesApiUrl         = env('API_EMAIL_RULES_URL');
+        $this->emailAddRulesApiUrl      = env('API_EMAIL_ADD_RULES_URL');
+        $this->emailUpdateRulesApiUrl   = env('API_EMAIL_UPDATE_RULES_URL');
+        $this->emailDeleteRulesApiUrl   = env('API_EMAIL_DELETE_RULES_URL');
+        $this->emailRuleLabelsApiUrl    = env('API_EMAIL_FOLDERS_URL');
+        $this->emailMoveToApiUrl        = env('API_EMAIL_MOVE_TO_URL');
+        $this->emailAnnotatorBaseUrl    = env("EMAIL_ANNOTATOR_BASE_URL");
+        $this->emailStatusUpdateUrl     = env("API_EMAIL_STATUS_UPDATE_URL");
+        $this->jobEmailStatusUpdateUrl  = env("API_JOB_EMAIL_STATUS_UPDATE_URL");
+		$this->signatureupdateApiUrl    = env('API_SIGNATURE_UPDATE_URL');
+		$this->getsignatureApiUrl       = env('API_GET_SIGNATURE_URL');
+    }
+
+    /**
+     * Get the email rules labels.
+     *
+     * @return array $returnData
+     */
+    public function emailRuleLabels()
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // $userData = User::all();
+
+            $url = $this->emailRuleLabelsApiUrl;
+
+            $params = ["empcode" => Config::get('constants.job_add_am_empcode')];
+
+            $returnData = $this->postRequest($url, $params);
+
+            if ($returnData["success"] == "true" && count($returnData["data"]) > 0 && $returnData["data"] != "") {
+
+                $returnResponse["success"] = "true";
+
+                $returnResponse["data"] =
+                [
+                    [
+                        "id" => "draft",
+                        "text" => "draft"
+                    ],
+                    [
+                        "id" => "inbox",
+                        "text" => "inbox"
+                    ],
+                    [
+                        "id" => "2",
+                        "text" => "duplicate"
+                    ],
+                    [
+                        "id" => "3",
+                        "text" => "invalid"
+                    ],
+                    [
+                        "id" => "4",
+                        "text" => "wontfix"
+                    ]
+                ];
+
+                // $returnResponse["data"] = array_shift($returnData["data"]);
+
+            }
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+
+            $returnResponse["error"] = "true";
+
+            $returnResponse["message"] = $e->getMessage();
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+
+    }
+
+    /**
+     * Get the email rules.
+     *
+     * @return array $returnData
+     */
+    public function emailRules($params)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            $url = $this->emailRulesApiUrl;
+
+            $responseData = $this->postRequest($url, $params);
+
+            // $responseData["success"] = "true";
+
+            // $responseData["data"] =
+            // [
+            //     [
+            //         "id" => "1",
+            //         "from" => "from1@spi-global.com",
+            //         "subject" => "kumar",
+            //         "folder" => "inbox",
+            //     ],
+            //     [
+            //         "id" => "2",
+            //         "from" => "from2@spi-global.com",
+            //         "subject" => "suresh",
+            //         "folder" => "sent",
+            //     ],
+            //     [
+            //         "id" => "3",
+            //         "from" => "from3@spi-global.com",
+            //         "subject" => "sk",
+            //         "folder" => "draft",
+            //     ]
+            // ];
+
+            if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
+
+                $responseData = $this->emailRulesFormatData($responseData["data"]);
+
+                if ($responseData) {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["data"] = $responseData;
+
+                    if (is_array($responseData)) {
+
+                        $returnResponse["result_count"] = count($responseData);
+                    }
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
+     * Add the email rules.
+     *
+     * @return array $returnData
+     */
+    public function emailAddRule($params)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            $url = $this->emailAddRulesApiUrl;
+
+            $responseData = $this->postRequest($url, $params);
+
+            if (isset($responseData["success"]) && $responseData["success"] == "true") {
+
+                $returnResponse["success"] = "true";
+                $returnResponse["message"] = "Save successfull";
+
+            } else {
+
+                $returnResponse["error"] = "true";
+                $returnResponse["message"] = "Save unsuccessfull";
+            }
+
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
+     * Update the email rules.
+     *
+     * @return array $returnData
+     */
+    public function emailUpdateRule($params)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            $url = $this->emailUpdateRulesApiUrl;
+
+            $responseData = $this->postRequest($url, $params);
+
+            if (isset($responseData["success"]) && $responseData["success"] == "true") {
+
+                $returnResponse["success"] = "true";
+                $returnResponse["message"] = "Update successfull";
+
+            } else {
+
+                $returnResponse["error"] = "true";
+                $returnResponse["message"] = "Update unsuccessfull";
+
+            }
+
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
+     * Delete the email rules.
+     *
+     * @return array $returnData
+     */
+    public function emailDeleteRule($params)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            $url = $this->emailDeleteRulesApiUrl;
+
+            $responseData = $this->postRequest($url, $params);
+
+            if (isset($responseData["success"]) && $responseData["success"] == "true") {
+
+                $returnResponse["success"] = "true";
+                $returnResponse["message"] = "Delete successfull";
+
+            } else {
+
+                $returnResponse["error"] = "true";
+                $returnResponse["message"] = "Delete unsuccessfull";
+
+            }
+
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
+     * Update the email label based on email field array.
+     *
+     * @return array $returnResponse
+     */
+    public function emailLabelUpdate($request)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // validate
+            // read more on validation at http://laravel.com/docs/validation
+            $rules = array(
+                'id'        => 'required',
+                'label_name'    => 'required',
+            );
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+
+                $returnResponse["error"] = "true";
+                $returnResponse["message"] = "Update failed";
+            } else {
+
+                $paramInfo = $request->all();
+
+                $url = $this->emailMoveToApiUrl;
+
+                $returnData = $this->postRequest($url, $paramInfo);
+
+                if (isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["message"] = "Update successfull";
+                } else {
+
+                    $returnResponse["error"] = "true";
+                    $returnResponse["message"] = "Update unsuccessfull";
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+
     }
 
     /**
@@ -952,6 +1318,33 @@ class EmailCollection
 
         return $resource;
     }
+
+    public function emailRulesFormatData($items)
+    {
+        $resource = array_map(
+
+            function ($item) {
+
+                try {
+
+                    return $item;
+
+                } catch (Exception $e) {
+
+                    $this->error(
+                        "app_error_log_" . date('Y-m-d'),
+                        " => FILE => " . __FILE__ . " => " .
+                        " => LINE => " . __LINE__ . " => " .
+                        " => MESSAGE => " . $e->getMessage() . " "
+                    );
+                }
+            },
+            $items
+        );
+
+        return $resource;
+    }
+
 	 public function signatureUpdate($field)
     {
         $returnResponse = [
@@ -964,7 +1357,7 @@ class EmailCollection
         try {
 
             $url = $this->signatureupdateApiUrl;
-			
+
 			if (isset($field['new_signature']) && $field['new_signature'] != "") {
                 $field["new_signature"] = base64_encode($field['new_signature']);
 				$field["new_signature"] = $field['new_signature'];
@@ -1005,6 +1398,7 @@ class EmailCollection
 
         return $returnResponse;
     }
+
 	public function getSignature($field)
     {
         $returnResponse = [
@@ -1014,12 +1408,12 @@ class EmailCollection
             "message" => "",
         ];
         try {
-			
+
             $url = $this->getsignatureApiUrl;
 			$responseData = $this->postRequest($url, $field);
-			
+
 			 if (isset($responseData["success"]) && $responseData["success"] == "true") {
-				 
+
 				  if (isset($responseData["data"]["new_signature"]) && $responseData["data"]["new_signature"] != "") {
                         if (base64_decode($responseData["data"]["new_signature"], true)) {
                             $responseData["data"]["new_signature"] = base64_decode($responseData["data"]["new_signature"]);

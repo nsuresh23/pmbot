@@ -77,6 +77,8 @@
 
         $pmsEmailCountUrl = route(__("dashboard.pms_email_count_url"));
 
+        $emailRuleListUrl = route(__("dashboard.email_rules_list_url"));
+
         $queryListUrl = route(__("job.query_list_url"));
         // $myQueriesListUrl = route(__("job.my_queries_list_url"));
         // $draftQueriesListUrl = route(__("job.draft_queries_list_url"));

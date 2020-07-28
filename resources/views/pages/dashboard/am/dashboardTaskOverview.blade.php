@@ -49,6 +49,17 @@
 
                             <?php } ?>
 
+                            <?php if(in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
+
+                                <li class="" role="presentation">
+                                    <a data-toggle="tab" id="emailRulesTab" class="capitalize" role="tab" href="#emailRules"
+                                        post-url="{{ route(__('job.email_rules_url')) }}">
+                                        {{ __('job.email_rules_tab_label') }}
+                                    </a>
+                                </li>
+
+                            <?php } ?>
+
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
                                 <li class="" role="presentation">
@@ -160,6 +171,16 @@
                                     @include('pages.dashboard.task.dashboardOpenTasks')
 
                                 </div> --}}
+
+                            <?php } ?>
+
+                            <?php if(in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
+
+                                <div id="emailRules" class="tab-pane fade" role="tabpanel">
+
+                                    @include('pages.dashboard.email.emailRules')
+
+                                </div>
 
                             <?php } ?>
 

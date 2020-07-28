@@ -14,6 +14,7 @@ return [
     */
     'dashboard_label' => 'dashboard',
     'my_diary_tab_label' => 'my diary',
+    'email_rules_tab_label' => 'email rules',
     'job_list_label' => 'Job list',
     'job_title_label' => 'Job title',
     'project_manager_label' => 'Project manager',
@@ -52,6 +53,10 @@ return [
     'book_info_E_ISBN_placeholder_text' => 'Enter E - ISBN',
     'hap_text' => 'hap',
     'email_view_url' => 'email-view',
+    'email_move_to_url' => 'email-label-update',
+    'email_move_to_label' => 'move to',
+    'email_move_to_placeholder_text' => 'select',
+    'email_rules_url' => 'email-rules',
     'email_compose_label' => 'New Email',
     'email_forward_label' => 'Forward',
     'email_reply_label' => 'Reply',
