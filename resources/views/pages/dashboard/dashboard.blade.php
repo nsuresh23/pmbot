@@ -47,6 +47,8 @@
 
         $redirectToDashboard = $returnResponse['redirectToDashboard'];
 
+        $nonBusinessEmailLabels = $returnResponse['label_list'];
+
 		$redirectTo = __("dashboard.dashboard_url");
 
         // $redirectToDashboard = isset($returnResponse['redirectToDashboard'])?'true':'false';
@@ -79,7 +81,7 @@
 		$getEmailid   = route(__("job.get_email_id"));
 
         $nonBusinessEmailListUrl = route(__("job.email_list_url"));
-		
+
 		$signatureUpdateUrl      = route(__("job.signature_update"));
 		$getSignatureUrl         = route(__("job.get_signature"));
 

@@ -90,33 +90,14 @@ class EmailCollection
 
             if ($returnData["success"] == "true" && count($returnData["data"]) > 0 && $returnData["data"] != "") {
 
-                $returnResponse["success"] = "true";
+                $responseData = $this->emailLabelsFormatData($returnData["data"]);
 
-                $returnResponse["data"] =
-                [
-                    [
-                        "id" => "draft",
-                        "text" => "draft"
-                    ],
-                    [
-                        "id" => "inbox",
-                        "text" => "inbox"
-                    ],
-                    [
-                        "id" => "2",
-                        "text" => "duplicate"
-                    ],
-                    [
-                        "id" => "3",
-                        "text" => "invalid"
-                    ],
-                    [
-                        "id" => "4",
-                        "text" => "wontfix"
-                    ]
-                ];
+                if ($responseData) {
 
-                // $returnResponse["data"] = array_shift($returnData["data"]);
+                    $returnResponse["success"] = "true";
+                    $returnResponse["data"] = $responseData;
+
+                }
 
             }
 
@@ -159,30 +140,6 @@ class EmailCollection
             $url = $this->emailRulesApiUrl;
 
             $responseData = $this->postRequest($url, $params);
-
-            // $responseData["success"] = "true";
-
-            // $responseData["data"] =
-            // [
-            //     [
-            //         "id" => "1",
-            //         "from" => "from1@spi-global.com",
-            //         "subject" => "kumar",
-            //         "folder" => "inbox",
-            //     ],
-            //     [
-            //         "id" => "2",
-            //         "from" => "from2@spi-global.com",
-            //         "subject" => "suresh",
-            //         "folder" => "sent",
-            //     ],
-            //     [
-            //         "id" => "3",
-            //         "from" => "from3@spi-global.com",
-            //         "subject" => "sk",
-            //         "folder" => "draft",
-            //     ]
-            // ];
 
             if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
@@ -1329,6 +1286,34 @@ class EmailCollection
 
                     return $item;
 
+                } catch (Exception $e) {
+
+                    $this->error(
+                        "app_error_log_" . date('Y-m-d'),
+                        " => FILE => " . __FILE__ . " => " .
+                        " => LINE => " . __LINE__ . " => " .
+                        " => MESSAGE => " . $e->getMessage() . " "
+                    );
+                }
+            },
+            $items
+        );
+
+        return $resource;
+    }
+
+    public function emailLabelsFormatData($items)
+    {
+        $resource = array_map(
+
+            function ($item) {
+
+                try {
+
+                    return [
+                        "id" => $item["label_name"],
+                        "text" => $item["label_name"]
+                    ];
                 } catch (Exception $e) {
 
                     $this->error(

@@ -63,7 +63,19 @@ function getEmailRulesTableList(gridSelector) {
 
             onItemInserting: function(args, value) {
 
-                addItem(args, listUrl, gridSelector);
+                if (itemEmptyOrExistsCheck(gridSelector, 'from_name', args.item.from_name, 'subject', args.item.subject, 'label_name', args.item.label_name)) {
+
+                    addItem(args, listUrl, gridSelector);
+
+                } else {
+
+                    args.cancel = true;
+
+                }
+
+                // addItem(args, listUrl, gridSelector);
+
+                // $('#emailRulesTab').trigger('click');
 
             },
 
@@ -303,6 +315,57 @@ function getEmailRulesTableList(gridSelector) {
         }
 
         return dataValue;
+
+    }
+
+    function itemEmptyOrExistsCheck(gridSelector, field1, value1, field2, value2, field3, value3) {
+
+        if (value1 == '') {
+
+            message = field1 + ' is required field';
+
+            fieldMessage(field1, message);
+
+            return false;
+
+        }
+
+        if (value2 == '') {
+
+            message = field2 + ' is required field';
+
+            fieldMessage(field2, message);
+
+            return false;
+
+        }
+
+        if (value3 == '') {
+
+            message = field3 + ' is required field';
+
+            fieldMessage(field2, message);
+
+            return false;
+
+        }
+
+        var gridData = $(gridSelector).jsGrid("option", "data");
+
+        for (var i = 0, len = gridData.length; i < len; i++) {
+
+            if (gridData[i][field1] === value1 && gridData[i][field2] === value2 && gridData[i][field3] === value3) {
+
+                message = 'Rule already exists';
+
+                fieldMessage(value2, message);
+
+                return false;
+
+            }
+        }
+
+        return true;
 
     }
 

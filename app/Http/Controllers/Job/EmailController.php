@@ -383,6 +383,12 @@ class EmailController extends Controller
                 $field["email_filter"] = $request->email_filter;
             }
 
+            if (isset($request->label_name) && $request->label_name != "") {
+
+                $field["label_name"] = $request->label_name;
+
+            }
+
             if (isset($request->email_type) && $request->email_type != "") {
 
                 $field["email_type"] = $request->email_type;

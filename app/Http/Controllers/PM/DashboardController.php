@@ -8,10 +8,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
 use App\Resources\Job\JobCollection as JobResource;
+use App\Resources\Job\EmailCollection as EmailResource;
 
 class DashboardController extends Controller
 {
     protected $jobResource = "";
+
+    protected $emailResource = "";
 
     protected $currentUserCodeField = "pm_empcode";
 
@@ -19,6 +22,8 @@ class DashboardController extends Controller
     {
 
         $this->jobResource = new JobResource();
+
+        $this->emailResource = new EmailResource();
 
         $this->currentUserCodeField = env('CURRENT_USER_CODE_FIELD');
 
@@ -92,6 +97,16 @@ class DashboardController extends Controller
             if (array_key_exists("redirectToDashboard", $params)) {
 
                 $returnResponse['redirectToDashboard'] = 'true';
+
+            }
+
+            $returnResponse['label_list'] = [];
+
+            $returnData = $this->emailResource->emailRuleLabels();
+
+            if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                $returnResponse["label_list"] = $returnData["data"];
 
             }
 

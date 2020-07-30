@@ -40,6 +40,7 @@ function getEmailTableList(gridSelector) {
     var gridType = $(gridSelector).attr('data-type');
     var gridCategory = $(gridSelector).attr('data-category');
     var gridEmailFilter = $(gridSelector).attr('data-email-filter');
+    var gridEmailLabel = $(gridSelector).attr('data-email-label');
     var currentUserId = $(gridSelector).attr('data-current-user-id');
     var currentJobId = $(gridSelector).attr('data-current-job-id');
     var listUrl = $(gridSelector).attr('data-list-url');
@@ -388,6 +389,15 @@ function getEmailTableList(gridSelector) {
     }
 
     emailListPostData.status = status;
+
+    if (gridEmailLabel != undefined && gridEmailLabel != '') {
+
+        emailListPostData.label_name = gridEmailLabel;
+
+        delete emailListPostData.email_filter;
+        delete emailListPostData.status;
+
+    }
 
     $('.email-inbox-unread-count').html('');
     $('.email-result-count').html('');
@@ -1344,6 +1354,34 @@ $(document).on('click', '.dashboard-draft-email', function() {
     if (dataUrl != undefined && dataUrl != "") {
 
         $(gridSelector).attr('data-email-filter', 'draft');
+
+        getEmailTableList(gridSelector);
+
+    }
+
+    $('.inbox-nav li.active').removeClass('active');
+    $(this).closest('li').addClass('active');
+    $('.email-list-body').show();
+    $('.email-detail-body').hide();
+
+});
+
+$(document).on('click', '.dashboard-nb-email-label', function() {
+
+    // var gridSelector = ".nonBusinessEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var emailLabel = $(this).attr('data-label');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        if (emailLabel != undefined && emailLabel != "") {
+
+            $(gridSelector).attr('data-email-label', emailLabel);
+
+        }
 
         getEmailTableList(gridSelector);
 

@@ -37,6 +37,27 @@
                 {{-- <span class="email-draft-count label bg-partial ml-10">30</span> --}}
             </a>
         </li>
-		
+
+        <?php
+
+        if(isset($nonBusinessEmailLabels) && is_array($nonBusinessEmailLabels) && count($nonBusinessEmailLabels) > 0) {
+
+            foreach ($nonBusinessEmailLabels as $key => $value) {
+
+        ?>
+                <li class="">
+                <a class="dashboard-nb-email-label" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);" data-label="{{ $value["id"] }}">
+                        <i class="zmdi zmdi-folder-outline"></i>
+                        {{ $value["text"] }}
+                        {{-- <span class="email-draft-count label bg-partial ml-10">30</span> --}}
+                    </a>
+                </li>
+
+        <?php
+
+            }
+        }
+
+        ?>
     </ul>
 </aside>
