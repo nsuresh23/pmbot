@@ -40,7 +40,6 @@ function getEmailTableList(gridSelector) {
     var gridType = $(gridSelector).attr('data-type');
     var gridCategory = $(gridSelector).attr('data-category');
     var gridEmailFilter = $(gridSelector).attr('data-email-filter');
-    var gridEmailLabel = $(gridSelector).attr('data-email-label');
     var currentUserId = $(gridSelector).attr('data-current-user-id');
     var currentJobId = $(gridSelector).attr('data-current-job-id');
     var listUrl = $(gridSelector).attr('data-list-url');
@@ -389,15 +388,6 @@ function getEmailTableList(gridSelector) {
     }
 
     emailListPostData.status = status;
-
-    if (gridEmailLabel != undefined && gridEmailLabel != '') {
-
-        emailListPostData.label_name = gridEmailLabel;
-
-        delete emailListPostData.email_filter;
-        delete emailListPostData.status;
-
-    }
 
     $('.email-inbox-unread-count').html('');
     $('.email-result-count').html('');
@@ -974,10 +964,6 @@ $(document).on('click', '.pmbot-email-item', function(e) {
         $('.email-annotator-link-block').hide();
         $('.email-draftbutton-group').hide();
 
-        $('.email-move-to-email-id').val('');
-        $('.email-move-to-input').select2().val('').trigger('change');
-        $('.email-move-to-input').select2({ data: [] });
-
         $('.email-title').html('');
         $('.email-title-block').hide();
 
@@ -1030,8 +1016,6 @@ $(document).on('click', '.pmbot-email-item', function(e) {
                         if (response.data.id != undefined && response.data.id != '') {
 
                             $('.email-title').attr('data-email-id', response.data.id);
-
-                            $('.email-move-to-email-id').val(response.data.id);
 
                         }
 
@@ -1132,23 +1116,6 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
                         }
 
-                        if (response.label_list != undefined && response.label_list != '') {
-
-                            $('.email-move-to-input').select2({ data: response.label_list });
-
-                            // var newState = new Option(newStateVal, newStateVal, true, true);
-                            // // Append it to the select
-                            // $("#state").append(newState).trigger('change');
-
-                            // $('.email-move-to-input').select2().val('').trigger('change');
-
-                        }
-
-                        if (response.data.label_name != undefined && response.data.label_name != '') {
-
-                            $('.email-move-to-input').select2().val(response.data.label_name).trigger('change');
-
-                        }
 
 
                         if (response.data.email_attachment_count != undefined && response.data.email_attachment_count != '') {
@@ -1197,58 +1164,6 @@ $(document).on('click', '.email-detail-back-btn', function(e) {
 
     $('.email-list-body').show();
     $('.email-detail-body').hide();
-
-});
-
-$(document).on('click', '.email-move-to-btn', function(e) {
-
-    e.preventDefault();
-
-    var postUrl = '';
-    var params = '';
-
-    postUrl = $('.email-move-to-form').attr('action');
-    params = $('.email-move-to-form').serialize();
-
-    if (postUrl != undefined && postUrl != '') {
-
-        /* AJAX call to email label update info */
-
-        var d = $.Deferred();
-
-        $.ajax({
-            url: postUrl,
-            data: params,
-            dataType: 'json',
-            type: 'POST',
-        }).done(function(response) {
-
-            if (response.success == "true") {
-
-                type = 'success';
-
-            } else {
-
-                type = 'error';
-
-                d.resolve();
-
-            }
-
-            message = response.message;
-
-            flashMessage(type, message);
-
-            $('#nonBusinessEmailsTab').trigger('click');
-
-        });
-
-        return d.promise();
-
-
-    }
-
-    emailSend(postUrl, params, '#emailSendModal');
 
 });
 
@@ -1354,34 +1269,6 @@ $(document).on('click', '.dashboard-draft-email', function() {
     if (dataUrl != undefined && dataUrl != "") {
 
         $(gridSelector).attr('data-email-filter', 'draft');
-
-        getEmailTableList(gridSelector);
-
-    }
-
-    $('.inbox-nav li.active').removeClass('active');
-    $(this).closest('li').addClass('active');
-    $('.email-list-body').show();
-    $('.email-detail-body').hide();
-
-});
-
-$(document).on('click', '.dashboard-nb-email-label', function() {
-
-    // var gridSelector = ".nonBusinessEmailGrid";
-    var gridSelector = '.' + $(this).attr('data-grid-selector');
-
-    var emailLabel = $(this).attr('data-label');
-
-    var dataUrl = $(gridSelector).attr('data-list-url');
-
-    if (dataUrl != undefined && dataUrl != "") {
-
-        if (emailLabel != undefined && emailLabel != "") {
-
-            $(gridSelector).attr('data-email-label', emailLabel);
-
-        }
 
         getEmailTableList(gridSelector);
 
@@ -1547,6 +1434,12 @@ $(document).on('click', '.email-save-btn', function(e) {
     $('.type').val(type);
 
     e.preventDefault();
+	
+   var subject = $('#subject').val();
+	if (subject.trim() == '') {
+        $("#subject").focus();
+        return false;
+    }
 
     $('.email-status').val('4');
 
@@ -1568,8 +1461,8 @@ $(document).on('click', '.email-save-btn', function(e) {
 
 });
 $(document).on('click', '.email-reply-send-btn', function(e) {
-
-    if ($('#email-reply-to').val() == '') {
+	
+	if ($('#email-reply-to').val() == '') {
         $("#email-reply-to").focus();
         return false;
     }
@@ -1581,8 +1474,8 @@ $(document).on('click', '.email-reply-send-btn', function(e) {
         $("#reply_body_html").focus();
         return false;
     }
-
-
+	
+	
     var type = $('.pmbottype').attr('data-pmbottype');
     $('.type').val(type);
     $('#email-type').val(type);
@@ -1614,6 +1507,12 @@ $(document).on('click', '.email-reply-save-btn', function(e) {
     $('#email-type').val(type);
 
     e.preventDefault();
+	
+	var subject = $('#email-reply-subject').val();
+	if (subject.trim() == '') {
+        $("#email-reply-subject").focus();
+        return false;
+    }
 
     $('.email-status').val('4');
 
@@ -1663,6 +1562,12 @@ $(document).on('click', '.email-draft-save-btn', function(e) {
     $('#email-type').val(type);
 
     e.preventDefault();
+	
+	var subject = $('#email-draft-subject').val();
+	if (subject.trim() == '') {
+        $("#email-draft-subject").focus();
+        return false;
+    }
 
     $('.email-status').val('4');
 
@@ -1745,6 +1650,9 @@ $(document).on('click', '.email-reply-btn', function(e) {
     $('.reply_email_type').val('reply');
     $('.signature_change').val('');
     $(".reply_to ul").empty();
+	$('.email-reply-to').val('');    
+	$('.email-reply-cc').val('');   
+	$('.email-reply-bcc').val('');   
     showform(type, selector);
 });
 $(document).on('click', '.email-reply-all-btn', function(e) {
@@ -1755,6 +1663,9 @@ $(document).on('click', '.email-reply-all-btn', function(e) {
     $('.reply_email_type').val('reply');
     $('.signature_change').val('');
     $(".reply_to ul").empty();
+	$('.email-reply-to').val('');    
+	$('.email-reply-cc').val('');   
+	$('.email-reply-bcc').val('');   
     showform(type, selector);
 });
 $(document).on('click', '.email-forward-btn', function(e) {
@@ -1765,6 +1676,9 @@ $(document).on('click', '.email-forward-btn', function(e) {
     $('.reply_email_type').val('forward');
     $('.signature_change').val('');
     $(".reply_to ul").empty();
+	$('.email-reply-to').val('');    
+	$('.email-reply-cc').val('');   
+	$('.email-reply-bcc').val('');   
     showform(type, selector);
 });
 $(document).on('click', '.email-draft-btn', function(e) {
@@ -1840,7 +1754,7 @@ function showform(type, selector) {
     });
 }
  */
-function showform(type, selector) {
+function showform_05_08_2020(type, selector) {
     var emailPostData = {};
     var emailid = $('.email-title').attr('data-email-id');
     var postUrl = $(selector).attr('data-email-geturl');
@@ -1886,7 +1800,7 @@ function showform(type, selector) {
                         cc = cc.replace(/&gt;/g, ">");
                         $('.email-reply-cc').val(cc + ';');
                     }
-                    if (response.data.email_to != '' && response.data.email_to != null) {
+					/*if (response.data.email_to != '' && response.data.email_to != null) {
                         var replyallto = response.data.email_to.replace(/&quot;/g, "");
                         replyallto = replyallto.replace(/&quot;/g, "")
                         replyallto = replyallto.replace(/&lt;/g, "<");
@@ -1896,6 +1810,26 @@ function showform(type, selector) {
 
                         $('.email-reply-to').val(reto + replyallto + ';');
                     }
+                    if (response.data.reply_all_to != '' && response.data.reply_all_to != null) {
+                        var replyallto = response.data.reply_all_to.replace(/&quot;/g, "");
+                        replyallto = replyallto.replace(/&quot;/g, "")
+                        replyallto = replyallto.replace(/&lt;/g, "<");
+                        replyallto = replyallto.replace(/&gt;/g, ">");
+
+                        //var reto = $('.email-reply-to').val();
+
+                        //$('.email-reply-to').val(reto + replyallto + ';');
+                        $('.email-reply-to').val(replyallto + ';');
+                    }*/
+					 if (response.data.email_to != '' && response.data.email_to != null) {
+						var reply_allto = response.data.email_reply_all.replace(/&quot;/g, "");
+						reply_allto = reply_allto.replace(/&quot;/g, "")
+						reply_allto = reply_allto.replace(/&lt;/g, "<");
+						reply_allto = reply_allto.replace(/&gt;/g, ">");
+                        $('.email-reply-to').val(reply_allto);
+                    }
+					
+					
 
                 } else {
                     $('.email-reply-cc').val('');
@@ -1922,8 +1856,15 @@ function showform(type, selector) {
                 sinmessage = stamp + msg;
 
                 //var sig = response.data.replyforward_signature;
+				var sentdate = '';
 
-                var stamp = '<br><br>' + sinmessage + '<hr><b>From:</b> ' + response.data.email_from + '<br><b>Sent:</b> ' + response.data.email_received_date + '<br><b>To:</b> ' + response.data.email_to + '<br><b>Subject:</b> ' + response.data.subject + '<br><br>';
+				if(response.data.email_received_date != null) {
+					sentdate = response.data.email_received_date;
+				} else {
+					sentdate = response.data.created_date;
+				}
+				
+                var stamp = '<br><br>' + sinmessage + '<hr><b>From:</b> ' + response.data.email_from + '<br><b>Sent:</b> ' + sentdate + '<br><b>To:</b> ' + response.data.email_to + '<br><b>Subject:</b> ' + response.data.subject + '<br><br>';
                 message = stamp.concat(message);
 
                 $('.email-reply-subject').val(subject);
@@ -1957,7 +1898,149 @@ function showform(type, selector) {
         }
     });
 }
+function showform(type, selector) {
+    var emailPostData = {};
+    var emailid = $('.email-title').attr('data-email-id');
+    var postUrl = $(selector).attr('data-email-geturl');
+    emailPostData.emailid = emailid;
+    if (type == 'replyall') {
+        $('.modeltitle').html('Reply All');
+    } else {
+        $('.modeltitle').html(type);
+    }
 
+    $.ajax({
+
+        url: postUrl,
+        data: emailPostData,
+        dataType: 'json',
+        type: 'POST',
+
+    }).done(function(response) {
+
+        if (response.success == "true") {
+            if (response.data != undefined && response.data != '') {
+                var str2 = '';
+
+                if (type == "reply" || type == "replyall") {
+                    if (response.data.email_from != '' && response.data.email_from != null) {
+                        var to = response.data.email_from.replace(/&quot;/g, "");
+                        to = to.replace(/&quot;/g, "");
+                        to = to.replace(/&lt;/g, "<");
+                        to = to.replace(/&gt;/g, ">");
+                        $('.email-reply-to').val(to + ';');
+
+                    }
+                    str2 = 'RE: ';
+                } else {
+                    $('.email-reply-to').val('');
+                    str2 = 'FW: ';
+                }
+                if (type == 'replyall') {
+                    if (response.data.email_reply_cc != '' && response.data.email_reply_cc != null) {
+                        var cc = response.data.email_reply_cc.replace(/&quot;/g, "");
+                        cc = cc.replace(/&quot;/g, "")
+                        cc = cc.replace(/&lt;/g, "<");
+                        cc = cc.replace(/&gt;/g, ">");
+						
+                        $('.email-reply-cc').val(cc + ';');
+                    }
+                    if (response.data.email_to != '' && response.data.email_to != null) {
+                        var replyallto = response.data.email_to.replace(/&quot;/g, "");
+                        replyallto = replyallto.replace(/&quot;/g, "")
+                        replyallto = replyallto.replace(/&lt;/g, "<");
+                        replyallto = replyallto.replace(/&gt;/g, ">");
+
+                        var reto = $('.email-reply-to').val();
+
+                        $('.email-reply-to').val(reto + replyallto + ';');
+                    }
+                    if (response.data.reply_all_to != '' && response.data.reply_all_to != null) {
+                        var replyallto = response.data.reply_all_to.replace(/&quot;/g, "");
+                        replyallto = replyallto.replace(/&quot;/g, "")
+                        replyallto = replyallto.replace(/&lt;/g, "<");
+                        replyallto = replyallto.replace(/&gt;/g, ">");
+
+                        //var reto = $('.email-reply-to').val();
+
+                        //$('.email-reply-to').val(reto + replyallto + ';');
+                        $('.email-reply-to').val(replyallto + ';');
+                    }
+					/*if (response.data.email_to != '' && response.data.email_to != null) {
+						var reply_allto = response.data.email_reply_all.replace(/&quot;/g, "");
+						reply_allto = reply_allto.replace(/&quot;/g, "")
+						reply_allto = reply_allto.replace(/&lt;/g, "<");
+						reply_allto = reply_allto.replace(/&gt;/g, ">");
+                        $('.email-reply-to').val(reply_allto);
+                    }*/
+
+                } else {
+                    $('.email-reply-cc').val('');
+                }
+                if (response.data.subject != '' && response.data.subject != null) {
+                    //var subject = atob(response.data.subject);
+                    var subject = response.data.subject;
+                    subject = subject.replace("FW: ", "");
+                    subject = subject.replace("RE: ", "");
+                    subject = str2.concat(subject);
+                } else {
+                    var subject = '';
+                }
+                //var message = atob(response.data.body_html);
+                var message = response.data.body_html;
+
+                var random = Math.random().toString(36).substring(7);
+                var sig_class = 'emailsig_block_' + random;
+                sessionStorage.setItem('signature_classname', sig_class);
+
+
+                var stamp = '<br><div class="' + sig_class + '">' + response.data.replyforward_signature;
+                var msg = '</div>';
+                sinmessage = stamp + msg;
+
+                //var sig = response.data.replyforward_signature;
+				var sentdate = '';
+
+				if(response.data.email_received_date != null) {
+					sentdate = response.data.email_received_date;
+				} else {
+					sentdate = response.data.created_date;
+				}
+				
+                var stamp = '<p class="MsoNormal" style="font-family:Calibri; font-size:11pt;color:#1F497D;margin:0px;"><br></p><br>' + sinmessage + '<hr><b>From:</b> ' + response.data.email_from + '<br><b>Sent:</b> ' + sentdate + '<br><b>To:</b> ' + response.data.email_to + '<br><b>Subject:</b> ' + response.data.subject + '<br><br>';
+                message = stamp.concat(message);
+
+                $('.email-reply-subject').val(subject);
+                $('.email-reply-body_html').summernote('code', message);
+                $('.email_id').val(response.data.id);
+
+            }
+            $('.email-reply-modal').modal({
+                show: 'false'
+            });
+            //$('.email-reply-modal').show();
+
+
+        } else {
+
+            Swal.fire({
+
+                title: '',
+                text: "Email Data Not Found!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            return false;
+
+        }
+    });
+}
 function showdraftform(type, selector) {
     var emailPostData = {};
     var emailid = $('.email-title').attr('data-email-id');
@@ -2436,11 +2519,11 @@ $(document).on('click', '.email-compose-btn', function(e) {
                 sessionStorage.setItem('signature_classname', sig_class);
 
                 var message = response.data.new_signature;
-                var stamp = '<br><br><div class="' + sig_class + '">';
+                var stamp = '<p style="font-family:Calibri; font-size:11pt;margin:0px;"><br><div style="font-family:Calibri; font-size:11pt;" class="' + sig_class + '">';
                 message = stamp.concat(message);
-                var msg = '</div>';
+                var msg = '</div></p>';
                 message = msg.concat(message);
-                $('.compose_message').summernote('code', message);
+                //$('.compose_message').summernote('code', message);
 
             }
         } else {

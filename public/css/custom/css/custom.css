@@ -87,14 +87,14 @@
     font-size: 33px !important;
 }
 
-.job-hold-btn {
-    text-decoration: none !important;
-    color: #ffff !important;
+.job-hold-btn {	
+	text-decoration: none !important;
+	color: #ffff !important;	
 }
 
-.job-complete-btn {
-    text-decoration: none !important;
-    color: #ffff !important;
+.job-complete-btn {	
+	text-decoration: none !important;
+	color: #ffff !important;	
 }
 
 .border-right {
@@ -479,12 +479,14 @@ content: "\f067";
     line-height: 36px !important;
 }
 
-.email-move-to-input-group .select2-container--default {
-    width: 105px !important;
-}
-
-.email-move-to-input-group {
-    display: flex !important;
+.plus-button {
+    width: 16px !important;
+    height: 16px !important;
+    border: none !important;
+    cursor: pointer !important;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAFgEAYAAADx4WWjAAAABmJLR…Xo44/HjcN4796srGvXNmwYaL96TVxcZWVu7owZA+3Hfw3/D73/bnBl1mLvAAAAAElFTkSuQmCC);
+    background-repeat: no-repeat !important;
+    background-color: transparent !important;
 }
 
 .task-detail-block {
@@ -616,3 +618,4 @@ ul.inbox-nav li a:focus {
 .nav-pills-outline.nav-pills>li>a {
     text-decoration: none !important;
 }
+.note-editable i{font-style: italic !important;}

@@ -22,6 +22,7 @@ $(function() {
             // ['misc', ['codeview', 'fullscreen']],
             ['misc', ['fullscreen']],
         ],
+		fontsize:'18',
         height: 150, //set editable area's height
         blockquoteBreakingLevel: 2,
         disableDragAndDrop: true,
@@ -44,6 +45,7 @@ $(function() {
             // ['misc', ['codeview', 'fullscreen']],
             ['misc', ['fullscreen']],
         ],
+		fontsize:'18',
         height: 150, //set editable area's height
         blockquoteBreakingLevel: 2,
         disableDragAndDrop: true,
@@ -62,43 +64,113 @@ $(document).ready(function() {
     //     }
     // });
 
-    // $('.textarea_editor_email').summernote({
     $('.textarea_editor_email').summernote({
+		
 		toolbar: [
             // [groupName, [list of button]]
             ['style', ['style']],
-			['fontsize', ['fontsize']],
-            ['font', ['bold', 'italic', 'underline', 'clear']],
-            ['font', ['fontname','fontsizeunit']],
+			['fontname', ['fontname']],
+			['fontsize', ['fontsize','fontsizeunit']],
+            ['font', ['bold', 'underline', 'italic']],
+			['font', ['strikethrough', 'superscript', 'subscript']],
+           
             ['font', ['color']],
             ['insert', ['table']], // image and doc are customized buttons
             ['height', ['height']],
             ['para', ['ol', 'ul', 'paragraph']],
             ['insert', ['link']],
 			
+			
             // ['insert', ['link', 'image', 'doc', 'video']], // image and doc are customized buttons
-            // ['misc', ['codeview', 'fullscreen']],
+            //['misc', ['codeview', 'fullscreen']],
         ],  
 		fontSizeUnits: ['pt'],
+		//fontSizes: ['8', '9', '10', '11', '12', '13','14','14.6','15','16', '18', '20', '22', '24' , '26', '28', '30','32','34','36','38','40','42','44'],
+		fontNames: ['Calibri','Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','Helvetica','Impact','Tahoma','Times New Roman','Verdana'],
+		defaultFontName:'Calibri',
+		fontsize:'11',
         height: 150, //set editable area's height
         // blockquoteBreakingLevel: 2,
         // codemirror: { // codemirror options
         //     theme: 'monokai'
         // },
         callbacks: {
-            onImageUpload: function(files, editor, welEditable) {
+			onImageUpload: function(files, editor, welEditable) {
 
+				$('.textarea_editor_email').attr('data-image-url', '');
                 sendFile(files[0], editor, welEditable);
+				var $this = $(this);
+				/*sendFile(files[0], function(url){
+					
+					$this.summernote('insertImage', url);
+					
+				});
+				*/
+				
+				
+				setTimeout(function(){
+				
+				if($('.textarea_editor_email').attr('data-image-url') != undefined && $('.textarea_editor_email').attr('data-image-url') != '') {
+					
+					
+					var image = $('<img>').attr('src', $('.textarea_editor_email').attr('data-image-url')).addClass("img-fluid");
+							
+					$this.summernote("insertNode", image[0]);
+					//$this.summernote("insertImage", $('.textarea_editor_email').attr('data-image-url'));
+					
+				}
+				
+				}, 2000);
+				
 
                 // for (var i = files.length - 1; i >= 0; i--) {
                 //     sendFile(files[i], this);
                 // }
 
-            }
+            },
+			/*onInit: function() {
+			  //$('.textarea_editor_email').html('');
+			 $('.textarea_editor_email').summernote('code', '<p style="font-family:Calibri !important;font-size:11pt !important;"></p>');
+			  //$('.textarea_editor_email').html('fontSize', '11');
+			}*/
+			/*onFocus: function() {
+			  $('.textarea_editor_email').summernote('fontSizeUnit', 'pt');
+			  $('.textarea_editor_email').summernote('fontSize', '11');
+			}
+			onKeydown: function() {
+			  $('.textarea_editor_email').summernote('fontSizeUnit', 'pt');
+			  $('.textarea_editor_email').summernote('fontSize', '11');
+				
+			}*/
+
+
         }
+    }).on("summernote.enter", function(we, e) {
+        //$(this).summernote("pasteHTML", '<p style="font-family:Calibri; font-size:11pt;margin:0px;"><br></p>');
+		
+		var browserName = findBrowser();
+		
+		$(this).summernote("pasteHTML", '<p style="font-family:Calibri; font-size:11pt;margin:0px;"><br></p>');
+		
+		if(browserName == 'Firefox'){
+	
+			$(this).summernote("pasteHTML", '<p style="font-family:Calibri; font-size:11pt;margin:0px;"></p>');
+			
+		}
+        e.preventDefault();
     });
 
-    function sendFile(file, editor, welEditable) {
+	
+	//$('.textarea_editor_email').summernote('fontSizeUnit', 'pt');
+	//$('.textarea_editor_email').summernote('fontSize', '11');
+	//$('.textarea_editor_email').css('font-size', '11pt');
+
+	$('.note-editable').css('font-size', '11pt');
+	$('.note-editable').css('font-family', 'Calibri');
+	$('.note-editable').css('line-height', 1);
+	
+    //function sendFile(file, editor, welEditable) {
+    function sendFile(file) {
 
         var postUrl = $('.currentUserInfo').attr('data-file-upload-url');
 
@@ -122,11 +194,15 @@ $(document).ready(function() {
 
                         if (response.data != undefined && 'url' in response.data) {
 
-                            var image = $('<img>').attr('src', response.data.url).addClass("img-fluid");
-                            $('.textarea_editor_email').summernote("insertNode", image[0]);
+                            // var image = $('<img>').attr('src', response.data.url).addClass("img-fluid");
+							
+							$('.textarea_editor_email').attr('data-image-url', response.data.url);
+							
+                            // $('.textarea_editor_email').summernote("insertNode", image[0]);
+                            // $('.textarea_editor_email').summernote("insertImage", response.data.url);
                             // editor.insertImage(welEditable, response.data.url);
                             // $('.textarea_editor').summernote('insertImage', response.data.url);
-                            // $('.textarea_editor').summernote('insertImage', response.data.url, response.data.filename);
+                            //$('.textarea_editor').summernote('insertImage', response.data.url, response.data.filename);
 
 
                         }
@@ -146,6 +222,50 @@ $(document).ready(function() {
         }
 
     }
+	
+	function findBrowser () {
+		var navUserAgent = navigator.userAgent;
+		var browserName  = navigator.appName;
+		var browserVersion  = ''+parseFloat(navigator.appVersion); 
+		var majorVersion = parseInt(navigator.appVersion,10);
+		var tempNameOffset,tempVersionOffset,tempVersion;
+
+
+		if ((tempVersionOffset=navUserAgent.indexOf("Opera"))!=-1) {
+		 browserName = "Opera";
+		 browserVersion = navUserAgent.substring(tempVersionOffset+6);
+		 if ((tempVersionOffset=navUserAgent.indexOf("Version"))!=-1) 
+		   browserVersion = navUserAgent.substring(tempVersionOffset+8);
+		} else if ((tempVersionOffset=navUserAgent.indexOf("MSIE"))!=-1) {
+		 browserName = "Microsoft Internet Explorer";
+		 browserVersion = navUserAgent.substring(tempVersionOffset+5);
+		} else if ((tempVersionOffset=navUserAgent.indexOf("Chrome"))!=-1) {
+		 browserName = "Chrome";
+		 browserVersion = navUserAgent.substring(tempVersionOffset+7);
+		} else if ((tempVersionOffset=navUserAgent.indexOf("Safari"))!=-1) {
+		 browserName = "Safari";
+		 browserVersion = navUserAgent.substring(tempVersionOffset+7);
+		 if ((tempVersionOffset=navUserAgent.indexOf("Version"))!=-1) 
+		   browserVersion = navUserAgent.substring(tempVersionOffset+8);
+		} else if ((tempVersionOffset=navUserAgent.indexOf("Firefox"))!=-1) {
+		 browserName = "Firefox";
+		 browserVersion = navUserAgent.substring(tempVersionOffset+8);
+		} else if ( (tempNameOffset=navUserAgent.lastIndexOf(' ')+1) < (tempVersionOffset=navUserAgent.lastIndexOf('/')) ) {
+		 browserName = navUserAgent.substring(tempNameOffset,tempVersionOffset);
+		 browserVersion = navUserAgent.substring(tempVersionOffset+1);
+		 if (browserName.toLowerCase()==browserName.toUpperCase()) {
+		  browserName = navigator.appName;
+		 }
+		}
+
+		// trim version
+		if ((tempVersion=browserVersion.indexOf(";"))!=-1)
+		   browserVersion=browserVersion.substring(0,tempVersion);
+		if ((tempVersion=browserVersion.indexOf(" "))!=-1)
+		   browserVersion=browserVersion.substring(0,tempVersion);
+
+		return browserName;
+	}
 
     // $('.textarea_editor').on('summernote.image.upload', function(we, files) {
     //     console.log("dfdf");

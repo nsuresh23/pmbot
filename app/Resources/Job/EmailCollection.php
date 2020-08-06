@@ -147,13 +147,14 @@ class EmailCollection
 
                 if ($responseData) {
 
+                    array_push($responseData,[
+                        "id" => "inbox",
+                        "text" => "inbox"
+                    ]);
+                    
+
                     $returnResponse["success"] = "true";
                     $returnResponse["data"] = $responseData;
-
-                    if (is_array($responseData)) {
-
-                        $returnResponse["result_count"] = count($responseData);
-                    }
                 }
             }
         } catch (Exception $e) {
@@ -471,7 +472,7 @@ class EmailCollection
                             if (!isset($returnResponseData["last_updated"]) || $returnResponseData["last_updated"] == "") {
 
                                 $date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
-                                $lastUpdated =  $date->format('yy/m/d h:i:s A');
+                                $lastUpdated =  $date->format('Y/m/d h:i:s A');
 
                                 $returnResponse["last_updated"] = $lastUpdated;
 
@@ -496,9 +497,9 @@ class EmailCollection
                             }
 
                             // $date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
-                            // $returnResponse["last_updated"] =  $date->format('yy/m/d h:i:s a');
+                            // $returnResponse["last_updated"] =  $date->format('Y/m/d h:i:s a');
 
-                            // $returnResponse["last_updated"] = date('yy/m/d h:i:s a');
+                            // $returnResponse["last_updated"] = date('Y/m/d h:i:s a');
 
                         }
                     }
@@ -799,7 +800,7 @@ class EmailCollection
 
                         $returnResponse["data"]["body_html"] = base64_decode($returnResponse["data"]["body_html"]);
                     }*/
-
+				
                     if (isset($returnResponse["data"]["subject"]) && $returnResponse["data"]["subject"] != "") {
 
                        // $returnResponse["data"]["subject"] = base64_decode($returnResponse["data"]["subject"]);
@@ -820,6 +821,26 @@ class EmailCollection
 
                             $returnResponse["data"]["body_html"] = base64_decode($returnResponse["data"]["body_html"]);
                         }
+                    }
+					if (isset($returnResponse["data"]["email_reply_all"]) && $returnResponse["data"]["email_reply_all"] != "") {
+
+                        if (base64_decode($returnResponse["data"]["email_reply_all"], true)) {
+
+                            $returnResponse["data"]["email_reply_all"] = base64_decode($returnResponse["data"]["email_reply_all"]);
+
+                        }
+
+                        $returnResponse["data"]["email_reply_all"] = htmlspecialchars($returnResponse["data"]["email_reply_all"]);
+                    }
+					if (isset($returnResponse["data"]["email_reply_cc"]) && $returnResponse["data"]["email_reply_cc"] != "") {
+
+                        if (base64_decode($returnResponse["data"]["email_reply_cc"], true)) {
+
+                            $returnResponse["data"]["email_reply_cc"] = base64_decode($returnResponse["data"]["email_reply_cc"]);
+
+                        }
+
+                        $returnResponse["data"]["email_reply_cc"] = htmlspecialchars($returnResponse["data"]["email_reply_cc"]);
                     }
 					if (isset($returnResponse["data"]["new_signature"]) && $returnResponse["data"]["new_signature"] != "") {
                         if (base64_decode($returnResponse["data"]["new_signature"], true)) {
@@ -1099,7 +1120,7 @@ class EmailCollection
 
 						//	$returnResponse["data"]["create_date_formatted_text"] = date("dS M Y h:i:s a", strtotime($emailDate));
 
-							$item["created_date"] = date("yy/m/d H:i:s", strtotime($emailDate));
+							$item["created_date"] = date("Y/m/d H:i:s", strtotime($emailDate));
 						}
 
                     /*  if (isset($item["created_date"]) && $item["created_date"] != "") {
@@ -1107,7 +1128,7 @@ class EmailCollection
                         $item["created_date_text"] = $item["created_date"];
                         // $item["created_date"] = date("d/m/y", strtotime($item["created_date"]));
                         //$item["created_date"] = date("d/m/y h:i:s a", strtotime($item["created_date"]));
-						$item["created_date"] = date("yy/m/d H:i:s", strtotime($item["created_date"]));
+						$item["created_date"] = date("Y/m/d H:i:s", strtotime($item["created_date"]));
                     } */
 
                     if (isset($item["email_from"]) && $item["email_from"] != "") {
@@ -1249,13 +1270,13 @@ class EmailCollection
 
                     if(isset($item["last_processed_time"]) && $item["last_processed_time"] != "") {
 
-                        $item["last_processed_time"] = date("yy/m/d H:i:s", strtotime($item["last_processed_time"]));
+                        $item["last_processed_time"] = date("Y/m/d H:i:s", strtotime($item["last_processed_time"]));
 
                     }
 
                     if (isset($item["last_annotated_time"]) && $item["last_annotated_time"] != "") {
 
-                        $item["last_annotated_time"] = date("yy/m/d H:i:s", strtotime($item["last_annotated_time"]));
+                        $item["last_annotated_time"] = date("Y/m/d H:i:s", strtotime($item["last_annotated_time"]));
                     }
 
                     return $item;

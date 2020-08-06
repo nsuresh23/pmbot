@@ -13,6 +13,9 @@
 }
 .note-editable{height:75px !important;}
 .modal-dialog{width:80% !important}
+.note-editor{font-family: Arial !important;font-size: 11pt !important;}
+
+
 </style>
 <!-- Modal -->
 <div aria-hidden="true" role="dialog" tabindex="-1" id="signatureModal" class="signature-modal modal fade" style="display: none;"  data-backdrop="static" data-keyboard="false">
@@ -32,12 +35,12 @@
 
 							<div class="col-lg-6">
 								<label>New Message</label>
-								<textarea class="textarea_editor_email form-control new_signature" name="new_signature" rows="15"
+								<textarea class="textarea_editor_signature form-control new_signature" name="new_signature" rows="15"
                                 placeholder="Enter text ..."></textarea>
 							</div>
 							<div class="col-lg-6">
 								<label>Replies/Forwards</label>
-								<textarea class="textarea_editor_email form-control replyforward_signature" name="replyforward_signature" rows="15"
+								<textarea class="textarea_editor_signature form-control replyforward_signature" name="replyforward_signature" rows="15"
                                 placeholder="Enter text ..."></textarea>
 							</div>
 

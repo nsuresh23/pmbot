@@ -14,11 +14,11 @@ use Illuminate\Http\Request;
 
 Auth::routes();
 
-Route::post('error401', function () {
+Route::any('error401', function () {
 	return view('errors.error401');
 })->name('error401');
 
-Route::post('error404', function () {
+Route::any('error404', function () {
 	return view('errors.error404');
 })->name('error404');
 

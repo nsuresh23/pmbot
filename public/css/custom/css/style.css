@@ -18131,7 +18131,7 @@ ul.inbox-nav li a:focus {
 .email-rt .box {float:left;width:100%;margin-bottom:5px;}
 .email-rt .box .email-label {float: left;height: 30px;border: 1px solid #ebebeb;line-height: 30px;width: 5%;text-align: center;margin-right:5px;}
 .border-none {border:0px !important;}
-.composeto, .composecc,.composebcc, .subject, .attachements, .replyattachements, .draftattachements, .compose_message, .email-reply-to, .email-reply-cc, .email-reply-bcc, .email-reply-subject, .email-draft-to, .email-draft-cc, .email-draft-subject, .signature_change {float:left !important;width:94% !important;}
+.composeto, .composecc,.composebcc, .subject, .attachements, .replyattachements, .draftattachements, .compose_message, .email-reply-to, .email-reply-cc, .email-reply-bcc, .email-reply-subject, .email-draft-to, .email-draft-cc, .email-draft-bcc, .email-draft-subject, .signature_change {float:left !important;width:94% !important;}
 .email-send-btn {float: left;width: 90%;height: 105px;padding-top:25px;;text-align: center;border:1px solid #ebebeb;cursor:pointer;}
 .email-send-btn img{width:30px;heigh:30px;}
 .email-reply-send-btn {float: left;width: 90%;height: 105px;padding-top:25px;;text-align: center;border:1px solid #ebebeb;cursor:pointer;}

@@ -5,6 +5,23 @@
 <link href="{{ asset('public/css/custom/css/custom.css') }}" rel="stylesheet">
 @endpush
 
+@push('js')
+<script>
+
+$(document).ready(function(e) {
+    $('.attachements').val('');
+    var type = 'reply';
+    var selector = $('.email-title');
+    $('.reply_email_type').val('reply');
+    $('.signature_change').val('');
+    $(".reply_to ul").empty();
+    showform(type, selector);
+});
+
+</script>
+@endpush
+
+
 <?php
 
 $emailSendUrl      = route(__("job.email_send_url"));
@@ -42,7 +59,7 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
         <div class="panel panel-default card-view mb-0">
             <div class="panel-heading">
                 <div class="pull-left">
-                    <h6 class="panel-title txt-dark capitalize-font">
+                    <h6 class="panel-title txt-dark capitalize-font email-title" data-email-id="{{$emailId ?? ''}}" data-email-geturl="{{$emailGetUrl ?? ''}}">
                         {{__("job.email_reply_label") ?? "reply" }}
                     </h6>
 
@@ -109,7 +126,9 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                         <div class="box">
                                             <div class="email-label">To...</div>
                                             <div class="reply_to">
-                                                <input type="text" placeholder="" required id="email-reply-to" name="to" value="<?php echo $returnData['data']['email_from'] ?>"
+                                                <!-- <input type="text" placeholder="" required id="email-reply-to" name="to" value="<?php //echo $returnData['data']['email_from'] ?>"
+                                                    class="form-control email-reply-to" autocomplete="off"> -->
+												<input type="text" placeholder="" required id="email-reply-to" name="to" value=""
                                                     class="form-control email-reply-to" autocomplete="off">
                                             <input type="hidden" placeholder="" id="replyto_value" class="form-control email-reply-to" value="">
                                                 <ul class="replytolist"></ul>
@@ -137,8 +156,10 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                         </div>
                                         <div class="box">
                                             <div class="email-label border-none">Subject</div>
-                                            <input type="text" placeholder="" id="email-reply-subject" name="subject"
-                                                class="form-control email-reply-subject" value="{{'RE: ' . $returnData['data']['subject'] ?? ''}}">
+                                            <!-- <input type="text" placeholder="" id="email-reply-subject" name="subject"
+                                                class="form-control email-reply-subject" value="{{'RE: ' . $returnData['data']['subject'] ?? ''}}"> -->
+											<input type="text" placeholder="" id="email-reply-subject" name="subject"
+                                                class="form-control email-reply-subject" value="">
                                         </div>
                                         <div class="box">
                                             <div class="email-label border-none">Attached</div>
@@ -167,8 +188,10 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                         $sig_class = 'emailsig_block_' . rand();
 
                                         session()->put("signature_classname", $sig_class);
+										
+										$message = '<p class="MsoNormal" style="font-family:Calibri;font-size:11pt;color:#337ab7;margin:0px;"><br></p>';
 
-                                        $message = '<br><br><div class="';
+                                        $message .= '<br><br><div class="';
 
                                         $message .= $sig_class;
 
@@ -199,8 +222,10 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                         $message .= $returnData['data']['body_html'];
 
                                         ?>
-                                        <textarea class="textarea_editor_email form-control email-reply-body_html" name="body_html" rows="15"
-                                            placeholder="Enter text ..." ><?php echo $message; ?></textarea>
+                                        <!-- <textarea class="textarea_editor_email form-control email-reply-body_html" name="body_html" rows="15"
+                                            placeholder="Enter text ..." ><?php //echo $message; ?></textarea> -->
+										<textarea class="textarea_editor_email form-control email-reply-body_html" name="body_html" rows="15"
+                                            placeholder="Enter text ..." ></textarea>
                                     </div>
                                 </div>
 

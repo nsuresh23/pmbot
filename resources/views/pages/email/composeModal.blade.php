@@ -5,6 +5,10 @@
 .note-editor.note-frame {
     border: 1px solid #a9a9a9 !important;
 }
+.textarea_editor_email {font-family: Calibri !important;font-size: 11pt !important; }
+.note-editor{font-family: Calibri !important;font-size: 11pt !important;}
+.dropdown-fontsize{font-size: 11pt !important;}
+
 </style>
 <!-- Modal -->
 <div aria-hidden="true" role="dialog" tabindex="-1" id="emailSendModal" class="email-compose-modal modal fade" style="display: none;" data-backdrop="static" data-keyboard="false">

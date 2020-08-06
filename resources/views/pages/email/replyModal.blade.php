@@ -13,6 +13,7 @@
 }
 .note-editable{height:75px !important;}
 .modal-dialog{width:80% !important}
+.note-editor{font-family: Calibri !important;font-size: 11pt !important;}
 </style>
 <!-- Modal -->
 <div aria-hidden="true" role="dialog" tabindex="-1" id="replymailModal" class="email-reply-modal modal fade" style="display: none;"  data-backdrop="static" data-keyboard="false">

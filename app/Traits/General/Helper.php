@@ -945,6 +945,49 @@ trait Helper
 
     }
 
+    public function emailValidUserCheck($returnData)
+    {
+
+        try {
+
+            if (auth()->user() === null || auth()->user() == "") {
+
+                redirect()->route("login");
+            }
+
+            if (!is_array($returnData["data"])) {
+
+                redirect()->route("error404");
+            }
+
+
+            if (!isset($returnData["data"])) {
+
+                redirect()->route("error404");
+            }
+
+            if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                if (isset($returnData["data"]) && is_array($returnData["data"]) && count($returnData["data"]) > 0) {
+
+                    if (isset($returnData["data"]["empcode"]) && $returnData["data"]["empcode"] != auth()->user()->empcode) {
+
+                        redirect()->route("error401");
+                    }
+                }
+            }
+            
+        } catch (Exception $e) {
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+    }
+
     public function getFileType($url)
     {
         $type = "file";

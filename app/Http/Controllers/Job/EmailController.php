@@ -270,6 +270,8 @@ class EmailController extends Controller
 
             $returnData = $this->emailGet($request);
 
+            //$this->emailValidUserCheck($returnData);
+
             $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
 
         }
@@ -293,6 +295,8 @@ class EmailController extends Controller
 
             $returnData = $this->emailGet($request);
 
+            //$this->emailValidUserCheck($returnData);
+
             $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
 
         }
@@ -315,6 +319,8 @@ class EmailController extends Controller
             $request->merge(['emailid' => $request->redirectTo]);
 
             $returnData = $this->emailGet($request);
+
+            //$this->emailValidUserCheck($returnData);
 
             $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
 
@@ -882,8 +888,53 @@ class EmailController extends Controller
             if (count($field) > 0) {
 
                 $returnResponse = $this->emailResource->emailGet($field);
+				
+				$returnData = [];
+					
+				$returnData = $returnResponse;
+				
+				if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
+
+					if (isset($returnData["data"]) && is_array($returnData["data"]) && count($returnData["data"]) > 0) {
+
+						if (isset($returnData["data"]["email_to"]) && $returnData["data"]["email_to"] != "") {
+
+							$toEmails = [];
+
+							$toEmails = explode(';', html_entity_decode($returnData["data"]["email_to"]));
+
+							if (is_array($toEmails) && count($toEmails) > 0) {
+
+								array_walk($toEmails, function ($value, $key) use ($returnData, &$toEmails) {
+
+									if (strpos($value, auth()->user()->empcode) !== false) {
+
+										unset($toEmails[$key]);
+									}
+
+									if (strpos($value, $returnData["data"]["email_from"]) !== false) {
+
+										unset($toEmails[$key]);
+									}
+								});
+							}
+							$replyAllToEmails = implode(";", $toEmails);
+
+							if($returnData["data"]["status"] != '6') {
+								$returnData["data"]["reply_all_to"] = $returnData["data"]["email_from"] . ";" . $replyAllToEmails;
+							} else {
+								$returnData["data"]["reply_all_to"] = $replyAllToEmails;
+							}
+							
+							$returnResponse["data"]["reply_all_to"] = $returnData["data"]["reply_all_to"];
+
+						}
+					}
+				}
 
                 if (is_array($returnResponse) && isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
+					
+					$returnData = [];
 
                     $returnData = $this->emailResource->emailRuleLabels();
 
