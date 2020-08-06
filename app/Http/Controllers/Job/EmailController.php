@@ -296,6 +296,40 @@ class EmailController extends Controller
             $returnData = $this->emailGet($request);
 
             //$this->emailValidUserCheck($returnData);
+			if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                if (isset($returnData["data"]) && is_array($returnData["data"]) && count($returnData["data"]) > 0) {
+
+                    if (isset($returnData["data"]["email_to"]) && $returnData["data"]["email_to"] != "") {
+
+                        $toEmails = [];
+
+                        $toEmails = explode(';', $returnData["data"]["email_to"]);
+
+                        if (is_array($toEmails) && count($toEmails) > 0) {
+
+                            array_walk($toEmails, function ($value, $key) use ($returnData, &$toEmails) {
+
+                                if (strpos($value, auth()->user()->empcode) !== false) {
+
+                                    unset($toEmails[$key]);
+                                }
+
+                                if (strpos($value, $returnData["data"]["email_from"]) !== false) {
+
+                                    unset($toEmails[$key]);
+                                }
+                            });
+                        }
+                        $replyAllToEmails = implode(";", $toEmails);
+
+                        $returnData["data"]["email_replay_all_to"] = $returnData["data"]["email_from"] . ";" . $replyAllToEmails;
+
+                        // $returnData["data"]["email_replay_all_to"] = $returnData["data"]["email_from"] . ";" . str_replace($returnData["data"]["email_from"] . ";", "", $returnData["data"]["email_to"]);
+
+                    }
+                }
+            }
 
             $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
 

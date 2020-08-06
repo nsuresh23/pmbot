@@ -2041,6 +2041,7 @@ function showform(type, selector) {
         }
     });
 }
+
 function showdraftform(type, selector) {
     var emailPostData = {};
     var emailid = $('.email-title').attr('data-email-id');
@@ -2519,11 +2520,11 @@ $(document).on('click', '.email-compose-btn', function(e) {
                 sessionStorage.setItem('signature_classname', sig_class);
 
                 var message = response.data.new_signature;
-                var stamp = '<p style="font-family:Calibri; font-size:11pt;margin:0px;"><br><div style="font-family:Calibri; font-size:11pt;" class="' + sig_class + '">';
+                var stamp = '<p class="MsoNormal" style="font-family:Calibri; font-size:11pt;color:#1F497D;margin:0px;"><br><div class="' + sig_class + '">';
                 message = stamp.concat(message);
                 var msg = '</div></p>';
                 message = msg.concat(message);
-                //$('.compose_message').summernote('code', message);
+                $('.compose_message').summernote('code', message);
 
             }
         } else {
@@ -2679,10 +2680,10 @@ function showsignatureform() {
             if (response.data != undefined && response.data != '') {
                 var str2 = '';
 
-                var message = response.data.new_signature;
+                var message = '<p class="MsoNormal" style="font-family:Arial; font-size:11pt;color:#1F497D;margin:0px;"><br></p>' + response.data.new_signature;
                 $('.new_signature').summernote('code', message);
 
-                var message1 = response.data.replyforward_signature;
+                var message1 = '<p class="MsoNormal" style="font-family:Arial; font-size:11pt;color:#1F497D;margin:0px;"><br></p>' + response.data.replyforward_signature;
                 $('.replyforward_signature').summernote('code', message1);
 
             }
