@@ -7,7 +7,6 @@
 
 @push('js')
 <script>
-
 $(document).ready(function(e) {
     $('.attachements').val('');
     var type = 'reply';
@@ -16,6 +15,334 @@ $(document).ready(function(e) {
     $('.signature_change').val('');
     $(".reply_to ul").empty();
     showform(type, selector);
+
+    //CKEDITOR.replace('ck_textarea_editor_email');
+    // CKEDITOR.replace('ck_textarea_editor_email', {
+    //     customConfig: '<?php echo asset("public/js/custom/js/ck_textarea_editor_email_config.js"); ?>'
+    // });
+
+    // CKEDITOR.editorConfig = function( config ) {
+    //     config.font_defaultLabel = 'Arial';
+    //     config.uiColor = '#AADC6E';
+    // };
+
+    // tinymce.init({
+    // selector: '#ck_textarea_editor_email'
+    // });
+
+    // tinymce.create('tinymce.plugins.CustomSetFontPlugin', {
+
+    //     /**
+    //      * Initializes the plugin, this will be executed after the plugin has been created.
+    //      * This call is done before the editor instance has finished it's initialization so use the onInit event
+    //      * of the editor instance to intercept that event.
+    //      *
+    //      * @param {tinymce.Editor} ed Editor instance that the plugin is initialized in.
+    //      * @param {string} url Absolute URL to where the plugin is located.
+    //      */
+    //     init : function(ed, url) {
+    //         ed.onLoadContent.add(function(ed, o) {
+
+    //             //CSS changes you can make - This is for user display purposes and does not actually get sent with the email.
+    //             // ed.getBody().style.fontSize = '12pt';
+    //             //ed.getBody().fontFamily = 'arial';
+
+    //             //This will embed the font tags into the HTML body so that it is sent with the email
+    //             ed.setContent('<p><span style="font-family: arial,helvetica,sans-serif; font-size: small;">&nbsp;</span></p>');
+    //         });
+    //     },
+
+    //     /**
+    //      * Creates control instances based in the incomming name. This method is normally not
+    //      * needed since the addButton method of the tinymce.Editor class is a more easy way of adding buttons
+    //      * but you sometimes need to create more complex controls like listboxes, split buttons etc then this
+    //      * method can be used to create those.
+    //      *
+    //      * @param {String} n Name of the control to create.
+    //      * @param {tinymce.ControlManager} cm Control manager to use inorder to create new control.
+    //      * @return {tinymce.ui.Control} New control instance or null if no control was created.
+    //      */
+    //     createControl : function(n, cm) {
+    //         return null;
+    //     },
+
+    //     /**
+    //      * Returns information about the plugin as a name/value array.
+    //      * The current keys are longname, author, authorurl, infourl and version.
+    //      *
+    //      * @return {Object} Name/value array containing information about the plugin.
+    //      */
+    //     getInfo : function() {
+    //         return {
+    //             longname : 'CustomSetFont plugin',
+    //             author : 'PMBot',
+    //             authorurl : '',
+    //             infourl : '',
+    //             version : "1.0"
+    //         };
+    //     }
+    // });
+
+    // // Register plugin
+    // tinymce.PluginManager.add('customsetfont', tinymce.plugins.CustomSetFontPlugin);
+
+    tinymce.init({
+        selector: '.textarea_editor_email',
+        height: 500,
+        menubar: false,
+        // keep_styles: true,
+        paste_data_images: true,
+        plugins: 'advlist anchor autolink bootstrap bbcode charmap code codesample colorpicker directionality fullpage fullscreen hr image imagetools insertdatetime lineheight link lists media nonbreaking paste pagebreak print preview searchreplace table template textcolor textpattern visualblocks visualchars wordcount',
+        fontsize_formats: '8pt 11pt 10pt 12pt 14pt 18pt 24pt 36pt',
+        font_formats: ' Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Calibri=calibri; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats',
+        toolbar: 'formatselect | fontselect | fontsizeselect | forecolor | backcolor | lineheightselect | bold italic underline strikethrough superscript subscript | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | link | removeformat | code | help',
+        // content_style: "body { font-size: 14pt; font-family: Arial; }",
+        setup : function(ed) {
+            ed.on('init', function (ed) {
+                ed.target.editorCommands.execCommand("fontName", false, "calibri");
+                ed.target.editorCommands.execCommand("fontSize", false, "10pt");
+                ed.target.editorCommands.execCommand("lineheight", false, "8pt");
+                ed.target.editorCommands.execCommand("foreColor", false, "#1F497D");
+            });
+        },
+        images_upload_handler: function (blobInfo, success, failure, progress) {
+
+            var postUrl = $('.currentUserInfo').attr('data-file-upload-url');
+
+            if (postUrl != undefined && postUrl != '') {
+
+                setTimeout(function() {
+
+                    data = new FormData();
+
+                    data.append("file", blobInfo.blob());
+
+                    var d = $.Deferred();
+
+                    $.ajax({
+                        data: data,
+                        type: "POST",
+                        url: postUrl,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+
+                            if (response.success != undefined && response.success == 'true') {
+
+                                if (response.data != undefined && 'url' in response.data) {
+
+                                    success(response.data.url);
+
+                                    // var image = $('<img>').attr('src', response.data.url).addClass("img-fluid");
+
+                                    //$('.textarea_editor_email').attr('data-image-url', response.data.url);
+
+                                    // $('.textarea_editor_email').summernote("insertNode", image[0]);
+                                    // $('.textarea_editor_email').summernote("insertImage", response.data.url);
+                                    // editor.insertImage(welEditable, response.data.url);
+                                    // $('.textarea_editor').summernote('insertImage', response.data.url);
+                                    //$('.textarea_editor').summernote('insertImage', response.data.url, response.data.filename);
+
+
+                                } else {
+
+                                    message = response.message;
+
+                                    flashMessage('error', message);
+
+                                    failure(message);
+
+                                    d.resolve();
+
+                                    return;
+
+                                }
+
+                            } else {
+
+                                message = response.message;
+
+                                flashMessage('error', message);
+
+                                failure(message);
+
+                                d.resolve();
+
+                                return;
+
+                            }
+                        }
+                    });
+
+                    // var xhr, formData;
+
+                    // xhr = new XMLHttpRequest();
+                    // xhr.withCredentials = false;
+                    // xhr.open('POST', postUrl);
+
+                    // xhr.upload.onprogress = function (e) {
+                    //     progress(e.loaded / e.total * 100);
+                    // };
+
+                    // xhr.onload = function() {
+                    //     var json;
+
+                    //     if (xhr.status < 200 || xhr.status >= 300) {
+                    //         failure('HTTP Error: ' + xhr.status);
+                    //         return;
+                    //     }
+
+                    //     json = JSON.parse(xhr.responseText);
+
+                    //     if (!json || typeof json.data != 'object' || typeof json.url != 'string') {
+                    //         failure('Invalid JSON: ' + xhr.responseText);
+                    //         return;
+                    //     }
+
+                    //     success(json.url);
+
+                    // };
+
+                    // xhr.onerror = function () {
+                    //     failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+                    // };
+
+                    // formData = new FormData();
+                    // formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                    // xhr.send(formData);
+
+                }, 2000);
+
+                return;
+
+            }
+
+        },
+        // images_upload_handler: function (blobInfo, success, failure) {
+
+        //     console.log(blobInfo);
+
+        //     var postUrl = $('.currentUserInfo').attr('data-file-upload-url');
+
+        //     if (postUrl != undefined && postUrl != '') {
+
+        //         data = new FormData();
+        //         data.append("file2", blobInfo.blob());
+
+        //         var d = $.Deferred();
+
+        //         $.ajax({
+        //             data: data,
+        //             type: "POST",
+        //             url: postUrl,
+        //             cache: false,
+        //             contentType: false,
+        //             processData: false,
+        //             success: function(response) {
+
+        //                 if (response.success != undefined && response.success == 'true') {
+
+        //                     if (response.data != undefined && 'url' in response.data) {
+
+        //                         success(response.data.url);
+
+        //                         // var image = $('<img>').attr('src', response.data.url).addClass("img-fluid");
+
+        //                         //$('.textarea_editor_email').attr('data-image-url', response.data.url);
+
+        //                         // $('.textarea_editor_email').summernote("insertNode", image[0]);
+        //                         // $('.textarea_editor_email').summernote("insertImage", response.data.url);
+        //                         // editor.insertImage(welEditable, response.data.url);
+        //                         // $('.textarea_editor').summernote('insertImage', response.data.url);
+        //                         //$('.textarea_editor').summernote('insertImage', response.data.url, response.data.filename);
+
+
+        //                     } else {
+
+        //                         message = response.message;
+
+        //                         flashMessage('error', message);
+
+        //                         failure(message);
+
+        //                         d.resolve();
+
+        //                         return;
+
+        //                     }
+
+        //                 } else {
+
+        //                     message = response.message;
+
+        //                     flashMessage('error', message);
+
+        //                     failure(message);
+
+        //                     d.resolve();
+
+        //                     return;
+
+        //                 }
+        //             }
+        //         });
+
+        //     }
+
+        //     // sendFile(blobInfo.blob());
+
+        //                         // var xhr, formData;
+
+        //             // xhr = new XMLHttpRequest();
+        //             // xhr.withCredentials = false;
+        //             // xhr.open('POST', postUrl);
+
+        //             // // xhr.upload.onprogress = function (e) {
+        //             // //     progress(e.loaded / e.total * 100);
+        //             // // };
+
+        //             // xhr.onload = function() {
+
+        //             //     var json;
+
+        //             //     if (xhr.status < 200 || xhr.status >= 300) {
+
+        //             //         failure('HTTP Error: ' + xhr.status);
+        //             //         return;
+
+        //             //     }
+
+        //             //     json = JSON.parse(xhr.responseText);
+
+        //             //     if (!json || typeof json.data != 'object' || typeof json.data.url != 'string') {
+
+        //             //         failure('Invalid JSON: ' + xhr.responseText);
+        //             //         return;
+
+        //             //     }
+
+        //             //     success(json.data.url);
+
+        //             // };
+
+        //             // xhr.onerror = function () {
+
+        //             //     failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+
+        //             // };
+
+        //             // formData = new FormData();
+
+        //             // formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+        //             // xhr.send(formData);
+
+        // },
+        // plugins : 'customsetfont',
+    });
+
 });
 
 </script>
@@ -183,12 +510,12 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                 <div class="form-group">
 
                                     <div class="col-lg-12">
-                                        <?php 
+                                        <?php
 
                                         $sig_class = 'emailsig_block_' . rand();
 
                                         session()->put("signature_classname", $sig_class);
-										
+
 										$message = '<p class="MsoNormal" style="font-family:Calibri;font-size:11pt;color:#337ab7;margin:0px;"><br></p>';
 
                                         $message .= '<br><br><div class="';
@@ -224,8 +551,11 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                         ?>
                                         <!-- <textarea class="textarea_editor_email form-control email-reply-body_html" name="body_html" rows="15"
                                             placeholder="Enter text ..." ><?php //echo $message; ?></textarea> -->
-										<textarea class="textarea_editor_email form-control email-reply-body_html" name="body_html" rows="15"
-                                            placeholder="Enter text ..." ></textarea>
+										{{-- <textarea id="ck_textarea_editor_email" class="ck_textarea_editor_email form-control" name="body_html" rows="15"
+                                            placeholder="Enter text ..." ></textarea> --}}
+
+                                        <textarea class="textarea_editor_email form-control email-reply-body_html"
+                                            name="body_html" rows="15" placeholder="Enter text ..."></textarea>
                                     </div>
                                 </div>
 

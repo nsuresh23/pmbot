@@ -23,7 +23,10 @@
 <script type="text/javascript" src="{{ asset('public/js/custom/js/form-picker-data.js') }}"></script>
 
 <!-- Summernote Plugin JavaScript -->
-<script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/summernote/dist/summernote.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/summernote/dist/summernote.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/niceeditor/niceEdit.js') }}"></script> --}}
+<script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/tinymce/tinymce.min.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/ckeditor/ckeditor.js') }}"></script> --}}
 
 <!-- Summernote Wysuhtml5 Init JavaScript -->
 <script type="text/javascript" src="{{ asset('public/js/custom/js/summernote-data.js') }}"></script>
