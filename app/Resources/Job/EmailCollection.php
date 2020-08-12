@@ -94,6 +94,11 @@ class EmailCollection
 
                 if ($responseData) {
 
+                    array_push($responseData, [
+                        "id" => "inbox",
+                        "text" => "inbox"
+                    ]);
+
                     $returnResponse["success"] = "true";
                     $returnResponse["data"] = $responseData;
 
@@ -147,16 +152,13 @@ class EmailCollection
 
                 if ($responseData) {
 
-                    array_push($responseData,[
-                        "id" => "inbox",
-                        "text" => "inbox"
-                    ]);
-                    
-
                     $returnResponse["success"] = "true";
                     $returnResponse["data"] = $responseData;
+
                 }
+
             }
+
         } catch (Exception $e) {
 
             $returnResponse["error"] = "true";
@@ -609,6 +611,7 @@ class EmailCollection
 
             $url = $this->emailSendApiUrl;
 			if (isset($field['to']) && $field['to'] != "") {
+				$field["to"] = rtrim($field["to"],";");
                 $field["to"] = base64_encode($field['to']);
             } else {
                 $field["to"] = '';
@@ -619,11 +622,13 @@ class EmailCollection
                 $field["from"] = '';
             }
 			if (isset($field['cc']) && $field['cc'] != "") {
+				$field["cc"] = rtrim($field["cc"],";");
                 $field["cc"] = base64_encode($field['cc']);
             } else {
                 $field["cc"] = '';
             }
 			if (isset($field['bcc']) && $field['bcc'] != "") {
+				$field["bcc"] = rtrim($field["bcc"],";");
                 $field["bcc"] = base64_encode($field['bcc']);
             } else {
                 $field["bcc"] = '';
@@ -1006,16 +1011,19 @@ class EmailCollection
 
             $url = $this->draftemailSendApiUrl;
 			if (isset($field['email_to']) && $field['email_to'] != "") {
+				$field["email_to"] = rtrim($field["email_to"],";");
                 $field["email_to"] = base64_encode($field['email_to']);
             } else {
                 $field["email_to"] = '';
             }
 			if (isset($field['email_cc']) && $field['email_cc'] != "") {
+				$field["email_cc"] = rtrim($field["email_cc"],";");
                 $field["email_cc"] = base64_encode($field['email_cc']);
             } else {
                 $field["email_cc"] = '';
             }
 			if (isset($field['email_bcc']) && $field['email_bcc'] != "") {
+				$field["email_bcc"] = rtrim($field["email_bcc"],";");
                 $field["email_bcc"] = base64_encode($field['email_bcc']);
             } else {
                 $field["email_bcc"] = '';

@@ -587,29 +587,27 @@ $(document).on('click', '.job-complete-btn', function(e) {
         },
     }).then((result) => {
 
-        console.log(result);
-
-        var remarksVal = $('.job-complete-remarks-field').val();
-
-        if (remarksVal == undefined || remarksVal == false || remarksVal == '') {
-
-            Swal.fire({
-
-                title: '',
-                text: "Please enter remarks!",
-                showClass: {
-                    popup: 'animated fadeIn faster'
-                },
-                hideClass: {
-                    popup: 'animated fadeOut faster'
-                },
-
-            });
-
-            return false
-        }
-
         if (result.value != undefined && result.value == true) {
+			
+			var remarksVal = $('.job-complete-remarks-field').val();
+
+			if (remarksVal == undefined || remarksVal == false || remarksVal == '') {
+
+				Swal.fire({
+
+					title: '',
+					text: "Please enter remarks!",
+					showClass: {
+						popup: 'animated fadeIn faster'
+					},
+					hideClass: {
+						popup: 'animated fadeOut faster'
+					},
+
+				});
+
+				return false
+			}
 
             $("#job_status_update_status").val('completed');
             $("#job_status_update_remarks").val(remarksVal);

@@ -87,6 +87,7 @@ return [
 		"4" => "draft",
 		"5" => "outbox",
 		"6" => "sent",
+        "99" => "undelivered",
     ],
     "stateList" => [
         "1" => "enabled",

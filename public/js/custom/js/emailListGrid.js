@@ -40,6 +40,7 @@ function getEmailTableList(gridSelector) {
     var gridType = $(gridSelector).attr('data-type');
     var gridCategory = $(gridSelector).attr('data-category');
     var gridEmailFilter = $(gridSelector).attr('data-email-filter');
+    var gridEmailLabel = $(gridSelector).attr('data-email-label');
     var currentUserId = $(gridSelector).attr('data-current-user-id');
     var currentJobId = $(gridSelector).attr('data-current-job-id');
     var listUrl = $(gridSelector).attr('data-list-url');
@@ -388,6 +389,15 @@ function getEmailTableList(gridSelector) {
     }
 
     emailListPostData.status = status;
+
+    if (gridEmailLabel != undefined && gridEmailLabel != '') {
+
+        emailListPostData.label_name = gridEmailLabel;
+
+        delete emailListPostData.email_filter;
+        delete emailListPostData.status;
+
+    }
 
     $('.email-inbox-unread-count').html('');
     $('.email-result-count').html('');
@@ -1178,6 +1188,8 @@ $(document).on('click', '.dashboard-inbox-email', function() {
 
         $(gridSelector).attr('data-email-filter', 'inbox');
 
+        $(gridSelector).attr('data-email-label', '');
+
         getEmailTableList(gridSelector);
 
     }
@@ -1200,6 +1212,8 @@ $(document).on('click', '.dashboard-unread-email', function() {
 
         $(gridSelector).attr('data-email-filter', 'unread');
 
+        $(gridSelector).attr('data-email-label', '');
+
         getEmailTableList(gridSelector);
 
     }
@@ -1221,6 +1235,8 @@ $(document).on('click', '.dashboard-outbox-email', function() {
     if (dataUrl != undefined && dataUrl != "") {
 
         $(gridSelector).attr('data-email-filter', 'outbox');
+
+        $(gridSelector).attr('data-email-label', '');
 
         getEmailTableList(gridSelector);
 
@@ -1246,6 +1262,8 @@ $(document).on('click', '.dashboard-sent-email', function() {
 
         $(gridSelector).attr('data-email-filter', 'sent');
 
+        $(gridSelector).attr('data-email-label', '');
+
         getEmailTableList(gridSelector);
 
     }
@@ -1270,6 +1288,36 @@ $(document).on('click', '.dashboard-draft-email', function() {
 
         $(gridSelector).attr('data-email-filter', 'draft');
 
+        $(gridSelector).attr('data-email-label', '');
+
+        getEmailTableList(gridSelector);
+
+    }
+
+    $('.inbox-nav li.active').removeClass('active');
+    $(this).closest('li').addClass('active');
+    $('.email-list-body').show();
+    $('.email-detail-body').hide();
+
+});
+
+$(document).on('click', '.dashboard-nb-email-label', function() {
+
+    // var gridSelector = ".nonBusinessEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var emailLabel = $(this).attr('data-label');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        if (emailLabel != undefined && emailLabel != "") {
+
+            $(gridSelector).attr('data-email-label', emailLabel);
+
+        }
+
         getEmailTableList(gridSelector);
 
     }
@@ -1292,6 +1340,8 @@ $(document).on('click', '.job-inbox-email', function() {
 
         $(gridSelector).attr('data-email-filter', 'inbox');
 
+        $(gridSelector).attr('data-email-label', '');
+
         getEmailTableList(gridSelector);
 
     }
@@ -1313,6 +1363,8 @@ $(document).on('click', '.job-outbox-email', function() {
     if (dataUrl != undefined && dataUrl != "") {
 
         $(gridSelector).attr('data-email-filter', 'outbox');
+
+        $(gridSelector).attr('data-email-label', '');
 
         getEmailTableList(gridSelector);
 
@@ -1338,6 +1390,8 @@ $(document).on('click', '.job-sent-email', function() {
 
         $(gridSelector).attr('data-email-filter', 'sent');
 
+        $(gridSelector).attr('data-email-label', '');
+
         getEmailTableList(gridSelector);
 
     }
@@ -1362,6 +1416,8 @@ $(document).on('click', '.job-draft-email', function() {
 
         $(gridSelector).attr('data-email-filter', 'draft');
 
+        $(gridSelector).attr('data-email-label', '');
+
         getEmailTableList(gridSelector);
 
     }
@@ -1372,8 +1428,6 @@ $(document).on('click', '.job-draft-email', function() {
     $('.email-detail-body').hide();
 
 });
-
-
 
 $(document).on('click', '.email-send-btn-old', function(e) {
 
@@ -1390,6 +1444,7 @@ $(document).on('click', '.email-send-btn-old', function(e) {
     emailSend(postUrl, params, '#emailSendModal');
 
 });
+
 $(document).on('click', '.email-send-btn', function(e) {
     var type = $('.pmbottype').attr('data-pmbottype');
     $('.type').val(type);
@@ -1500,7 +1555,6 @@ $(document).on('click', '.email-reply-send-btn', function(e) {
 
 });
 
-
 $(document).on('click', '.email-reply-save-btn', function(e) {
     var type = $('.pmbottype').attr('data-pmbottype');
     $('.type').val(type);
@@ -1554,7 +1608,6 @@ $(document).on('click', '.email-draft-send-btn', function(e) {
     emailSend(postUrl, params, '#draftymailModal');
 
 });
-
 
 $(document).on('click', '.email-draft-save-btn', function(e) {
     var type = $('.pmbottype').attr('data-pmbottype');
@@ -1633,20 +1686,23 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             $('#cc').val('');
             $('#subject').val('');
             $('#body_html').val('');
+
+            tinymce.get('body_html').execCommand('mceInsertContent', false, '');
+
             // $('.compose_message').summernote('code', '');
 
-            var activeEditor = tinymce.activeEditor;
+            // var activeEditor = tinymce.activeEditor;
 
-            var content = '';
+            // var content = '';
 
-            if (activeEditor !== null) {
+            // if (activeEditor !== null) {
 
-                activeEditor.setContent(content);
+            //     activeEditor.setContent(content);
 
-            } else {
+            // } else {
 
-                $('.compose_message').val(content);
-            }
+            //     $('.compose_message').val(content);
+            // }
 
         }
 
@@ -1773,6 +1829,17 @@ function showform(type, selector) {
     var emailPostData = {};
     var emailid = $('.email-title').attr('data-email-id');
     var postUrl = $(selector).attr('data-email-geturl');
+
+    var editor_type = 'reply';
+
+    $('.email-reply-body_html').attr('id', 'textarea_editor_email_' + editor_type);
+
+    if (tinymce.get('textarea_editor_email_' + editor_type) != undefined && tinymce.get('textarea_editor_email_' + editor_type) != null) {
+
+        tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, '');
+
+    }
+
     emailPostData.emailid = emailid;
     if (type == 'replyall') {
         $('.modeltitle').html('Reply All');
@@ -1814,7 +1881,8 @@ function showform(type, selector) {
                         cc = cc.replace(/&lt;/g, "<");
                         cc = cc.replace(/&gt;/g, ">");
 
-                        $('.email-reply-cc').val(cc + ';');
+                        //$('.email-reply-cc').val(cc + ';');
+                        $('.email-reply-cc').val(cc);
                     }
                     if (response.data.email_to != '' && response.data.email_to != null) {
                         var replyallto = response.data.email_to.replace(/&quot;/g, "");
@@ -1882,23 +1950,34 @@ function showform(type, selector) {
                 message = stamp.concat(message);
 
                 $('.email-reply-subject').val(subject);
-                // $('.email-reply-body_html').summernote('code', message);
 
-                var activeEditor = tinymce.activeEditor;
+                if (tinymce.get('textarea_editor_email_' + editor_type) != undefined && tinymce.get('textarea_editor_email_' + editor_type) != null) {
 
-                var content = message;
+                    // tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, message);
+                    tinymce.get('textarea_editor_email_' + editor_type).setContent(message, { format: 'html' });
 
-                if (activeEditor !== null && content != '') {
-
-                    activeEditor.setContent(content);
-
-                } else {
-
-                    $('.email-reply-body_html').val(content);
                 }
 
-                console.log(activeEditor.getContent());
+                // tinymce.get('body_html').setContent(message, { format: 'raw' });
 
+                // tinymce.get('body_html').execCommand('mceInsertRawHTML', false, message);
+                // tinymce.get('body_html').execCommand('mceInsertContent', false, message);
+
+                // $('.email-reply-body_html').summernote('code', message);
+
+                // var activeEditor = tinymce.activeEditor;
+
+                // var content = message;
+
+                // if (activeEditor !== null && content != '') {
+
+                //     activeEditor.setContent(content);
+
+                // } else {
+
+                //     $('.email-reply-body_html').val(content);
+
+                // }
 
                 $('.email_id').val(response.data.id);
 
@@ -1934,6 +2013,13 @@ function showdraftform(type, selector) {
     var emailPostData = {};
     var emailid = $('.email-title').attr('data-email-id');
     var postUrl = $(selector).attr('data-email-geturl');
+
+    if (tinymce.get('textarea_editor_email_draft') != undefined && tinymce.get('textarea_editor_email_draft') != null) {
+
+        tinymce.get('textarea_editor_email_draft').execCommand('mceInsertContent', false, '');
+
+    }
+
     emailPostData.emailid = emailid;
     $('.modeltitle').html('Draft Mail');
 
@@ -1976,20 +2062,27 @@ function showdraftform(type, selector) {
                 $('.email-draft-subject').val(subject);
 
                 var message = response.data.body_html;
+
+                if (tinymce.get('textarea_editor_email_draft') != undefined && tinymce.get('textarea_editor_email_draft') != null) {
+
+                    tinymce.get('textarea_editor_email_draft').setContent(message, { format: 'html' });
+
+                }
+
                 // $('.email-draft-body_html').summernote('code', message);
 
-                var activeEditor = tinymce.activeEditor;
+                // var activeEditor = tinymce.activeEditor;
 
-                var content = message;
+                // var content = message;
 
-                if (activeEditor !== null && content != '') {
+                // if (activeEditor !== null && content != '') {
 
-                    activeEditor.setContent(content);
+                //     activeEditor.setContent(content);
 
-                } else {
+                // } else {
 
-                    $('.email-draft-body_html').val(content);
-                }
+                //     $('.email-draft-body_html').val(content);
+                // }
 
                 $('.email_id').val(response.data.id);
 
@@ -2041,7 +2134,8 @@ $(document).ready(function() {
                     $(".compose_to ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".compose_to ul").append("<li class='compose_emaillist' value='" + atob(response.data[i].email_from) + "'>" + atob(response.data[i].email_from) + "</li>");
+                            // $(".compose_to ul").append("<li class='compose_emaillist' value='" + atob(response.data[i].email_from) + "'>" + atob(response.data[i].email_from) + "</li>");
+                            $(".compose_to ul").append("<li class='compose_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".compose_to ul").empty();
@@ -2075,7 +2169,7 @@ $(document).ready(function() {
                     $(".compose_cc ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".compose_cc ul").append("<li class='composecc_emaillist' value='" + atob(response.data[i].email_from) + "'>" + atob(response.data[i].email_from) + "</li>");
+                            $(".compose_cc ul").append("<li class='composecc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".compose_cc ul").empty();
@@ -2107,7 +2201,7 @@ $(document).ready(function() {
                     $(".compose_cc ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".compose_bcc ul").append("<li class='composebcc_emaillist' value='" + atob(response.data[i].email_from) + "'>" + atob(response.data[i].email_from) + "</li>");
+                            $(".compose_bcc ul").append("<li class='composebcc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".compose_bcc ul").empty();
@@ -2140,7 +2234,7 @@ $(document).ready(function() {
                     $(".reply_to ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".reply_to ul").append("<li class='replyto_emaillist' value='" + atob(response.data[i].email_from) + "'>" + atob(response.data[i].email_from) + "</li>");
+                            $(".reply_to ul").append("<li class='replyto_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".reply_to ul").empty();
@@ -2174,7 +2268,7 @@ $(document).ready(function() {
                     $(".reply_cc ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".reply_cc ul").append("<li class='replycc_emaillist' value='" + atob(response.data[i].email_from) + "'>" + atob(response.data[i].email_from) + "</li>");
+                            $(".reply_cc ul").append("<li class='replycc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".reply_cc ul").empty();
@@ -2207,7 +2301,7 @@ $(document).ready(function() {
                     $(".reply_cc ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".reply_bcc ul").append("<li class='replybcc_emaillist' value='" + atob(response.data[i].email_from) + "'>" + atob(response.data[i].email_from) + "</li>");
+                            $(".reply_bcc ul").append("<li class='replybcc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".reply_bcc ul").empty();
@@ -2240,7 +2334,7 @@ $(document).ready(function() {
                     $(".draft_to ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".draft_to ul").append("<li class='draftto_emaillist' value='" + atob(response.data[i].email_from) + "'>" + atob(response.data[i].email_from) + "</li>");
+                            $(".draft_to ul").append("<li class='draftto_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".draft_to ul").empty();
@@ -2274,7 +2368,7 @@ $(document).ready(function() {
                     $(".draft_cc ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".draft_cc ul").append("<li class='draftcc_emaillist' value='" + atob(response.data[i].email_from) + "'>" + atob(response.data[i].email_from) + "</li>");
+                            $(".draft_cc ul").append("<li class='draftcc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".draft_cc ul").empty();
@@ -2307,7 +2401,7 @@ $(document).ready(function() {
                     $(".draft_bcc ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".draft_bcc ul").append("<li class='draftbcc_emaillist' value='" + atob(response.data[i].email_from) + "'>" + atob(response.data[i].email_from) + "</li>");
+                            $(".draft_bcc ul").append("<li class='draftbcc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".draft_bcc ul").empty();
@@ -2395,21 +2489,30 @@ $(document).on('click', '.email-compose-btn', function(e) {
     $('#to').val('');
     $('#cc').val('');
     $('#subject').val('');
-    $('#body_html').val('');
+    $('#textarea_editor_email_compose').val('');
+
+    if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+        tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+
+    }
+
+    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+
     // $('.compose_message').summernote('code', '');
 
-    var activeEditor = tinymce.activeEditor;
+    // var activeEditor = tinymce.activeEditor;
 
-    var content = '';
+    // var content = '';
 
-    if (activeEditor !== null) {
+    // if (activeEditor !== null) {
 
-        activeEditor.setContent(content);
+    //     activeEditor.setContent(content);
 
-    } else {
+    // } else {
 
-        $('.compose_message').val(content);
-    }
+    //     $('.compose_message').val(content);
+    // }
 
     $('#composeto_value').val('');
     $('.attachements').val('');
@@ -2440,20 +2543,27 @@ $(document).on('click', '.email-compose-btn', function(e) {
                 message = stamp.concat(message);
                 var msg = '</div>';
                 message = msg.concat(message);
+
+                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                    tinymce.get('textarea_editor_email_compose').setContent(message, { format: 'html' });
+
+                }
+
                 // $('.compose_message').summernote('code', message);
 
-                var activeEditor = tinymce.activeEditor;
+                // var activeEditor = tinymce.activeEditor;
 
-                var content = message;
+                // var content = message;
 
-                if (activeEditor !== null && content != '') {
+                // if (activeEditor !== null && content != '') {
 
-                    activeEditor.setContent(content);
+                //     activeEditor.setContent(content);
 
-                } else {
+                // } else {
 
-                    $('.compose_message').val(content);
-                }
+                //     $('.compose_message').val(content);
+                // }
 
                 // tinymce.get('my_textarea_id').setContent(my_value_to_set);
 
@@ -2480,7 +2590,6 @@ $(document).on('click', '.email-compose-btn', function(e) {
 
 
 });
-
 
 $('.myEmailGrid .jsgrid-grid-body').slimscroll({
     height: '520px',
@@ -2545,6 +2654,7 @@ $(document).on('click', '.signature-save', function(e) {
     signature(postUrl, params, '#signatureModal');
 
 });
+
 $(document).on('click', '.signature-cancel', function(e) {
     $('#signatureModal').modal('hide');
 
@@ -2595,6 +2705,18 @@ function signature(sendUrl, params, closeBtnSelector) {
 function showsignatureform() {
     var emailPostData = {};
 
+    if (tinymce.get('textarea_editor_email_new_signature') != undefined && tinymce.get('textarea_editor_email_new_signature') != null) {
+
+        tinymce.get('textarea_editor_email_new_signature').execCommand('mceInsertContent', false, '');
+
+    }
+
+    if (tinymce.get('textarea_editor_email_replyforward_signature') != undefined && tinymce.get('textarea_editor_email_replyforward_signature') != null) {
+
+        tinymce.get('textarea_editor_email_replyforward_signature').execCommand('mceInsertContent', false, '');
+
+    }
+
     //var postUrl = 'get-signature';
     var selector = '.signature';
     var postUrl = $(selector).attr('data-signature-geturl');
@@ -2612,36 +2734,53 @@ function showsignatureform() {
                 var str2 = '';
 
                 var message = response.data.new_signature;
+
+                if (tinymce.get('textarea_editor_email_new_signature') != undefined && tinymce.get('textarea_editor_email_new_signature') != null) {
+
+                    tinymce.get('textarea_editor_email_new_signature').setContent(message, { format: 'html' });
+
+                }
+
+                // tinymce.get("new_signature").setContent(message);
+
                 // $('.new_signature').summernote('code', message);
 
-                var activeEditor = tinymce.activeEditor;
+                // var activeEditor = tinymce.activeEditor;
 
-                var content = message;
+                // var content = message;
 
-                if (activeEditor !== null && content != '') {
+                // if (activeEditor !== null && content != '') {
 
-                    activeEditor.setContent(content);
+                //     activeEditor.setContent(content);
 
-                } else {
+                // } else {
 
-                    $('.new_signature').val(content);
-                }
+                //     $('.new_signature').val(content);
+                // }
 
                 var message1 = response.data.replyforward_signature;
+
+                if (tinymce.get('textarea_editor_email_replyforward_signature') != undefined && tinymce.get('textarea_editor_email_replyforward_signature') != null) {
+
+                    tinymce.get('textarea_editor_email_replyforward_signature').execCommand('mceInsertContent', false, message1);
+
+                }
+
+
                 // $('.replyforward_signature').summernote('code', message1);
 
-                var activeEditor = tinymce.activeEditor;
+                // var activeEditor = tinymce.activeEditor;
 
-                var content = message;
+                // var content = message;
 
-                if (activeEditor !== null && content != '') {
+                // if (activeEditor !== null && content != '') {
 
-                    activeEditor.setContent(content);
+                //     activeEditor.setContent(content);
 
-                } else {
+                // } else {
 
-                    $('.replyforward_signature').val(content);
-                }
+                //     $('.replyforward_signature').val(content);
+                // }
 
             }
         } else {
@@ -2693,44 +2832,76 @@ $(document).on('change', '.signature_change', function(e) {
                         var sig_class = 'emailsig_block_' + random;
                         sessionStorage.setItem('signature_classname', sig_class);
                         if (pagetype == 'new') {
-                            var message = $('.compose_message').val();
+                            // var message = $('.compose_message').val();
+
+                            var message = '';
+
+                            if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
+
+                            }
+
                             var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
                             var msg = '</div>';
                             message = message + stamp + msg;
-                            // $('.compose_message').summernote('code', message);
 
-                            var activeEditor = tinymce.activeEditor;
+                            if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
 
-                            var content = message;
+                                tinymce.get('textarea_editor_email_compose').setContent(message, { format: 'html' });
 
-                            if (activeEditor !== null && content != '') {
-
-                                activeEditor.setContent(content);
-
-                            } else {
-
-                                $('.compose_message').val(content);
                             }
 
+                            // $('.compose_message').summernote('code', message);
+
+                            // var activeEditor = tinymce.activeEditor;
+
+                            // var content = message;
+
+                            // if (activeEditor !== null && content != '') {
+
+                            //     activeEditor.setContent(content);
+
+                            // } else {
+
+                            //     $('.compose_message').val(content);
+                            // }
+
                         } else if (pagetype == 'reply') {
-                            var message = $('.email-reply-body_html').val();
+                            // var message = $('.email-reply-body_html').val();
+
+                            var message = '';
+
+                            if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                message = tinymce.get('textarea_editor_email_reply').getContent({ format: 'html' });
+
+                            }
+
                             var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
                             var msg = '</div>';
                             message = stamp + msg + message;
+
+                            if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                tinymce.get('textarea_editor_email_reply').setContent(message, { format: 'html' });
+
+                            }
+
                             // $('.email-reply-body_html').summernote('code', message);
 
-                            var activeEditor = tinymce.activeEditor;
+                            // var activeEditor = tinymce.activeEditor;
 
-                            var content = message;
+                            // var content = message;
 
-                            if (activeEditor !== null && content != '') {
+                            // if (activeEditor !== null && content != '') {
 
-                                activeEditor.setContent(content);
+                            //     activeEditor.setContent(content);
 
-                            } else {
+                            // } else {
 
-                                $('.email-reply-body_html').val(content);
-                            }
+                            //     $('.email-reply-body_html').val(content);
+                            // }
 
                         }
 
@@ -2744,44 +2915,76 @@ $(document).on('change', '.signature_change', function(e) {
                         sessionStorage.setItem('signature_classname', sig_class);
 
                         if (pagetype == 'new') {
-                            var message = $('.compose_message').val();
+                            // var message = $('.compose_message').val();
+
+                            var message = '';
+
+                            if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
+
+                            }
+
                             var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
                             var msg = '</div>';
                             message = message + stamp + msg;
-                            // $('.compose_message').summernote('code', message);
 
-                            var activeEditor = tinymce.activeEditor;
+                            if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
 
-                            var content = message;
+                                tinymce.get('textarea_editor_email_compose').setContent(message, { format: 'html' });
 
-                            if (activeEditor !== null && content != '') {
-
-                                activeEditor.setContent(content);
-
-                            } else {
-
-                                $('.compose_message').val(content);
                             }
 
+                            // $('.compose_message').summernote('code', message);
+
+                            // var activeEditor = tinymce.activeEditor;
+
+                            // var content = message;
+
+                            // if (activeEditor !== null && content != '') {
+
+                            //     activeEditor.setContent(content);
+
+                            // } else {
+
+                            //     $('.compose_message').val(content);
+                            // }
+
                         } else if (pagetype == 'reply') {
-                            var message = $('.email-reply-body_html').val();
+                            // var message = $('.email-reply-body_html').val();
+
+                            var message = '';
+
+                            if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                message = tinymce.get('textarea_editor_email_reply').getContent({ format: 'html' });
+
+                            }
+
                             var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
                             var msg = '</div>';
                             message = stamp + msg + message;
+
+                            if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                tinymce.get('textarea_editor_email_reply').setContent(message, { format: 'html' });
+
+                            }
+
                             // $('.email-reply-body_html').summernote('code', message);
 
-                            var activeEditor = tinymce.activeEditor;
+                            // var activeEditor = tinymce.activeEditor;
 
-                            var content = message;
+                            // var content = message;
 
-                            if (activeEditor !== null && content != '') {
+                            // if (activeEditor !== null && content != '') {
 
-                                activeEditor.setContent(content);
+                            //     activeEditor.setContent(content);
 
-                            } else {
+                            // } else {
 
-                                $('.email-reply-body_html').val(content);
-                            }
+                            //     $('.email-reply-body_html').val(content);
+                            // }
 
                         }
 

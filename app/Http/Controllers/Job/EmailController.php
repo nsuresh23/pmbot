@@ -310,12 +310,12 @@ class EmailController extends Controller
 
                             array_walk($toEmails, function ($value, $key) use ($returnData, &$toEmails) {
 
-                                if (strpos($value, auth()->user()->empcode) !== false) {
+                                if (stripos($value, auth()->user()->empcode) !== false) {
 
                                     unset($toEmails[$key]);
                                 }
 
-                                if (strpos($value, $returnData["data"]["email_from"]) !== false) {
+                                if (stripos($value, $returnData["data"]["email_from"]) !== false) {
 
                                     unset($toEmails[$key]);
                                 }
@@ -678,6 +678,7 @@ class EmailController extends Controller
 			*/
 			if($field['email_type'] == 'forward') {
 				$gfield['emailid'] = $field['email_id'];
+				$gfield["empcode"] = auth()->user()->empcode;
 				$returnResponse = $this->emailResource->emailGet($gfield);
 
 				if(!empty($returnResponse['data']['attachments'])) {
@@ -822,6 +823,7 @@ class EmailController extends Controller
 			if($request->file())
 			{
 				$gfield['emailid'] = $field['id'];
+				$gfield["empcode"] = auth()->user()->empcode;
 				$returnResponse = $this->emailResource->emailGet($gfield);
 				if(!empty($returnResponse['data']['attachments'])) {
 					$returnResponse['data']['attachments'] = base64_decode($returnResponse['data']['attachments']);
@@ -935,31 +937,30 @@ class EmailController extends Controller
 
 							$toEmails = [];
 
-							$toEmails = explode(';', html_entity_decode($returnData["data"]["email_to"]));
+							if($returnData["data"]["status"] != '6') {
+								$toEmails = $returnData["data"]["email_from"].';'.$returnData["data"]["email_to"];
+							} else {
+								$toEmails = $returnData["data"]["email_to"];
+							}
+							$toEmails = explode(';', html_entity_decode($toEmails));
 
 							if (is_array($toEmails) && count($toEmails) > 0) {
 
 								array_walk($toEmails, function ($value, $key) use ($returnData, &$toEmails) {
 
-									if (strpos($value, auth()->user()->empcode) !== false) {
+									if (stripos($value, auth()->user()->empcode) !== false) {
 
 										unset($toEmails[$key]);
 									}
 
-									if (strpos($value, $returnData["data"]["email_from"]) !== false) {
+									if (stripos($value, $returnData["data"]["email_from"]) !== false) {
 
 										unset($toEmails[$key]);
 									}
 								});
 							}
 							$replyAllToEmails = implode(";", $toEmails);
-
-							if($returnData["data"]["status"] != '6') {
-								$returnData["data"]["reply_all_to"] = $returnData["data"]["email_from"] . ";" . $replyAllToEmails;
-							} else {
-								$returnData["data"]["reply_all_to"] = $replyAllToEmails;
-							}
-							
+							$returnData["data"]["reply_all_to"] = $replyAllToEmails;							
 							$returnResponse["data"]["reply_all_to"] = $returnData["data"]["reply_all_to"];
 
 						}
@@ -1006,7 +1007,7 @@ class EmailController extends Controller
             if (isset($request->search) && $request->search != "") {
                 $field["search"] = $request->search;
             }
-
+			$field["empcode"]       = auth()->user()->empcode;
             if (count($field) > 0) {
                 $returnResponse = $this->emailResource->emailidGet($field);
             }
