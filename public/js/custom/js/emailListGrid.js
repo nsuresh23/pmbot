@@ -1574,19 +1574,12 @@ $(document).on('click', '.email-save-btn', function(e) {
 
     params.delete('attachement');
 
-
-
     emailSend(postUrl, params, '#emailSendModal');
 
 });
 $(document).on('click', '.email-reply-send-btn', function(e) {
 
     tinymce.triggerSave(true, true);
-
-    console.log(tinymce.get('textarea_editor_email_reply').getContent());
-
-
-    alert(tinymce.get('textarea_editor_email_reply').getContent({ format: "html" }));
 
     if ($('#email-reply-to').val() == '') {
         $("#email-reply-to").focus();
@@ -1767,8 +1760,11 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             $('#subject').val('');
             $('#body_html').val('');
 
-            tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
-            tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+            // tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+            // tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+
+            tinymce.get('textarea_editor_email_compose').setContent('');
+            tinymce.get('textarea_editor_email_reply').setContent('');
 
             // $('#textarea_editor_email_compose').html('');
             // $('#textarea_editor_email_reply').html('');
@@ -1923,7 +1919,9 @@ function showform(type, selector) {
 
         // tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, '');
 
-        tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, '');
+        tinymce.get('textarea_editor_email_' + editor_type).setContent('');
+
+        // tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, emailEditorParaTag);
 
     }
 
@@ -2044,7 +2042,8 @@ function showform(type, selector) {
 
                 if (tinymce.get('textarea_editor_email_' + editor_type) != undefined && tinymce.get('textarea_editor_email_' + editor_type) != null) {
 
-                    tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, message);
+                    tinymce.get('textarea_editor_email_' + editor_type).setContent('');
+                    tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, emailEditorParaTag + message);
                     // tinymce.get('textarea_editor_email_' + editor_type).setContent(message, { format: 'html' });
 
                     // tinymce.get('textarea_editor_email_reply').setContent(message, { format: 'html' });
@@ -2111,7 +2110,8 @@ function showdraftform(type, selector) {
 
     if (tinymce.get('textarea_editor_email_draft') != undefined && tinymce.get('textarea_editor_email_draft') != null) {
 
-        tinymce.get('textarea_editor_email_draft').execCommand('mceInsertContent', false, '');
+        // tinymce.get('textarea_editor_email_draft').execCommand('mceInsertContent', false, '');
+        tinymce.get('textarea_editor_email_draft').setContent('');
 
     }
 
@@ -2587,7 +2587,8 @@ $(document).on('click', '.email-compose-btn', function(e) {
 
     if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
 
-        tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+        // tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+        tinymce.get('textarea_editor_email_compose').setContent('');
 
         tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, emailEditorParaTag);
 
@@ -2831,14 +2832,16 @@ function showsignatureform() {
 
     if (tinymce.get('textarea_editor_email_new_signature') != undefined && tinymce.get('textarea_editor_email_new_signature') != null) {
 
-        tinymce.get('textarea_editor_email_new_signature').execCommand('mceInsertContent', false, '');
+        // tinymce.get('textarea_editor_email_new_signature').execCommand('mceInsertContent', false, '');
+        tinymce.get('textarea_editor_email_new_signature').setContent('');
 
 
     }
 
     if (tinymce.get('textarea_editor_email_replyforward_signature') != undefined && tinymce.get('textarea_editor_email_replyforward_signature') != null) {
 
-        tinymce.get('textarea_editor_email_replyforward_signature').execCommand('mceInsertContent', false, '');
+        // tinymce.get('textarea_editor_email_replyforward_signature').execCommand('mceInsertContent', false, '');
+        tinymce.get('textarea_editor_email_replyforward_signature').setContent('');
 
     }
 
@@ -3007,7 +3010,8 @@ $(document).on('change', '.signature_change', function(e) {
 
                                     message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
 
-                                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+                                    // tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+                                    tinymce.get('textarea_editor_email_compose').setContent('');
 
                                 }
 
@@ -3045,7 +3049,8 @@ $(document).on('change', '.signature_change', function(e) {
 
                                 if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
 
-                                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+                                    // tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+                                    tinymce.get('textarea_editor_email_reply').setContent('');
 
                                 }
 
@@ -3105,7 +3110,8 @@ $(document).on('change', '.signature_change', function(e) {
 
                                     message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
 
-                                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+                                    // tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+                                    tinymce.get('textarea_editor_email_compose').setContent('');
 
                                 }
 
@@ -3145,7 +3151,8 @@ $(document).on('change', '.signature_change', function(e) {
 
                                     message = tinymce.get('textarea_editor_email_reply').getContent({ format: 'html' });
 
-                                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+                                    // tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+                                    tinymce.get('textarea_editor_email_reply').setContent('');
 
                                 }
 
