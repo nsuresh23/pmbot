@@ -713,6 +713,62 @@ function getPmsEmailCountTableList(gridSelector) {
 }
 
 
+function findBrowser() {
+
+    var navUserAgent = navigator.userAgent;
+    var browserName = navigator.appName;
+    var browserVersion = '' + parseFloat(navigator.appVersion);
+    var majorVersion = parseInt(navigator.appVersion, 10);
+    var tempNameOffset, tempVersionOffset, tempVersion;
+
+    if ((tempVersionOffset = navUserAgent.indexOf("Opera")) != -1) {
+        browserName = "Opera";
+        browserVersion = navUserAgent.substring(tempVersionOffset + 6);
+        if ((tempVersionOffset = navUserAgent.indexOf("Version")) != -1)
+            browserVersion = navUserAgent.substring(tempVersionOffset + 8);
+    } else if ((tempVersionOffset = navUserAgent.indexOf("MSIE")) != -1) {
+        browserName = "Microsoft Internet Explorer";
+        browserVersion = navUserAgent.substring(tempVersionOffset + 5);
+    } else if ((tempVersionOffset = navUserAgent.indexOf("Chrome")) != -1) {
+        browserName = "Chrome";
+        browserVersion = navUserAgent.substring(tempVersionOffset + 7);
+    } else if ((tempVersionOffset = navUserAgent.indexOf("Safari")) != -1) {
+        browserName = "Safari";
+        browserVersion = navUserAgent.substring(tempVersionOffset + 7);
+        if ((tempVersionOffset = navUserAgent.indexOf("Version")) != -1)
+            browserVersion = navUserAgent.substring(tempVersionOffset + 8);
+    } else if ((tempVersionOffset = navUserAgent.indexOf("Firefox")) != -1) {
+        browserName = "Firefox";
+        browserVersion = navUserAgent.substring(tempVersionOffset + 8);
+    } else if ((tempNameOffset = navUserAgent.lastIndexOf(' ') + 1) < (tempVersionOffset = navUserAgent.lastIndexOf('/'))) {
+        browserName = navUserAgent.substring(tempNameOffset, tempVersionOffset);
+        browserVersion = navUserAgent.substring(tempVersionOffset + 1);
+        if (browserName.toLowerCase() == browserName.toUpperCase()) {
+            browserName = navigator.appName;
+        }
+    }
+
+    // trim version
+    if ((tempVersion = browserVersion.indexOf(";")) != -1)
+        browserVersion = browserVersion.substring(0, tempVersion);
+    if ((tempVersion = browserVersion.indexOf(" ")) != -1)
+        browserVersion = browserVersion.substring(0, tempVersion);
+
+    return browserName;
+}
+
+var browserName = findBrowser();
+
+var emailEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;"><br></p>';
+var emailSignatureEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Arial; color: #1F497D;"><br></p>';
+
+if (browserName == 'Firefox') {
+
+    emailEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;"></p>';
+    emailSignatureEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Arial; color: #1F497D;"></p>';
+
+}
+
 var gridSelector = ".myEmailGrid";
 
 var dataUrl = $(gridSelector).attr('data-list-url');
@@ -1446,6 +1502,9 @@ $(document).on('click', '.email-send-btn-old', function(e) {
 });
 
 $(document).on('click', '.email-send-btn', function(e) {
+
+    tinymce.triggerSave(true, true);
+
     var type = $('.pmbottype').attr('data-pmbottype');
     $('.type').val(type);
 
@@ -1476,6 +1535,8 @@ $(document).on('click', '.email-send-btn', function(e) {
         params.append('file-' + i, file);
     });
 
+
+
     params.delete('attachement');
 
     emailSend(postUrl, params, '#emailSendModal');
@@ -1485,6 +1546,9 @@ $(document).on('click', '.email-send-btn', function(e) {
 });
 
 $(document).on('click', '.email-save-btn', function(e) {
+
+    tinymce.triggerSave(true, true);
+
     var type = $('.pmbottype').attr('data-pmbottype');
     $('.type').val(type);
 
@@ -1516,6 +1580,13 @@ $(document).on('click', '.email-save-btn', function(e) {
 
 });
 $(document).on('click', '.email-reply-send-btn', function(e) {
+
+    tinymce.triggerSave(true, true);
+
+    console.log(tinymce.get('textarea_editor_email_reply').getContent());
+
+
+    alert(tinymce.get('textarea_editor_email_reply').getContent({ format: "html" }));
 
     if ($('#email-reply-to').val() == '') {
         $("#email-reply-to").focus();
@@ -1556,6 +1627,9 @@ $(document).on('click', '.email-reply-send-btn', function(e) {
 });
 
 $(document).on('click', '.email-reply-save-btn', function(e) {
+
+    tinymce.triggerSave(true, true);
+
     var type = $('.pmbottype').attr('data-pmbottype');
     $('.type').val(type);
     $('#email-type').val(type);
@@ -1587,6 +1661,9 @@ $(document).on('click', '.email-reply-save-btn', function(e) {
 });
 
 $(document).on('click', '.email-draft-send-btn', function(e) {
+
+    tinymce.triggerSave(true, true);
+
     var type = $('.pmbottype').attr('data-pmbottype');
     $('.type').val(type);
     $('#email-type').val(type);
@@ -1610,6 +1687,9 @@ $(document).on('click', '.email-draft-send-btn', function(e) {
 });
 
 $(document).on('click', '.email-draft-save-btn', function(e) {
+
+    tinymce.triggerSave(true, true);
+
     var type = $('.pmbottype').attr('data-pmbottype');
     $('.type').val(type);
     $('#email-type').val(type);
@@ -1687,7 +1767,12 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             $('#subject').val('');
             $('#body_html').val('');
 
-            tinymce.get('body_html').execCommand('mceInsertContent', false, '');
+            tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+            tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+
+            // $('#textarea_editor_email_compose').html('');
+            // $('#textarea_editor_email_reply').html('');
+            $('.textarea_editor_email').html('');
 
             // $('.compose_message').summernote('code', '');
 
@@ -1836,6 +1921,8 @@ function showform(type, selector) {
 
     if (tinymce.get('textarea_editor_email_' + editor_type) != undefined && tinymce.get('textarea_editor_email_' + editor_type) != null) {
 
+        // tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, '');
+
         tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, '');
 
     }
@@ -1927,15 +2014,19 @@ function showform(type, selector) {
                 }
                 //var message = atob(response.data.body_html);
                 var message = response.data.body_html;
+                var sinmessage = '';
 
-                var random = Math.random().toString(36).substring(7);
-                var sig_class = 'emailsig_block_' + random;
-                sessionStorage.setItem('signature_classname', sig_class);
+                if ('replyforward_signature' in response.data && response.data.replyforward_signature != '') {
 
+                    var random = Math.random().toString(36).substring(7);
+                    var sig_class = 'emailsig_block_' + random;
+                    sessionStorage.setItem('signature_classname', sig_class);
 
-                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
-                var msg = '</div>';
-                sinmessage = stamp + msg;
+                    var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                    var msg = '</div>';
+                    sinmessage = stamp + msg;
+
+                }
 
                 //var sig = response.data.replyforward_signature;
                 var sentdate = '';
@@ -1953,8 +2044,12 @@ function showform(type, selector) {
 
                 if (tinymce.get('textarea_editor_email_' + editor_type) != undefined && tinymce.get('textarea_editor_email_' + editor_type) != null) {
 
-                    // tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, message);
-                    tinymce.get('textarea_editor_email_' + editor_type).setContent(message, { format: 'html' });
+                    tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, message);
+                    // tinymce.get('textarea_editor_email_' + editor_type).setContent(message, { format: 'html' });
+
+                    // tinymce.get('textarea_editor_email_reply').setContent(message, { format: 'html' });
+
+                    // $('#textarea_editor_email_' + editor_type).append(message);
 
                 }
 
@@ -2065,7 +2160,9 @@ function showdraftform(type, selector) {
 
                 if (tinymce.get('textarea_editor_email_draft') != undefined && tinymce.get('textarea_editor_email_draft') != null) {
 
-                    tinymce.get('textarea_editor_email_draft').setContent(message, { format: 'html' });
+                    tinymce.get('textarea_editor_email_draft').execCommand('mceInsertContent', false, message);
+
+                    // $('#textarea_editor_email_draft').append(message);
 
                 }
 
@@ -2113,6 +2210,7 @@ function showdraftform(type, selector) {
     });
 }
 $(document).ready(function() {
+
     $("#to").keyup(function() {
         var search = $(this).val();
 
@@ -2146,8 +2244,6 @@ $(document).ready(function() {
             $(".compose_to ul").empty();
         }
     });
-
-
     $("#cc").keyup(function() {
         var search = $(this).val();
 
@@ -2245,7 +2341,6 @@ $(document).ready(function() {
             $(".reply_to ul").empty();
         }
     });
-
     $("#email-reply-cc").keyup(function() {
         var search = $(this).val();
 
@@ -2345,7 +2440,6 @@ $(document).ready(function() {
             $(".draft_to ul").empty();
         }
     });
-
     $("#email-draft-cc").keyup(function() {
         var search = $(this).val();
 
@@ -2495,9 +2589,11 @@ $(document).on('click', '.email-compose-btn', function(e) {
 
         tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
 
+        tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, emailEditorParaTag);
+
+
     }
 
-    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
 
     // $('.compose_message').summernote('code', '');
 
@@ -2532,7 +2628,7 @@ $(document).on('click', '.email-compose-btn', function(e) {
     }).done(function(response) {
 
         if (response.success == "true") {
-            if (response.data != undefined && response.data != '') {
+            if (response.data != undefined && typeof response.data == 'object' && 'new_signature' in response.data && response.data.new_signature != '') {
                 var random = Math.random().toString(36).substring(7);
                 var sig_class = 'emailsig_block_' + random;
                 //$.session.set('signature_classname', 'test');
@@ -2546,7 +2642,10 @@ $(document).on('click', '.email-compose-btn', function(e) {
 
                 if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
 
-                    tinymce.get('textarea_editor_email_compose').setContent(message, { format: 'html' });
+                    // tinymce.get('textarea_editor_email_compose').setContent(message, { format: 'html' });
+                    // tinymce.get('textarea_editor_email_compose').setContent('<p style="font-size: 11pt; font-family: Calibri; color: #1f497d; line-height: 8pt;"></p>', { format: 'html' });
+                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, emailEditorParaTag + message);
+                    // $('#textarea_editor_email_compose').append(message);
 
                 }
 
@@ -2645,11 +2744,30 @@ $(document).on('click', '.signature', function(e) {
 });
 
 $(document).on('click', '.signature-save', function(e) {
+
+    tinymce.triggerSave(true, true);
+
     e.preventDefault();
 
     var postUrl = $('.signature-form').attr('action');
 
     var params = new FormData($('.signature-form')[0]);
+    // var params = {};
+
+    // if (tinymce.get('textarea_editor_email_new_signature') != undefined && tinymce.get('textarea_editor_email_new_signature') != null) {
+
+    //     params.new_signature = tinymce.get('textarea_editor_email_new_signature').getContent({ format: 'html' });
+    //     // params.new_signature = tinymce.get('textarea_editor_email_new_signature').getContent();
+
+    // }
+
+    // if (tinymce.get('textarea_editor_email_replyforward_signature') != undefined && tinymce.get('textarea_editor_email_replyforward_signature') != null) {
+
+
+    //     params.replyforward_signature = tinymce.get('textarea_editor_email_replyforward_signature').getContent({ format: 'html' });
+    //     // params.replyforward_signature = tinymce.get('textarea_editor_email_replyforward_signature').getContent();
+
+    // }
 
     signature(postUrl, params, '#signatureModal');
 
@@ -2661,6 +2779,12 @@ $(document).on('click', '.signature-cancel', function(e) {
 });
 
 function signature(sendUrl, params, closeBtnSelector) {
+
+    // params.new_signature = 'test';
+    // params.replyforward_signature = 'testfgdhfd';
+
+    // var new_signature = { 'test': 'test' };
+
 
     if (sendUrl != undefined && sendUrl != '') {
 
@@ -2709,6 +2833,7 @@ function showsignatureform() {
 
         tinymce.get('textarea_editor_email_new_signature').execCommand('mceInsertContent', false, '');
 
+
     }
 
     if (tinymce.get('textarea_editor_email_replyforward_signature') != undefined && tinymce.get('textarea_editor_email_replyforward_signature') != null) {
@@ -2730,14 +2855,30 @@ function showsignatureform() {
     }).done(function(response) {
 
         if (response.success == "true") {
-            if (response.data != undefined && response.data != '') {
+            if (response.data != undefined && typeof response.data == 'object') {
+
+
                 var str2 = '';
 
-                var message = response.data.new_signature;
+                if ('new_signature' in response.data && response.data.new_signature != '') {
 
-                if (tinymce.get('textarea_editor_email_new_signature') != undefined && tinymce.get('textarea_editor_email_new_signature') != null) {
+                    var message = response.data.new_signature;
 
-                    tinymce.get('textarea_editor_email_new_signature').setContent(message, { format: 'html' });
+                    if (tinymce.get('textarea_editor_email_new_signature') != undefined && tinymce.get('textarea_editor_email_new_signature') != null) {
+
+                        tinymce.get('textarea_editor_email_new_signature').execCommand('mceInsertContent', false, message);
+
+                        // tinymce.get('textarea_editor_email_new_signature').setContent(message, { format: 'html' });
+
+                        // $('#textarea_editor_email_new_signature').append(message);
+
+                    }
+
+                } else {
+
+                    tinymce.get('textarea_editor_email_new_signature').execCommand('mceInsertContent', false, emailSignatureEditorParaTag);
+
+                    // tinymce.get('textarea_editor_email_new_signature').setContent('<p style="margin: 0in; margin-bottom: .0001pt; font-size: 10.0pt; font-family: Arial;"><br></p>', { format: 'html' });
 
                 }
 
@@ -2758,11 +2899,24 @@ function showsignatureform() {
                 //     $('.new_signature').val(content);
                 // }
 
-                var message1 = response.data.replyforward_signature;
+                if ('replyforward_signature' in response.data && response.data.replyforward_signature != '') {
 
-                if (tinymce.get('textarea_editor_email_replyforward_signature') != undefined && tinymce.get('textarea_editor_email_replyforward_signature') != null) {
+                    var message1 = response.data.replyforward_signature;
 
-                    tinymce.get('textarea_editor_email_replyforward_signature').execCommand('mceInsertContent', false, message1);
+                    if (tinymce.get('textarea_editor_email_replyforward_signature') != undefined && tinymce.get('textarea_editor_email_replyforward_signature') != null) {
+
+                        // tinymce.get('textarea_editor_email_replyforward_signature').setContent(message1, { format: 'html' });
+
+                        tinymce.get('textarea_editor_email_replyforward_signature').execCommand('mceInsertContent', false, message1);
+                        // $('#textarea_editor_email_replyforward_signature').append(message1);
+
+                    }
+
+                } else {
+
+                    // tinymce.get('textarea_editor_email_replyforward_signature').setContent('<p style="margin: 0in; margin-bottom: .0001pt; font-size: 10.0pt; font-family: Arial;"><br></p>', { format: 'html' });
+
+                    tinymce.get('textarea_editor_email_replyforward_signature').execCommand('mceInsertContent', false, emailSignatureEditorParaTag);
 
                 }
 
@@ -2822,177 +2976,214 @@ $(document).on('change', '.signature_change', function(e) {
     }).done(function(response) {
 
         if (response.success == "true") {
-            if (response.data != undefined && response.data != '') {
+
+            if (response.data != undefined && typeof response.data == 'object') {
+
                 var classname = sessionStorage.getItem('signature_classname');
+
                 if (val == 'new_signature') {
-                    if ($("div").hasClass(classname) == true) {
-                        $('.' + classname).html(response.data.new_signature);
-                    } else {
-                        var random = Math.random().toString(36).substring(7);
-                        var sig_class = 'emailsig_block_' + random;
-                        sessionStorage.setItem('signature_classname', sig_class);
-                        if (pagetype == 'new') {
-                            // var message = $('.compose_message').val();
 
-                            var message = '';
+                    if ('new_signature' in response.data && response.data.new_signature != '') {
 
-                            if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+                        if ($("div").hasClass(classname) == true) {
 
-                                message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
+                            $('.' + classname).html(response.data.new_signature);
+
+                        } else {
+
+                            var random = Math.random().toString(36).substring(7);
+
+                            var sig_class = 'emailsig_block_' + random;
+
+                            sessionStorage.setItem('signature_classname', sig_class);
+
+                            if (pagetype == 'new') {
+
+                                // var message = $('.compose_message').val();
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
+
+                                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
+                                var msg = '</div>';
+                                message = message + stamp + msg;
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, message);
+                                    // $('#textarea_editor_email_compose').append(message);
+
+                                }
+
+                                // $('.compose_message').summernote('code', message);
+
+                                // var activeEditor = tinymce.activeEditor;
+
+                                // var content = message;
+
+                                // if (activeEditor !== null && content != '') {
+
+                                //     activeEditor.setContent(content);
+
+                                // } else {
+
+                                //     $('.compose_message').val(content);
+                                // }
+
+                            } else if (pagetype == 'reply') {
+
+                                // var message = $('.email-reply-body_html').val();
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
+                                var msg = '</div>';
+                                message = stamp + msg + message;
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, message);
+
+                                    // $('#textarea_editor_email_reply').append(message);
+
+                                }
+
+                                // $('.email-reply-body_html').summernote('code', message);
+
+                                // var activeEditor = tinymce.activeEditor;
+
+                                // var content = message;
+
+                                // if (activeEditor !== null && content != '') {
+
+                                //     activeEditor.setContent(content);
+
+                                // } else {
+
+                                //     $('.email-reply-body_html').val(content);
+                                // }
 
                             }
-
-                            var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
-                            var msg = '</div>';
-                            message = message + stamp + msg;
-
-                            if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
-
-                                tinymce.get('textarea_editor_email_compose').setContent(message, { format: 'html' });
-
-                            }
-
-                            // $('.compose_message').summernote('code', message);
-
-                            // var activeEditor = tinymce.activeEditor;
-
-                            // var content = message;
-
-                            // if (activeEditor !== null && content != '') {
-
-                            //     activeEditor.setContent(content);
-
-                            // } else {
-
-                            //     $('.compose_message').val(content);
-                            // }
-
-                        } else if (pagetype == 'reply') {
-                            // var message = $('.email-reply-body_html').val();
-
-                            var message = '';
-
-                            if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
-
-                                message = tinymce.get('textarea_editor_email_reply').getContent({ format: 'html' });
-
-                            }
-
-                            var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
-                            var msg = '</div>';
-                            message = stamp + msg + message;
-
-                            if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
-
-                                tinymce.get('textarea_editor_email_reply').setContent(message, { format: 'html' });
-
-                            }
-
-                            // $('.email-reply-body_html').summernote('code', message);
-
-                            // var activeEditor = tinymce.activeEditor;
-
-                            // var content = message;
-
-                            // if (activeEditor !== null && content != '') {
-
-                            //     activeEditor.setContent(content);
-
-                            // } else {
-
-                            //     $('.email-reply-body_html').val(content);
-                            // }
 
                         }
 
                     }
+
                 } else if (val == 'replyforward_signature') {
-                    if ($("div").hasClass(classname) == true) {
-                        $('.' + classname).html(response.data.replyforward_signature);
-                    } else {
-                        var random = Math.random().toString(36).substring(7);
-                        var sig_class = 'emailsig_block_' + random;
-                        sessionStorage.setItem('signature_classname', sig_class);
 
-                        if (pagetype == 'new') {
-                            // var message = $('.compose_message').val();
+                    if ('replyforward_signature' in response.data && response.data.replyforward_signature != '') {
 
-                            var message = '';
+                        if ($("div").hasClass(classname) == true) {
 
-                            if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+                            $('.' + classname).html(response.data.replyforward_signature);
 
-                                message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
+                        } else {
+
+                            var random = Math.random().toString(36).substring(7);
+                            var sig_class = 'emailsig_block_' + random;
+                            sessionStorage.setItem('signature_classname', sig_class);
+
+                            if (pagetype == 'new') {
+                                // var message = $('.compose_message').val();
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
+
+                                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                                var msg = '</div>';
+                                message = message + stamp + msg;
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, message);
+
+                                    // $('#textarea_editor_email_compose').append(message);
+
+                                }
+
+                                // $('.compose_message').summernote('code', message);
+
+                                // var activeEditor = tinymce.activeEditor;
+
+                                // var content = message;
+
+                                // if (activeEditor !== null && content != '') {
+
+                                //     activeEditor.setContent(content);
+
+                                // } else {
+
+                                //     $('.compose_message').val(content);
+                                // }
+
+                            } else if (pagetype == 'reply') {
+                                // var message = $('.email-reply-body_html').val();
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    message = tinymce.get('textarea_editor_email_reply').getContent({ format: 'html' });
+
+                                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                                var msg = '</div>';
+                                message = stamp + msg + message;
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, message);
+
+                                    // $('#textarea_editor_email_reply').append(message);
+
+                                }
+
+                                // $('.email-reply-body_html').summernote('code', message);
+
+                                // var activeEditor = tinymce.activeEditor;
+
+                                // var content = message;
+
+                                // if (activeEditor !== null && content != '') {
+
+                                //     activeEditor.setContent(content);
+
+                                // } else {
+
+                                //     $('.email-reply-body_html').val(content);
+                                // }
 
                             }
-
-                            var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
-                            var msg = '</div>';
-                            message = message + stamp + msg;
-
-                            if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
-
-                                tinymce.get('textarea_editor_email_compose').setContent(message, { format: 'html' });
-
-                            }
-
-                            // $('.compose_message').summernote('code', message);
-
-                            // var activeEditor = tinymce.activeEditor;
-
-                            // var content = message;
-
-                            // if (activeEditor !== null && content != '') {
-
-                            //     activeEditor.setContent(content);
-
-                            // } else {
-
-                            //     $('.compose_message').val(content);
-                            // }
-
-                        } else if (pagetype == 'reply') {
-                            // var message = $('.email-reply-body_html').val();
-
-                            var message = '';
-
-                            if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
-
-                                message = tinymce.get('textarea_editor_email_reply').getContent({ format: 'html' });
-
-                            }
-
-                            var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
-                            var msg = '</div>';
-                            message = stamp + msg + message;
-
-                            if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
-
-                                tinymce.get('textarea_editor_email_reply').setContent(message, { format: 'html' });
-
-                            }
-
-                            // $('.email-reply-body_html').summernote('code', message);
-
-                            // var activeEditor = tinymce.activeEditor;
-
-                            // var content = message;
-
-                            // if (activeEditor !== null && content != '') {
-
-                            //     activeEditor.setContent(content);
-
-                            // } else {
-
-                            //     $('.email-reply-body_html').val(content);
-                            // }
 
                         }
 
                     }
-
-                } else {
 
                 }
+
             }
         } else {
 

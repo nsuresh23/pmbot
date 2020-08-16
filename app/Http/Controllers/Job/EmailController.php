@@ -1033,8 +1033,7 @@ class EmailController extends Controller
             $field = [];
 
             $returnResponse = [];
-
-
+            
             if (isset($request->new_signature) && $request->new_signature != "") {
                 $field["new_signature"] = $request->new_signature;
             } else {

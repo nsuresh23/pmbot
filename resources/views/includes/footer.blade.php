@@ -29,7 +29,10 @@
 {{-- <script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/ckeditor/ckeditor.js') }}"></script> --}}
 
 <!-- Summernote Wysuhtml5 Init JavaScript -->
-<script type="text/javascript" src="{{ asset('public/js/custom/js/summernote-data.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('public/js/custom/js/summernote-data.js') }}"></script> --}}
+
+<!-- TinyMce Wysuhtml5 Init JavaScript -->
+<script type="text/javascript" src="{{ asset('public/js/custom/js/tinymce-data.js') }}"></script>
 
 <!-- wysuhtml5 Plugin JavaScript -->
 <script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/wysihtml5x/dist/wysihtml5x.min.js') }}"></script>

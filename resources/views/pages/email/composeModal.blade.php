@@ -93,7 +93,7 @@
 				 <div class="form-group">
 
                         <div class="col-lg-12">
-                            <textarea class="textarea_editor_email form-control compose_message" name="body_html" id="body_html" rows="15"
+                            <textarea class="textarea_editor_email compose_message" name="body_html" id="textarea_editor_email_compose" rows="15"
                                 placeholder="Enter text ..."></textarea>
                         </div>
                     </div>

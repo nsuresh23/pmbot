@@ -1,8 +1,6 @@
 /****************************/
 
-
 /** Custom **/
-
 
 /****************************/
 
@@ -87,14 +85,14 @@
     font-size: 33px !important;
 }
 
-.job-hold-btn {	
-	text-decoration: none !important;
-	color: #ffff !important;	
+.job-hold-btn {
+    text-decoration: none !important;
+    color: #ffff !important;
 }
 
-.job-complete-btn {	
-	text-decoration: none !important;
-	color: #ffff !important;	
+.job-complete-btn {
+    text-decoration: none !important;
+    color: #ffff !important;
 }
 
 .border-right {
@@ -412,7 +410,6 @@
     color: #000000;
 }
 
-
 /* .accordion-struct .panel-heading:after {
 font-family: 'FontAwesome';
 content: "\f068";
@@ -484,7 +481,7 @@ content: "\f067";
     height: 16px !important;
     border: none !important;
     cursor: pointer !important;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAFgEAYAAADx4WWjAAAABmJLRâ€¦Xo44/HjcN4796srGvXNmwYaL96TVxcZWVu7owZA+3Hfw3/D73/bnBl1mLvAAAAAElFTkSuQmCC);
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAFgEAYAAADx4WWjAAAABmJLR…Xo44/HjcN4796srGvXNmwYaL96TVxcZWVu7owZA+3Hfw3/D73/bnBl1mLvAAAAAElFTkSuQmCC);
     background-repeat: no-repeat !important;
     background-color: transparent !important;
 }
@@ -618,4 +615,29 @@ ul.inbox-nav li a:focus {
 .nav-pills-outline.nav-pills>li>a {
     text-decoration: none !important;
 }
-.note-editable i{font-style: italic !important;}
+
+.note-editable i {
+    font-style: italic !important;
+}
+
+/* #textarea_editor_email_reply p.MsoNormal,
+#textarea_editor_email_reply li.MsoNormal,
+#textarea_editor_email_reply div.MsoNormal,
+#textarea_editor_email_draft p.MsoNormal,
+#textarea_editor_email_draft li.MsoNormal,
+#textarea_editor_email_draft div.MsoNormal,
+#textarea_editor_email_compose p.MsoNormal,
+#textarea_editor_email_compose li.MsoNormal,
+#textarea_editor_email_compose div.MsoNormal {
+    margin: 0in !important;
+    margin-bottom: .0001pt !important;
+    font-size: 11.0pt !important;
+    font-family: "Calibri", sans-serif !important;
+    color: #1f497d !important;
+}
+
+.tinymce_body_class {
+    padding: 10px !important;
+} */
+
+#textarea_editor_email_new_signature p{font-family: Calibri !important; font-size: 11pt !important;}

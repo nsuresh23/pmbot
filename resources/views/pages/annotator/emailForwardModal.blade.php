@@ -228,7 +228,7 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
 
                                         ?>
                                         <!-- <textarea class="textarea_editor_email form-control email-reply-body_html" name="body_html" rows="15" placeholder="Enter text ..."><?php //echo $message; ?></textarea> -->
-										<textarea class="textarea_editor_email form-control email-reply-body_html" name="body_html" rows="15" placeholder="Enter text ..."></textarea>
+										<textarea id="textarea_editor_email_reply" class="textarea_editor_email form-control email-reply-body_html" name="body_html" rows="15" placeholder="Enter text ..."></textarea>
                                     </div>
                                 </div>
 

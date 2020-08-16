@@ -35,12 +35,12 @@
 
 							<div class="col-lg-6">
 								<label>New Message</label>
-								<textarea class="textarea_editor_signature form-control new_signature" name="new_signature" rows="15"
+								<textarea id="textarea_editor_email_new_signature" class="textarea_editor_signature form-control new_signature" name="new_signature" rows="15"
                                 placeholder="Enter text ..."></textarea>
 							</div>
 							<div class="col-lg-6">
 								<label>Replies/Forwards</label>
-								<textarea class="textarea_editor_signature form-control replyforward_signature" name="replyforward_signature" rows="15"
+								<textarea id="textarea_editor_email_replyforward_signature" class="textarea_editor_signature form-control replyforward_signature" name="replyforward_signature" rows="15"
                                 placeholder="Enter text ..."></textarea>
 							</div>
 
