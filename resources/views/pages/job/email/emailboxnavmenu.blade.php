@@ -17,6 +17,12 @@
             </a>
         </li>
         <li class="">
+            <a class="job-error-email" data-grid-selector="jobEmailGrid" href="javascript:void(0);">
+                <i class="fa fa-exclamation-triangle"></i>
+                {{ __("job.email_error_mail_label") }}
+            </a>
+        </li>
+        <li class="">
             <a class="job-outbox-email" data-grid-selector="jobEmailGrid" href="javascript:void(0);">
                 <i class="fa fa-envelope-square"></i>
                 {{ __("job.email_outbox_mail_label") }}

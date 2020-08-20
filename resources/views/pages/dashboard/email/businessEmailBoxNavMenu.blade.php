@@ -23,6 +23,12 @@
             </a>
         </li>
         <li class="">
+            <a class="dashboard-error-email" data-grid-selector="businessEmailGrid" href="javascript:void(0);">
+                <i class="fa fa-exclamation-triangle"></i>
+                {{ __("job.email_error_mail_label") }}
+            </a>
+        </li>
+        <li class="">
             <a class="dashboard-outbox-email" data-grid-selector= "businessEmailGrid" href="javascript:void(0);">
                 <i class="zmdi zmdi-email-open"></i>
                 {{ __("job.email_outbox_mail_label") }}

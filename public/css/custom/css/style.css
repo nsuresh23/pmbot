@@ -18142,3 +18142,6 @@ ul.inbox-nav li a:focus {
 .email-save-btn {float: left;width: 90%;height: 40px;line-height: 40px;text-align: center;border: 1px solid #ebebeb;cursor: pointer; margin-top: 7px;}
 .email-reply-save-btn {float: left;width: 90%;height: 40px;line-height: 40px;text-align: center;border: 1px solid #ebebeb;cursor: pointer; margin-top: 7px;}
 .email-draft-save-btn {float: left;width: 90%;height: 40px;line-height: 40px;text-align: center;border: 1px solid #ebebeb;cursor: pointer; margin-top: 7px;}
+.attached_file{float:left;}
+.attached_file li{list-style: none;float:left;margin-right:5px;}
+.fw-attachements {float:right;cursor:pointer;}

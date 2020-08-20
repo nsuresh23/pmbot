@@ -648,6 +648,7 @@ class EmailCollection
             } else {
                 $field["message_start"] = '';
             }
+			
 			$responseData = $this->postRequest($url, $field);
 
 			if (isset($responseData["success"]) && $responseData["success"] == "true") {
@@ -870,16 +871,19 @@ class EmailCollection
                         }
 
                         $emailAttachments = explode("|", $returnResponse["data"]["attachments"]);
+						
+						
 
                         if(is_array($emailAttachments) && count($emailAttachments) > 0) {
 
                             // $returnResponse["data"]["attachment_count"] = count($emailAttachments);
 
                             $emailAttachmentHtml= "";
+							$emailForwardAttachmentList= "";
 
                             array_walk(
                                 $emailAttachments,
-                                function ($item, $key) use ($emailAttachmentPath, &$emailAttachmentHtml, &$emailAttachments) {
+                                function ($item, $key) use ($emailAttachmentPath, &$emailAttachmentHtml, &$emailAttachments , &$emailForwardAttachmentList) {
 
                                     try {
 
@@ -914,6 +918,28 @@ class EmailCollection
                                                     $emailAttachmentHtml .= '</a>';
                                                 $emailAttachmentHtml .= '</div>';
                                             $emailAttachmentHtml .= '</li>';
+											
+											
+											/********** FORWARD EMAIL ATTACHEMENT LIST START ***********/
+											$emailForwardAttachmentList .= '<li class="mb-0" id="attachements_'.$key.'">';
+                                                $emailForwardAttachmentList .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email-attachment-item-block">';
+                                                    $emailForwardAttachmentList .= '<a href="';
+                                                    $emailForwardAttachmentList .= $item_file;
+                                                    $emailForwardAttachmentList .= '" title="';
+                                                    $emailForwardAttachmentList .= $item;
+                                                    $emailForwardAttachmentList .= '" class="atch-thumb">';
+                                                        $emailForwardAttachmentList .= '<span>';
+                                                            $emailForwardAttachmentList .= '<i class="font-30 mr-5 fa fa-file-';
+                                                            $emailForwardAttachmentList .= $this->getFileType($item_name);
+                                                            $emailForwardAttachmentList .= '-o"></i>';
+                                                        $emailForwardAttachmentList .= '</span>';
+                                                    $emailForwardAttachmentList .= '<span class="email-attachment-item-name ">';
+                                                        $emailForwardAttachmentList .= mb_strimwidth($item, 0, 25, "...");
+                                                    $emailForwardAttachmentList .= '</span>';
+                                                    $emailForwardAttachmentList .= '</a><i class="fa fa-times font-20text-danger ml-5 fw-attachements" data-user-empcode="pmbot_spi-global_com_desc" data-attachement-id = "attachements_'.$key.'"></i>';
+                                                $emailForwardAttachmentList .= '</div>';
+                                            $emailForwardAttachmentList .= '<input type="hidden" id="fw_attachements" name="fw_attachements[]" value="'.$item_name.'"></li>';
+											/********** FORWARD EMAIL ATTACHEMENT LIST END ***********/
 
                                             $emailAttachments[$key] = ["attachment_name" => $item_name, "attachment_file" => $item_file];
 
@@ -936,12 +962,14 @@ class EmailCollection
                                 }
 
                             );
+							
 
                             if (is_array($emailAttachments) && count($emailAttachments) > 0) {
-
-                                $returnResponse["data"]["email_attachment_count"] = count($emailAttachments);
-                                $returnResponse["data"]["email_attachment"] = $emailAttachments;
-                                $returnResponse["data"]["email_attachment_html"] = $emailAttachmentHtml;
+								
+                                $returnResponse["data"]["email_attachment_count"]        = count($emailAttachments);
+                                $returnResponse["data"]["email_attachment"]              = $emailAttachments;
+                                $returnResponse["data"]["email_attachment_html"]         = $emailAttachmentHtml;
+								$returnResponse["data"]["email_forward_attachment_html"] = $emailForwardAttachmentList;
 
                             }
 
@@ -963,7 +991,7 @@ class EmailCollection
                     " => MESSAGE => " . $e->getMessage() . " "
             );
         }
-
+		
         return $returnResponse;
     }
 	public function emailidGet($field)

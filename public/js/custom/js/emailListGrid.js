@@ -318,6 +318,12 @@ function getEmailTableList(gridSelector) {
 
             }
 
+            if (emailFilter == 'error') {
+
+                status = ['99'];
+
+            }
+
             emailListPostData.type = 'non_pmbot';
 
         }
@@ -341,6 +347,12 @@ function getEmailTableList(gridSelector) {
             if (emailFilter == 'sent') {
 
                 status = ['6'];
+
+            }
+
+            if (emailFilter == 'error') {
+
+                status = ['99'];
 
             }
 
@@ -377,6 +389,12 @@ function getEmailTableList(gridSelector) {
         if (emailFilter == 'sent') {
 
             status = ['6'];
+
+        }
+
+        if (emailFilter == 'error') {
+
+            status = ['99'];
 
         }
 
@@ -441,7 +459,7 @@ function getEmailTableList(gridSelector) {
 
             }
 
-            if ('unread_count' in response) {
+            if ('unread_count' in response && emailFilter == 'unread') {
 
                 var unreadCount = response.unread_count;
 
@@ -760,12 +778,12 @@ function findBrowser() {
 var browserName = findBrowser();
 
 var emailEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;"><br></p>';
-var emailSignatureEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Arial; color: #1F497D;"><br></p>';
+var emailSignatureEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 10.0pt; font-family: Arial; color: #1F497D;"><br></p>';
 
 if (browserName == 'Firefox') {
 
     emailEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;"></p>';
-    emailSignatureEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Arial; color: #1F497D;"></p>';
+    emailSignatureEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 10.0pt; font-family: Arial; color: #1F497D;"></p>';
 
 }
 
@@ -1281,6 +1299,32 @@ $(document).on('click', '.dashboard-unread-email', function() {
 
 });
 
+$(document).on('click', '.dashboard-error-email', function() {
+
+    // var gridSelector = ".nonBusinessEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        $(gridSelector).attr('data-email-filter', 'error');
+
+        $(gridSelector).attr('data-email-label', '');
+
+        getEmailTableList(gridSelector);
+
+    }
+
+    $('.inbox-nav li.active').removeClass('active');
+    $(this).closest('li').addClass('active');
+    $('.email-list-body').show();
+    $('.email-detail-body').hide();
+
+    // $(this).closest('li').addClass('active');
+
+});
+
 $(document).on('click', '.dashboard-outbox-email', function() {
 
     // var gridSelector = ".nonBusinessEmailGrid";
@@ -1406,6 +1450,32 @@ $(document).on('click', '.job-inbox-email', function() {
     $(this).closest('li').addClass('active');
     $('.email-list-body').show();
     $('.email-detail-body').hide();
+
+});
+
+$(document).on('click', '.job-error-email', function() {
+
+    // var gridSelector = ".jobEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        $(gridSelector).attr('data-email-filter', 'error');
+
+        $(gridSelector).attr('data-email-label', '');
+
+        getEmailTableList(gridSelector);
+
+    }
+
+    $('.inbox-nav li.active').removeClass('active');
+    $(this).closest('li').addClass('active');
+    $('.email-list-body').show();
+    $('.email-detail-body').hide();
+
+    // $(this).closest('li').addClass('active');
 
 });
 
@@ -2072,7 +2142,13 @@ function showform(type, selector) {
                 //     $('.email-reply-body_html').val(content);
 
                 // }
-
+                if (type == 'forward' && response.data.email_forward_attachment_html != '') {
+                    $('#attached_file_box').show();
+                    $('#attached_file').html(response.data.email_forward_attachment_html);
+                } else {
+                    $('#attached_file').html('');
+                    $('#attached_file_box').hide();
+                }
                 $('.email_id').val(response.data.id);
 
             }
@@ -2613,7 +2689,7 @@ $(document).on('click', '.email-compose-btn', function(e) {
 
     $('#composeto_value').val('');
     $('.attachements').val('');
-    $('.signature_change').val('');
+    $('.signature_change').val('new_signature');
     $(".compose_to ul").empty();
     var emailPostData = {};
     var selector = '.signature';
@@ -2939,6 +3015,24 @@ function showsignatureform() {
                 //     $('.replyforward_signature').val(content);
                 // }
 
+            } else {
+
+                if (tinymce.get('textarea_editor_email_new_signature') != undefined && tinymce.get('textarea_editor_email_new_signature') != null) {
+
+                    tinymce.get('textarea_editor_email_new_signature').setContent('');
+
+                    tinymce.get('textarea_editor_email_new_signature').execCommand('mceInsertContent', false, emailSignatureEditorParaTag);
+
+                }
+
+                if (tinymce.get('textarea_editor_email_replyforward_signature') != undefined && tinymce.get('textarea_editor_email_replyforward_signature') != null) {
+
+                    tinymce.get('textarea_editor_email_replyforward_signature').setContent('');
+
+                    tinymce.get('textarea_editor_email_replyforward_signature').execCommand('mceInsertContent', false, emailSignatureEditorParaTag);
+
+                }
+
             }
         } else {
 
@@ -2969,6 +3063,7 @@ $(document).on('change', '.signature_change', function(e) {
     var selector = '.sig_change';
     var postUrl = $(selector).attr('data-signature-geturl');
 
+
     $.ajax({
 
         url: postUrl,
@@ -2978,19 +3073,607 @@ $(document).on('change', '.signature_change', function(e) {
 
     }).done(function(response) {
 
+
         if (response.success == "true") {
 
             if (response.data != undefined && typeof response.data == 'object') {
 
                 var classname = sessionStorage.getItem('signature_classname');
+                var ed = tinyMCE.activeEditor;
+                var hasMarkup = ed.dom.hasClass(ed.selection.getNode(), classname);
+                var ele = tinyMCE.activeEditor.dom.get(classname);
+                var classexisting = $('#textarea_editor_email_compose_ifr').contents().find('.' + classname).text()
 
                 if (val == 'new_signature') {
 
                     if ('new_signature' in response.data && response.data.new_signature != '') {
 
-                        if ($("div").hasClass(classname) == true) {
+                        //if ($("div").hasClass(classname) == true) {
+                        if (classexisting != '') {
 
-                            $('.' + classname).html(response.data.new_signature);
+                            $('#textarea_editor_email_compose_ifr').contents().find('.' + classname).html(response.data.new_signature);
+
+                            //$('.' + classname).html(response.data.new_signature);
+
+                        } else {
+
+                            var random = Math.random().toString(36).substring(7);
+
+                            var sig_class = 'emailsig_block_' + random;
+
+                            sessionStorage.setItem('signature_classname', sig_class);
+
+                            if (pagetype == 'new') {
+
+                                // var message = $('.compose_message').val();
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
+
+                                    // tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+                                    tinymce.get('textarea_editor_email_compose').setContent('');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
+                                var msg = '</div>';
+                                message = message + stamp + msg;
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, message);
+                                    // $('#textarea_editor_email_compose').append(message);
+
+                                }
+
+
+
+                            } else if (pagetype == 'reply') {
+
+                                // var message = $('.email-reply-body_html').val();
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    // tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+                                    tinymce.get('textarea_editor_email_reply').setContent('');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
+                                var msg = '</div>';
+                                message = stamp + msg + message;
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, message);
+
+                                    // $('#textarea_editor_email_reply').append(message);
+
+                                }
+
+
+
+                            }
+
+                        }
+
+                    }
+
+                } else if (val == 'replyforward_signature') {
+
+                    //$('#textarea_editor_email_compose_ifr').contents().find('.anand').html('<div> blah </div>');
+                    //return false;
+
+                    if ('replyforward_signature' in response.data && response.data.replyforward_signature != '') {
+
+                        //if ($("div").hasClass(classname) == true) {
+                        if (classexisting != '') {
+                            // $('.' + classname).html(response.data.replyforward_signature);
+
+                            $('#textarea_editor_email_compose_ifr').contents().find('.' + classname).html(response.data.replyforward_signature);
+
+                        } else {
+
+                            var random = Math.random().toString(36).substring(7);
+                            var sig_class = 'emailsig_block_' + random;
+                            sessionStorage.setItem('signature_classname', sig_class);
+
+                            if (pagetype == 'new') {
+                                // var message = $('.compose_message').val();
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
+
+
+
+                                    tinymce.get('textarea_editor_email_compose').setContent('');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                                var msg = '</div>';
+                                message = message + stamp + msg;
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, message);
+
+                                    // $('#textarea_editor_email_compose').append(message);
+
+                                }
+
+
+                            } else if (pagetype == 'reply') {
+                                // var message = $('.email-reply-body_html').val();
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    message = tinymce.get('textarea_editor_email_reply').getContent({ format: 'html' });
+
+                                    // tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+                                    tinymce.get('textarea_editor_email_reply').setContent('');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                                var msg = '</div>';
+                                message = stamp + msg + message;
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, message);
+
+                                    // $('#textarea_editor_email_reply').append(message);
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        } else {
+
+
+
+            Swal.fire({
+
+                title: '',
+                text: "Signature Data Not Found!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            return false;
+
+        }
+    });
+});
+$(document).on('change', '.signature_reply_change', function(e) {
+    var val = this.value;
+    var pagetype = $(this).attr('data-signature-type');
+
+    var emailPostData = {};
+    var selector = '.sig_change';
+    var postUrl = $(selector).attr('data-signature-geturl');
+
+
+    $.ajax({
+
+        url: postUrl,
+        data: emailPostData,
+        dataType: 'json',
+        type: 'POST',
+
+    }).done(function(response) {
+
+
+        if (response.success == "true") {
+
+            if (response.data != undefined && typeof response.data == 'object') {
+
+                var classname = sessionStorage.getItem('signature_classname');
+                var ed = tinyMCE.activeEditor;
+                var hasMarkup = ed.dom.hasClass(ed.selection.getNode(), classname);
+                var ele = tinyMCE.activeEditor.dom.get(classname);
+                var classexisting = $('#textarea_editor_email_reply_ifr').contents().find('.' + classname).text()
+
+                if (val == 'new_signature') {
+
+                    if ('new_signature' in response.data && response.data.new_signature != '') {
+
+                        //if ($("div").hasClass(classname) == true) {
+                        if (classexisting != '') {
+
+                            $('#textarea_editor_email_reply_ifr').contents().find('.' + classname).html(response.data.new_signature);
+
+                            //$('.' + classname).html(response.data.new_signature);
+
+                        } else {
+
+                            var random = Math.random().toString(36).substring(7);
+
+                            var sig_class = 'emailsig_block_' + random;
+
+                            sessionStorage.setItem('signature_classname', sig_class);
+
+                            if (pagetype == 'new') {
+
+                                // var message = $('.compose_message').val();
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
+
+                                    // tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+                                    tinymce.get('textarea_editor_email_compose').setContent('');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
+                                var msg = '</div>';
+                                message = message + stamp + msg;
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, message);
+                                    // $('#textarea_editor_email_compose').append(message);
+
+                                }
+
+
+
+                            } else if (pagetype == 'reply') {
+
+                                // var message = $('.email-reply-body_html').val();
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    // tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+                                    tinymce.get('textarea_editor_email_reply').setContent('');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
+                                var msg = '</div>';
+                                message = stamp + msg + message;
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, message);
+
+                                    // $('#textarea_editor_email_reply').append(message);
+
+                                }
+
+
+
+                            }
+
+                        }
+
+                    }
+
+                } else if (val == 'replyforward_signature') {
+
+                    //$('#textarea_editor_email_compose_ifr').contents().find('.anand').html('<div> blah </div>');
+                    //return false;
+
+                    if ('replyforward_signature' in response.data && response.data.replyforward_signature != '') {
+
+                        //if ($("div").hasClass(classname) == true) {
+                        if (classexisting != '') {
+                            // $('.' + classname).html(response.data.replyforward_signature);
+
+                            $('#textarea_editor_email_reply_ifr').contents().find('.' + classname).html(response.data.replyforward_signature);
+
+                        } else {
+
+                            var random = Math.random().toString(36).substring(7);
+                            var sig_class = 'emailsig_block_' + random;
+                            sessionStorage.setItem('signature_classname', sig_class);
+
+                            if (pagetype == 'new') {
+                                // var message = $('.compose_message').val();
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
+
+
+
+                                    tinymce.get('textarea_editor_email_compose').setContent('');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                                var msg = '</div>';
+                                message = message + stamp + msg;
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, message);
+
+                                    // $('#textarea_editor_email_compose').append(message);
+
+                                }
+
+
+                            } else if (pagetype == 'reply') {
+                                // var message = $('.email-reply-body_html').val();
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    message = tinymce.get('textarea_editor_email_reply').getContent({ format: 'html' });
+
+                                    // tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+                                    tinymce.get('textarea_editor_email_reply').setContent('');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                                var msg = '</div>';
+                                message = stamp + msg + message;
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, message);
+
+                                    // $('#textarea_editor_email_reply').append(message);
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        } else {
+            Swal.fire({
+
+                title: '',
+                text: "Signature Data Not Found!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            return false;
+
+        }
+    });
+});
+$(document).on('change', '.signature_draft_change', function(e) {
+    var val = this.value;
+    var pagetype = $(this).attr('data-signature-type');
+
+    var emailPostData = {};
+    var selector = '.sig_change';
+    var postUrl = $(selector).attr('data-signature-geturl');
+
+
+    $.ajax({
+
+        url: postUrl,
+        data: emailPostData,
+        dataType: 'json',
+        type: 'POST',
+
+    }).done(function(response) {
+
+
+        if (response.success == "true") {
+
+            if (response.data != undefined && typeof response.data == 'object') {
+
+                var classname = sessionStorage.getItem('signature_classname');
+                var ed = tinyMCE.activeEditor;
+                var hasMarkup = ed.dom.hasClass(ed.selection.getNode(), classname);
+                var ele = tinyMCE.activeEditor.dom.get(classname);
+                var classexisting = $('#textarea_editor_email_draft_ifr').contents().find('.' + classname).text()
+
+                if (val == 'new_signature') {
+
+                    if ('new_signature' in response.data && response.data.new_signature != '') {
+                        if (classexisting != '') {
+                            $('#textarea_editor_email_draft_ifr').contents().find('.' + classname).html(response.data.new_signature);
+                        } else {
+
+                            var random = Math.random().toString(36).substring(7);
+
+                            var sig_class = 'emailsig_block_' + random;
+
+                            sessionStorage.setItem('signature_classname', sig_class);
+
+                            if (pagetype == 'new') {
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+                                    message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
+                                    // tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+                                    tinymce.get('textarea_editor_email_compose').setContent('');
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
+                                var msg = '</div>';
+                                message = message + stamp + msg;
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+                                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, message);
+                                    // $('#textarea_editor_email_compose').append(message);
+
+                                }
+
+
+
+                            } else if (pagetype == 'reply') {
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+                                    tinymce.get('textarea_editor_email_reply').setContent('');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
+                                var msg = '</div>';
+                                message = stamp + msg + message;
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+                                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, message);
+                                }
+                            }
+
+                        }
+
+                    }
+
+                } else if (val == 'replyforward_signature') {
+
+                    if ('replyforward_signature' in response.data && response.data.replyforward_signature != '') {
+                        if (classexisting != '') {
+                            $('#textarea_editor_email_draft_ifr').contents().find('.' + classname).html(response.data.replyforward_signature);
+
+                        } else {
+
+                            var random = Math.random().toString(36).substring(7);
+                            var sig_class = 'emailsig_block_' + random;
+                            sessionStorage.setItem('signature_classname', sig_class);
+
+                            if (pagetype == 'new') {
+
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+
+                                    message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
+                                    tinymce.get('textarea_editor_email_compose').setContent('');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                                var msg = '</div>';
+                                message = message + stamp + msg;
+
+                                if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
+                                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, message);
+                                }
+
+
+                            } else if (pagetype == 'reply') {
+                                var message = '';
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+
+                                    message = tinymce.get('textarea_editor_email_reply').getContent({ format: 'html' });
+                                    tinymce.get('textarea_editor_email_reply').setContent('');
+
+                                }
+
+                                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                                var msg = '</div>';
+                                message = stamp + msg + message;
+
+                                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
+                                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, message);
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        } else {
+            Swal.fire({
+
+                title: '',
+                text: "Signature Data Not Found!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            return false;
+
+        }
+    });
+});
+$(document).on('change', '.signature_change_old', function(e) {
+    var val = this.value;
+    var pagetype = $(this).attr('data-signature-type');
+
+    var emailPostData = {};
+    var selector = '.sig_change';
+    var postUrl = $(selector).attr('data-signature-geturl');
+
+
+    $.ajax({
+
+        url: postUrl,
+        data: emailPostData,
+        dataType: 'json',
+        type: 'POST',
+
+    }).done(function(response) {
+
+
+        if (response.success == "true") {
+
+            if (response.data != undefined && typeof response.data == 'object') {
+
+                var classname = sessionStorage.getItem('signature_classname');
+                var ed = tinyMCE.activeEditor;
+                var hasMarkup = ed.dom.hasClass(ed.selection.getNode(), classname);
+                var ele = tinyMCE.activeEditor.dom.get(classname);
+
+                if (val == 'new_signature') {
+
+                    if ('new_signature' in response.data && response.data.new_signature != '') {
+
+                        //if ($("div").hasClass(classname) == true) {
+                        if (hasMarkup == true) {
+                            $('#textarea_editor_email_compose_ifr').contents().find('.' + classname).html(response.data.new_signature);
+
+                            //$('.' + classname).html(response.data.new_signature);
 
                         } else {
 
@@ -3089,11 +3772,16 @@ $(document).on('change', '.signature_change', function(e) {
 
                 } else if (val == 'replyforward_signature') {
 
+                    //$('#textarea_editor_email_compose_ifr').contents().find('.anand').html('<div> blah </div>');
+                    //return false;
+
                     if ('replyforward_signature' in response.data && response.data.replyforward_signature != '') {
 
-                        if ($("div").hasClass(classname) == true) {
+                        //if ($("div").hasClass(classname) == true) {
+                        if (hasMarkup == true) {
+                            // $('.' + classname).html(response.data.replyforward_signature);
 
-                            $('.' + classname).html(response.data.replyforward_signature);
+                            $('#textarea_editor_email_compose_ifr').contents().find('.' + classname).html(response.data.replyforward_signature);
 
                         } else {
 
@@ -3110,6 +3798,16 @@ $(document).on('change', '.signature_change', function(e) {
 
                                     message = tinymce.get('textarea_editor_email_compose').getContent({ format: 'html' });
 
+
+
+                                    //var regex = '/<div class="'+classname+'">(.*?)</div>/g';
+
+                                    //var found = paragraph.match(regex);
+                                    //alert(classname);
+                                    //alert(found);
+
+
+                                    //alert(message);
                                     // tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
                                     tinymce.get('textarea_editor_email_compose').setContent('');
 
@@ -3211,4 +3909,17 @@ $(document).on('change', '.signature_change', function(e) {
 
         }
     });
+});
+
+$(document).on('click', '.fw-attachements', function(e) {
+
+    e.preventDefault();
+
+    var removedId = $(this).attr('data-attachement-id');
+    if (removedId != undefined && removedId != '') {
+
+        $('#' + removedId).remove();
+
+    }
+
 });

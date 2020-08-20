@@ -81,13 +81,21 @@
 									<div class="email-label border-none">Attached</div>
 									<input type="file" class="form-control replyattachements fileupload" name="attachement"  multiple="multiple">
 								</div>
+								<div class="box" id="attached_file_box">
+									<div class="email-label border-none"></div>
+									<div class="attached_file" id="attached_file"></div>
+								</div>
 								<div class="box">
 									<div class="email-label border-none sig_change" data-signature-geturl = "{{ $getSignatureUrl ?? '#'}}"></div>
-									<select style="width:20% !important;" class="form-control signature_change" name="signature" data-signature-type = "reply">
+									<select style="width:20% !important;float:left;" class="form-control signature_reply_change" name="signature" data-signature-type = "reply">
 										<option value="">Select Signature</option>
 										<option value="new_signature">New</option>
-										<option value="replyforward_signature">Replies/Forwards</option>
+										<option value="replyforward_signature" selected>Replies/Forwards</option>
 									</select>
+									
+									<div style="float:left;width:20%;margin-left:8px;line-height:34px;">
+										High Importance <input type="checkbox" class="" name="priority" id="priority" style="margin-left: 0px;">
+									</div>
 								</div>
 							</div>
 

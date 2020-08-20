@@ -565,7 +565,6 @@ class EmailController extends Controller
             $field = [];
 
             $returnResponse = [];
-
             $field["from"] = '';
             if (isset($request->to) && $request->to != "") {
                 $field["to"] = $request->to;
@@ -622,7 +621,13 @@ class EmailController extends Controller
             } else {
                 $field["message_start"] = '';
             }
-
+			
+			if (isset($request->priority) && $request->priority != "") {
+                $field["priority"] = '1';
+            } else {
+				$field["priority"] = '3';
+			}
+			
             $field["empcode"]       = auth()->user()->empcode;
             $field["source"]        = 'inbox';
 			$field['email_guid']    = '';
@@ -680,7 +685,14 @@ class EmailController extends Controller
 				$gfield['emailid'] = $field['email_id'];
 				$gfield["empcode"] = auth()->user()->empcode;
 				$returnResponse = $this->emailResource->emailGet($gfield);
-
+				
+				if(!empty($request->fw_attachements)) {
+					$fw_attachementslist = implode("|", $request->fw_attachements);
+					$returnResponse['data']['attachments'] = $fw_attachementslist;
+				} else {
+					$returnResponse['data']['attachments'] = '';
+				}
+				
 				if(!empty($returnResponse['data']['attachments'])) {
 					//$returnResponse['data']['attachments'] = base64_decode($returnResponse['data']['attachments']);
 					$returnResponse['data']['attachments'] = $returnResponse['data']['attachments'];
@@ -729,7 +741,6 @@ class EmailController extends Controller
 
 				}
 			}
-
 			if(!empty($field["attachments"])) {
 				$field["attachments"] = base64_encode($field["attachments"]);
             }

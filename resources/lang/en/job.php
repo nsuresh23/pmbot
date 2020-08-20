@@ -64,6 +64,7 @@ return [
     'email_inbox_label' => 'Inbox',
     'email_unread_mail_label' => 'Unread',
     'email_sent_mail_label' => 'Sent Mail',
+    'email_error_mail_label' => 'Error',
     'email_outbox_mail_label' => 'Outbox',
     'email_draft_label' => 'Drafts',
     'email_to_label' => 'to',
