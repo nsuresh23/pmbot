@@ -89,6 +89,15 @@ class EmailController extends Controller
 
             if ($method == "POST") {
 
+                $status = "0";
+
+                if ($paramInfo["status"] == "true") {
+
+                    $status = "1";
+                }
+
+                $paramInfo["status"] = $status;
+
                 $returnData = $this->emailResource->emailAddRule($paramInfo);
 
                 if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
@@ -107,6 +116,15 @@ class EmailController extends Controller
 
             if ($method == "PUT") {
 
+                $status = "0";
+
+                if ($paramInfo["status"] == "true") {
+
+                    $status = "1";
+                }
+
+                $paramInfo["status"] = $status;
+
                 $returnData = $this->emailResource->emailUpdateRule($paramInfo);
 
                 if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
@@ -124,6 +142,8 @@ class EmailController extends Controller
             }
 
             if ($method == "DELETE") {
+
+                $paramInfo["status"] = "0";
 
                 $returnData = $this->emailResource->emailDeleteRule($paramInfo);
 
@@ -982,7 +1002,7 @@ class EmailController extends Controller
 					
 					$returnData = [];
 
-                    $returnData = $this->emailResource->emailRuleLabels();
+                    $returnData = $this->emailResource->emailMoveToRuleLabels();
 
                     if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
 

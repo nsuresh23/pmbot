@@ -1,4 +1,4 @@
-<style>
+`   <style>
     .btn-success {
         background-color: #5cb85c !important;
         border-color: #4cae4c !important;
@@ -23,7 +23,7 @@
 
             <div class="email-button-group">
 
-                <div style="float:right;margin-right:5px;">
+                <div class="email-move-to-block" style="float:right;margin-right:5px;display:none;">
 
                     <div class="pull-left inline-block">
                         <form class="form-inline email-move-to-form" action="{{ route(__('job.email_move_to_url')) }}">

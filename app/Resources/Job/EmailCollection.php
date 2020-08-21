@@ -94,10 +94,15 @@ class EmailCollection
 
                 if ($responseData) {
 
-                    array_push($responseData, [
-                        "id" => "inbox",
-                        "text" => "inbox"
-                    ]);
+                    // array_push($responseData, [
+                    //     "id" => "inbox",
+                    //     "text" => "inbox"
+                    // ]);
+
+                    // $returnResponse["success"] = "true";
+                    // $returnResponse["data"] = $responseData;
+
+                    // array_push($emailLabelListArray, $responseData);
 
                     $returnResponse["success"] = "true";
                     $returnResponse["data"] = $responseData;
@@ -124,6 +129,64 @@ class EmailCollection
 
         return $returnResponse;
 
+    }
+
+    /**
+     * Get the email rules labels.
+     *
+     * @return array $returnData
+     */
+    public function emailMoveToRuleLabels()
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // $userData = User::all();
+
+            $url = $this->emailRuleLabelsApiUrl;
+
+            $params = ["empcode" => Config::get('constants.job_add_am_empcode')];
+
+            $returnData = $this->postRequest($url, $params);
+
+            if ($returnData["success"] == "true" && count($returnData["data"]) > 0 && $returnData["data"] != "") {
+
+                $responseData = $this->emailLabelsFormatData($returnData["data"]);
+
+                if ($responseData) {
+
+                    array_unshift($responseData, [
+                        "id" => "0",
+                        "text" => "Inbox"
+                    ]);
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["data"] = $responseData;
+                }
+            }
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+
+            $returnResponse["error"] = "true";
+
+            $returnResponse["message"] = $e->getMessage();
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
     }
 
     /**
@@ -1341,6 +1404,19 @@ class EmailCollection
 
                 try {
 
+                    if (isset($item["status"])) {
+
+                        $status = false;
+
+                        if ($item["status"] == "1") {
+
+                            $status = true;
+                        }
+
+                        $item["status"] = $status;
+
+                    }
+
                     return $item;
 
                 } catch (Exception $e) {
@@ -1368,7 +1444,7 @@ class EmailCollection
                 try {
 
                     return [
-                        "id" => $item["label_name"],
+                        "id" => $item["id"],
                         "text" => $item["label_name"]
                     ];
                 } catch (Exception $e) {

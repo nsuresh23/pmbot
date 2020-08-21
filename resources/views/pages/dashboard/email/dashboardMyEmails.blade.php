@@ -9,7 +9,7 @@
                     data-type="dashboard" data-email-filter="" data-list-url="{{ $myEmailListUrl }}"
                     data-current-route="{{ $currentRoute }}" data-current-user-id="{{ Auth::user()->empcode }}"></div>
             </div>
-            @include('pages.email.emaildetail')
+            {{-- @include('pages.email.emaildetail') --}}
         </aside>
 
     </div>

@@ -19,6 +19,7 @@ function getEmailRulesTableList(gridSelector) {
             paging: false,
             autoload: false,
             autowidth: true,
+            deleteButtonTooltip: "Inactive",
 
             pageSize: 10,
             pageButtonCount: 5,
@@ -47,7 +48,8 @@ function getEmailRulesTableList(gridSelector) {
                     return $.grep(window.dbClients, function(client) {
                         return (!filter.from_name || (client.from_name != undefined && client.from_name != null && (client.from_name.toLowerCase().indexOf(filter.from_name.toLowerCase()) > -1))) &&
                             (!filter.subject || (client.subject != undefined && client.subject != null && (client.subject.toLowerCase().indexOf(filter.subject.toLowerCase()) > -1))) &&
-                            (!filter.label_name || (client.label_name != undefined && client.label_name != null && (client.label_name.toLowerCase().indexOf(filter.label_name.toLowerCase()) > -1)));;
+                            (!filter.label_name || (client.label_name != undefined && client.label_name != null && (client.label_name.toLowerCase().indexOf(filter.label_name.toLowerCase()) > -1))) &&
+                            (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status));
                     });
 
                 },
@@ -96,7 +98,7 @@ function getEmailRulesTableList(gridSelector) {
                     Swal.fire({
 
                         title: 'Are you sure?',
-                        text: "Do you want to remove this!",
+                        text: "Do you want to inactive this! Rules doesn't applied for future emails",
                         // icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -188,7 +190,7 @@ function getEmailRulesTableList(gridSelector) {
     });
 
     field.push({
-        title: "SUBJECT (contains)",
+        title: "SUBJECT (<span class='text-lowercase'>contains</span>)<p><span class='text-lowercase font-12'>(For multiple keywords use pipe (|) seperator)</span></p>",
         name: "subject",
         type: "textarea",
         validate: [
@@ -255,6 +257,25 @@ function getEmailRulesTableList(gridSelector) {
 
             ]
             // width: 100,
+    });
+
+    field.push({
+        title: "STATUS",
+        name: "status",
+        type: "checkbox",
+        itemTemplate: function(value, item) {
+            return $("<input>").attr("type", "checkbox")
+                // .attr("class", "js-switch js-switch-1")
+                // .attr("data-size", "small")
+                // .attr("data-color", "#8BC34A")
+                // .attr("data-secondary", "#F8B32D")
+                .attr("checked", JSON.parse(value))
+                .attr("disabled", true)
+        },
+        sorting: false,
+        editing: false,
+        css: "user-jsgrid-checkbox-width",
+        width: 60
     });
 
     field.push({

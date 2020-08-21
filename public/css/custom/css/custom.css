@@ -473,6 +473,14 @@ content: "\f067";
         line-height: 36px !important;
     }
     
+    .email-move-to-input-group .select2-container--default {
+        width: 105px !important;
+    }
+    
+    .email-move-to-input-group {
+        display: flex !important;
+    }
+    
     .plus-button {
         width: 16px !important;
         height: 16px !important;
