@@ -82,8 +82,44 @@ function getEmailRulesTableList(gridSelector) {
             },
 
             onItemUpdating: function(args) {
+				
+				if(args.item.status == false){
+					
+					Swal.fire({
 
-                editItem(args, listUrl, gridSelector);
+                        title: 'Are you sure?',
+                        text: "Do you want to inactive this! Rules doesn't applied for future emails",
+                        // icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes',
+                        showClass: {
+                            popup: 'animated slideInDown'
+                        },
+                        hideClass: {
+                            popup: 'animated fadeOut faster'
+                        },
+
+                    }).then((result) => {
+
+                        if (result.value != undefined && result.value == true) {
+
+                            editItem(args, listUrl, gridSelector);
+
+                        } else {
+							
+							$("#emailRulesTab").trigger('click');
+							
+						}
+
+                    });
+					
+				} else {
+					
+					editItem(args, listUrl, gridSelector);
+					
+				}
 
                 return false;
 
@@ -273,7 +309,7 @@ function getEmailRulesTableList(gridSelector) {
                 .attr("disabled", true)
         },
         sorting: false,
-        editing: false,
+        editing: true,
         css: "user-jsgrid-checkbox-width",
         width: 60
     });

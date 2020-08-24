@@ -2250,7 +2250,7 @@ function showform(type, selector) {
                 //     $('.email-reply-body_html').val(content);
 
                 // }
-                if (type == 'forward' && response.data.email_forward_attachment_html != '') {
+                 if (type == 'forward' && response.data.email_forward_attachment_html != '' && response.data.email_forward_attachment_html != undefined) {
                     $('#attached_file_box').show();
                     $('#attached_file').html(response.data.email_forward_attachment_html);
                 } else {
