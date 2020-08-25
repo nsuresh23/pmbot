@@ -1889,9 +1889,144 @@ $(document).on('click', '.email-draft-save-btn', function(e) {
 
 });
 
+
+function validateEmail($email) {
+
+    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,6})?$/;
+
+    return ($email.length > 0 && emailReg.test($email));
+
+}
+
 function emailSend(sendUrl, params, closeBtnSelector) {
 
     if (sendUrl != undefined && sendUrl != '') {
+
+        var validEmailTo = validEmailCC = validEmailBCC = 'true';
+
+        if (params.get('to') != undefined && params.get('to') != '') {
+
+            var emailArray = '';
+
+            emailArray = params.get('to').split(';');
+
+            $.each(emailArray, function(index, value) {
+
+                if (!validateEmail(value)) {
+
+                    validEmailTo = 'false';
+
+                    return false;
+
+                }
+
+            });
+
+        }
+
+        if (params.get('cc') != undefined && params.get('cc') != '') {
+
+            var emailArray = '';
+
+            emailArray = params.get('cc').split(';');
+
+            $.each(emailArray, function(index, value) {
+
+                if (!validateEmail(value)) {
+
+                    validEmailCC = 'false';
+
+                    return false;
+
+                }
+
+            });
+
+        }
+
+        if (params.get('bcc') != undefined && params.get('bcc') != '') {
+
+            var emailArray = '';
+
+            emailArray = params.get('bcc').split(';');
+
+            $.each(emailArray, function(index, value) {
+
+                if (!validateEmail(value)) {
+
+                    validEmailBCC = 'false';
+
+                    return false;
+
+                }
+
+            });
+
+        }
+
+        if (validEmailTo == 'false') {
+
+            Swal.fire({
+
+                title: '',
+                text: "Invalid to address!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            $('#to').focus();
+
+            return false;
+
+        }
+
+        if (validEmailCC == 'false') {
+
+            Swal.fire({
+
+                title: '',
+                text: "Invalid cc address!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            $('#cc').focus();
+
+            return false;
+
+        }
+
+        if (validEmailBCC == 'false') {
+
+            Swal.fire({
+
+                title: '',
+                text: "Invalid bcc address!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            $('#bcc').focus();
+
+            return false;
+
+        }
+
 
         /* AJAX call to email item info */
 
@@ -2250,7 +2385,7 @@ function showform(type, selector) {
                 //     $('.email-reply-body_html').val(content);
 
                 // }
-                 if (type == 'forward' && response.data.email_forward_attachment_html != '' && response.data.email_forward_attachment_html != undefined) {
+                if (type == 'forward' && response.data.email_forward_attachment_html != '' && response.data.email_forward_attachment_html != undefined) {
                     $('#attached_file_box').show();
                     $('#attached_file').html(response.data.email_forward_attachment_html);
                 } else {
