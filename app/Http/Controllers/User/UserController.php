@@ -414,6 +414,98 @@ class UserController extends Controller
     }
 
     /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getEventCalendar(Request $request)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => [],
+            "message" => "",
+        ];
+
+        try {
+
+            $returnData = [];
+
+            $returnResponse["data"]["calendar_link"] = "";
+
+            $returnData = $this->userResource->getUser(["empcode" => auth()->user()->empcode]);
+
+            $returnResponse["success"] = "true";
+
+            if (is_array($returnData) && isset($returnData["calendar_link"]) ) {
+
+                if($returnData["calendar_link"] != null && $returnData["calendar_link"] != "") {
+
+                    $returnResponse["data"]["calendar_link"] = $returnData["calendar_link"];
+
+                }
+
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return json_encode($returnResponse);
+
+    }
+
+    /**
+     * Update user event calendar in users table by user empcode.
+     *
+     * @param \Illuminate\Http\Request Request
+     * @return json response
+     */
+    public function userEventCalendarUpdate(Request $request)
+    {
+
+        try {
+
+            $request->merge(['empcode' => auth()->user()->empcode]);
+
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+                }
+            }
+
+            $returnResponse = $this->userResource->eventCalendarUpdate($request);
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return json_encode($returnResponse);
+
+    }
+
+    /**
      * Delete user in users table by user id.
      *
      * @param \Illuminate\Http\Request Request
@@ -476,8 +568,6 @@ class UserController extends Controller
 
                 $userData["data"]["id"] = $request->id;
 
-                // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($request->all());echo '<PRE/>';exit;
-
                 if ($request->isMethod('post')) {
 
                     if (auth()->check()) {
@@ -489,7 +579,7 @@ class UserController extends Controller
                             $request->merge(['creator_empcode' => session()->get("current_empcode")]);
 
                         }
-                        
+
                     }
 
                     $returnResponse = $this->userResource->changePassword($request);

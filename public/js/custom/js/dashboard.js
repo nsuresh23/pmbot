@@ -777,3 +777,124 @@ function taskCalendar(postUrl, date) {
 
     }
 }
+
+function eventCalendar() {
+
+    $('.event-calendar-block').hide();
+    $('.event-calendar-form-block').hide();
+
+    var postUrl = $('#eventCalendarTab').attr('data-event-calendar-get-url');
+
+    if (postUrl != undefined && postUrl != '') {
+
+        var params = {};
+
+        /* AJAX call to email item info */
+
+        var d = $.Deferred();
+
+        $.ajax({
+            url: postUrl,
+            data: params,
+            dataType: 'json',
+            type: 'POST',
+        }).done(function(response) {
+
+            if (response.success == "true") {
+
+                if (response.data != undefined && response.data != '') {
+
+                    if ('calendar_link' in response.data && response.data.calendar_link != '') {
+
+                        $('.event-calendar-frame').attr('src', response.data.calendar_link);
+
+                        $('.event-calendar-block').show();
+
+                    }
+
+                    if ('calendar_link' in response.data && (response.data.calendar_link == null || response.data.calendar_link == '')) {
+
+                        $('.event-calendar-form-block').show();
+
+                    }
+
+                }
+
+            } else {
+
+                d.resolve();
+
+            }
+
+        });
+
+        return d.promise();
+
+    }
+
+}
+
+$(document).on('shown.bs.tab', '#eventCalendarTab', function(e) {
+
+    eventCalendar();
+
+});
+
+$(document).on('click', '.event-calendar-save-btn', function() {
+
+    var postUrl = $('.event-calendar-form').attr('action');
+
+    if (postUrl != undefined && postUrl != '') {
+
+        var params = {};
+
+        var type = 'error';
+
+        var message = '';
+
+        params.calendar_link = $('#event-calendar-link').val();
+
+        /* AJAX call to email item info */
+
+        var d = $.Deferred();
+
+        $.ajax({
+            url: postUrl,
+            data: params,
+            dataType: 'json',
+            type: 'POST',
+        }).done(function(response) {
+
+            if (response.success == "true") {
+
+                type = 'success';
+
+            } else {
+
+                type = 'error';
+
+                d.resolve();
+
+            }
+
+            if (response.message != undefined && response.message != '') {
+
+                message = response.message;
+
+            }
+
+            flashMessage(type, message);
+
+            eventCalendar();
+
+            // $('#eventCalendarTab a[href="#eventCalendar"]').trigger('click');
+
+            // $('#eventCalendarTab').trigger('click');
+
+        });
+
+        return d.promise();
+
+    }
+
+});

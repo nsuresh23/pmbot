@@ -485,6 +485,77 @@ class UserCollection
     }
 
     /**
+     * Update the user calendar link in users table based on user id.
+     *
+     * @return array $returnResponse
+     */
+    public function eventCalendarUpdate($request)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // validate
+            // read more on validation at http://laravel.com/docs/validation
+            $rules = array(
+                'empcode'       => 'required',
+                'calendar_link'       => 'required'
+            );
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+
+                $returnResponse["error"] = "true";
+                $returnResponse["message"] = "Update failed";
+            } else {
+
+                $userInfo = [];
+
+                $userInfo = $request->all();
+
+                if (isset($userInfo["_token"]) && $userInfo["_token"] != "") {
+
+                    unset($userInfo["_token"]);
+                }
+
+                $url = $this->userUpdateApiUrl;
+
+                $returnData = $this->postRequest($url, $userInfo);
+
+                if (isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["message"] = "Update successfull";
+
+                } else {
+
+                    $returnResponse["error"] = "true";
+                    $returnResponse["message"] = "Update unsuccessfull";
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
      * Delete the user in users table based on user id.
      *
      * @return array $returnResponse

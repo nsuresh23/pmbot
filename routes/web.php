@@ -290,6 +290,8 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
 	Route::any('job-history/{id}', 'Job\JobController@jobHistory')->name('job-history');
 	Route::any('job-timeline/{id}', 'Job\JobController@jobTimeline')->name('job-timeline');
     Route::any('my-history', 'User\UserController@myHistory')->name('my-history');
+    Route::any('user-calendar-update', 'User\UserController@userEventCalendarUpdate')->name('user-calendar-update'); //done
+    Route::any('user-event-calendar', 'User\UserController@getEventCalendar')->name('user-event-calendar'); //done
 
     Route::any('member-dashboard/{empcode}/{currentempcode}', 'Members\MembersController@index')->name('member-dashboard'); //done
     Route::any('current-user-login', 'Members\MembersController@currentUserLogin')->name('current-user-login'); //done

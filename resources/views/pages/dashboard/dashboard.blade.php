@@ -55,6 +55,10 @@
 
         $currentRoute = __("job.dashboard_label");
 
+        $eventCalendarUrl = route(__("dashboard.user_event_calendar_url"));
+
+        $userEventCalendarUpdateUrl = route(__("dashboard.user_event_calendar_update_url"));
+
         $memberJobCountUrl = route(__("dashboard.user_job_count_url"));
 
         $membersListUrl = route(__("dashboard.member_list_url"));

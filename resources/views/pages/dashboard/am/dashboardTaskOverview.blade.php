@@ -63,6 +63,17 @@
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
                                 <li class="" role="presentation">
+                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="eventCalendarTab" class="capitalize-font"
+                                        href="#eventCalendar" data-event-calendar-get-url="{{$eventCalendarUrl ?? ''}}">
+                                        {{ __('dashboard.event_calendar_tab_label') }}
+                                    </a>
+                                </li>
+
+                            <?php } ?>
+
+                            <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+
+                                <li class="" role="presentation">
                                     <a data-toggle="tab" id="myDiaryTab" class="capitalize" role="tab" href="#myDiary"
                                         data-my-history-url="{{ route(__('job.my_history_url')) }}">
                                         {{ __('job.my_diary_tab_label') }}
@@ -189,6 +200,16 @@
                                 <div id="myDiary" class="tab-pane fade" role="tabpanel">
 
                                     @include('pages.dashboard.diary.myDiary')
+
+                                </div>
+
+                            <?php } ?>
+
+                            <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+
+                                <div id="eventCalendar" class="eventCalendar tab-pane fade pt-0" role="tabpanel">
+
+                                    @include('pages.dashboard.events.dashboardEventCalendar')
 
                                 </div>
 
