@@ -1911,14 +1911,18 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             emailArray = params.get('to').split(';');
 
             $.each(emailArray, function(index, value) {
+				
+				if(value != '' && value.trim().length > 0) {
 
-                if (!validateEmail(value)) {
+					if (!validateEmail(value)) {
 
-                    validEmailTo = 'false';
+						validEmailTo = 'false';
 
-                    return false;
+						return false;
 
-                }
+					}
+					
+				}
 
             });
 
@@ -1931,14 +1935,18 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             emailArray = params.get('cc').split(';');
 
             $.each(emailArray, function(index, value) {
+				
+				if(value != '' && value.trim().length > 0) {
 
-                if (!validateEmail(value)) {
+					if (!validateEmail(value)) {
 
-                    validEmailCC = 'false';
+						validEmailCC = 'false';
 
-                    return false;
+						return false;
 
-                }
+					}
+					
+				}
 
             });
 
@@ -1951,14 +1959,18 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             emailArray = params.get('bcc').split(';');
 
             $.each(emailArray, function(index, value) {
+				
+				if(value != '' && value.trim().length > 0) {
 
-                if (!validateEmail(value)) {
+					if (!validateEmail(value)) {
 
-                    validEmailBCC = 'false';
+						validEmailBCC = 'false';
 
-                    return false;
+						return false;
 
-                }
+					}
+					
+				}
 
             });
 
@@ -2031,7 +2043,8 @@ function emailSend(sendUrl, params, closeBtnSelector) {
         /* AJAX call to email item info */
 
         var d = $.Deferred();
-
+		$('#loader').show();
+		return false();
         $.ajax({
             url: sendUrl,
             data: params,
@@ -2041,16 +2054,63 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             contentType: false,
             enctype: "multipart/form-data",
         }).done(function(response) {
-
+			
             if (response.success == "true") {
 
                 type = 'success';
+				
+				if (closeBtnSelector == '#emailSendModal') {
+					$('#to').val('');
+					$('#cc').val('');
+					$('#subject').val('');
+					$('#body_html').val('');
+
+					// tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+					// tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+
+					tinymce.get('textarea_editor_email_compose').setContent('');
+					tinymce.get('textarea_editor_email_reply').setContent('');
+
+					// $('#textarea_editor_email_compose').html('');
+					// $('#textarea_editor_email_reply').html('');
+					$('.textarea_editor_email').html('');
+
+					// $('.compose_message').summernote('code', '');
+
+					// var activeEditor = tinymce.activeEditor;
+
+					// var content = '';
+
+					// if (activeEditor !== null) {
+
+					//     activeEditor.setContent(content);
+
+					// } else {
+
+					//     $('.compose_message').val(content);
+					// }
+
+				}
+				$('#loader').hide();
+				$(closeBtnSelector).modal('hide');
 
             } else {
 
                 type = 'error';
 
                 d.resolve();
+				
+				if (closeBtnSelector == '#emailSendModal') {
+					$('#to').val('');
+					$('#cc').val('');
+					$('#subject').val('');
+					$('#body_html').val('');
+					tinymce.get('textarea_editor_email_compose').setContent('');
+					tinymce.get('textarea_editor_email_reply').setContent('');
+					$('.textarea_editor_email').html('');
+				}
+				$('#loader').hide();
+				$(closeBtnSelector).modal('hide');
 
             }
 
@@ -2065,42 +2125,8 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             }
 
         });
-
+		
         //$(closeBtnSelector).trigger('click');
-        if (closeBtnSelector == '#emailSendModal') {
-            $('#to').val('');
-            $('#cc').val('');
-            $('#subject').val('');
-            $('#body_html').val('');
-
-            // tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
-            // tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
-
-            tinymce.get('textarea_editor_email_compose').setContent('');
-            tinymce.get('textarea_editor_email_reply').setContent('');
-
-            // $('#textarea_editor_email_compose').html('');
-            // $('#textarea_editor_email_reply').html('');
-            $('.textarea_editor_email').html('');
-
-            // $('.compose_message').summernote('code', '');
-
-            // var activeEditor = tinymce.activeEditor;
-
-            // var content = '';
-
-            // if (activeEditor !== null) {
-
-            //     activeEditor.setContent(content);
-
-            // } else {
-
-            //     $('.compose_message').val(content);
-            // }
-
-        }
-
-        $(closeBtnSelector).modal('hide');
         return d.promise();
 
 

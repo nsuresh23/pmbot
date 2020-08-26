@@ -11,8 +11,11 @@
 
 </style>
 <!-- Modal -->
+
 <div aria-hidden="true" role="dialog" tabindex="-1" id="emailSendModal" class="email-compose-modal modal fade" style="display: none;" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
+	<div id="loader" class="compose_loader" style="display: none;width: 100%;height: 100%;position: absolute;padding: 2px;z-index: 1;text-align: center;">
+	<img src="{{ asset('public/img/loader2.gif') }}" width="64" height="64" /></div>
         <div class="modal-content">
             <div class="modal-header">
                 <button aria-hidden="true" data-dismiss="modal" class="close email-compose-modal-close" id="email-compose-modal-close" type="button">×</button>
