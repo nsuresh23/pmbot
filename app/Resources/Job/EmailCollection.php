@@ -984,7 +984,7 @@ class EmailCollection
 											
 											
 											/********** FORWARD EMAIL ATTACHEMENT LIST START ***********/
-											$emailForwardAttachmentList .= '<li class="mb-0" id="attachements_'.$key.'">';
+											$emailForwardAttachmentList .= '<li class="mb-0 attachements_'.$key.'" id="attachements_'.$key.'" >';
                                                 $emailForwardAttachmentList .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email-attachment-item-block">';
                                                     $emailForwardAttachmentList .= '<a href="';
                                                     $emailForwardAttachmentList .= $item_file;

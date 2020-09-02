@@ -4290,7 +4290,7 @@ $(document).on('click', '.fw-attachements', function(e) {
     var removedId = $(this).attr('data-attachement-id');
     if (removedId != undefined && removedId != '') {
 
-        $('#' + removedId).remove();
+        $('.' + removedId).remove();
 
     }
 
