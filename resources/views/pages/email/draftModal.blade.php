@@ -82,6 +82,9 @@
 									<div class="email-label border-none">Attached</div>
 									<input type="file" class="form-control draftattachements fileupload" name="attachement"  multiple="multiple">
 								</div>
+								<div class="box" class="attached_file_box" id="attached_file_box">
+									<div class="attached_file" id="attached_file"></div>
+								</div>
 								<div class="box">
 									<div class="email-label border-none sig_change" data-signature-geturl = "{{ $getSignatureUrl ?? '#'}}">Signature</div>
 									<select style="width:20% !important;float:left;" class="form-control signature_draft_change" name="signature" data-signature-type = "reply">

@@ -377,4 +377,136 @@ $(".select-all").click(function() {
 $('a[rel=popover]').popover({
     html: 'true',
     placement: 'right'
-})
+});
+
+function getFileType(filename) {
+
+    var type = "file";
+
+    var extension = filename.split('.').pop();
+
+    switch (extension) {
+        case 'pdf':
+            type = extension;
+            break;
+        case 'txt':
+            type = 'text';
+            break;
+        case 'docx':
+        case 'doc':
+            type = 'word';
+            break;
+        case 'xls':
+        case 'xlsx':
+            type = 'excel';
+            break;
+        case 'mp3':
+        case 'ogg':
+        case 'wav':
+            type = 'audio';
+            break;
+        case 'mp4':
+        case 'mov':
+            type = 'video';
+            break;
+        case 'zip':
+        case '7z':
+        case 'rar':
+            type = 'archive';
+            break;
+        case 'jpg':
+        case 'jpeg':
+        case 'png':
+            type = 'image';
+            break;
+        default:
+            type = 'picture';
+    }
+
+    return type;
+}
+
+/**
+ * mb_strwidth
+ * @param String
+ * @return int
+ * @see http://php.net/manual/ja/function.mb-strwidth.php
+ */
+function mb_strwidth(str) {
+
+    var i = 0,
+        l = str.length,
+        c = '',
+        length = 0;
+
+    for (i; i < l; i++) {
+
+        c = str.charCodeAt(i);
+
+        if (0x0000 <= c && c <= 0x0019) {
+
+            length += 0;
+
+        } else if (0x0020 <= c && c <= 0x1FFF) {
+
+            length += 1;
+
+        } else if (0x2000 <= c && c <= 0xFF60) {
+
+            length += 2;
+
+        } else if (0xFF61 <= c && c <= 0xFF9F) {
+
+            length += 1;
+
+        } else if (0xFFA0 <= c) {
+
+            length += 2;
+
+        }
+
+    }
+
+    return length;
+};
+
+/**
+ * mb_strimwidth
+ * @param String
+ * @param int
+ * @param int
+ * @param String
+ * @return String
+ * @see http://www.php.net/manual/ja/function.mb-strimwidth.php
+ */
+function mb_strimwidth(str, start, width, trimmarker) {
+
+    if (typeof trimmarker === 'undefined') trimmarker = '';
+
+    var trimmakerWidth = mb_strwidth(trimmarker),
+        i = start,
+        l = str.length,
+        trimmedLength = 0,
+        trimmedStr = '';
+
+    for (i; i < l; i++) {
+
+        var charCode = str.charCodeAt(i),
+            c = str.charAt(i),
+            charWidth = mb_strwidth(c),
+            next = str.charAt(i + 1),
+            nextWidth = mb_strwidth(next);
+        trimmedLength += charWidth;
+        trimmedStr += c;
+
+        if (trimmedLength + trimmakerWidth + nextWidth > width) {
+
+            trimmedStr += trimmarker;
+            break;
+
+        }
+    }
+
+    return trimmedStr;
+
+}

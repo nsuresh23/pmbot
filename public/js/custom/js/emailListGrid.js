@@ -748,7 +748,6 @@ function getPmsEmailCountTableList(gridSelector) {
 
 }
 
-
 function findBrowser() {
 
     var navUserAgent = navigator.userAgent;
@@ -1355,7 +1354,7 @@ $(document).on('click', '.email-move-to-btn', function(e) {
 
     }
 
-    emailSend(postUrl, params, '#emailSendModal');
+    emailSend(postUrl, params, '#emailSendModal', '');
 
 });
 
@@ -1709,15 +1708,27 @@ $(document).on('click', '.email-send-btn', function(e) {
 
     var params = new FormData($('.email-send-form')[0]);
 
-    $.each($('.attachements')[0].files, function(i, file) {
-        params.append('file-' + i, file);
-    });
+    // $.each($('.attachements')[0].files, function(i, file) {
+    //     params.append('file-' + i, file);
+    // });
 
+    if (filesToUpload != undefined && Object.keys(filesToUpload).length > 0) {
 
+        var i = 0;
+
+        for (var index in filesToUpload) {
+
+            params.append('file-' + i, filesToUpload[index]);
+
+            i = i + 1;
+
+        }
+
+    }
 
     params.delete('attachement');
 
-    emailSend(postUrl, params, '#emailSendModal');
+    emailSend(postUrl, params, '#emailSendModal', '.compose_loader');
 
     //$('.email-send-form').submit();
 
@@ -1746,13 +1757,27 @@ $(document).on('click', '.email-save-btn', function(e) {
 
     var params = new FormData($('.email-send-form')[0]);
 
-    $.each($('.attachements')[0].files, function(i, file) {
-        params.append('file-' + i, file);
-    });
+    // $.each($('.attachements')[0].files, function(i, file) {
+    //     params.append('file-' + i, file);
+    // });
+
+    if (filesToUpload != undefined && Object.keys(filesToUpload).length > 0) {
+
+        var i = 0;
+
+        for (var index in filesToUpload) {
+
+            params.append('file-' + i, filesToUpload[index]);
+
+            i = i + 1;
+
+        }
+
+    }
 
     params.delete('attachement');
 
-    emailSend(postUrl, params, '#emailSendModal');
+    emailSend(postUrl, params, '#emailSendModal', '.compose_loader');
 
 });
 $(document).on('click', '.email-reply-send-btn', function(e) {
@@ -1787,13 +1812,27 @@ $(document).on('click', '.email-reply-send-btn', function(e) {
 
     var params = new FormData($('.email-reply-form')[0]);
 
-    $.each($('.replyattachements')[0].files, function(i, file) {
-        params.append('file-' + i, file);
-    });
+    // $.each($('.replyattachements')[0].files, function(i, file) {
+    //     params.append('file-' + i, file);
+    // });
+
+    if (filesToUpload != undefined && Object.keys(filesToUpload).length > 0) {
+
+        var i = 0;
+
+        for (var index in filesToUpload) {
+
+            params.append('file-' + i, filesToUpload[index]);
+
+            i = i + 1;
+
+        }
+
+    }
 
     params.delete('attachement');
 
-    emailSend(postUrl, params, '#replymailModal');
+    emailSend(postUrl, params, '#replymailModal', '.reply_loader');
 
 });
 
@@ -1821,13 +1860,27 @@ $(document).on('click', '.email-reply-save-btn', function(e) {
 
     var params = new FormData($('.email-reply-form')[0]);
 
-    $.each($('.replyattachements')[0].files, function(i, file) {
-        params.append('file-' + i, file);
-    });
+    // $.each($('.replyattachements')[0].files, function(i, file) {
+    //     params.append('file-' + i, file);
+    // });
+
+    if (filesToUpload != undefined && Object.keys(filesToUpload).length > 0) {
+
+        var i = 0;
+
+        for (var index in filesToUpload) {
+
+            params.append('file-' + i, filesToUpload[index]);
+
+            i = i + 1;
+
+        }
+
+    }
 
     params.delete('attachement');
 
-    emailSend(postUrl, params, '#replymailModal');
+    emailSend(postUrl, params, '#replymailModal', '.reply_loader');
 
 });
 
@@ -1847,13 +1900,27 @@ $(document).on('click', '.email-draft-send-btn', function(e) {
 
     var params = new FormData($('.email-draft-form')[0]);
 
-    $.each($('.draftattachements')[0].files, function(i, file) {
-        params.append('file-' + i, file);
-    });
+    // $.each($('.draftattachements')[0].files, function(i, file) {
+    //     params.append('file-' + i, file);
+    // });
+
+    if (filesToUpload != undefined && Object.keys(filesToUpload).length > 0) {
+
+        var i = 0;
+
+        for (var index in filesToUpload) {
+
+            params.append('file-' + i, filesToUpload[index]);
+
+            i = i + 1;
+
+        }
+
+    }
 
     params.delete('attachement');
 
-    emailSend(postUrl, params, '#draftymailModal');
+    emailSend(postUrl, params, '#draftymailModal', '.draft_loader');
 
 });
 
@@ -1879,13 +1946,27 @@ $(document).on('click', '.email-draft-save-btn', function(e) {
 
     var params = new FormData($('.email-draft-form')[0]);
 
-    $.each($('.draftattachements')[0].files, function(i, file) {
-        params.append('file-' + i, file);
-    });
+    // $.each($('.draftattachements')[0].files, function(i, file) {
+    //     params.append('file-' + i, file);
+    // });
+
+    if (filesToUpload != undefined && Object.keys(filesToUpload).length > 0) {
+
+        var i = 0;
+
+        for (var index in filesToUpload) {
+
+            params.append('file-' + i, filesToUpload[index]);
+
+            i = i + 1;
+
+        }
+
+    }
 
     params.delete('attachement');
 
-    emailSend(postUrl, params, '#draftymailModal');
+    emailSend(postUrl, params, '#draftymailModal', '.draft_loader');
 
 });
 
@@ -1898,7 +1979,7 @@ function validateEmail($email) {
 
 }
 
-function emailSend(sendUrl, params, closeBtnSelector) {
+function emailSend(sendUrl, params, closeBtnSelector, loader) {
 
     if (sendUrl != undefined && sendUrl != '') {
 
@@ -1911,18 +1992,18 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             emailArray = params.get('to').split(';');
 
             $.each(emailArray, function(index, value) {
-				
-				if(value != '' && value.trim().length > 0) {
 
-					if (!validateEmail(value)) {
+                if (value != '' && value.trim().length > 0) {
 
-						validEmailTo = 'false';
+                    if (!validateEmail(value)) {
 
-						return false;
+                        validEmailTo = 'false';
 
-					}
-					
-				}
+                        return false;
+
+                    }
+
+                }
 
             });
 
@@ -1935,18 +2016,18 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             emailArray = params.get('cc').split(';');
 
             $.each(emailArray, function(index, value) {
-				
-				if(value != '' && value.trim().length > 0) {
 
-					if (!validateEmail(value)) {
+                if (value != '' && value.trim().length > 0) {
 
-						validEmailCC = 'false';
+                    if (!validateEmail(value)) {
 
-						return false;
+                        validEmailCC = 'false';
 
-					}
-					
-				}
+                        return false;
+
+                    }
+
+                }
 
             });
 
@@ -1959,18 +2040,18 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             emailArray = params.get('bcc').split(';');
 
             $.each(emailArray, function(index, value) {
-				
-				if(value != '' && value.trim().length > 0) {
 
-					if (!validateEmail(value)) {
+                if (value != '' && value.trim().length > 0) {
 
-						validEmailBCC = 'false';
+                    if (!validateEmail(value)) {
 
-						return false;
+                        validEmailBCC = 'false';
 
-					}
-					
-				}
+                        return false;
+
+                    }
+
+                }
 
             });
 
@@ -2043,8 +2124,7 @@ function emailSend(sendUrl, params, closeBtnSelector) {
         /* AJAX call to email item info */
 
         var d = $.Deferred();
-		$('#loader').show();
-		return false();
+        $(loader).show();
         $.ajax({
             url: sendUrl,
             data: params,
@@ -2054,63 +2134,63 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             contentType: false,
             enctype: "multipart/form-data",
         }).done(function(response) {
-			
+
             if (response.success == "true") {
 
                 type = 'success';
-				
-				if (closeBtnSelector == '#emailSendModal') {
-					$('#to').val('');
-					$('#cc').val('');
-					$('#subject').val('');
-					$('#body_html').val('');
 
-					// tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
-					// tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
+                if (closeBtnSelector == '#emailSendModal') {
+                    $('#to').val('');
+                    $('#cc').val('');
+                    $('#subject').val('');
+                    $('#body_html').val('');
 
-					tinymce.get('textarea_editor_email_compose').setContent('');
-					tinymce.get('textarea_editor_email_reply').setContent('');
+                    // tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
+                    // tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
 
-					// $('#textarea_editor_email_compose').html('');
-					// $('#textarea_editor_email_reply').html('');
-					$('.textarea_editor_email').html('');
+                    tinymce.get('textarea_editor_email_compose').setContent('');
+                    tinymce.get('textarea_editor_email_reply').setContent('');
 
-					// $('.compose_message').summernote('code', '');
+                    // $('#textarea_editor_email_compose').html('');
+                    // $('#textarea_editor_email_reply').html('');
+                    $('.textarea_editor_email').html('');
 
-					// var activeEditor = tinymce.activeEditor;
+                    // $('.compose_message').summernote('code', '');
 
-					// var content = '';
+                    // var activeEditor = tinymce.activeEditor;
 
-					// if (activeEditor !== null) {
+                    // var content = '';
 
-					//     activeEditor.setContent(content);
+                    // if (activeEditor !== null) {
 
-					// } else {
+                    //     activeEditor.setContent(content);
 
-					//     $('.compose_message').val(content);
-					// }
+                    // } else {
 
-				}
-				$('#loader').hide();
-				$(closeBtnSelector).modal('hide');
+                    //     $('.compose_message').val(content);
+                    // }
+
+                }
+                $(loader).hide();
+                $(closeBtnSelector).modal('hide');
 
             } else {
 
                 type = 'error';
 
                 d.resolve();
-				
-				if (closeBtnSelector == '#emailSendModal') {
-					$('#to').val('');
-					$('#cc').val('');
-					$('#subject').val('');
-					$('#body_html').val('');
-					tinymce.get('textarea_editor_email_compose').setContent('');
-					tinymce.get('textarea_editor_email_reply').setContent('');
-					$('.textarea_editor_email').html('');
-				}
-				$('#loader').hide();
-				$(closeBtnSelector).modal('hide');
+
+                if (closeBtnSelector == '#emailSendModal') {
+                    $('#to').val('');
+                    $('#cc').val('');
+                    $('#subject').val('');
+                    $('#body_html').val('');
+                    tinymce.get('textarea_editor_email_compose').setContent('');
+                    tinymce.get('textarea_editor_email_reply').setContent('');
+                    $('.textarea_editor_email').html('');
+                }
+                $(loader).hide();
+                $(closeBtnSelector).modal('hide');
 
             }
 
@@ -2125,7 +2205,7 @@ function emailSend(sendUrl, params, closeBtnSelector) {
             }
 
         });
-		
+
         //$(closeBtnSelector).trigger('click');
         return d.promise();
 
@@ -2247,20 +2327,22 @@ function showform(type, selector) {
 
 function showform(type, selector) {
     var emailPostData = {};
+    filesToUpload = [];
+    $('.attached_file').html('');
     var emailid = $('.email-title').attr('data-email-id');
     var postUrl = $(selector).attr('data-email-geturl');
 
     var editor_type = 'reply';
 
-    $('.email-reply-body_html').attr('id', 'textarea_editor_email_' + editor_type);
+    $('.email-reply-body_html').attr('id', 'textarea_editor_email_reply');
 
-    if (tinymce.get('textarea_editor_email_' + editor_type) != undefined && tinymce.get('textarea_editor_email_' + editor_type) != null) {
+    if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
 
-        // tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, '');
+        // tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
 
-        tinymce.get('textarea_editor_email_' + editor_type).setContent('');
+        tinymce.get('textarea_editor_email_reply').setContent('');
 
-        // tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, emailEditorParaTag);
+        // tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, emailEditorParaTag);
 
     }
 
@@ -2379,15 +2461,15 @@ function showform(type, selector) {
 
                 $('.email-reply-subject').val(subject);
 
-                if (tinymce.get('textarea_editor_email_' + editor_type) != undefined && tinymce.get('textarea_editor_email_' + editor_type) != null) {
+                if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
 
-                    tinymce.get('textarea_editor_email_' + editor_type).setContent('');
-                    tinymce.get('textarea_editor_email_' + editor_type).execCommand('mceInsertContent', false, emailEditorParaTag + message);
-                    // tinymce.get('textarea_editor_email_' + editor_type).setContent(message, { format: 'html' });
+                    tinymce.get('textarea_editor_email_reply').setContent('');
+                    tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, emailEditorParaTag + message);
+                    // tinymce.get('textarea_editor_email_reply').setContent(message, { format: 'html' });
 
                     // tinymce.get('textarea_editor_email_reply').setContent(message, { format: 'html' });
 
-                    // $('#textarea_editor_email_' + editor_type).append(message);
+                    // $('#textarea_editor_email_reply').append(message);
 
                 }
 
@@ -2412,11 +2494,11 @@ function showform(type, selector) {
 
                 // }
                 if (type == 'forward' && response.data.email_forward_attachment_html != '' && response.data.email_forward_attachment_html != undefined) {
-                    $('#attached_file_box').show();
-                    $('#attached_file').html(response.data.email_forward_attachment_html);
+                    $('.attached_file_box').show();
+                    $('.attached_file').html(response.data.email_forward_attachment_html);
                 } else {
-                    $('#attached_file').html('');
-                    $('#attached_file_box').hide();
+                    $('.attached_file').html('');
+                    $('.attached_file_box').hide();
                 }
                 $('.email_id').val(response.data.id);
 
@@ -2450,6 +2532,8 @@ function showform(type, selector) {
 
 function showdraftform(type, selector) {
     var emailPostData = {};
+    filesToUpload = [];
+    $('.attached_file').html('');
     var emailid = $('.email-title').attr('data-email-id');
     var postUrl = $(selector).attr('data-email-geturl');
 
@@ -2525,6 +2609,14 @@ function showdraftform(type, selector) {
 
                 //     $('.email-draft-body_html').val(content);
                 // }
+
+                if (response.data.email_forward_attachment_html != '' && response.data.email_forward_attachment_html != undefined) {
+                    $('.attached_file_box').show();
+                    $('.attached_file').html(response.data.email_forward_attachment_html);
+                } else {
+                    $('.attached_file').html('');
+                    $('.attached_file_box').hide();
+                }
 
                 $('.email_id').val(response.data.id);
 
@@ -2955,6 +3047,9 @@ $(document).on('click', '.email-compose-btn', function(e) {
 
     //     $('.compose_message').val(content);
     // }
+
+    filesToUpload = [];
+    $('.attached_file').html('');
 
     $('#composeto_value').val('');
     $('.attachements').val('');
@@ -4199,4 +4294,97 @@ $(document).on('click', '.fw-attachements', function(e) {
 
     }
 
+});
+
+// Multiple files preview in browser
+function filesPreview(input, placeToInsertFilePreview) {
+
+    if (input.files) {
+
+        var filesAmount = input.files.length;
+
+        for (i = 0; i < filesAmount; i++) {
+
+            var filename = input.files[i].name;
+
+            var currentTimestamp = '';
+
+            currentTimestamp = moment.utc().format('YYYYMMDDHHmmssSSS') + '_' + Math.floor(Math.random() * 101);
+
+            filesToUpload[currentTimestamp] = input.files[i];
+
+            var htmlFile = '';
+            htmlFile += '<li class="pb-5" id="new_attachements_' + currentTimestamp + '">';
+            htmlFile += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email-attachment-item-block">';
+            htmlFile += '<a href="javascript:void(0);" title="';
+            htmlFile += filename;
+            htmlFile += '" class="atch-thumb" style="text-decoration:none;">';
+            htmlFile += '<span>';
+            htmlFile += '<i class="font-30 mr-5 fa fa-file-';
+            htmlFile += getFileType(filename);
+            htmlFile += '-o"></i>';
+            htmlFile += '</span>';
+            htmlFile += '<span class="email-attachment-item-name ">';
+            htmlFile += mb_strimwidth(filename, 0, 25, '...');
+            htmlFile += '<i class="fa fa-times text-danger ml-5" onclick="removeFile($(this))" type="button" value="Remove" data-remove-id="new_attachements_' + i + '" data-remove-filename="' + filename + '" data-src="' + currentTimestamp + '"></i></a>';
+            htmlFile += '</span>';
+            htmlFile += '</div></li>';
+
+            $($.parseHTML(htmlFile)).appendTo(placeToInsertFilePreview);
+
+            $('.attached_file_box').show();
+
+            // var reader = new FileReader();
+
+            // reader.onload = function(event) {
+
+            //     //     // var htmlFile = '<div>';
+            //     //     // htmlFile = htmlFile + '<img  src="' + event.target.result + '" />';
+            //     //     // htmlFile = htmlFile + '<input onclick="removeFile($(this))" type="button" value="Delete" />';
+            //     //     // htmlFile = htmlFile + '</div>';
+            //     $($.parseHTML(htmlFile)).appendTo(placeToInsertFilePreview);
+            // }
+
+            // reader.readAsDataURL(input.files[i]);
+
+        }
+
+    }
+
+    $('.fileupload').val('');
+
+};
+
+function removeFile(item) {
+
+    var fileSrc = item.attr('data-src');
+
+    if (filesToUpload != undefined && Object.keys(filesToUpload).length > 0) {
+
+        for (var index in filesToUpload) {
+
+            if (index == fileSrc) {
+
+                delete filesToUpload[index];
+
+                item.closest('li').remove();
+
+            }
+
+        }
+
+    }
+
+    if (Object.keys(filesToUpload).length == 0) {
+
+        $('.attached_file_box').hide();
+
+    }
+
+}
+
+var filesToUpload = [];
+
+$('.fileupload').on('change', function() {
+    filesPreview(this, '.attached_file');
 });

@@ -84,8 +84,7 @@
 									<div class="email-label border-none">Attached</div>
 									<input type="file" class="form-control replyattachements fileupload" name="attachement"  multiple="multiple">
 								</div>
-								<div class="box" id="attached_file_box">
-									<div class="email-label border-none"></div>
+								<div class="box" class="attached_file_box" id="attached_file_box">
 									<div class="attached_file" id="attached_file"></div>
 								</div>
 								<div class="box">

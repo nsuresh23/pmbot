@@ -990,7 +990,7 @@ class EmailCollection
                                                     $emailForwardAttachmentList .= $item_file;
                                                     $emailForwardAttachmentList .= '" title="';
                                                     $emailForwardAttachmentList .= $item;
-                                                    $emailForwardAttachmentList .= '" class="atch-thumb">';
+                                                    $emailForwardAttachmentList .= '" class="atch-thumb" style="text-decoration:none;">';
                                                         $emailForwardAttachmentList .= '<span>';
                                                             $emailForwardAttachmentList .= '<i class="font-30 mr-5 fa fa-file-';
                                                             $emailForwardAttachmentList .= $this->getFileType($item_name);
@@ -998,8 +998,9 @@ class EmailCollection
                                                         $emailForwardAttachmentList .= '</span>';
                                                     $emailForwardAttachmentList .= '<span class="email-attachment-item-name ">';
                                                         $emailForwardAttachmentList .= mb_strimwidth($item, 0, 25, "...");
+                                                        $emailForwardAttachmentList .= '<i class="fa fa-times text-danger ml-5 fw-attachements" data-user-empcode="pmbot_spi-global_com_desc" data-attachement-id = "attachements_'.$key.'"></i>';
                                                     $emailForwardAttachmentList .= '</span>';
-                                                    $emailForwardAttachmentList .= '</a><i class="fa fa-times font-20text-danger ml-5 fw-attachements" data-user-empcode="pmbot_spi-global_com_desc" data-attachement-id = "attachements_'.$key.'"></i>';
+                                                    $emailForwardAttachmentList .= '</a>';
                                                 $emailForwardAttachmentList .= '</div>';
                                             $emailForwardAttachmentList .= '<input type="hidden" id="fw_attachements" name="fw_attachements[]" value="'.$item_name.'"></li>';
 											/********** FORWARD EMAIL ATTACHEMENT LIST END ***********/

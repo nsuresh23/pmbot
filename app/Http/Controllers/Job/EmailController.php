@@ -676,12 +676,15 @@ class EmailController extends Controller
 					//$filePath1 = 'OUPBOOKS\\RADDEVELOPERS@SPI-GLOBAL.COM\\2020\\6\\9\\09a13be6-d963-432f-8fef-020e53074b22\\' . $filename;
 
 					$filePath =  env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath. $hasFilename;
+                    
+                    Storage::disk('s3')->put($filePath, file_get_contents($file));
+                    
+                    $fileIndexRand = substr(str_shuffle($permitted_chars), 0, 8);                    
+                    $fileIndex = date('Ymdhmsv') . '_' . $fileIndexRand;
+					$attached_files[$fileIndex] = $hasFilename;
 
-					Storage::disk('s3')->put($filePath, file_get_contents($file));
-					$attached_files[$filename] = $hasFilename;
-
-				}
-
+                }
+                
 				if(count($attached_files) > 0){
 					$field["attachments"] = implode("|", $attached_files);
 				}
@@ -855,10 +858,13 @@ class EmailController extends Controller
 			{
 				$gfield['emailid'] = $field['id'];
 				$gfield["empcode"] = auth()->user()->empcode;
-				$returnResponse = $this->emailResource->emailGet($gfield);
-				if(!empty($returnResponse['data']['attachments'])) {
-					$returnResponse['data']['attachments'] = base64_decode($returnResponse['data']['attachments']);
-				}
+                $returnResponse = $this->emailResource->emailGet($gfield);
+                
+                // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($returnResponse);echo '<PRE/>';exit;
+				// if(!empty($returnResponse['data']['attachments'])) {
+				// 	$returnResponse['data']['attachments'] = base64_decode($returnResponse['data']['attachments']);
+				// }
+				
 
 				$attached_files = [];
 				$files = $request->file();
@@ -889,19 +895,32 @@ class EmailController extends Controller
 					$hasFilename = $filename;
 					$filePath =  env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath. $hasFilename;
 					Storage::disk('s3')->put($filePath, file_get_contents($file));
-					//$filename = $file->store(strtotime("now") . '/' . auth()->user()->empcode);
-					$attached_files[$filename] = $hasFilename;
+                    //$filename = $file->store(strtotime("now") . '/' . auth()->user()->empcode);
+                    $fileIndexRand = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 0, 8);
+                    $fileIndex = date('Ymdhmsv') . '_' . $fileIndexRand;
+                    $attached_files[$fileIndex] = $hasFilename;
 				}
 
 
 				if(count($attached_files) > 0){
 					$field["attachments"] = implode("|", $attached_files);
-					if(!empty($returnResponse['data']['attachments'])) {
+					
+					if(!empty($request->fw_attachements)) {
+						$fw_attachementslist = implode("|", $request->fw_attachements);
+						$field["attachments"] = $fw_attachementslist.'|'.$field["attachments"];
+					} 
+					/*if(!empty($returnResponse['data']['attachments'])) {
 						$attachments = rtrim($returnResponse['data']['attachments'],"|");
 						$field["attachments"] = $attachments.'|'.$field["attachments"];
-					}
+					}*/
+				}
+            } else {
+				if(!empty($request->fw_attachements)) {
+					$fw_attachementslist = implode("|", $request->fw_attachements);
+					$field["attachments"] = $fw_attachementslist;
 				}
 			}
+            
 			if(!empty($field["attachments"])) {
 				$field["attachments"] = base64_encode($field["attachments"]);
             }

@@ -493,6 +493,9 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                             <input type="file" class="form-control replyattachements fileupload" name="attachement"
                                                 multiple="multiple">
                                         </div>
+                                        <div class="box" class="attached_file_box" id="attached_file_box">
+                                            <div class="attached_file" id="attached_file"></div>
+                                        </div>
                                         {{-- <div class="box">
                                             <div class="email-label border-none sig_change" data-signature-geturl="{{ $getSignatureUrl ?? '#'}}">
                                             </div>
