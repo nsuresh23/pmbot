@@ -15,7 +15,14 @@ $(document).ready(function(e) {
     $('.reply_email_type').val('reply');
     $('.signature_change').val('');
     $(".reply_to ul").empty();
-    showform(type, selector);
+
+    setTimeout(() => {
+
+        showform(type, selector);
+
+    }, 500);
+
+    // showform(type, selector);
 });
 
 </script>

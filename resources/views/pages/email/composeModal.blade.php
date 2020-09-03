@@ -79,12 +79,21 @@
 									</div>
 									<div class="box">
 										<div class="email-label border-none">Attached</div>
-										<input type="file" class="form-control attachements fileupload" name="attachement" multiple="multiple" >
+										
+										<input type="file" class="form-control attached attachements fileupload" name="attachement" multiple="multiple" value="Attached">
+										<select style="width:20% !important;float:left;" class="form-control signature_change" id="select_signature" name="signature" data-signature-type = "new">
+											<option value="new_signature" >New Signature</option>
+											<option value="replyforward_signature">Replies/Forwards</option>
+										</select>
+										<div class="high_importance">
+											High Importance <input type="checkbox" class="" name="priority" id="priority" style="margin-left: 0px;">
+										</div>
+										
 									</div>
 									<div class="box" class="attached_file_box" id="attached_file_box">
 										<div class="attached_file" id="attached_file"></div>
 									</div>
-									<div class="box">
+									<!--<div class="box">
 										<div class="email-label border-none sig_change" data-signature-geturl = "{{ $getSignatureUrl ?? '#'}}"></div>
 										<select style="width:20% !important;float:left;" class="form-control signature_change" id="select_signature" name="signature" data-signature-type = "new">
 											<option value=''>Signature</option>
@@ -94,7 +103,7 @@
 										<div style="float:left;width:20%;margin-left:8px;line-height:34px;">
 											High Importance <input type="checkbox" class="" name="priority" id="priority" style="margin-left: 0px;">
 										</div>
-									</div>
+									</div>-->
 							</div>
 
 					</div>

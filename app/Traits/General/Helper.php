@@ -1001,6 +1001,9 @@ trait Helper
                 case 'pdf':
                     $type = $extension;
                     break;
+				case 'PDF':
+                    $type = 'pdf';
+                    break;	
                 case 'txt':
                     $type = 'text';
                     break;
@@ -1009,6 +1012,7 @@ trait Helper
                     $type = 'word';
                     break;
                 case 'xls':
+				case 'csv':
                 case 'xlsx':
                     $type = 'excel';
                     break;
@@ -1031,6 +1035,10 @@ trait Helper
                 case 'png':
                     $type = 'image';
                     break;
+				case 'html':
+					$type = 'code';
+					break;
+				
                 default:
                     $type = 'picture';
             }

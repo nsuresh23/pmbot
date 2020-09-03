@@ -80,23 +80,31 @@
 								</div>
 								<div class="box">
 									<div class="email-label border-none">Attached</div>
-									<input type="file" class="form-control draftattachements fileupload" name="attachement"  multiple="multiple">
+									<input type="file" class="form-control attached draftattachements fileupload" name="attachement"  multiple="multiple">
+									
+									<select style="width:20% !important;float:left;" class="form-control signature_draft_change" name="signature" data-signature-type = "reply">
+										<option value="new_signature">New Signature</option>
+										<option value="replyforward_signature" selected>Replies/Forwards</option>
+									</select>
+									
+									<div class="high_importance">
+										High Importance <input type="checkbox" class="" name="priority" id="priority" style="margin-left: 0px;">
+									</div>
 								</div>
 								<div class="box" class="attached_file_box" id="attached_file_box">
 									<div class="attached_file" id="attached_file"></div>
 								</div>
-								<div class="box">
+								<!--<div class="box">
 									<div class="email-label border-none sig_change" data-signature-geturl = "{{ $getSignatureUrl ?? '#'}}">Signature</div>
 									<select style="width:20% !important;float:left;" class="form-control signature_draft_change" name="signature" data-signature-type = "reply">
-										<option value="">Select Signature</option>
-										<option value="new_signature">New</option>
+										<option value="new_signature">New Signature</option>
 										<option value="replyforward_signature" selected>Replies/Forwards</option>
 									</select>
 									
-									<div style="float:left;width:20%;margin-left:8px;line-height:34px;">
+									<div class="high_importance">
 										High Importance <input type="checkbox" class="" name="priority" id="priority" style="margin-left: 0px;">
 									</div>
-								</div>
+								</div>-->
 							</div>
 
 						</div>

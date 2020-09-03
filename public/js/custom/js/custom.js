@@ -387,7 +387,8 @@ function getFileType(filename) {
 
     switch (extension) {
         case 'pdf':
-            type = extension;
+		case 'PDF':
+            type = 'pdf';
             break;
         case 'txt':
             type = 'text';
@@ -398,6 +399,7 @@ function getFileType(filename) {
             break;
         case 'xls':
         case 'xlsx':
+		case 'csv':
             type = 'excel';
             break;
         case 'mp3':
@@ -417,7 +419,14 @@ function getFileType(filename) {
         case 'jpg':
         case 'jpeg':
         case 'png':
+		case 'PNG':
             type = 'image';
+            break;
+		case 'html':
+            type = 'code';
+            break;
+		case 'txt':
+            type = 'txt';
             break;
         default:
             type = 'picture';
