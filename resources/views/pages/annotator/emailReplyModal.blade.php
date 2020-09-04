@@ -18,6 +18,8 @@ $(document).ready(function(e) {
     setTimeout(() => {
     
         showform(type, selector);
+
+        tinymceEditorFocus();
     
     }, 500);
 
@@ -497,13 +499,22 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                         </div>
                                         <div class="box">
                                             <div class="email-label border-none">Attached</div>
-                                            <input type="file" class="form-control replyattachements fileupload" name="attachement"
+                                            <input type="file" style="width:8.6% !important;" class="form-control attached replyattachements fileupload" name="attachement"
                                                 multiple="multiple">
+											
+											<!--<select style="width:20% !important;float:left;" class="form-control signature_change" id="select_signature" name="signature" data-signature-type = "new">
+												<option value="new_signature" >New Signature</option>
+												<option value="replyforward_signature">Replies/Forwards</option>
+											</select>-->
+											<div class="high_importance">
+												High Importance <input type="checkbox" class="" name="priority" id="priority" style="margin-left: 0px;">
+											</div>
+												
                                         </div>
                                         <div class="box" class="attached_file_box" id="attached_file_box">
                                             <div class="attached_file" id="attached_file"></div>
                                         </div>
-                                        {{-- <div class="box">
+                                        <!-- <div class="box">
                                             <div class="email-label border-none sig_change" data-signature-geturl="{{ $getSignatureUrl ?? '#'}}">
                                             </div>
                                             <select style="width:20% !important;" class="form-control signature_change" name="signature"
@@ -512,7 +523,7 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                                 <option value="new_signature">New</option>
                                                 <option value="replyforward_signature">Replies/Forwards</option>
                                             </select>
-                                        </div> --}}
+                                        </div> -->
                                     </div>
 
                                 </div>

@@ -4388,3 +4388,16 @@ var filesToUpload = [];
 $('.fileupload').on('change', function() {
     filesPreview(this, '.attached_file');
 });
+
+function tinymceEditorFocus() {
+
+    var ed = tinymce.activeEditor;
+
+    if (ed != undefined && ed != null) {
+
+        ed.getBody().firstChild.scrollIntoView();
+        ed.selection.setCursorLocation(ed.getBody().children[0], 0);
+
+    }
+
+}
