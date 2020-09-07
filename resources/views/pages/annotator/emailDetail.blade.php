@@ -49,13 +49,13 @@
         </a><?php */?>
         <!--<button id="btnfollowup" class="btn btn-primary btn-sm">Followup</button>-->
 
-        <a href="{{route('email-forward') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="forward" class="btn btn-sm btn-success email-reply-button">
+        <a href="{{route('email-forward') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="forward" class="btn btn-sm btn-success email-forward-button email-button-group">
             Forward
         </a>
-        <a href="{{route('email-reply-all') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply all" class="btn btn-sm btn-success email-reply-all-button">
+        <a href="{{route('email-reply-all') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply all" class="btn btn-sm btn-success email-reply-all-button email-button-group">
             Reply all
         </a>
-        <a href="{{route('email-reply') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply" class="btn btn-sm btn-success email-reply-button">
+        <a href="{{route('email-reply') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply" class="btn btn-sm btn-success email-reply-button email-button-group">
             Reply
         </a>
 
@@ -170,7 +170,10 @@ function annotatorcompleted(){
 		success: function(data){
 			alert(data['message']);
 			if(data['status'] == '1'){
-				window.location.href = "<?php echo env('APP_URL');?>/";
+                // window.location.href = "<?php echo env('APP_URL');?>/";
+
+                window.location.reload();
+
 			}
 		},
 		error: function()
@@ -315,7 +318,6 @@ function getjobID() {
 		}
 }
 
-
 function getjob_tasklist(val) {
 	//alert(val);
 	$("#mailbodycontent").removeClass();
@@ -343,7 +345,6 @@ function getjob_tasklist(val) {
 	   });
 }
 
-
 function annotationjobID() {
 	var x = document.getElementById("annotationID").value;
 	if(x !=''){
@@ -365,6 +366,7 @@ function annotationjobID() {
 	   });
 	}
 }
+
 function gettaskval(sel){
 	url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/gettaskdetail'
 	$.ajax({
@@ -402,6 +404,7 @@ function gettaskval(sel){
 		{}
    });
 }
+
 function getuserlist(){
 	url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/getpmuserlist'
 	$.ajax({
@@ -551,7 +554,13 @@ function getresult(url) {
 				$('#content').annotator().annotator("addPlugin", "AnnotatorViewer");
 				if(data['status'] !='0'){
 					$("#btnnonbusiness").hide();
-				}
+                }
+
+                if(data['status'] =='2'){
+
+                    $(".email-button-group").show();
+
+                }
 
 					$.ajax({
 						url: '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/search?page='+<?php echo $returnData['id'];?>,
@@ -578,12 +587,18 @@ function getresult(url) {
 }
 getresult("<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/getresult");
 
+$('.email-button-group').hide();
+
 function Myisbnbtnfrm(){
+    $('.email-subject').html('');
+    $('.email-subject').html($('.mailbox-read-info').find('h3:first').html());
 	$('#createisbnfrm').toggle(500);
 	$('#create-generic-job-frm').hide();
 }
 
 function genericBtnFrm(){
+    $('.email-subject').html('');
+    $('.email-subject').html($('.mailbox-read-info').find('h3:first').html());
 	$('#create-generic-job-frm').toggle(500);
 	$('#createisbnfrm').hide();
 }

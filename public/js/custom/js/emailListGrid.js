@@ -1973,9 +1973,17 @@ $(document).on('click', '.email-draft-save-btn', function(e) {
 
 function validateEmail($email) {
 
-    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,6})?$/;
+    var emailMatch = $email.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
 
-    return ($email.length > 0 && emailReg.test($email));
+    if (emailMatch != undefined && emailMatch.length > 0) {
+
+        $email = emailMatch[0];
+
+    }
+
+    var emailReg = /^([\w-\.\_]+@([\w-]+\.)+[\w-]{2,6})?$/;
+
+    return ($email.trim().length > 0 && emailReg.test($email.trim()));
 
 }
 
