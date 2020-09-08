@@ -562,20 +562,24 @@ function getresult(url) {
 
                 }
 
-					$.ajax({
-						url: '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/search?page='+<?php echo $returnData['id'];?>,
-						type: "GET",
-						crossdomain:true,
-						data:  '',
-						beforeSend: function(){$("#overlay").show();},
-						success: function(data){
-						$("#refemailid").val($('#emailid').val());
-							getpmbotjoblist("<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/getpmbotjoblist");
-							annotationjobID();
-						  },
-						error: function()
-						{}
-				   });
+                $('.email-subject').html('');
+                $('.email-subject').html($('.mailbox-read-info').find('h3:first').html());
+
+                $.ajax({
+                    url: '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/search?page='+<?php echo $returnData['id'];?>,
+                    type: "GET",
+                    crossdomain:true,
+                    data:  '',
+                    beforeSend: function(){$("#overlay").show();},
+                    success: function(data){
+                    $("#refemailid").val($('#emailid').val());
+                        getpmbotjoblist("<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/getpmbotjoblist");
+                        annotationjobID();
+                        },
+                    error: function()
+                    {}
+                });
+
 				setInterval(function() {$("#overlay").hide(); },500);
 			}
 
@@ -590,15 +594,11 @@ getresult("<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/getresult");
 $('.email-button-group').hide();
 
 function Myisbnbtnfrm(){
-    $('.email-subject').html('');
-    $('.email-subject').html($('.mailbox-read-info').find('h3:first').html());
 	$('#createisbnfrm').toggle(500);
 	$('#create-generic-job-frm').hide();
 }
 
 function genericBtnFrm(){
-    $('.email-subject').html('');
-    $('.email-subject').html($('.mailbox-read-info').find('h3:first').html());
 	$('#create-generic-job-frm').toggle(500);
 	$('#createisbnfrm').hide();
 }
