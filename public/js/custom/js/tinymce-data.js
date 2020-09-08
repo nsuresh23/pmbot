@@ -15,6 +15,30 @@ $(function() {
 
     });
 
+    function emailViewEditor(selector) {
+
+        tinymce.init({
+            selector: selector,
+            height: 500,
+            menubar: false,
+            toolbar: false,
+            statusbar: false,
+            readonly: 1,
+            keep_styles: true,
+            browser_spellcheck: true,
+            paste_data_images: true,
+            relative_urls: false,
+            remove_script_host: false,
+            valid_children: '+body[style]',
+            plugins: 'advlist anchor autolink charmap code codesample colorpicker directionality fullscreen hr image imagetools insertdatetime link lists media nonbreaking pagebreak powerpaste print preview searchreplace table template textcolor textpattern visualblocks visualchars wordcount',
+            fontsize_formats: '8pt 9pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 21pt 22pt 23pt 24pt 25pt 26pt 27pt 28pt 29pt 30pt 31pt 32pt 33pt 34pt 35pt 36pt',
+            font_formats: ' Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Calibri=calibri; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats',
+        });
+
+    }
+
+    emailViewEditor('#email-body');
+
     emailEditorInitialize('#textarea_editor_email_compose');
     emailEditorInitialize('#textarea_editor_email_draft');
     emailEditorInitialize('#textarea_editor_email_reply');
