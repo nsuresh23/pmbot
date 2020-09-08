@@ -522,7 +522,7 @@
             if (annonatestate != '0') {
                 var annoclass = 'no-copy';
                 var EMAILID =
-                    '<div class="emailticketinfo no-copy"><div class="list-group"><a class="list-group-item" href="#"><span class="badge badge-info" id="emailidcontent"></span> Reference email id </a>' +
+                    '<div class="emailticketinfo no-copy"><div class="list-group"><a class="list-group-item" href="#"><span class="badge badge-info" id="emailidcontent"></span> Reference email id </a><a class="list-group-item" href="javascript:void(0);"><div><label class="control-label">Subject:</label><textarea class="form-control email-subject" rows="5" style="padding:5px;" readonly></textarea></div></a>' +
                     wjobid +
                     '</div></div>';
             } else {
