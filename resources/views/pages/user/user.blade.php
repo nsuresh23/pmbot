@@ -154,19 +154,22 @@
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                         <div class="row">
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                <div class="form-group">
-                                                                    <label for="role" class="control-label mb-10">{{ __('user.user_role_label') }}</label>
-                                                                    {!! Form::select('role', $userData["role_list"], $selectedRole, ['class' => 'form-control select2',
-                                                                    'data-error' => "{{ __('user.user_role_error_msg') }}", 'required']) !!}
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pl-0">
+                                                                    <div class="form-group">
+                                                                        <label for="empcode" class="control-label mb-10">{{ __('user.user_empcode_label') }}</label>
+                                                                        <input type="text" class="form-control" id="empcode" name="empcode"
+                                                                            value="{{$userData['data']['empcode'] ?? ''}}" placeholder="{{ __('user.user_empcode_placeholder_text') }}"
+                                                                            data-error="{{ __('user.user_empcode_error_msg') }}" required>
+                                                                        <div class="help-block with-errors"></div>
+                                                                    </div>
                                                                 </div>
-                                                                {{-- <div class="form-group">
-                                                                    <label for="empcode" class="control-label mb-10">{{ __('user.user_empcode_label') }}</label>
-                                                                    <input type="text" class="form-control" id="empcode" name="empcode"
-                                                                        value="{{$userData['data']['empcode'] ?? ''}}"
-                                                                        placeholder="{{ __('user.user_empcode_placeholder_text') }}"
-                                                                        data-error="{{ __('user.user_empcode_error_msg') }}" {{ $disabledField }} required>
-                                                                    <div class="help-block with-errors"></div>
-                                                                </div> --}}
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pa-0">
+                                                                    <div class="form-group">
+                                                                        <label for="role" class="control-label mb-10">{{ __('user.user_role_label') }}</label>
+                                                                        {!! Form::select('role', $userData["role_list"], $selectedRole, ['class' => 'form-control select2',
+                                                                        'data-error' => "{{ __('user.user_role_error_msg') }}", 'required']) !!}
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                 <div class="form-group">

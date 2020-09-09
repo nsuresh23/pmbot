@@ -46,7 +46,7 @@
     $notificationListUrl = route(__("job.notification_list_url"));
     $notificationReadUrl = route(__("job.notification_read_url"), '');
     $notificationReadAllUrl = route(__("job.notification_read_all_url"));
-	
+
 	$signatureUpdateUrl      = route(__("job.signature_update"));
 	$getSignatureUrl         = route(__("job.get_signature"));
 
@@ -93,6 +93,31 @@
                 </li>
             @else
 
+            <li class="dropdown app-drp">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="zmdi zmdi-apps top-nav-icon"></i></a>
+                <ul class="dropdown-menu app-dropdown" data-dropdown-in="slideInRight" data-dropdown-out="flipOutX" style="min-width: max-content;">
+                    <li>
+                        <div class="app-nicescroll-bar">
+                            <ul class="app-icon-wrap pa-10">
+                                @if (Route::currentRouteName() != __('user.user_list_url') && in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles')))
+                                <li>
+                                    <a href="{{ route(__('user.user_list_url')) }}" class="connection-item">
+                                        <i class="fa fa-list txt-success"></i>
+                                        <span class="block capitalize-font">{{ __('general.user_label') }}</span>
+                                    </a>
+                                </li>
+                                @endif
+                                <li>
+                                    <a href="#signatureModal" class="connection-item" role="menuitem" data-toggle="modal" title="signature" data-signature-geturl="{{ $getSignatureUrl ?? '#'}}" data-type="forward">
+                                        <i class="fa fa-credit-card txt-info"></i>
+                                        <span class="block capitalize-font">Signature</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li>
 
             {{-- <li class="dropdown app-drp">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="zmdi zmdi-apps top-nav-icon"></i></a>
@@ -199,17 +224,17 @@
                 <a href="{{ route(__('dashboard.current_user_login_url')) ?? 'javascript:void(0);'}}" class="dropdown-toggle btn btn-outline btn-info" style="text-transform:none;">{{ session()->get("current_empcode") ?? ''}}</a>
                 </li>
             <?php } ?>
-			
+
 			<!--<li class="dropdown alert-drp">
                 <a href="javascript:void(0)" class="dropdown-toggle settings-count-button" data-toggle="dropdown"><i
                         class="zmdi zmdi-settings top-nav-icon"></i>
-                   
+
                 </a>
                 <ul class="dropdown-menu alert-dropdown" data-dropdown-in="slideInRight" data-dropdown-out="flipOutX">
                       <li>
                         <div class="notification-box-head-wrap">
                             <span class="notification-box-head pull-left inline-block">Settings</span>
-                           
+
                             <div class="clearfix"></div>
                             <hr class="light-grey-hr ma-0" />
                         </div>
@@ -220,23 +245,23 @@
 								<a href="#signatureModal" role="menuitem" data-toggle="modal" title="reply" class="dashboard-draft-email signature" data-signature-geturl = "{{ $getSignatureUrl ?? '#'}}" data-type = "forward">
 									Signature
 								</a>
-								
+
 							</div>
-			
+
 						</div>
                     </li>
-                    
+
                 </ul>
-				 
+
             </li>-->
-			<li class="dropdown alert-drp">
+			{{-- <li class="dropdown alert-drp">
 				<div style="float: left;padding: 5px;color: #878787;border-radius: 4px;border:2px solid #0fc5bb;text-align:center;width:100%;margin-top: 20px;">
 					<a href="#signatureModal" role="menuitem" data-toggle="modal" title="reply" class="dashboard-draft-email signature" data-signature-geturl = "{{ $getSignatureUrl ?? '#'}}" data-type = "forward">
 						Signature
 					</a>
-					
+
 				</div>
-			</li>
+			</li> --}}
             <li class="dropdown alert-drp">
                 <a href="javascript:void(0)" class="dropdown-toggle notification-count-button"
                     data-notification-count-url="{{$notificationCountUrl ?? ''}}"
@@ -270,7 +295,7 @@
                     </li>
                 </ul>
             </li>
-            
+
             <li class="dropdown auth-drp">
                 <a href="javascript:void(0)" class="dropdown-toggle pr-0" data-toggle="dropdown">
                     {{-- <img src="{{ asset('public/img/user1.png') }}" alt="user_auth" class="user-auth-img img-circle" /> --}}

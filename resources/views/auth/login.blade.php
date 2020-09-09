@@ -27,6 +27,8 @@
                                 $error_login = "";
                                 $error_password = "";
                                 $password_error = "";
+                                $error_ldap_password = "";
+                                $ldap_password_error = "";
 
                                 if(isset($errors)) {
 
@@ -47,6 +49,14 @@
                                         $password_error = $errors->has('password');
 
                                         $error_password = $errors->first('password');
+
+                                    }
+
+                                    if($errors->has('ldap_password')) {
+
+                                        $ldap_password_error = $errors->has('ldap_password');
+
+                                        $error_ldap_password = $errors->first('ldap_password');
 
                                     }
 
@@ -103,6 +113,28 @@
                                                 <strong>{{ $error_password }}</strong>
                                             </span>
                                             @endif
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group{{ $ldap_password_error ? ' has-error' : '' }}">
+                                        <div class="has-feedback">
+                                            <label class="pull-left control-label mb-10" for="{{ __('auth.loginLdapPasswordLabel') }}">
+                                                {{ __('auth.loginLdapPasswordLabel') }}
+                                            </label>
+
+                                            <div class="clearfix"></div>
+
+                                            <input id="ldap-password" type="password" class="form-control @if ($ldap_password_error) is-invalid @endif"
+                                                name="ldap_password" autocomplete="ldap_password"
+                                                placeholder="{{ __('auth.loginLdapPasswordPlaceHolder') }}">
+                                            @if ($ldap_password_error)
+                                            <span class="invalid-feedback help-block">
+                                                <strong>{{ $error_ldap_password }}</strong>
+                                            </span>
+                                            @endif
+
                                         </div>
                                     </div>
 

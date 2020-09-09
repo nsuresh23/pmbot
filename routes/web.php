@@ -196,7 +196,7 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'copy_edit
 
 });
 
-Route::group(['prefix' => 'user', 'middleware' => ['auth', 'roles'], 'roles' => ['admin']], function () {
+Route::group(['prefix' => 'user', 'middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_manager']], function () {
 
 	Route::any('/', 'User\UserController@index')->name('user');
 
