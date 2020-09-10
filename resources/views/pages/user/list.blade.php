@@ -63,7 +63,7 @@ if(Route::currentRouteName() == __("user.job_stage_list_url")) {
 
 @section('content')
 <!-- Main Content -->
-<div class="container-fluid pt-25">
+<div class="container-fluid">
 
     <div id="grid-data" data-type="{{ $type }}" data-list-url="{{ $listUrl }}" data-add-url="{{ $addUrl }}" data-edit-url="{{ $editUrl }}" data-delete-url="{{ $deleteUrl }}" data-password-update-url="{{ $passwordUpdateUrl }}">
 
@@ -78,6 +78,10 @@ if(Route::currentRouteName() == __("user.job_stage_list_url")) {
                         <div class="pull-right">
                             <a href="#" class="pull-left inline-block full-screen mr-15">
                                 <i class="zmdi zmdi-fullscreen job-status-i"></i>
+                            </a>
+                            <a id="job-status-close" class="pull-left inline-block" href="{{ route(__("home")) }}"
+                                data-effect="fadeOut">
+                                <i class="zmdi zmdi-close job-status-i"></i>
                             </a>
                         </div>
                         <div class="clearfix"></div>

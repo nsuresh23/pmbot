@@ -157,8 +157,8 @@
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pl-0">
                                                                     <div class="form-group">
                                                                         <label for="empcode" class="control-label mb-10">{{ __('user.user_empcode_label') }}</label>
-                                                                        <input type="text" class="form-control" id="empcode" name="empcode"
-                                                                            value="{{$userData['data']['empcode'] ?? ''}}" placeholder="{{ __('user.user_empcode_placeholder_text') }}"
+                                                                        <input type="text" class="form-control" id="empcode" name="spi_empcode"
+                                                                            value="{{$userData['data']['spi_empcode'] ?? ''}}" placeholder="{{ __('user.user_empcode_placeholder_text') }}"
                                                                             data-error="{{ __('user.user_empcode_error_msg') }}" required>
                                                                         <div class="help-block with-errors"></div>
                                                                     </div>
