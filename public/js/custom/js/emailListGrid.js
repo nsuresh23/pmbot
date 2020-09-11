@@ -318,6 +318,12 @@ function getEmailTableList(gridSelector) {
 
             }
 
+                            if (emailFilter == 'archived') {
+
+                                status = ['7'];
+
+                            }
+
             if (emailFilter == 'error') {
 
                 status = ['99'];
@@ -349,6 +355,12 @@ function getEmailTableList(gridSelector) {
                 status = ['6'];
 
             }
+
+                            if (emailFilter == 'archived') {
+
+                                status = ['7'];
+
+                            }
 
             if (emailFilter == 'error') {
 
@@ -391,6 +403,12 @@ function getEmailTableList(gridSelector) {
             status = ['6'];
 
         }
+
+                        if (emailFilter == 'archived') {
+
+                            status = ['7'];
+
+                        }
 
         if (emailFilter == 'error') {
 
@@ -1496,6 +1514,30 @@ $(document).on('click', '.dashboard-draft-email', function() {
     if (dataUrl != undefined && dataUrl != "") {
 
         $(gridSelector).attr('data-email-filter', 'draft');
+
+        $(gridSelector).attr('data-email-label', '');
+
+        getEmailTableList(gridSelector);
+
+    }
+
+    $('.inbox-nav li.active').removeClass('active');
+    $(this).closest('li').addClass('active');
+    $('.email-list-body').show();
+    $('.email-detail-body').hide();
+
+});
+
+$(document).on('click', '.dashboard-archived-email', function() {
+
+    // var gridSelector = ".nonBusinessEmailGrid";
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        $(gridSelector).attr('data-email-filter', 'archived');
 
         $(gridSelector).attr('data-email-label', '');
 

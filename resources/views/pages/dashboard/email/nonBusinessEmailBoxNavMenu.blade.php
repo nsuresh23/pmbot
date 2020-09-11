@@ -44,6 +44,13 @@
                     {{-- <span class="email-draft-count label bg-partial ml-10">30</span> --}}
                 </a>
             </li>
+            <li class="">
+                <a class="dashboard-archived-email" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);">
+                    <i class="zmdi zmdi-archive"></i>
+                    {{ __("job.email_archived_label") }}
+                    {{-- <span class="email-archived-count label bg-partial ml-10">30</span> --}}
+                </a>
+            </li>
 
             <?php
 
