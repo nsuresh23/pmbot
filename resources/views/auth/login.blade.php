@@ -22,6 +22,7 @@
                                 <h6 class="text-center nonecase-font txt-grey">{{ __('auth.loginSubTitle') }}</h6>
                             </div>
                             <?php
+
                                 $login_field = (!empty(old('email'))) ? old('email'):old('username');
 
                                 $error_login = "";
@@ -30,37 +31,37 @@
                                 $error_ldap_password = "";
                                 $ldap_password_error = "";
 
-                                if(isset($errors)) {
+                                // if(isset($errors)) {
 
-                                    if($errors->has('email')) {
+                                //     if($errors->has('email')) {
 
-                                        $error_login = $errors->first('email');
+                                //         $error_login = $errors->first('email');
 
-                                    }
+                                //     }
 
-                                    if($errors->has('username')) {
+                                //     if($errors->has('username')) {
 
-                                        $error_login = $errors->first('username');
+                                //         $error_login = $errors->first('username');
 
-                                    }
+                                //     }
 
-                                    if($errors->has('password')) {
+                                //     if($errors->has('password')) {
 
-                                        $password_error = $errors->has('password');
+                                //         $password_error = $errors->has('password');
 
-                                        $error_password = $errors->first('password');
+                                //         $error_password = $errors->first('password');
 
-                                    }
+                                //     }
 
-                                    if($errors->has('ldap_password')) {
+                                //     if($errors->has('ldap_password')) {
 
-                                        $ldap_password_error = $errors->has('ldap_password');
+                                //         $ldap_password_error = $errors->has('ldap_password');
 
-                                        $error_ldap_password = $errors->first('ldap_password');
+                                //         $error_ldap_password = $errors->first('ldap_password');
 
-                                    }
+                                //     }
 
-                                }
+                                // }
 
                                 // if(isset($errors) && $errors->has('email'))
                                 //     $error_login = $errors->first('email');
@@ -68,6 +69,23 @@
                                 //     $error_login = $errors->first('username');
 
                             ?>
+
+                            <?php if(isset($errors)) { ?>
+                                @if ($errors->any())
+                                <div class="alert alert-warning has-error" role="alert">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                        <li>
+                                            <span class="help-block">
+                                                <strong>{{ $error }}</strong>
+                                            </span>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
+                            <?php } ?>
+
                             <div class="form-wrap">
                                 <form method="POST" action="{{ route('login') }}">
                                     {{ csrf_field() }}
@@ -117,7 +135,6 @@
                                         </div>
                                     </div>
 
-
                                     <div class="form-group{{ $ldap_password_error ? ' has-error' : '' }}">
                                         <div class="has-feedback">
                                             <label class="pull-left control-label mb-10" for="{{ __('auth.loginLdapPasswordLabel') }}">
@@ -128,7 +145,7 @@
 
                                             <input id="ldap-password" type="password" class="form-control @if ($ldap_password_error) is-invalid @endif"
                                                 name="ldap_password" autocomplete="ldap_password"
-                                                placeholder="{{ __('auth.loginLdapPasswordPlaceHolder') }}">
+                                                placeholder="{{ __('auth.loginLdapPasswordPlaceHolder') }}" required>
                                             @if ($ldap_password_error)
                                             <span class="invalid-feedback help-block">
                                                 <strong>{{ $error_ldap_password }}</strong>

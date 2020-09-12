@@ -99,7 +99,13 @@
                     <li>
                         <div class="app-nicescroll-bar">
                             <ul class="app-icon-wrap pa-10">
-                                @if (Route::currentRouteName() != __('user.user_list_url') && in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles')))
+                                <li>
+                                    <a href="{{ route('home') }}" class="connection-item">
+                                        <i class="zmdi zmdi-view-dashboard txt-warning"></i>
+                                        <span class="block capitalize-font">{{ __('general.dashboard_label') }}</span>
+                                    </a>
+                                </li>
+                                @if (in_array(auth()->user()->role, config('constants.amUserRoles')))
                                 <li>
                                     <a href="{{ route(__('user.user_list_url')) }}" class="connection-item">
                                         <i class="fa fa-list txt-success"></i>

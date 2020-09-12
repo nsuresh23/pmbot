@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
 use App\Traits\General\CustomLogger;
 use App\Http\Controllers\Controller;
@@ -32,6 +34,11 @@ class LoginController extends Controller
     use CustomLogger;
 
     protected $userResource = "";
+
+    protected $error_message = "";
+
+    // protected $maxAttempts = 1; // Default is 5
+    // protected $decayMinutes = 1; // Default is 1
 
     /**
      * Where to redirect users after login.
@@ -114,6 +121,7 @@ class LoginController extends Controller
                     // "password" => $request->password,
                     // "password" => bcrypt($request->password),
                     "password" => md5($request->password),
+                    "ldap_password" => base64_encode($request->ldap_password),
                     "ipaddress" => request()->ip(),
                 ];
 
@@ -182,6 +190,14 @@ class LoginController extends Controller
 
                     }
 
+                } else {
+
+                    $this->error_message = "";
+
+                    $this->error_message = $responseData["message"];
+
+                    $this->sendFailedLoginResponse($request);
+
                 }
 
                 return false;
@@ -199,6 +215,20 @@ class LoginController extends Controller
 
         }
 
+    }
+
+    protected function sendFailedLoginResponse($request)
+    {
+
+        // throw ValidationException::withMessages([
+        //     "error_message" => [$this->error_message],
+        // ]);
+
+        // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($this->error_message);echo '<PRE/>';exit;
+
+        $errors = new MessageBag(['error_message' => [$this->error_message]]);
+
+        return redirect()->route('login')->withErrors($errors)->withInput([$request->except('password', 'ldap_password')]);
     }
 
 }

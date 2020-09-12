@@ -48,7 +48,7 @@ $(function() {
                             return $.grep(dbClients, function(client) {
 
                                 return (!filter.id || (client.id != undefined && client.id != null && (client.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1))) &&
-                                    (!filter.empcode || (client.empcode != undefined && client.empcode != null && (client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1))) &&
+                                    (!filter.spi_empcode || (client.spi_empcode != undefined && client.spi_empcode != null && (client.spi_empcode.toLowerCase().indexOf(filter.spi_empcode.toLowerCase()) > -1))) &&
                                     (!filter.empname || (client.empname != undefined && client.empname != null && (client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1))) &&
                                     (!filter.email || (client.email != undefined && client.email != null && (client.email.toLowerCase().indexOf(filter.email.toLowerCase()) > -1))) &&
                                     (!filter.role || (client.role != undefined && client.role != null && (client.role.toLowerCase().indexOf(filter.role.toLowerCase()) > -1))) &&
@@ -353,7 +353,7 @@ $(function() {
                 },
                 {
                     title: "CODE",
-                    name: "empcode",
+                    name: "spi_empcode",
                     type: "text",
                     width: 100
                 },
