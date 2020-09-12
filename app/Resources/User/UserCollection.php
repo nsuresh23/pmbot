@@ -954,6 +954,7 @@ class UserCollection
                     'id'      => $item['empcode'],
                     'empname'   => $item['empname'],
                     'empcode'   => $item['empcode'],
+                    'spi_empcode'   => $item['spi_empcode'],
                     'email'   => $item['email'],
                     'role'   => $item['role'],
                     'location'   => $item['location'],
