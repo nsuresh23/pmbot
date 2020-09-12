@@ -15,7 +15,7 @@
 
             $postUrl = "#";
 
-            $redirectTo = __("user.user_list_url");
+            $redirectTo = __("user.users_url");
 
             $title = __('user.user_password_update_label');
 
@@ -42,10 +42,10 @@
                             <a href="#" class="pull-left inline-block full-screen mr-15">
                                 <i class="zmdi zmdi-fullscreen job-status-i"></i>
                             </a>
-                            <a id="job-status-close" class="pull-left inline-block" href="{{ route(__("user.user_list_url")) }}"
+                            {{-- <a id="job-status-close" class="pull-left inline-block" href="{{ route(__("user.users_url")) }}"
                                 data-effect="fadeOut">
                                 <i class="zmdi zmdi-close job-status-i"></i>
-                            </a>
+                            </a> --}}
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -97,8 +97,34 @@
 
                                                     <button type="submit" class="btn btn-success btn-anim mr-10"> <i class="fa fa-check font-20"></i><span
                                                             class="btn-text font-20">{{ __('user.user_submit_button_label') }}</span></button>
-                                                    <a href="{{ route($redirectTo) }}" class="btn btn-danger btn-anim"><i class="fa fa-times font-20"></i><span
-                                                            class="btn-text font-20">{{ __('user.user_cancel_button_label') }}</span></a>
+
+                                                    <?php
+
+                                                        $referer = "";
+
+                                                        $redirectToUrl = "#";
+
+                                                        if(isset($_SERVER) && isset($_SERVER['HTTP_REFERER'])) {
+
+                                                            $referer = filter_var($_SERVER['HTTP_REFERER'], FILTER_VALIDATE_URL);
+
+                                                        }
+
+                                                    	if (!empty($referer)) {
+
+                                                    		$redirectToUrl = $referer;
+
+                                                    	} else {
+
+                                                    		$redirectToUrl = "javascript:history.go(-1)";
+
+                                                    	}
+                                                    ?>
+
+                                                    <a href="{{ $redirectToUrl }}" class="btn btn-danger btn-anim">
+                                                        <i class="fa fa-times font-20"></i>
+                                                        <span class="btn-text font-20">{{ __('user.user_cancel_button_label') }}</span>
+                                                    </a>
 
                                                 </div>
 

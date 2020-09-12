@@ -17,6 +17,7 @@ return [
     'user_password_update_label' => 'Change user password',
     'user_edit_label' => 'User edit',
     'user_label' => 'User list',
+    'users_url' => 'users',
     'user_list_url' => 'user-list',
     'user_add_url' => 'user-add',
     'user_store_url' => 'user-store',

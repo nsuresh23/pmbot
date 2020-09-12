@@ -54,6 +54,12 @@ Breadcrumbs::register('stakeholders-dashboard', function ($breadcrumbs) {
 
 });
 
+Breadcrumbs::register('users', function ($breadcrumbs) {
+
+    // $breadcrumbs->push('home', route(__('job.job_detail_home_url')));
+
+});
+
 Breadcrumbs::register('user-list', function ($breadcrumbs) {
 
     // $breadcrumbs->push('home', route(__('job.job_detail_home_url')));

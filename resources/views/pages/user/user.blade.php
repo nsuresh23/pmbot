@@ -23,7 +23,7 @@
 
             $title = __('user.user_add_label');
 
-            $redirectTo = __("user.user_list_url");
+            $redirectTo = __("user.users_url");
 
             if(Route::currentRouteName() == __("user.user_edit_url")) {
 
@@ -101,7 +101,7 @@
                             <a href="#" class="pull-left inline-block full-screen mr-15">
                                 <i class="zmdi zmdi-fullscreen job-status-i"></i>
                             </a>
-                            <a id="job-status-close" class="pull-left inline-block" href="{{ route(__("user.user_list_url")) }}"
+                            <a id="job-status-close" class="pull-left inline-block" href="{{ route(__("user.users_url")) }}"
                                 data-effect="fadeOut">
                                 <i class="zmdi zmdi-close job-status-i"></i>
                             </a>

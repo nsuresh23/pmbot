@@ -66,38 +66,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function userList(Request $request)
+    public function users(Request $request)
     {
 
+        $userData = [];
+
         try {
-
-            $responseData = $this->userResource->getAlluser();
-
-            $userData = [
-
-                "data" => $responseData
-
-            ];
-
-            if ($request->ajax()) {
-
-                $returnResponse = [
-                    "success" => "false",
-                    "error" => "false",
-                    "data" => "",
-                    "message" => "",
-                ];
-
-                if ($responseData) {
-
-                    $returnResponse["success"] = "true";
-                    $returnResponse["data"] = $responseData;
-                    $returnResponse["message"] = "retrieved successfully";
-                }
-
-                return json_encode($returnResponse);
-
-            }
 
         } catch (Exception $e) {
 
@@ -111,6 +85,54 @@ class UserController extends Controller
         }
 
         return view('pages.user.list', compact('userData'));
+    }
+
+    /**
+     * Show the user detail.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function userList(Request $request)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            $responseData = $this->userResource->getAlluser();
+
+            if(is_array($responseData) && count($responseData) > 0) {
+
+                $returnResponse["success"] = "true";
+                $returnResponse["data"] = $responseData;
+                $returnResponse["message"] = "retrieved successfully";
+
+            }
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+
+        }
+
+        return $returnResponse;
+
     }
 
 
@@ -137,6 +159,13 @@ class UserController extends Controller
             }
 
         } catch (Exception $e) {
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
 
             $returnResponse["success"] = "false";
             $returnResponse["error"] = "true";

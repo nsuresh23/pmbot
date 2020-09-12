@@ -93,9 +93,9 @@
                 </li>
             @else
 
-            <li class="dropdown app-drp">
+            <li class="dropdown app-drp flex-container">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="zmdi zmdi-apps top-nav-icon"></i></a>
-                <ul class="dropdown-menu app-dropdown" data-dropdown-in="slideInRight" data-dropdown-out="flipOutX" style="min-width: max-content;">
+                <ul class="dropdown-menu app-dropdown" data-dropdown-in="slideInRight" data-dropdown-out="flipOutX">
                     <li>
                         <div class="app-nicescroll-bar">
                             <ul class="app-icon-wrap pa-10">
@@ -107,7 +107,7 @@
                                 </li>
                                 @if (in_array(auth()->user()->role, config('constants.amUserRoles')))
                                 <li>
-                                    <a href="{{ route(__('user.user_list_url')) }}" class="connection-item">
+                                    <a href="{{ route(__('user.users_url')) }}" class="connection-item">
                                         <i class="fa fa-list txt-success"></i>
                                         <span class="block capitalize-font">{{ __('general.user_label') }}</span>
                                     </a>
@@ -119,6 +119,12 @@
                                         <span class="block capitalize-font">Signature</span>
                                     </a>
                                 </li>
+                                {{-- <li>
+                                    <a href="{{ route(__('user.user_password_update_url'), auth()->user()->empcode) }}" class="connection-item">
+                                        <i class="fa fa-retweet txt-navi-blue"></i>
+                                        <span class="block capitalize-font">{{ __('general.user_password_reset_label') }}</span>
+                                    </a>
+                                </li> --}}
                             </ul>
                         </div>
                     </li>
@@ -139,9 +145,9 @@
                                         </a>
                                     </li>
                                 @endif
-                                @if (Route::currentRouteName() != __('user.user_list_url') && auth()->user()->role == "admin")
+                                @if (Route::currentRouteName() != __('user.users_url') && auth()->user()->role == "admin")
                                     <li>
-                                        <a href="{{ route(__('user.user_list_url')) }}" class="connection-item">
+                                        <a href="{{ route(__('user.users_url')) }}" class="connection-item">
                                             <i class="zmdi zmdi-view-dashboard txt-info"></i>
                                             <span class="block capitalize-font">{{ __('general.user_label') }}</span>
                                         </a>
