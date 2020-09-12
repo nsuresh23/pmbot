@@ -277,6 +277,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'roles'], 'roles' => 
 
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_manager', 'project_manager']], function () {
 
+    Route::any('user-password-update/{id}', 'User\UserController@userPasswordUpdate')->name('user-password-update');
+
     Route::any('/job-store', 'Job\JobController@jobStore')->name('job-store');
     Route::any('/user-job-count', 'Job\JobController@userJobCount')->name('user-job-count');
     Route::any('/job-update', 'Job\JobController@jobUpdate')->name('job-update');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Traits\General\Helper;
+use Illuminate\Support\Facades\Auth;
 use App\Traits\General\CustomLogger;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
@@ -378,7 +379,7 @@ class UserController extends Controller
 
         }
 
-        $redirecturl = redirect()->action('User\UserController@userList');
+        $redirecturl = redirect()->action('User\UserController@users');
 
         return $redirecturl->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message" => $returnResponse["message"]]);
 
@@ -435,7 +436,7 @@ class UserController extends Controller
             );
         }
 
-        $redirecturl = redirect()->action('User\UserController@userList');
+        $redirecturl = redirect()->action('User\UserController@users');
 
         return $redirecturl->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message"=> $returnResponse["message"]]);
 
@@ -597,6 +598,12 @@ class UserController extends Controller
 
                 $userData["data"]["id"] = $request->id;
 
+                if(!in_array(auth()->user()->role, Config::get('constants.amUserRoles')) && !in_array(auth()->user()->role, Config::get('constants.adminUserRoles')) && auth()->user()->empcode != $request->id) {
+
+                    return view("errors.error401");
+
+                }
+
                 if ($request->isMethod('post')) {
 
                     if (auth()->check()) {
@@ -613,10 +620,19 @@ class UserController extends Controller
 
                     $returnResponse = $this->userResource->changePassword($request);
 
-                    $redirecturl = redirect()->action('User\UserController@userList');
+                    if(in_array(auth()->user()->role, Config::get("constants.amUserRoles"))) {
+
+                        $redirecturl = redirect()->action('User\UserController@users');
+
+                    } else {
+
+                        Auth::logout();
+
+                        return redirect('login')->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message" => $returnResponse["message"]]);
+
+                    }
 
                     return $redirecturl->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message" => $returnResponse["message"]]);
-
 
                 }
             }

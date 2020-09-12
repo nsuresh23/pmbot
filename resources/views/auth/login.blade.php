@@ -70,6 +70,36 @@
 
                             ?>
 
+                            @if (session('message'))
+
+                            <?php
+
+                                if(session("success") == "true") {
+
+                                    $alertType = "alert-success";
+
+                                }
+
+                                if(session("error") == "true") {
+
+                                    $alertType = "alert-danger";
+
+                                }
+
+                            ?>
+
+                            <div class="alert {{$alertType}}" role="alert">
+                                <ul>
+                                    <li>
+                                        <span class="help-block" style="color:#ffff;">
+                                            <strong>{{ session('message') }}</strong>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            @endif
+
                             <?php if(isset($errors)) { ?>
                                 @if ($errors->any())
                                 <div class="alert alert-warning has-error" role="alert">

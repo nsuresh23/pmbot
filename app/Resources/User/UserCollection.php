@@ -1120,7 +1120,7 @@ class UserCollection
                     if ($user->save()) {
 
                         $returnResponse["success"] = "true";
-                        $returnResponse["message"] = "Password Change successfull";
+                        $returnResponse["message"] = "Password Changed successfully";
                     } else {
 
                         $returnResponse["error"] = "true";

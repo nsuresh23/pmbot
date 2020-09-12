@@ -113,18 +113,20 @@
                                     </a>
                                 </li>
                                 @endif
+                                @if (in_array(auth()->user()->role, config('constants.pmUserRoles')))
                                 <li>
                                     <a href="#signatureModal" class="connection-item" role="menuitem" data-toggle="modal" title="signature" data-signature-geturl="{{ $getSignatureUrl ?? '#'}}" data-type="forward">
                                         <i class="fa fa-credit-card txt-info"></i>
                                         <span class="block capitalize-font">Signature</span>
                                     </a>
                                 </li>
-                                {{-- <li>
+                                <li>
                                     <a href="{{ route(__('user.user_password_update_url'), auth()->user()->empcode) }}" class="connection-item">
                                         <i class="fa fa-retweet txt-navi-blue"></i>
                                         <span class="block capitalize-font">{{ __('general.user_password_reset_label') }}</span>
                                     </a>
-                                </li> --}}
+                                </li>
+                                @endif
                             </ul>
                         </div>
                     </li>
