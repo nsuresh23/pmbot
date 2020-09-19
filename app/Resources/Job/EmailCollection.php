@@ -88,7 +88,7 @@ class EmailCollection
 
             $returnData = $this->postRequest($url, $params);
 
-            if ($returnData["success"] == "true" && count($returnData["data"]) > 0 && $returnData["data"] != "") {
+            if ($returnData["success"] == "true"&& is_array($returnData["data"]) && count($returnData["data"]) > 0 && $returnData["data"] != "") {
 
                 $responseData = $this->emailLabelsFormatData($returnData["data"]);
 
@@ -155,7 +155,7 @@ class EmailCollection
 
             $returnData = $this->postRequest($url, $params);
 
-            if ($returnData["success"] == "true" && count($returnData["data"]) > 0 && $returnData["data"] != "") {
+            if ($returnData["success"] == "true"&& is_array($returnData["data"]) && count($returnData["data"]) > 0 && $returnData["data"] != "") {
 
                 $responseData = $this->emailLabelsFormatData($returnData["data"]);
 
@@ -209,14 +209,24 @@ class EmailCollection
 
             $responseData = $this->postRequest($url, $params);
 
-            if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
+            if ($responseData["success"] == "true" && is_array($responseData["data"]) && count($responseData["data"]) && $responseData["data"] != "") {
 
-                $responseData = $this->emailRulesFormatData($responseData["data"]);
+                $responseFormatData = $this->emailRulesFormatData($responseData["data"]);
 
-                if ($responseData) {
+                if ($responseFormatData) {
 
                     $returnResponse["success"] = "true";
-                    $returnResponse["data"] = $responseData;
+                    $returnResponse["data"] = $responseFormatData;
+
+                    if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
+
+                        $returnResponse["result_count"] = $responseData["result_count"];
+
+                    } else if (is_array($responseFormatData)) {
+
+                        $returnResponse["result_count"] = count($responseFormatData);
+
+                    }
 
                 }
 
@@ -446,7 +456,7 @@ class EmailCollection
      *
      * @return array $returnData
      */
-    public function pmsEmailCount()
+    public function pmsEmailCount($request)
     {
         $returnResponse = [
             "success" => "false",
@@ -457,24 +467,33 @@ class EmailCollection
 
         try {
 
+            $paramInfo = [];
+
+            $paramInfo = $request->all();
+
             $url = $this->pmsEmailCountApiUrl;
 
-            $responseData = $this->postRequest($url, []);
+            $responseData = $this->postRequest($url, $paramInfo);
 
+            if ($responseData["success"] == "true"&& is_array($responseData["data"]) && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
-            if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
+                $responseFormatData = $this->pmsEmailCountFormatData($responseData["data"]);
 
-                $responseData = $this->pmsEmailCountFormatData($responseData["data"]);
-
-                if ($responseData) {
+                if ($responseFormatData) {
 
                     $returnResponse["success"] = "true";
-                    $returnResponse["data"] = $responseData;
+                    $returnResponse["data"] = $responseFormatData;
 
-                    if (is_array($responseData)) {
+                    if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
 
-                        $returnResponse["result_count"] = count($responseData);
+                        $returnResponse["result_count"] = $responseData["result_count"];
+
+                    } else if(is_array($responseFormatData)) {
+
+                        $returnResponse["result_count"] = count($responseFormatData);
+
                     }
+
                 }
             }
         } catch (Exception $e) {
@@ -546,6 +565,10 @@ class EmailCollection
                             if (isset($returnResponseData["result_count"]) && $returnResponseData["result_count"] != "") {
 
                                 $returnResponse["result_count"] = $returnResponseData["result_count"];
+
+                            } elseif (is_array($returnResponseData)) {
+
+                                $returnResponse["result_count"] = count($returnResponseData);
 
                             }
 
@@ -711,7 +734,7 @@ class EmailCollection
             } else {
                 $field["message_start"] = '';
             }
-			
+
 			$responseData = $this->postRequest($url, $field);
 
 			if (isset($responseData["success"]) && $responseData["success"] == "true") {
@@ -869,7 +892,7 @@ class EmailCollection
 
                         $returnResponse["data"]["body_html"] = base64_decode($returnResponse["data"]["body_html"]);
                     }*/
-				
+
                     if (isset($returnResponse["data"]["subject"]) && $returnResponse["data"]["subject"] != "") {
 
                        // $returnResponse["data"]["subject"] = base64_decode($returnResponse["data"]["subject"]);
@@ -934,8 +957,8 @@ class EmailCollection
                         }
 
                         $emailAttachments = explode("|", $returnResponse["data"]["attachments"]);
-						
-						
+
+
 
                         if(is_array($emailAttachments) && count($emailAttachments) > 0) {
 
@@ -981,8 +1004,8 @@ class EmailCollection
                                                     $emailAttachmentHtml .= '</a>';
                                                 $emailAttachmentHtml .= '</div>';
                                             $emailAttachmentHtml .= '</li>';
-											
-											
+
+
 											/********** FORWARD EMAIL ATTACHEMENT LIST START ***********/
 											$emailForwardAttachmentList .= '<li class="mb-0 attachements_'.$key.'" id="attachements_'.$key.'" >';
                                                 $emailForwardAttachmentList .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email-attachment-item-block">';
@@ -1026,10 +1049,10 @@ class EmailCollection
                                 }
 
                             );
-							
+
 
                             if (is_array($emailAttachments) && count($emailAttachments) > 0) {
-								
+
                                 $returnResponse["data"]["email_attachment_count"]        = count($emailAttachments);
                                 $returnResponse["data"]["email_attachment"]              = $emailAttachments;
                                 $returnResponse["data"]["email_attachment_html"]         = $emailAttachmentHtml;
@@ -1055,7 +1078,7 @@ class EmailCollection
                     " => MESSAGE => " . $e->getMessage() . " "
             );
         }
-		
+
         return $returnResponse;
     }
 	public function emailidGet($field)

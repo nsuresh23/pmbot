@@ -570,7 +570,7 @@ trait Helper
             if ($item["action_type"] == "job_untagging") {
 
                 $eventMessage .= " was un-associated";
-                
+
             }
 
             if ($item["action_type"] == "job_tagging") {
@@ -976,7 +976,7 @@ trait Helper
                     }
                 }
             }
-            
+
         } catch (Exception $e) {
 
             $this->error(
@@ -1003,7 +1003,7 @@ trait Helper
                     break;
 				case 'PDF':
                     $type = 'pdf';
-                    break;	
+                    break;
                 case 'txt':
                     $type = 'text';
                     break;
@@ -1038,7 +1038,7 @@ trait Helper
 				case 'html':
 					$type = 'code';
 					break;
-				
+
                 default:
                     $type = 'picture';
             }
@@ -1055,15 +1055,43 @@ trait Helper
         return $type;
     }
 
+    public function formatFilter(&$filterData, $formatData)
+    {
 
-    // public function logData($message, $type)
-    // {
+        try {
 
-    //     // create a log channel
-    //     $logger = new Logger('app_log');
-    //     // $logger->pushHandler(new StreamHandler('/path/to/app-log-' .date('Y-m-d'). '.log', Logger::WARNING));
-    //     $logger->pushHandler(new StreamHandler('/path/to/app-log-' .date('Y-m-d'). '.log', $type));
+            if(is_array($filterData) && count($filterData) > 0 && is_array($formatData) && count($formatData) > 0) {
 
-    // }
+                foreach ($formatData as $key => $value) {
+
+                    if(isset($filterData['sortField']) && $filterData['sortField'] == $key) {
+
+                        $filterData['sortField'] = $value;
+
+                    }
+
+                    if (array_key_exists($key, $filterData)) {
+
+                        $filterData[$value] = $filterData[$key];
+
+                        unset($filterData[$key]);
+
+                    }
+                }
+
+            }
+
+        } catch (Exception $e) {
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+
+        }
+
+    }
 
 }

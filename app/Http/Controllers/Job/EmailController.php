@@ -69,6 +69,56 @@ class EmailController extends Controller
 
             $paramInfo = $request->all();
 
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    // "subject_link" => "subject"
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if (isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+                    }
+                }
+
+
+                if(array_key_exists("status", $filterData)) {
+
+                    if ($filterData["status"] == "false") {
+
+                        $filterData["status"] = "0";
+
+                    }
+
+                    if($filterData["status"] == "true") {
+
+                        $filterData["status"] = "1";
+
+                    }
+
+                }
+
+            }
+
             if(is_array($paramInfo) && isset($paramInfo["s_no"])) {
 
                 unset($paramInfo["s_no"]);
@@ -80,6 +130,12 @@ class EmailController extends Controller
                 if (is_array($paramInfo) && isset($paramInfo["creator_empcode"])) {
 
                     unset($paramInfo["creator_empcode"]);
+
+                }
+
+                if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                    $paramInfo["filter"] = $filterData;
 
                 }
 
@@ -102,7 +158,17 @@ class EmailController extends Controller
 
                 if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
 
-                    $returnResponse = $this->emailResource->emailRules(["empcode" => auth()->user()->empcode]);
+                    $params = [];
+
+                    $params["empcode"] = auth()->user()->empcode;
+
+                    if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                        $params["filter"] = $filterData;
+
+                    }
+
+                    $returnResponse = $this->emailResource->emailRules($params);
 
                     if (is_array($returnResponse) && isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
 
@@ -129,7 +195,17 @@ class EmailController extends Controller
 
                 if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
 
-                    $returnResponse = $this->emailResource->emailRules(["empcode" => auth()->user()->empcode]);
+                    $params = [];
+
+                    $params["empcode"] = auth()->user()->empcode;
+
+                    if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                        $params["filter"] = $filterData;
+
+                    }
+
+                    $returnResponse = $this->emailResource->emailRules($params);
 
                     if (is_array($returnResponse) && isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
 
@@ -149,7 +225,17 @@ class EmailController extends Controller
 
                 if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
 
-                    $returnResponse = $this->emailResource->emailRules(["empcode" => auth()->user()->empcode]);
+                    $params = [];
+
+                    $params["empcode"] = auth()->user()->empcode;
+
+                    if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                        $params["filter"] = $filterData;
+
+                    }
+
+                    $returnResponse = $this->emailResource->emailRules($params);
 
                     if (is_array($returnResponse) && isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
 
@@ -395,7 +481,43 @@ class EmailController extends Controller
 
             $returnResponse = [];
 
-            $returnResponse = $this->emailResource->pmsEmailCount();
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    // "subject_link" => "subject"
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if (isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+
+                    }
+                }
+
+                $request->merge(['filter' => $filterData]);
+
+            }
+
+            $returnResponse = $this->emailResource->pmsEmailCount($request);
 
         } catch (Exception $e) {
 
@@ -428,12 +550,51 @@ class EmailController extends Controller
 
             $returnResponse = [];
 
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    "subject_link" => "subject",
+                    "is_attachments" => "attachments",
+                    "is_priority" => "priority",
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if(isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+
+                    }
+
+                }
+
+                $field["filter"] = $filterData;
+
+            }
+
             if (isset($request->job_id) && $request->job_id != "") {
                 $field["job_id"] = $request->job_id;
             }
 
             if (isset($request->status) && $request->status != "") {
-
 
                 $field["status"] = implode(",", $request->status);
             }
@@ -470,15 +631,6 @@ class EmailController extends Controller
             $returnResponse["data"] = [];
             $returnResponse["message"] = $e->getMessage();
         }
-
-        // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($returnResponse);
-        // echo '<PRE/>';
-        // echo '<PRE/>';
-        // echo 'LINE => ' . __LINE__;
-        // echo '<PRE/>';
-        // echo 'CAPTION => CaptionName';
-        // echo '<PRE/>';
-        // print_r(json_encode($returnResponse));echo '<PRE/>';exit;
 
         //if ($request->ajax()) {
 
@@ -586,6 +738,7 @@ class EmailController extends Controller
 
             $returnResponse = [];
             $field["from"] = '';
+
             if (isset($request->to) && $request->to != "") {
                 $field["to"] = $request->to;
             }
@@ -641,13 +794,13 @@ class EmailController extends Controller
             } else {
                 $field["message_start"] = '';
             }
-			
+
 			if (isset($request->priority) && $request->priority != "") {
                 $field["priority"] = '1';
             } else {
 				$field["priority"] = '3';
 			}
-			
+
             $field["empcode"]       = auth()->user()->empcode;
             $field["source"]        = 'inbox';
 			$field['email_guid']    = '';
@@ -676,15 +829,15 @@ class EmailController extends Controller
 					//$filePath1 = 'OUPBOOKS\\RADDEVELOPERS@SPI-GLOBAL.COM\\2020\\6\\9\\09a13be6-d963-432f-8fef-020e53074b22\\' . $filename;
 
 					$filePath =  env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath. $hasFilename;
-                    
+
                     Storage::disk('s3')->put($filePath, file_get_contents($file));
-                    
-                    $fileIndexRand = substr(str_shuffle($permitted_chars), 0, 8);                    
+
+                    $fileIndexRand = substr(str_shuffle($permitted_chars), 0, 8);
                     $fileIndex = date('Ymdhmsv') . '_' . $fileIndexRand;
 					$attached_files[$fileIndex] = $hasFilename;
 
                 }
-                
+
 				if(count($attached_files) > 0){
 					$field["attachments"] = implode("|", $attached_files);
 				}
@@ -708,14 +861,14 @@ class EmailController extends Controller
 				$gfield['emailid'] = $field['email_id'];
 				$gfield["empcode"] = auth()->user()->empcode;
 				$returnResponse = $this->emailResource->emailGet($gfield);
-				
+
 				if(!empty($request->fw_attachements)) {
 					$fw_attachementslist = implode("|", $request->fw_attachements);
 					$returnResponse['data']['attachments'] = $fw_attachementslist;
 				} else {
 					$returnResponse['data']['attachments'] = '';
 				}
-				
+
 				if(!empty($returnResponse['data']['attachments'])) {
 					//$returnResponse['data']['attachments'] = base64_decode($returnResponse['data']['attachments']);
 					$returnResponse['data']['attachments'] = $returnResponse['data']['attachments'];
@@ -859,12 +1012,12 @@ class EmailController extends Controller
 				$gfield['emailid'] = $field['id'];
 				$gfield["empcode"] = auth()->user()->empcode;
                 $returnResponse = $this->emailResource->emailGet($gfield);
-                
+
                 // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($returnResponse);echo '<PRE/>';exit;
 				// if(!empty($returnResponse['data']['attachments'])) {
 				// 	$returnResponse['data']['attachments'] = base64_decode($returnResponse['data']['attachments']);
 				// }
-				
+
 
 				$attached_files = [];
 				$files = $request->file();
@@ -904,11 +1057,11 @@ class EmailController extends Controller
 
 				if(count($attached_files) > 0){
 					$field["attachments"] = implode("|", $attached_files);
-					
+
 					if(!empty($request->fw_attachements)) {
 						$fw_attachementslist = implode("|", $request->fw_attachements);
 						$field["attachments"] = $fw_attachementslist.'|'.$field["attachments"];
-					} 
+					}
 					/*if(!empty($returnResponse['data']['attachments'])) {
 						$attachments = rtrim($returnResponse['data']['attachments'],"|");
 						$field["attachments"] = $attachments.'|'.$field["attachments"];
@@ -920,7 +1073,7 @@ class EmailController extends Controller
 					$field["attachments"] = $fw_attachementslist;
 				}
 			}
-            
+
 			if(!empty($field["attachments"])) {
 				$field["attachments"] = base64_encode($field["attachments"]);
             }
@@ -974,11 +1127,11 @@ class EmailController extends Controller
             if (count($field) > 0) {
 
                 $returnResponse = $this->emailResource->emailGet($field);
-				
+
 				$returnData = [];
-					
+
 				$returnData = $returnResponse;
-				
+
 				if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
 
 					if (isset($returnData["data"]) && is_array($returnData["data"]) && count($returnData["data"]) > 0) {
@@ -1010,7 +1163,7 @@ class EmailController extends Controller
 								});
 							}
 							$replyAllToEmails = implode(";", $toEmails);
-							$returnData["data"]["reply_all_to"] = $replyAllToEmails;							
+							$returnData["data"]["reply_all_to"] = $replyAllToEmails;
 							$returnResponse["data"]["reply_all_to"] = $returnData["data"]["reply_all_to"];
 
 						}
@@ -1018,7 +1171,7 @@ class EmailController extends Controller
 				}
 
                 if (is_array($returnResponse) && isset($returnResponse["success"]) && $returnResponse["success"] == "true") {
-					
+
 					$returnData = [];
 
                     $returnData = $this->emailResource->emailMoveToRuleLabels();
@@ -1083,7 +1236,7 @@ class EmailController extends Controller
             $field = [];
 
             $returnResponse = [];
-            
+
             if (isset($request->new_signature) && $request->new_signature != "") {
                 $field["new_signature"] = $request->new_signature;
             } else {

@@ -437,6 +437,14 @@ content: "\f067";
         text-decoration: none !important;
     }
 
+    .jsgrid-pager a {
+        text-decoration: none !important;
+    }
+
+    .jsgrid-load-panel {
+        background: none !important;
+    }
+
     .task-note-activies-bg p {
         margin-top: 0px !important;
         margin-bottom: 0px !important;

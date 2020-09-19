@@ -10,45 +10,49 @@
                 <a class="dashboard-inbox-email" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);">
                     <i class="fa fa-envelope"></i>
                     {{ __("job.email_inbox_label") }}
+                    <span class="email-inbox-count label label-danger ml-10"></span>
                 </a>
             </li>
             <li class="">
                 <a class="dashboard-unread-email" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);">
                     <i class="fa fa-envelope-square"></i>
                     {{ __("job.email_unread_mail_label") }}
-                    <span class="email-inbox-unread-count label label-danger ml-10"></span>
+                    <span class="email-unread-count label label-danger ml-10"></span>
                 </a>
             </li>
             <li class="">
                 <a class="dashboard-error-email" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);">
                     <i class="fa fa-exclamation-triangle"></i>
                     {{ __("job.email_error_mail_label") }}
+                    <span class="email-error-count label label-danger ml-10"></span>
                 </a>
             </li>
             <li class="">
                 <a class="dashboard-outbox-email" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);">
                     <i class="zmdi zmdi-email-open"></i>
                     {{ __("job.email_outbox_mail_label") }}
+                    <span class="email-outbox-count label label-danger ml-10"></span>
                 </a>
             </li>
             <li class="">
                 <a class="dashboard-sent-email" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);">
                     <i class="fa fa-send"></i>
                     {{ __("job.email_sent_mail_label") }}
+                    <span class="email-sent-count label label-danger ml-10"></span>
                 </a>
             </li>
             <li class="">
                 <a class="dashboard-draft-email" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);">
                     <i class="zmdi zmdi-folder-outline"></i>
                     {{ __("job.email_draft_label") }}
-                    {{-- <span class="email-draft-count label bg-partial ml-10">30</span> --}}
+                    <span class="email-draft-count label label-danger ml-10"></span>
                 </a>
             </li>
             <li class="">
                 <a class="dashboard-archived-email" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);">
                     <i class="zmdi zmdi-archive"></i>
                     {{ __("job.email_archived_label") }}
-                    {{-- <span class="email-archived-count label bg-partial ml-10">30</span> --}}
+                    <span class="email-archived-count label label-danger ml-10"></span>
                 </a>
             </li>
 
@@ -63,7 +67,7 @@
                     <a class="dashboard-nb-email-label" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);" data-label="{{ $value["id"] }}">
                             <i class="zmdi zmdi-folder-outline"></i>
                             {{ $value["text"] }}
-                            {{-- <span class="email-draft-count label bg-partial ml-10">30</span> --}}
+                            <span class="email-{{ $value["id"] }}-count label label-danger ml-10"></span>
                         </a>
                     </li>
 

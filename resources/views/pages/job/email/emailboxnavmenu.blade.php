@@ -13,32 +13,35 @@
             <a class="job-inbox-email" data-grid-selector="jobEmailGrid" href="javascript:void(0);">
                 <i class="fa fa-envelope"></i>
                 {{ __("job.email_inbox_label") }}
-                {{-- <span class="email-inbox-count label label-danger ml-10">2</span> --}}
+                <span class="email-inbox-count label label-danger ml-10"></span>
             </a>
         </li>
         <li class="">
             <a class="job-error-email" data-grid-selector="jobEmailGrid" href="javascript:void(0);">
                 <i class="fa fa-exclamation-triangle"></i>
                 {{ __("job.email_error_mail_label") }}
+                <span class="email-error-count label label-danger ml-10"></span>
             </a>
         </li>
         <li class="">
             <a class="job-outbox-email" data-grid-selector="jobEmailGrid" href="javascript:void(0);">
                 <i class="fa fa-envelope-square"></i>
                 {{ __("job.email_outbox_mail_label") }}
+                <span class="email-outbox-count label label-danger ml-10"></span>
             </a>
         </li>
         <li class="">
             <a class="job-sent-email" data-grid-selector="jobEmailGrid" href="javascript:void(0);">
                 <i class="fa fa-send"></i>
                 {{ __("job.email_sent_mail_label") }}
+                <span class="email-sent-count label label-danger ml-10"></span>
             </a>
         </li>
         <li class="">
             <a class="job-draft-email" data-grid-selector="jobEmailGrid" href="javascript:void(0);">
                 <i class="zmdi zmdi-folder-outline"></i>
                 {{ __("job.email_draft_label") }}
-                {{-- <span class="email-draft-count label bg-partial ml-10">30</span> --}}
+                <span class="email-draft-count label label-danger ml-10"></span>
             </a>
         </li>
     </ul>

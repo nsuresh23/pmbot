@@ -53,85 +53,9 @@ function getEmailTableList(gridSelector) {
 
     var dbClients = "";
 
-    if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
+    var emailResultClass = '';
 
-        $(gridSelector).jsGrid({
-
-            height: "450px",
-            width: "100%",
-
-            filtering: false,
-            inserting: insertControlVisible,
-            editing: editControlVisible,
-            sorting: true,
-            paging: false,
-            autoload: false,
-
-            pageSize: 10,
-            pageButtonCount: 5,
-
-            // deleteConfirm: "Do you really want to delete the client?",
-
-            confirmDeleting: false,
-
-            noDataContent: "No data",
-
-            invalidNotify: function(args) {
-
-                $('#alert-error-not-submit').removeClass('hidden');
-
-            },
-
-            loadIndication: true,
-            // loadIndicationDelay: 500,
-            loadMessage: "Please, wait...",
-            loadShading: true,
-
-            controller: {
-
-                loadData: function(filter) {
-
-                    return $.grep(dbClients, function(client) {
-                        return (!filter.created_date || (client.created_date != undefined && client.created_date != null && (client.created_date.toLowerCase().indexOf(filter.created_date.toLowerCase()) > -1))) &&
-                            // (!filter.status_text || (client.status_text != undefined && client.status_text != null && (client.status_text.toLowerCase().indexOf(filter.status_text.toLowerCase()) > -1))) &&
-                            (!filter.subject_link || (client.subject_link != undefined && client.subject_link != null && (client.subject_link.toLowerCase().indexOf(filter.subject_link.toLowerCase()) > -1))) &&
-                            (!filter.email_from || (client.email_from != undefined && client.email_from != null && (client.email_from.toLowerCase().indexOf(filter.email_from.toLowerCase()) > -1))) &&
-                            (!filter.email_to || (client.email_to != undefined && client.email_to != null && (client.email_to.toLowerCase().indexOf(filter.email_to.toLowerCase()) > -1))) &&
-                            (!filter.message_start || (client.message_start != undefined && client.message_start != null && (client.message_start.toLowerCase().indexOf(filter.message_start.toLowerCase()) > -1)));
-                        // (!filter.message || (client.message != undefined && client.message != null && (client.message.toLowerCase().indexOf(filter.message.toLowerCase()) > -1)));
-                        // (!filter.message || (client.message != undefined && client.message != null && (client.message.toLowerCase().indexOf(filter.message.toLowerCase()) > -1))) &&
-                        // (!filter.email_cc || (client.email_cc != undefined && client.email_cc != null && (client.email_cc.toLowerCase().indexOf(filter.email_cc.toLowerCase()) > -1))) &&
-                        // (!filter.priority || (client.priority != undefined && client.priority != null && (client.priority.toLowerCase().indexOf(filter.priority.toLowerCase()) > -1))) &&
-                        // (!filter.score || (client.score != undefined && client.score != null && (client.score.toLowerCase().indexOf(filter.score.toLowerCase()) > -1)));
-                    });
-
-                }
-            },
-
-
-            rowClass: function(item, itemIndex) {
-
-                var rowClassName = '';
-
-                if (item.view != undefined && item.view == '0') {
-
-                    rowClassName = 'notification-unread-color';
-
-                }
-
-                return rowClassName;
-
-            },
-
-            rowClick: function(args) {
-
-                $(gridSelector).jsGrid("cancelEdit");
-
-            },
-
-        });
-
-    }
+    // if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
 
     var field = [];
 
@@ -154,8 +78,6 @@ function getEmailTableList(gridSelector) {
     //     visible: false,
     // });
 
-
-
     if (gridEmailFilter != undefined && gridEmailFilter != '' && gridEmailFilter == 'sent') {
         field.push({
             title: "TO",
@@ -171,7 +93,7 @@ function getEmailTableList(gridSelector) {
     }
 
     field.push({
-        title: "",
+        title: '<i class="fa fa-exclamation inline-block txt-danger font-16"></i>',
         name: "is_priority",
         type: "text",
         filtering: false,
@@ -204,7 +126,7 @@ function getEmailTableList(gridSelector) {
     // });
 
     field.push({
-        title: "",
+        title: '<i class="zmdi zmdi-attachment inline-block font-16"></i>',
         name: "is_attachments",
         type: "text",
         filtering: false,
@@ -255,154 +177,113 @@ function getEmailTableList(gridSelector) {
         width: 10,
     });
 
-    $(gridSelector).jsGrid("option", "fields", field);
+    $(gridSelector).jsGrid({
 
-    var emailListPostData = {};
+        height: "450px",
+        width: "100%",
+        autowidth: true,
+        editing: editControlVisible,
+        inserting: insertControlVisible,
+        filtering: false,
+        sorting: true,
+        autoload: true,
+        paging: true,
+        pageLoading: true,
+        pageSize: 10,
+        pageIndex: 1,
 
-    var emailFilter = '';
+        confirmDeleting: false,
 
-    // var status = ['0', '1'];
-    var status = ['0'];
+        noDataContent: "No data",
 
-    emailListPostData.type = 'pmbot';
+        invalidNotify: function(args) {
 
-    if (gridEmailFilter != undefined && gridEmailFilter != '') {
+            $('#alert-error-not-submit').removeClass('hidden');
 
-        emailListPostData.email_filter = gridEmailFilter;
+        },
 
-        emailFilter = gridEmailFilter;
+        loadIndication: true,
+        // loadIndicationDelay: 500,
+        loadMessage: "Please, wait...",
+        loadShading: true,
 
-    }
+        fields: field,
 
-    if (gridCategory != undefined && gridCategory != '') {
+        search: function(filter) {
 
-        emailListPostData.email_type = gridCategory;
+            $(gridSelector).jsGrid('option', 'pageIndex', '1');
+            // $(gridSelector).jsGrid("reset");
+            // return this.loadData(filter);
+        },
 
-        // if (emailFilter == 'draft') {
+        controller: {
 
-        //     status = ['4'];
+            loadData: function(filter) {
 
-        // }
+                var d = $.Deferred();
 
-        // if (emailFilter == 'outbox') {
+                var emailListPostData = {};
 
-        //     status = ['5'];
+                var emailFilter = '';
 
-        // }
+                // var status = ['0', '1'];
+                var status = ['0'];
 
-        // if (emailFilter == 'sent') {
+                emailListPostData.filter = filter
 
-        //     status = ['6'];
+                emailListPostData.type = 'pmbot';
 
-        // }
+                if (gridEmailFilter != undefined && gridEmailFilter != '') {
 
-        if (gridCategory == 'nonBusinessEmail') {
+                    emailListPostData.email_filter = gridEmailFilter;
 
-            status = ['3'];
+                    emailFilter = gridEmailFilter;
 
-            if (emailFilter == 'draft') {
+                }
 
-                status = ['4'];
+                if (gridCategory != undefined && gridCategory != '') {
 
-            }
+                    emailListPostData.email_type = gridCategory;
 
-            if (emailFilter == 'outbox') {
+                    // if (emailFilter == 'draft') {
 
-                status = ['5'];
+                    //     status = ['4'];
 
-            }
+                    // }
 
-            if (emailFilter == 'sent') {
+                    // if (emailFilter == 'outbox') {
 
-                status = ['6'];
+                    //     status = ['5'];
 
-            }
+                    // }
 
-                            if (emailFilter == 'archived') {
+                    // if (emailFilter == 'sent') {
 
-                                status = ['7'];
+                    //     status = ['6'];
 
-                            }
+                    // }
 
-            if (emailFilter == 'error') {
+                    if (gridCategory == 'nonBusinessEmail') {
 
-                status = ['99'];
+                        status = ['3'];
 
-            }
+                        if (emailFilter == 'draft') {
 
-            emailListPostData.type = 'non_pmbot';
+                            status = ['4'];
 
-        }
+                        }
 
-        if (gridCategory == 'businessEmail') {
+                        if (emailFilter == 'outbox') {
 
-            status = ['1'];
+                            status = ['5'];
 
-            if (emailFilter == 'draft') {
+                        }
 
-                status = ['4'];
+                        if (emailFilter == 'sent') {
 
-            }
+                            status = ['6'];
 
-            if (emailFilter == 'outbox') {
-
-                status = ['5'];
-
-            }
-
-            if (emailFilter == 'sent') {
-
-                status = ['6'];
-
-            }
-
-                            if (emailFilter == 'archived') {
-
-                                status = ['7'];
-
-                            }
-
-            if (emailFilter == 'error') {
-
-                status = ['99'];
-
-            }
-
-            emailListPostData.type = 'generic';
-
-        }
-
-    }
-
-    // if (gridEmailFilter != undefined && gridEmailFilter != '') {
-
-    //     emailListPostData.email_filter = gridEmailFilter;
-
-    // }
-
-    if (gridType == 'jobDetail') {
-
-        status = ['2'];
-
-
-        if (emailFilter == 'draft') {
-
-            status = ['4'];
-
-        }
-
-        if (emailFilter == 'outbox') {
-
-            status = ['5'];
-
-        }
-
-
-        if (emailFilter == 'sent') {
-
-            status = ['6'];
-
-        }
+                        }
 
                         if (emailFilter == 'archived') {
 
@@ -410,130 +291,305 @@ function getEmailTableList(gridSelector) {
 
                         }
 
-        if (emailFilter == 'error') {
+                        if (emailFilter == 'error') {
 
-            status = ['99'];
+                            status = ['99'];
 
-        }
+                        }
 
-        if (currentJobId != undefined && currentJobId != '') {
-
-            emailListPostData.job_id = currentJobId;
-
-        }
-
-    }
-
-    emailListPostData.status = status;
-
-    if (gridEmailLabel != undefined && gridEmailLabel != '') {
-
-        emailListPostData.label_name = gridEmailLabel;
-
-        delete emailListPostData.email_filter;
-        delete emailListPostData.status;
-
-    }
-
-    $('.email-inbox-unread-count').html('');
-    $('.email-result-count').html('');
-    $('.email-last-updated').html('-');
-
-    /* AJAX call to get list */
-    $.ajax({
-
-        url: listUrl,
-        data: emailListPostData,
-        dataType: "json"
-
-    }).done(function(response) {
-
-        if (response.success == "true") {
-
-            response.data = formatDataItem(response.data);
-
-            dbClients = response.data;
-
-            // response.unread_count = '6669';
-
-            $(gridSelector).jsGrid("option", "data", response.data);
-
-            // $('.jsgrid-grid-body').slimscroll({
-            //     height: '300px',
-            // });
-
-            if (gridSelector == '.nonBusinessEmailGrid') {
-
-                $('.nonBusinessEmailGrid .jsgrid-grid-body').slimscroll({
-                    height: '520px',
-                });
-
-                $('.nonBusinessEmails .email-inbox-nav').slimscroll({
-                    height: '520px',
-                });
-
-            } else {
-
-                $('.jsgrid-grid-body').slimscroll({
-                    height: '300px',
-                });
-
-            }
-
-            if ('result_count' in response) {
-
-                // $(gridSelector).parent().prev().find('.result-count').html('(' + response.result_count + ')');
-                // $(gridSelector).parent().prev().find('.result-count').addClass('result-count-icon-badge');
-
-                $('.email-result-count').html('(' + response.result_count + ')');
-
-            }
-
-            if ('last_updated' in response) {
-
-                $('.email-last-updated').html(response.last_updated);
-
-            }
-
-            if ('unread_count' in response && emailFilter == 'unread') {
-
-                var unreadCount = response.unread_count;
-
-                if (parseInt(unreadCount) != NaN && parseInt(unreadCount) > 0) {
-
-                    if (parseInt(unreadCount) > 99) {
-
-                        unreadCount = '99+'
+                        emailListPostData.type = 'non_pmbot';
 
                     }
 
-                    $('.email-inbox-unread-count').html(unreadCount);
+                    if (gridCategory == 'businessEmail') {
+
+                        status = ['1'];
+
+                        if (emailFilter == 'draft') {
+
+                            status = ['4'];
+
+                        }
+
+                        if (emailFilter == 'outbox') {
+
+                            status = ['5'];
+
+                        }
+
+                        if (emailFilter == 'sent') {
+
+                            status = ['6'];
+
+                        }
+
+                        if (emailFilter == 'archived') {
+
+                            status = ['7'];
+
+                        }
+
+                        if (emailFilter == 'error') {
+
+                            status = ['99'];
+
+                        }
+
+                        emailListPostData.type = 'generic';
+
+                    }
 
                 }
 
+                // if (gridEmailFilter != undefined && gridEmailFilter != '') {
+
+                //     emailListPostData.email_filter = gridEmailFilter;
+
+                // }
+
+                if (gridType == 'jobDetail') {
+
+                    status = ['2'];
+
+
+                    if (emailFilter == 'draft') {
+
+                        status = ['4'];
+
+                    }
+
+
+                    if (emailFilter == 'outbox') {
+
+                        status = ['5'];
+
+                    }
+
+
+                    if (emailFilter == 'sent') {
+
+                        status = ['6'];
+
+                    }
+
+                    if (emailFilter == 'archived') {
+
+                        status = ['7'];
+
+                    }
+
+                    if (emailFilter == 'error') {
+
+                        status = ['99'];
+
+                    }
+
+                    if (currentJobId != undefined && currentJobId != '') {
+
+                        emailListPostData.job_id = currentJobId;
+
+                    }
+
+                }
+
+                emailListPostData.status = status;
+
+                if (gridEmailLabel != undefined && gridEmailLabel != '') {
+
+                    emailListPostData.label_name = gridEmailLabel;
+
+                    delete emailListPostData.email_filter;
+                    delete emailListPostData.status;
+
+                }
+
+                $('.email-inbox-unread-count').html('');
+                $('.email-result-count').html('');
+                $('.email-last-updated').html('-');
+
+                /* AJAX call to get list */
+                $.ajax({
+
+                    url: listUrl,
+                    data: emailListPostData,
+                    dataType: "json"
+
+                }).done(function(response) {
+
+                    var dataResult = {};
+
+                    dataResult.data = '';
+
+                    if (response.success == "true") {
+
+                        if (response.data != '') {
+
+                            response.data = formatDataItem(response.data);
+
+                            dbClients = response.data;
+
+                            // response.unread_count = '6669';
+
+                            dataResult.data = response.data;
+                            dataResult.itemsCount = response.result_count;
+
+                            d.resolve(dataResult);
+
+                            // $(gridSelector).jsGrid("option", "data", response.data);
+                            // $(gridSelector).jsGrid("option", "itemsCount", response.result_count);
+
+                            // $('.jsgrid-grid-body').slimscroll({
+                            //     height: '300px',
+                            // });
+
+                            if (gridSelector == '.nonBusinessEmailGrid') {
+
+                                $('.nonBusinessEmailGrid .jsgrid-grid-body').slimscroll({
+                                    height: '520px',
+                                });
+
+                                $('.nonBusinessEmails .email-inbox-nav').slimscroll({
+                                    height: '520px',
+                                });
+
+                            } else {
+
+                                $('.jsgrid-grid-body').slimscroll({
+                                    height: '300px',
+                                });
+
+                            }
+
+                            if ('result_count' in response) {
+
+                                // $(gridSelector).parent().prev().find('.result-count').html('(' + response.result_count + ')');
+                                // $(gridSelector).parent().prev().find('.result-count').addClass('result-count-icon-badge');
+
+                                $('.email-result-count').html('(' + response.result_count + ')');
+
+                                emailResultClass = emailFilter;
+
+                                if (gridEmailLabel != unreadCount && gridEmailLabel != '') {
+
+                                    emailResultClass = gridEmailLabel
+
+                                }
+
+                                var resultCount = response.result_count;
+
+                                if (parseInt(resultCount) != NaN && parseInt(resultCount) > 0) {
+
+                                    if (parseInt(resultCount) > 99999) {
+
+                                        resultCount = '99999+'
+
+                                    }
+
+                                    $('.email-' + emailResultClass + '-count').html(resultCount);
+
+                                }
+
+
+                            }
+
+                            if ('last_updated' in response) {
+
+                                $('.email-last-updated').html(response.last_updated);
+
+                            }
+
+                            if ('unread_count' in response && emailFilter == 'unread') {
+
+                                var unreadCount = response.unread_count;
+
+                                if (parseInt(unreadCount) != NaN && parseInt(unreadCount) > 0) {
+
+                                    if (parseInt(unreadCount) > 99) {
+
+                                        unreadCount = '99+'
+
+                                    }
+
+                                    $('.email-inbox-unread-count').html(unreadCount);
+
+                                }
+
+                            }
+
+                            // } else {
+
+                            //     // $(gridSelector).parent().prev().find('.result-count').html('');
+                            //     // $(gridSelector).parent().prev().find('.result-count').removeClass('result-count-icon-badge');
+
+                            //     $('.email-result-count').html('');
+
+                            // }
+
+                        } else {
+
+                            d.resolve(dataResult);
+
+                        }
+
+                    } else {
+
+                        d.resolve(dataResult);
+
+                    }
+
+                    // } else {
+
+                    //     // $(gridSelector).parent().prev().find('.result-count').html('');
+                    //     // $(gridSelector).parent().prev().find('.result-count').removeClass('result-count-icon-badge');
+
+                    //     $('.email-result-count').html('');
+
+                    // }
+
+                });
+
+                return d.promise();
+
+                // return $.grep(dbClients, function(client) {
+                //     return (!filter.created_date || (client.created_date != undefined && client.created_date != null && (client.created_date.toLowerCase().indexOf(filter.created_date.toLowerCase()) > -1))) &&
+                //         // (!filter.status_text || (client.status_text != undefined && client.status_text != null && (client.status_text.toLowerCase().indexOf(filter.status_text.toLowerCase()) > -1))) &&
+                //         (!filter.subject_link || (client.subject_link != undefined && client.subject_link != null && (client.subject_link.toLowerCase().indexOf(filter.subject_link.toLowerCase()) > -1))) &&
+                //         (!filter.email_from || (client.email_from != undefined && client.email_from != null && (client.email_from.toLowerCase().indexOf(filter.email_from.toLowerCase()) > -1))) &&
+                //         (!filter.email_to || (client.email_to != undefined && client.email_to != null && (client.email_to.toLowerCase().indexOf(filter.email_to.toLowerCase()) > -1))) &&
+                //         (!filter.message_start || (client.message_start != undefined && client.message_start != null && (client.message_start.toLowerCase().indexOf(filter.message_start.toLowerCase()) > -1)));
+                //     // (!filter.message || (client.message != undefined && client.message != null && (client.message.toLowerCase().indexOf(filter.message.toLowerCase()) > -1)));
+                //     // (!filter.message || (client.message != undefined && client.message != null && (client.message.toLowerCase().indexOf(filter.message.toLowerCase()) > -1))) &&
+                //     // (!filter.email_cc || (client.email_cc != undefined && client.email_cc != null && (client.email_cc.toLowerCase().indexOf(filter.email_cc.toLowerCase()) > -1))) &&
+                //     // (!filter.priority || (client.priority != undefined && client.priority != null && (client.priority.toLowerCase().indexOf(filter.priority.toLowerCase()) > -1))) &&
+                //     // (!filter.score || (client.score != undefined && client.score != null && (client.score.toLowerCase().indexOf(filter.score.toLowerCase()) > -1)));
+                // });
+
+            }
+        },
+
+        rowClass: function(item, itemIndex) {
+
+            var rowClassName = '';
+
+            if (item.view != undefined && item.view == '0') {
+
+                rowClassName = 'notification-unread-color';
+
             }
 
-            // } else {
+            return rowClassName;
 
-            //     // $(gridSelector).parent().prev().find('.result-count').html('');
-            //     // $(gridSelector).parent().prev().find('.result-count').removeClass('result-count-icon-badge');
+        },
 
-            //     $('.email-result-count').html('');
+        rowClick: function(args) {
 
-            // }
+            $(gridSelector).jsGrid("cancelEdit");
 
-        }
-
-        // } else {
-
-        //     // $(gridSelector).parent().prev().find('.result-count').html('');
-        //     // $(gridSelector).parent().prev().find('.result-count').removeClass('result-count-icon-badge');
-
-        //     $('.email-result-count').html('');
-
-        // }
+        },
 
     });
+
+    // }
 
     function formatDataItem(dataValue) {
 
