@@ -211,9 +211,16 @@ function getEmailTableList(gridSelector) {
 
         search: function(filter) {
 
-            $(gridSelector).jsGrid('option', 'pageIndex', '1');
+            // $(gridSelector).jsGrid('option', 'pageIndex', '1');
             // $(gridSelector).jsGrid("reset");
             // return this.loadData(filter);
+
+            // var sorting = $(gridSelector).jsGrid("getSorting");
+            // $(gridSelector).jsGrid("sort", { field: sorting.field, order: sorting.order });
+            // this._resetSorting();
+            this._resetPager();
+            return this.loadData(filter);
+
         },
 
         controller: {
