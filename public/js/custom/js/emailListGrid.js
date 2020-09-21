@@ -46,6 +46,8 @@ function getEmailTableList(gridSelector) {
     var listUrl = $(gridSelector).attr('data-list-url');
     var currentRoute = $(gridSelector).attr('data-current-route');
     var readOnlyUser = $('#currentUserInfo').attr('data-read-only-user');
+    var pageSize = $('#currentUserInfo').attr('data-page-size');
+    var pageButtonCount = $('#currentUserInfo').attr('data-page-button-count');
 
     var insertControlVisible = false;
     var editControlVisible = false;
@@ -189,8 +191,9 @@ function getEmailTableList(gridSelector) {
         autoload: true,
         paging: true,
         pageLoading: true,
-        pageSize: 10,
+        pageSize: pageSize,
         pageIndex: 1,
+        pageButtonCount: 5,
 
         confirmDeleting: false,
 
@@ -220,6 +223,14 @@ function getEmailTableList(gridSelector) {
             // this._resetSorting();
             this._resetPager();
             return this.loadData(filter);
+
+        },
+
+        onPageChanged: function(args) {
+
+            $('html, body').animate({
+                scrollTop: $(".emailGrid").offset().top - 110
+            }, 0);
 
         },
 
@@ -453,16 +464,19 @@ function getEmailTableList(gridSelector) {
 
                                 $('.nonBusinessEmailGrid .jsgrid-grid-body').slimscroll({
                                     height: '520px',
+                                    alwaysVisible: 'true',
                                 });
 
                                 $('.nonBusinessEmails .email-inbox-nav').slimscroll({
                                     height: '520px',
+                                    alwaysVisible: 'true',
                                 });
 
                             } else {
 
                                 $('.jsgrid-grid-body').slimscroll({
-                                    height: '300px',
+                                    height: '350px',
+                                    alwaysVisible: 'true',
                                 });
 
                             }
@@ -3248,18 +3262,22 @@ $(document).on('click', '.email-compose-btn', function(e) {
 
 $('.nonBusinessEmails .email-inbox-nav').slimscroll({
     height: '520px',
+    alwaysVisible: 'true',
 });
 
 $('.nonBusinessEmailGrid .jsgrid-grid-body').slimscroll({
     height: '520px',
+    alwaysVisible: 'true',
 });
 
 $('.myEmailGrid .jsgrid-grid-body').slimscroll({
-    height: '520px',
+    height: '350px',
+    alwaysVisible: 'true',
 });
 
 $('.pmsEmailCountGrid .jsgrid-grid-body').slimscroll({
     height: '520px',
+    alwaysVisible: 'true',
 });
 $(document).on("click", function(event) {
     var $composeto = $(".composetolist");

@@ -3,6 +3,8 @@
 return [
     "generic_job_title" => "pmbot_generic",
     "generic_job_type" => "generic",
+    "pageSize" => "25",
+    "pageButtonCount" => 10,
     // "job_add_am_empcode" => "d.nethaji@spi-global.com",
     // "job_add_am_empname" => "Nethaji",
     "job_add_am_empcode" => "R.Bharathidasan@spi-global.com",
