@@ -212,6 +212,12 @@ function getEmailTableList(gridSelector) {
 
         fields: field,
 
+        onInit: function(args) {
+
+            this._resetPager();
+
+        },
+
         search: function(filter) {
 
             // $(gridSelector).jsGrid('option', 'pageIndex', '1');
@@ -421,6 +427,7 @@ function getEmailTableList(gridSelector) {
 
                 }
 
+                $('.email-item-count').html('');
                 $('.email-inbox-unread-count').html('');
                 $('.email-result-count').html('');
                 $('.email-last-updated').html('-');
@@ -490,9 +497,9 @@ function getEmailTableList(gridSelector) {
 
                                 emailResultClass = emailFilter;
 
-                                if (gridEmailLabel != unreadCount && gridEmailLabel != '') {
+                                if (gridEmailLabel != undefined && gridEmailLabel != '') {
 
-                                    emailResultClass = gridEmailLabel
+                                    emailResultClass = gridEmailLabel.replace(/,/g, '');
 
                                 }
 
