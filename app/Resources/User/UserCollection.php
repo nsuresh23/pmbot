@@ -43,6 +43,7 @@ class UserCollection
     protected $userListSelectApiUrl;
     protected $memberListApiUrl;
     protected $pmUserSelectApiUrl;
+    protected $loginHistoryApiUrl;
 
     public function __construct()
     {
@@ -61,6 +62,7 @@ class UserCollection
         $this->userListSelectApiUrl = env('API_USER_LIST_SELECT_URL');
         $this->pmUserSelectApiUrl = env('API_PM_USER_SELECT_URL');
         $this->memberListApiUrl = env('API_MEMBER_LIST_URL');
+        $this->loginHistoryApiUrl = env('API_USER_HISTORY_URL');
 
     }
 
@@ -1127,6 +1129,47 @@ class UserCollection
                         $returnResponse["message"] = "Password Change unsuccessfull";
                     }
                 }
+
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
+     * user login history.
+     *
+     * @return array $userData
+     */
+    public function loginHistory($request)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            $url = $this->loginHistoryApiUrl;
+
+            $responseData = $this->postRequest($url, $request);
+
+            if ($responseData["success"] == "true") {
+
+                $returnResponse["success"] = "true";
+                $returnResponse["message"] = "logged successfully";
 
             }
         } catch (Exception $e) {

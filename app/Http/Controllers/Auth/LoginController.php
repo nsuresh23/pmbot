@@ -231,4 +231,47 @@ class LoginController extends Controller
         return redirect()->route('login')->withErrors($errors)->withInput([$request->except('password', 'ldap_password')]);
     }
 
+    public function logout(Request $request)
+    {
+
+        try {
+
+            $loginHistoryField = [];
+
+            $loginHistoryField["empcode"] = auth()->user()->empcode;
+            $loginHistoryField["creator_empcode"] = "";
+
+            if (auth()->check()) {
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $loginHistoryField["creator_empcode"] = session()->get("current_empcode");
+
+                }
+
+            }
+
+            $loginHistoryField["type"] = "valid";
+            $loginHistoryField["action_type"] = "logout";
+            $loginHistoryField["ipaddress"] = request()->ip();
+
+            $this->userResource->loginHistory($loginHistoryField);
+
+        } catch (Exception $e) {
+
+            $this->error(
+            "app_error_log_" . date('Y-m-d'),
+            " => FILE => " . __FILE__ . " => " .
+            " => LINE => " . __LINE__ . " => " .
+            " => MESSAGE => " . $e->getMessage() . " "
+            );
+
+        }
+
+        Auth::logout();
+
+        return redirect("login");
+
+    }
+
 }

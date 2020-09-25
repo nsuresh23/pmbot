@@ -105,7 +105,28 @@ class MembersController extends Controller
                         session()->put("current_email", $currentUserEmail);
                         session()->put("current_role", $currentUserrole);
 
-                        // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r(session()->all());echo '<PRE/>';exit;
+                        try {
+
+                            $loginHistoryField = [];
+
+                            $loginHistoryField["empcode"] = auth()->user()->empcode;
+                            $loginHistoryField["creator_empcode"] = $currentUserEmpcode;
+                            $loginHistoryField["type"] = "valid";
+                            $loginHistoryField["action_type"] = "login";
+                            $loginHistoryField["ipaddress"] = request()->ip();
+
+                            $this->userResource->loginHistory($loginHistoryField);
+
+                        } catch (Exception $e) {
+
+                            $this->error(
+                            "app_error_log_" . date('Y-m-d'),
+                            " => FILE => " . __FILE__ . " => " .
+                            " => LINE => " . __LINE__ . " => " .
+                            " => MESSAGE => " . $e->getMessage() . " "
+                            );
+
+                        }
 
                         return redirect()->route("home");
 
@@ -207,6 +228,29 @@ class MembersController extends Controller
         try {
 
             if(session()->has("current_empid")) {
+
+                try {
+
+                    $loginHistoryField = [];
+
+                    $loginHistoryField["empcode"] = auth()->user()->empcode;
+                    $loginHistoryField["creator_empcode"] = session()->get("current_empcode");
+                    $loginHistoryField["type"] = "valid";
+                    $loginHistoryField["action_type"] = "logout";
+                    $loginHistoryField["ipaddress"] = request()->ip();
+
+                    $this->userResource->loginHistory($loginHistoryField);
+
+                } catch (Exception $e) {
+
+                    $this->error(
+                    "app_error_log_" . date('Y-m-d'),
+                    " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+                    );
+
+                }
 
                 Auth::loginUsingId(session()->get("current_empid"), false);
 
