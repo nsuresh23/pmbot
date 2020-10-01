@@ -476,17 +476,30 @@ class JobCollection
 
                 if (isset($responseData["data"]) && is_array($responseData["data"]) && count($responseData["data"]) > 0) {
 
-                    $responseData = $this->formatData($responseData["data"]);
+                    $responseFormattedData = [];
 
-                    if ($responseData) {
+                    $responseFormattedData = $this->formatData($responseData["data"]);
 
-                        $returnResponse["data"] = $responseData;
+                    if ($responseFormattedData) {
+
+                        $returnResponse["data"] = $responseFormattedData;
+
+                        if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
+
+                            $returnResponse["result_count"] = $responseData["result_count"];
+
+                        } else if (is_array($responseFormattedData)) {
+
+                            $returnResponse["result_count"] = count($responseFormattedData);
+
+                        }
 
                     }
 
                 }
 
             }
+
         } catch (Exception $e) {
 
             $returnResponse["error"] = "true";

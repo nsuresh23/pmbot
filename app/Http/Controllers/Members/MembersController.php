@@ -264,6 +264,8 @@ class MembersController extends Controller
 
             }
 
+            return redirect()->route("home");
+
         } catch (Exception $e) {
 
             $this->error(

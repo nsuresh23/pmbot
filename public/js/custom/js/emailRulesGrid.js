@@ -1,169 +1,12 @@
 function getEmailRulesTableList(gridSelector) {
 
     var listUrl = $(gridSelector).attr('data-list-url');
+    var pageSize = $('#currentUserInfo').attr('data-page-size');
 
-    if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
+    // if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
 
-        window.dbClients = "";
-        window.folderLabels = "";
-
-        $(gridSelector).jsGrid({
-
-            height: "450px",
-            width: "100%",
-
-            filtering: true,
-            inserting: true,
-            editing: true,
-            sorting: true,
-            paging: false,
-            autoload: false,
-            autowidth: true,
-            deleteButtonTooltip: "Inactive",
-
-            pageSize: 10,
-            pageButtonCount: 5,
-
-            // deleteConfirm: "Do you really want to delete the client?",
-
-            confirmDeleting: false,
-
-            noDataContent: "No data",
-
-            invalidNotify: function(args) {
-
-                $('#alert-error-not-submit').removeClass('hidden');
-
-            },
-
-            loadIndication: true,
-            // loadIndicationDelay: 500,
-            loadMessage: "Please, wait...",
-            loadShading: true,
-
-            controller: {
-
-                loadData: function(filter) {
-
-                    return $.grep(window.dbClients, function(client) {
-                        return (!filter.from_name || (client.from_name != undefined && client.from_name != null && (client.from_name.toLowerCase().indexOf(filter.from_name.toLowerCase()) > -1))) &&
-                            (!filter.subject || (client.subject != undefined && client.subject != null && (client.subject.toLowerCase().indexOf(filter.subject.toLowerCase()) > -1))) &&
-                            (!filter.label_name || (client.label_name != undefined && client.label_name != null && (client.label_name.toLowerCase().indexOf(filter.label_name.toLowerCase()) > -1))) &&
-                            (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status));
-                    });
-
-                },
-
-            },
-
-            rowClick: function(args) {
-
-                $(gridSelector).jsGrid("cancelEdit");
-
-            },
-
-
-            onItemInserting: function(args, value) {
-
-                if (itemEmptyOrExistsCheck(gridSelector, 'from_name', args.item.from_name, 'subject', args.item.subject, 'label_name', args.item.label_name)) {
-
-                    addItem(args, listUrl, gridSelector);
-
-                } else {
-
-                    args.cancel = true;
-
-                }
-
-                // addItem(args, listUrl, gridSelector);
-
-                // $('#emailRulesTab').trigger('click');
-
-            },
-
-            onItemUpdating: function(args) {
-				
-				if(args.item.status == false){
-					
-					Swal.fire({
-
-                        title: 'Are you sure?',
-                        text: "Do you want to inactive this! Rules doesn't applied for future emails",
-                        // icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes',
-                        showClass: {
-                            popup: 'animated slideInDown'
-                        },
-                        hideClass: {
-                            popup: 'animated fadeOut faster'
-                        },
-
-                    }).then((result) => {
-
-                        if (result.value != undefined && result.value == true) {
-
-                            editItem(args, listUrl, gridSelector);
-
-                        } else {
-							
-							$("#emailRulesTab").trigger('click');
-							
-						}
-
-                    });
-					
-				} else {
-					
-					editItem(args, listUrl, gridSelector);
-					
-				}
-
-                return false;
-
-            },
-
-            onItemDeleting: function(args) {
-
-                if (!args.item.deleteConfirmed) { // custom property for confirmation
-
-                    args.cancel = true; // cancel deleting
-
-                    Swal.fire({
-
-                        title: 'Are you sure?',
-                        text: "Do you want to inactive this! Rules doesn't applied for future emails",
-                        // icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes',
-                        showClass: {
-                            popup: 'animated slideInDown'
-                        },
-                        hideClass: {
-                            popup: 'animated fadeOut faster'
-                        },
-
-                    }).then((result) => {
-
-                        if (result.value != undefined && result.value == true) {
-
-                            deleteItem(args, listUrl, gridSelector);
-
-                        }
-
-                    });
-
-                }
-
-            },
-
-        });
-
-    }
+    window.dbClients = "";
+    window.folderLabels = "";
 
     var field = [];
 
@@ -174,6 +17,7 @@ function getEmailRulesTableList(gridSelector) {
         inserting: false,
         filtering: false,
         editing: false,
+        sorting: false,
         width: 32,
     });
 
@@ -320,44 +164,266 @@ function getEmailRulesTableList(gridSelector) {
         // width: 30,
     });
 
-    $(gridSelector).jsGrid("option", "fields", field);
+    $(gridSelector).jsGrid({
 
-    var emailRulesListPostData = {};
+        height: "450px",
+        width: "100%",
+        autowidth: true,
+        editing: true,
+        inserting: true,
+        filtering: true,
+        sorting: true,
+        autoload: true,
+        paging: true,
+        pageLoading: true,
+        pageSize: pageSize,
+        pageIndex: 1,
+        pageButtonCount: 5,
 
-    /* AJAX call to get list */
-    $.ajax({
+        confirmDeleting: false,
 
-        url: listUrl,
-        data: emailRulesListPostData,
-        dataType: "json"
+        noDataContent: "No data",
 
-    }).done(function(response) {
+        invalidNotify: function(args) {
 
-        if (response.success == "true") {
+            $('#alert-error-not-submit').removeClass('hidden');
 
-            response.data = formatDataItem(response.data);
+        },
 
-            window.dbClients = response.data;
+        loadIndication: true,
+        // loadIndicationDelay: 500,
+        loadMessage: "Please, wait...",
+        loadShading: true,
 
-            if (response.folder_labels != undefined && response.folder_labels != '') {
+        fields: field,
 
-                // window.folderLabels = response.folder_labels;
+        onInit: function(args) {
 
-                // $(gridSelector).jsGrid("option", "fields", response.folder_labels);
+            this._resetPager();
 
-                $(gridSelector).jsGrid("fieldOption", "folder", "items", response.folder_labels);
+        },
+
+        search: function(filter) {
+
+            this._resetPager();
+            return this.loadData(filter);
+
+        },
+
+        onPageChanged: function(args) {
+
+            $('html, body').animate({
+                scrollTop: $(".email-rules-grid").offset().top - 140
+            }, 0);
+
+        },
+
+        controller: {
+
+            loadData: function(filter) {
+
+                $('.email-rules-count').html('');
+
+                var d = $.Deferred();
+
+                var emailRulesListPostData = {};
+
+                emailRulesListPostData.filter = filter;
+
+                /* AJAX call to get list */
+                $.ajax({
+
+                    url: listUrl,
+                    data: emailRulesListPostData,
+                    dataType: "json"
+
+                }).done(function(response) {
+
+                    if (response.success == "true") {
+
+                        if (response.data != '') {
+
+                            response.data = formatDataItem(response.data);
+
+                            window.dbClients = response.data;
+
+                            var dataResult = {
+                                data: response.data,
+                                itemsCount: response.result_count,
+                            };
+
+                            d.resolve(dataResult);
+
+                            if (response.folder_labels != undefined && response.folder_labels != '') {
+
+                                // window.folderLabels = response.folder_labels;
+
+                                // $(gridSelector).jsGrid("option", "fields", response.folder_labels);
+
+                                $(gridSelector).jsGrid("fieldOption", "folder", "items", response.folder_labels);
+
+                            }
+
+                            if ('result_count' in response) {
+
+                                var resultCount = response.result_count;
+
+                                if (parseInt(resultCount) != NaN && parseInt(resultCount) > 0) {
+
+                                    if (parseInt(resultCount) > 99999) {
+
+                                        resultCount = '99999+'
+
+                                    }
+
+                                    $('.email-rules-count').html('(' + resultCount + ')');
+
+                                }
+
+
+                            }
+
+                            // $(gridSelector).jsGrid("option", "data", response.data);
+
+                            $('.jsgrid-grid-body').slimscroll({
+                                height: '300px',
+                            });
+
+                        } else {
+
+                            d.resolve(dataResult);
+
+                        }
+
+                    } else {
+
+                        d.resolve(dataResult);
+
+                    }
+
+                });
+
+                return d.promise();
+
+                // return $.grep(window.dbClients, function(client) {
+                //     return (!filter.from_name || (client.from_name != undefined && client.from_name != null && (client.from_name.toLowerCase().indexOf(filter.from_name.toLowerCase()) > -1))) &&
+                //         (!filter.subject || (client.subject != undefined && client.subject != null && (client.subject.toLowerCase().indexOf(filter.subject.toLowerCase()) > -1))) &&
+                //         (!filter.label_name || (client.label_name != undefined && client.label_name != null && (client.label_name.toLowerCase().indexOf(filter.label_name.toLowerCase()) > -1))) &&
+                //         (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status));
+                // });
+
+            },
+
+        },
+
+        rowClick: function(args) {
+
+            $(gridSelector).jsGrid("cancelEdit");
+
+        },
+
+
+        onItemInserting: function(args, value) {
+
+            if (itemEmptyOrExistsCheck(gridSelector, 'from_name', args.item.from_name, 'subject', args.item.subject, 'label_name', args.item.label_name)) {
+
+                addItem(args, listUrl, gridSelector);
+
+            } else {
+
+                args.cancel = true;
 
             }
 
-            $(gridSelector).jsGrid("option", "data", response.data);
+            // addItem(args, listUrl, gridSelector);
 
-            $('.jsgrid-grid-body').slimscroll({
-                height: '300px',
-            });
+            // $('#emailRulesTab').trigger('click');
 
-        }
+        },
+
+        onItemUpdating: function(args) {
+
+            if (args.item.status == false) {
+
+                Swal.fire({
+
+                    title: 'Are you sure?',
+                    text: "Do you want to inactive this! Rules doesn't applied for future emails",
+                    // icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    showClass: {
+                        popup: 'animated slideInDown'
+                    },
+                    hideClass: {
+                        popup: 'animated fadeOut faster'
+                    },
+
+                }).then((result) => {
+
+                    if (result.value != undefined && result.value == true) {
+
+                        editItem(args, listUrl, gridSelector);
+
+                    } else {
+
+                        $("#emailRulesTab").trigger('click');
+
+                    }
+
+                });
+
+            } else {
+
+                editItem(args, listUrl, gridSelector);
+
+            }
+
+            return false;
+
+        },
+
+        onItemDeleting: function(args) {
+
+            if (!args.item.deleteConfirmed) { // custom property for confirmation
+
+                args.cancel = true; // cancel deleting
+
+                Swal.fire({
+
+                    title: 'Are you sure?',
+                    text: "Do you want to inactive this! Rules doesn't applied for future emails",
+                    // icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    showClass: {
+                        popup: 'animated slideInDown'
+                    },
+                    hideClass: {
+                        popup: 'animated fadeOut faster'
+                    },
+
+                }).then((result) => {
+
+                    if (result.value != undefined && result.value == true) {
+
+                        deleteItem(args, listUrl, gridSelector);
+
+                    }
+
+                });
+
+            }
+
+        },
 
     });
+
+    // }
 
     function formatDataItem(dataValue) {
 

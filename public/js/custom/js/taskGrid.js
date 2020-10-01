@@ -50,6 +50,7 @@ function getTaskTableList(gridSelector) {
     var deleteUrl = $(gridSelector).attr('data-delete-url');
     var taskDate = $(gridSelector).attr('data-task-date');
     var readOnlyUser = $('#currentUserInfo').attr('data-read-only-user');
+    var pageSize = $('#currentUserInfo').attr('data-page-size');
 
     var taskStatusFilter = $(gridSelector).attr('task-status-filter');
 
@@ -91,163 +92,6 @@ function getTaskTableList(gridSelector) {
 
     deleteControlVisible = false;
 
-    if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
-
-        $(gridSelector).jsGrid({
-
-            height: "450px",
-            width: "100%",
-
-            filtering: false,
-            inserting: insertControlVisible,
-            editing: editControlVisible,
-            sorting: true,
-            paging: false,
-            autoload: false,
-
-            pageSize: 10,
-            pageButtonCount: 5,
-
-            // deleteConfirm: "Do you really want to delete the client?",
-
-            confirmDeleting: false,
-
-            noDataContent: "No data",
-
-            invalidNotify: function(args) {
-
-                $('#alert-error-not-submit').removeClass('hidden');
-
-            },
-
-            loadIndication: true,
-            // loadIndicationDelay: 500,
-            loadMessage: "Please, wait...",
-            loadShading: true,
-
-            controller: {
-
-                loadData: function(filter) {
-
-                    return $.grep(window.dbClients, function(client) {
-                        return (!filter.title || (client.title != undefined && client.title != null && (client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1))) &&
-                            (!filter.type || (client.type != undefined && client.type != null && (client.type.toLowerCase().indexOf(filter.type.toLowerCase()) > -1))) &&
-                            (!filter.assignedto_empname || (client.assignedto_empname != undefined && client.assignedto_empname != null && (client.assignedto_empname.toLowerCase().indexOf(filter.assignedto_empname.toLowerCase()) > -1))) &&
-                            (!filter.createdby_empname || (client.createdby_empname != undefined && client.createdby_empname != null && (client.createdby_empname.toLowerCase().indexOf(filter.createdby_empname.toLowerCase()) > -1))) &&
-                            (!filter.followup_date || (client.followup_date != undefined && client.followup_date != null && (client.followup_date.toLowerCase().indexOf(filter.followup_date.toLowerCase()) > -1))) &&
-                            // (!filter.over_due_hours || (client.over_due_hours != undefined && client.over_due_hours != null && (client.over_due_hours.toLowerCase().indexOf(filter.over_due_hours.toLowerCase()) > -1))) &&
-                            (!filter.over_due_hours || (client.over_due_hours != undefined && client.over_due_hours != null && (client.over_due_hours.toLowerCase().indexOf(filter.over_due_hours.toLowerCase()) > -1))) &&
-                            (!filter.status || (client.status != undefined && client.status != null && (client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1))) &&
-                            (!filter.stage || (client.stage != undefined && client.stage != null && (client.stage.toLowerCase().indexOf(filter.stage.toLowerCase()) > -1))) &&
-                            (!filter.category || (client.category != undefined && client.category != null && (client.category.toLowerCase().indexOf(filter.category.toLowerCase()) > -1))) &&
-                            (!filter.book_job_id || (client.book_job_id != undefined && client.book_job_id != null && (client.book_job_id.toLowerCase().indexOf(filter.book_job_id.toLowerCase()) > -1))) &&
-                            //(!filter.womat_job_id || (client.womat_job_id != undefined && client.womat_job_id != null && (client.womat_job_id.toLowerCase().indexOf(filter.womat_job_id.toLowerCase()) > -1))) &&
-                            (!filter.job_title || (client.job_title != undefined && client.job_title != null && (client.job_title.toLowerCase().indexOf(filter.job_title.toLowerCase()) > -1)));
-                    });
-
-                }
-            },
-
-            rowClick: function(args) {
-
-                $(gridSelector).jsGrid("cancelEdit");
-
-            },
-
-            rowClass: function(item, itemIndex) {
-
-                var rowClassName = 'parent-task-row';
-
-                if (item.parent_task_id != undefined && item.parent_task_id != 'null' && item.parent_task_id != '' && item.parent_task_id != '0') {
-
-                    rowClassName = 'sub-task-row';
-
-                }
-
-                return rowClassName;
-
-            },
-
-            onItemInserting: function(args, value) {
-
-                if (itemEmptyOrExistsCheck(gridSelector, 'name', args.item.name)) {
-
-                    addItem(args, addUrl, gridSelector);
-
-                } else {
-
-                    args.cancel = true;
-
-                }
-
-            },
-
-            onItemUpdating: function(args) {
-
-                editItem(args, editUrl, gridSelector);
-
-                return false;
-
-            },
-
-            onItemDeleting: function(args) {
-
-                if (!args.item.deleteConfirmed) { // custom property for confirmation
-
-                    args.cancel = true; // cancel deleting
-
-                    Swal.fire({
-
-                        title: 'Are you sure?',
-                        text: "Do you want to remove this!",
-                        // icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes',
-                        showClass: {
-                            popup: 'animated slideInDown'
-                        },
-                        hideClass: {
-                            popup: 'animated fadeOut faster'
-                        },
-
-                    }).then((result) => {
-
-                        if (result.value != undefined && result.value == true) {
-
-                            deleteItem(args, deleteUrl, gridSelector);
-
-                        }
-
-                    });
-
-                    // $.MessageBox({
-
-                    //     buttonDone: "Yes",
-                    //     buttonFail: "No",
-                    //     message: "Are You Sure?"
-
-                    // }).done(function() {
-
-                    //     deleteItem(args, deleteUrl, gridSelector);
-
-                    // }).fail(function() {
-
-                    //     return false;
-
-                    // });
-
-                }
-
-            },
-
-            // onDataLoading: loadGridItem(listUrl),
-
-        });
-
-    }
-
     var field = [];
 
     if (taskDate == undefined || taskDate == '') {
@@ -259,6 +103,7 @@ function getTaskTableList(gridSelector) {
             inserting: false,
             filtering: false,
             editing: false,
+            sorting: false,
             width: 50
         });
 
@@ -337,6 +182,8 @@ function getTaskTableList(gridSelector) {
         title: "OVER DUE HOURS",
         name: "over_due_hours",
         type: "text",
+        filtering: false,
+        sorting: false,
         // width: 50
     });
 
@@ -437,188 +284,284 @@ function getTaskTableList(gridSelector) {
         width: 57,
     });
 
-    // field = [{
-    //         title: "S.NO",
-    //         name: "s_no",
-    //         type: "number",
-    //         inserting: false,
-    //         filtering: false,
-    //         editing: false,
-    //         width: 50
-    //     },
-    //     {
-    //         title: "ID",
-    //         name: "id",
-    //         type: "text",
-    //         inserting: false,
-    //         editing: false,
-    //         visible: false,
-    //         width: 150
-    //     },
-    //     {
-    //         title: "TASK TITLE",
-    //         name: "title",
-    //         type: "text",
-    //         width: 150
-    //     },
-    //     {
-    //         title: "Assignee",
-    //         name: "assignedto_empname",
-    //         type: "text",
-    //         width: 150
-    //     },
-    //     {
-    //         title: "STAGE",
-    //         name: "stage",
-    //         type: "text",
-    //         width: 50
-    //     },
-    //     {
-    //         title: "PRIORITY",
-    //         name: "category",
-    //         type: "text",
-    //         width: 100
-    //     },
-    //     {
-    //         title: "BOOK ID",
-    //         name: "order_id",
-    //         type: "text",
-    //         width: 100
-    //     },
-    //     {
-    //         title: "WOMAT JOB ID",
-    //         name: "womat_job_id",
-    //         type: "text",
-    //         width: 150
-    //     },
-    //     {
-    //         title: "JOB TITLE",
-    //         name: "job_title",
-    //         type: "text",
-    //         width: 150
-    //     },
-    //     {
-    //         type: "control",
-    //         name: "Control",
-    //         editButton: editControlVisible,
-    //         deleteButton: deleteControlVisible,
-    //         updateButtonClass: "jsgrid-update-button",
-    //         headerTemplate: function() {
+    // if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
 
-    //             if (addTaskOption == 'true') {
+    $(gridSelector).jsGrid({
 
-    //                 return $("<button>").attr("type", "button").addClass("jsgrid-button jsgrid-mode-button jsgrid-insert-mode-button").on("click",
-    //                     function() {
-    //                         newTaskAdd(gridSelector);
-    //                     }
-    //                 );
+        height: "450px",
+        width: "100%",
+        autowidth: true,
+        editing: editControlVisible,
+        inserting: insertControlVisible,
+        filtering: false,
+        sorting: true,
+        autoload: true,
+        paging: true,
+        pageLoading: true,
+        pageSize: pageSize,
+        pageIndex: 1,
+        pageButtonCount: 5,
 
-    //             }
+        confirmDeleting: false,
 
-    //             return false;
-    //         }
-    //     },
-    // ];
+        noDataContent: "No data",
 
-    // if (gridType == 'jobDetail') {
+        invalidNotify: function(args) {
 
-    //     field = [{
-    //             title: "S.NO",
-    //             name: "s_no",
-    //             type: "number",
-    //             inserting: false,
-    //             filtering: false,
-    //             editing: false,
-    //             width: 50
-    //         },
-    //         {
-    //             title: "ID",
-    //             name: "id",
-    //             type: "text",
-    //             inserting: false,
-    //             editing: false,
-    //             visible: false,
-    //             width: 150
-    //         },
-    //         {
-    //             title: "TITLE",
-    //             name: "title",
-    //             type: "text",
-    //             width: 150
-    //         },
-    //         {
-    //             title: "STAGE",
-    //             name: "stage",
-    //             type: "text",
-    //             width: 50
-    //         },
-    //         {
-    //             title: "STATUS",
-    //             name: "status",
-    //             type: "text",
-    //             width: 150
-    //         },
-    //         {
-    //             title: "PRIORITY",
-    //             name: "category",
-    //             type: "text",
-    //             width: 100
-    //         },
-    //         {
-    //             type: "control",
-    //             name: "Control",
-    //             editButton: editControlVisible,
-    //             deleteButton: deleteControlVisible,
-    //             updateButtonClass: "jsgrid-update-button",
-    //             headerTemplate: function() {
+            $('#alert-error-not-submit').removeClass('hidden');
 
-    //                 return $("<button>").attr("type", "button").addClass("jsgrid-button jsgrid-mode-button jsgrid-insert-mode-button").on("click",
-    //                     function() {
-    //                         newTaskAdd(gridSelector);
-    //                     }
-    //                 );
+        },
 
-    //             }
+        loadIndication: true,
+        // loadIndicationDelay: 500,
+        loadMessage: "Please, wait...",
+        loadShading: true,
 
-    //             // type: "control", editButton: false, deleteButton: false,
-    //             // itemTemplate: function (value, item) {
-    //             //     var $iconPencil = $("<i>").attr({ class: "glyphicon glyphicon-pencil" });
-    //             //     var $iconTrash = $("<i>").attr({ class: "glyphicon glyphicon-trash" });
+        fields: field,
 
-    //             //     var $customEditButton = $("<button>")
-    //             //         .attr({ class: "btn btn-warning btn-xs" })
-    //             //         .attr({ role: "button" })
-    //             //         .attr({ title: jsGrid.fields.control.prototype.editButtonTooltip })
-    //             //         .attr({ id: "btn-edit-" + item.id })
-    //             //         .click(function (e) {
-    //             //             alert("ID: " + item.id);
-    //             //             // document.location.href = item.id + "/edit";
-    //             //             e.stopPropagation();
-    //             //         })
-    //             //         .append($iconPencil);
-    //             //     var $customDeleteButton = $("<button>")
-    //             //         .attr({ class: "btn btn-danger btn-outline" })
-    //             //         .attr({ role: "button" })
-    //             //         .attr({ title: jsGrid.fields.control.prototype.deleteButtonTooltip })
-    //             //         .attr({ id: "btn-delete-" + item.id })
-    //             //         .click(function (e) {
-    //             //             alert("ID: " + item.id);
-    //             //             // document.location.href = item.id + "/delete";
-    //             //             e.stopPropagation();
-    //             //         })
-    //             //         .append($iconTrash);
+        onInit: function(args) {
 
-    //             //     return $("<div>").attr({ class: "btn-toolbar" })
-    //             //         .append($customEditButton)
-    //             //         .append($customDeleteButton);
-    //             // }
+            this._resetPager();
 
-    //         },
-    //     ];
+        },
+
+        search: function(filter) {
+
+            this._resetPager();
+            return this.loadData(filter);
+
+        },
+
+        // onPageChanged: function(args) {
+
+        //     $('html, body').animate({
+        //         scrollTop: $("#userGrid").offset().top - 140
+        //     }, 0);
+
+        // },
+
+        controller: {
+
+            loadData: function(filter) {
+
+                var d = $.Deferred();
+
+                var taskListPostData = {};
+
+                taskListPostData.filter = filter;
+
+                $(gridSelector).parent().prev().find('.result-count').html('');
+
+                if (taskDate != undefined && taskDate) {
+
+                    taskListPostData.task_date = taskDate;
+
+                }
+
+                if (gridType == 'jobDetail') {
+
+                    if (currentJobId != undefined && currentJobId) {
+
+                        taskListPostData.job_id = currentJobId;
+
+                    }
+
+
+                    if (taskStatusFilter != undefined && taskStatusFilter) {
+
+                        taskListPostData.task_status_filter = taskStatusFilter;
+
+                    }
+
+                }
+
+                /* AJAX call to get list */
+                $.ajax({
+
+                    url: listUrl,
+                    data: taskListPostData,
+                    dataType: "json"
+
+                }).done(function(response) {
+
+                    if (response.success == "true") {
+
+                        if (response.data != '') {
+
+                            response.data = formatDataItem(response.data);
+
+                            window.dbClients = response.data;
+
+                            var dataResult = {
+                                data: response.data,
+                                itemsCount: response.result_count,
+                            };
+
+                            d.resolve(dataResult);
+
+                            // $(gridSelector).jsGrid("option", "data", response.data);
+
+                            var divHieght = '300px';
+
+                            if (gridSelector == '.taskCalendarGrid') {
+
+                                divHieght = '380px';
+
+                            }
+
+                            $('.jsgrid-grid-body').slimscroll({
+                                height: divHieght,
+                            });
+
+                            if ('result_count' in response) {
+
+                                $(gridSelector).parent().prev().find('.result-count').html('(' + response.result_count + ')');
+                                // $(gridSelector).parent().prev().find('.result-count').addClass('result-count-icon-badge');
+
+                            } else {
+
+                                $(gridSelector).parent().prev().find('.result-count').html('');
+                                // $(gridSelector).parent().prev().find('.result-count').removeClass('result-count-icon-badge');
+
+                            }
+
+                        } else {
+
+                            d.resolve(dataResult);
+
+                        }
+
+                    } else {
+
+                        $(gridSelector).parent().prev().find('.result-count').html('');
+                        // $(gridSelector).parent().prev().find('.result-count').removeClass('result-count-icon-badge');
+
+                        d.resolve(dataResult);
+
+                    }
+
+                });
+
+                return d.promise();
+
+                // return $.grep(window.dbClients, function(client) {
+                //     return (!filter.title || (client.title != undefined && client.title != null && (client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1))) &&
+                //         (!filter.type || (client.type != undefined && client.type != null && (client.type.toLowerCase().indexOf(filter.type.toLowerCase()) > -1))) &&
+                //         (!filter.assignedto_empname || (client.assignedto_empname != undefined && client.assignedto_empname != null && (client.assignedto_empname.toLowerCase().indexOf(filter.assignedto_empname.toLowerCase()) > -1))) &&
+                //         (!filter.createdby_empname || (client.createdby_empname != undefined && client.createdby_empname != null && (client.createdby_empname.toLowerCase().indexOf(filter.createdby_empname.toLowerCase()) > -1))) &&
+                //         (!filter.followup_date || (client.followup_date != undefined && client.followup_date != null && (client.followup_date.toLowerCase().indexOf(filter.followup_date.toLowerCase()) > -1))) &&
+                //         // (!filter.over_due_hours || (client.over_due_hours != undefined && client.over_due_hours != null && (client.over_due_hours.toLowerCase().indexOf(filter.over_due_hours.toLowerCase()) > -1))) &&
+                //         (!filter.over_due_hours || (client.over_due_hours != undefined && client.over_due_hours != null && (client.over_due_hours.toLowerCase().indexOf(filter.over_due_hours.toLowerCase()) > -1))) &&
+                //         (!filter.status || (client.status != undefined && client.status != null && (client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1))) &&
+                //         (!filter.stage || (client.stage != undefined && client.stage != null && (client.stage.toLowerCase().indexOf(filter.stage.toLowerCase()) > -1))) &&
+                //         (!filter.category || (client.category != undefined && client.category != null && (client.category.toLowerCase().indexOf(filter.category.toLowerCase()) > -1))) &&
+                //         (!filter.book_job_id || (client.book_job_id != undefined && client.book_job_id != null && (client.book_job_id.toLowerCase().indexOf(filter.book_job_id.toLowerCase()) > -1))) &&
+                //         //(!filter.womat_job_id || (client.womat_job_id != undefined && client.womat_job_id != null && (client.womat_job_id.toLowerCase().indexOf(filter.womat_job_id.toLowerCase()) > -1))) &&
+                //         (!filter.job_title || (client.job_title != undefined && client.job_title != null && (client.job_title.toLowerCase().indexOf(filter.job_title.toLowerCase()) > -1)));
+                // });
+
+            }
+        },
+
+        rowClick: function(args) {
+
+            $(gridSelector).jsGrid("cancelEdit");
+
+        },
+
+        rowClass: function(item, itemIndex) {
+
+            var rowClassName = 'parent-task-row';
+
+            if (item.parent_task_id != undefined && item.parent_task_id != 'null' && item.parent_task_id != '' && item.parent_task_id != '0') {
+
+                rowClassName = 'sub-task-row';
+
+            }
+
+            return rowClassName;
+
+        },
+
+        onItemInserting: function(args, value) {
+
+            if (itemEmptyOrExistsCheck(gridSelector, 'name', args.item.name)) {
+
+                addItem(args, addUrl, gridSelector);
+
+            } else {
+
+                args.cancel = true;
+
+            }
+
+        },
+
+        onItemUpdating: function(args) {
+
+            editItem(args, editUrl, gridSelector);
+
+            return false;
+
+        },
+
+        onItemDeleting: function(args) {
+
+            if (!args.item.deleteConfirmed) { // custom property for confirmation
+
+                args.cancel = true; // cancel deleting
+
+                Swal.fire({
+
+                    title: 'Are you sure?',
+                    text: "Do you want to remove this!",
+                    // icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes',
+                    showClass: {
+                        popup: 'animated slideInDown'
+                    },
+                    hideClass: {
+                        popup: 'animated fadeOut faster'
+                    },
+
+                }).then((result) => {
+
+                    if (result.value != undefined && result.value == true) {
+
+                        deleteItem(args, deleteUrl, gridSelector);
+
+                    }
+
+                });
+
+                // $.MessageBox({
+
+                //     buttonDone: "Yes",
+                //     buttonFail: "No",
+                //     message: "Are You Sure?"
+
+                // }).done(function() {
+
+                //     deleteItem(args, deleteUrl, gridSelector);
+
+                // }).fail(function() {
+
+                //     return false;
+
+                // });
+
+            }
+
+        },
+
+        // onDataLoading: loadGridItem(listUrl),
+
+    });
 
     // }
-
-    $(gridSelector).jsGrid("option", "fields", field);
 
     $(gridSelector).jsGrid("option", "editItem", function(item) {
 
@@ -653,95 +596,6 @@ function getTaskTableList(gridSelector) {
         window.location = url;
 
         // }
-
-    });
-
-    var taskListPostData = {};
-
-    $(gridSelector).parent().prev().find('.result-count').html('');
-
-    // if (gridType == 'dashboard') {
-
-    //     if (currentUserId != undefined && currentUserId) {
-
-    //         taskListPostData.user_id = currentUserId;
-
-    //     }
-
-    // }
-
-    if (taskDate != undefined && taskDate) {
-
-        taskListPostData.task_date = taskDate;
-
-    }
-
-    if (gridType == 'jobDetail') {
-
-        if (currentJobId != undefined && currentJobId) {
-
-            taskListPostData.job_id = currentJobId;
-
-        }
-
-
-        if (taskStatusFilter != undefined && taskStatusFilter) {
-
-            taskListPostData.task_status_filter = taskStatusFilter;
-
-        }
-
-    }
-
-    $(gridSelector).jsGrid("option", "data", []);
-
-    /* AJAX call to get list */
-    $.ajax({
-
-        url: listUrl,
-        data: taskListPostData,
-        dataType: "json"
-
-    }).done(function(response) {
-
-        if (response.success == "true") {
-
-            response.data = formatDataItem(response.data);
-
-            window.dbClients = response.data;
-
-            $(gridSelector).jsGrid("option", "data", response.data);
-
-            var divHieght = '300px';
-
-            if (gridSelector == '.taskCalendarGrid') {
-
-                divHieght = '380px';
-
-            }
-
-            $('.jsgrid-grid-body').slimscroll({
-                height: divHieght,
-            });
-
-            if ('result_count' in response) {
-
-                $(gridSelector).parent().prev().find('.result-count').html('(' + response.result_count + ')');
-                // $(gridSelector).parent().prev().find('.result-count').addClass('result-count-icon-badge');
-
-            } else {
-
-                $(gridSelector).parent().prev().find('.result-count').html('');
-                // $(gridSelector).parent().prev().find('.result-count').removeClass('result-count-icon-badge');
-
-            }
-
-        } else {
-
-            $(gridSelector).parent().prev().find('.result-count').html('');
-            // $(gridSelector).parent().prev().find('.result-count').removeClass('result-count-icon-badge');
-
-        }
 
     });
 

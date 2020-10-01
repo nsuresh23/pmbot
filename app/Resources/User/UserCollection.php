@@ -71,9 +71,14 @@ class UserCollection
      *
      * @return array $userData
      */
-    public function getAllUser()
+    public function getAllUser($field)
     {
-        $userData = "";
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
 
         try {
 
@@ -81,11 +86,29 @@ class UserCollection
 
             $url = $this->userListApiUrl;
 
-            $userData = $this->getRequest($url);
+            $responseData = $this->postRequest($url, $field);
 
-            if ($userData["success"] == "true" && count($userData["data"]) > 0 && $userData["data"] != "") {
+            if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
-                $userData = $this->formatData($userData["data"]);
+                $responseFormatData = $this->formatData($responseData["data"]);
+
+                if ($responseFormatData) {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["message"] = "Retrieved successfully";
+                    $returnResponse["data"] = $responseFormatData;
+
+                }
+
+                if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
+
+                    $returnResponse["result_count"] = $responseData["result_count"];
+
+                } else if (is_array($responseFormatData)) {
+
+                    $returnResponse["result_count"] = count($responseFormatData);
+
+                }
 
             }
 
@@ -100,10 +123,12 @@ class UserCollection
                     " => MESSAGE => " . $e->getMessage() . " "
             );
 
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
 
         }
 
-        return $userData;
+        return $returnResponse;
     }
 
     /**
@@ -874,11 +899,21 @@ class UserCollection
 
                 if (isset($responseData["data"]) && is_array($responseData["data"]) && count($responseData["data"]) > 0) {
 
-                    $responseData = $this->formatMembersData($responseData["data"], $request);
+                    $responseFormatData = $this->formatMembersData($responseData["data"], $request);
 
-                    if ($responseData) {
+                    if ($responseFormatData) {
 
-                        $returnResponse["data"] = $responseData;
+                        $returnResponse["data"] = $responseFormatData;
+
+                        if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
+
+                            $returnResponse["result_count"] = $responseData["result_count"];
+
+                        } else if (is_array($responseFormatData)) {
+
+                            $returnResponse["result_count"] = count($responseFormatData);
+
+                        }
 
                         // if (is_array($responseData)) {
 

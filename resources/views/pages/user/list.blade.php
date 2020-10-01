@@ -73,7 +73,7 @@ if(Route::currentRouteName() == __("user.job_stage_list_url")) {
                 <div class="panel panel-default card-view">
                     <div class="panel-heading">
                         <div class="pull-left">
-                        <h6 class="panel-title txt-dark">{{ $tableCaption }}</h6>
+                        <h6 class="panel-title txt-dark">{{ $tableCaption }}<span class="user-count"></span></h6>
                         </div>
                         <div class="pull-right">
                             <a href="#" class="pull-left inline-block full-screen mr-15">

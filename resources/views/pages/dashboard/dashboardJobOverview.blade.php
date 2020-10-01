@@ -12,19 +12,23 @@
 
                     <?php if(isset($hasMembers) && $hasMembers == "1" && !session()->has("current_empcode")) { ?>
 
-                        <li role="presentation" class=""><a data-toggle="tab" id="membersTab" role="tab" href="#overview"
-                                aria-expanded="false">{{ __('dashboard.members_tab_label') }}</a></li>
+                        <li role="presentation" class="">
+                            <a data-toggle="tab" id="membersTab" role="tab" href="#overview" aria-expanded="false">
+                                {{ __('dashboard.members_tab_label') }}
+                                <span class="members-count"></span>
+                            </a>
+                        </li>
 
                     <?php } ?>
-					
-					 
+
+
 
                 </ul>
 				 </div>
-				
-           
+
+
         </div>
-		
+
         <div class="pull-right">
 
             <?php if(isset($jobAddUrl) && $jobAddUrl != "") { ?>

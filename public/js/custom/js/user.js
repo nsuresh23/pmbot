@@ -7,250 +7,9 @@ $(function() {
         var editUrl = $(selector).attr('data-edit-url');
         var deleteUrl = $(selector).attr('data-delete-url');
         var passwordUpdateUrl = $(selector).attr('data-password-update-url');
+        var pageSize = $('#currentUserInfo').attr('data-page-size');
 
         var dbClients = "";
-
-        if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
-
-            $(gridSelector).jsGrid({
-
-                height: "450px",
-                width: "100%",
-
-                filtering: true,
-                inserting: true,
-                editing: true,
-                sorting: true,
-                paging: false,
-                autoload: true,
-
-                pageSize: 10,
-                pageButtonCount: 5,
-
-                // deleteConfirm: "Do you really want to delete the client?",
-
-                confirmDeleting: false,
-
-                noDataContent: "No data",
-
-                invalidNotify: function(args) {
-
-                    $('#alert-error-not-submit').removeClass('hidden');
-
-                },
-
-                controller: {
-
-                    loadData: function(filter) {
-
-                        if (gridType == 'user') {
-
-                            return $.grep(dbClients, function(client) {
-
-                                return (!filter.id || (client.id != undefined && client.id != null && (client.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1))) &&
-                                    (!filter.spi_empcode || (client.spi_empcode != undefined && client.spi_empcode != null && (client.spi_empcode.toLowerCase().indexOf(filter.spi_empcode.toLowerCase()) > -1))) &&
-                                    (!filter.empname || (client.empname != undefined && client.empname != null && (client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1))) &&
-                                    (!filter.email || (client.email != undefined && client.email != null && (client.email.toLowerCase().indexOf(filter.email.toLowerCase()) > -1))) &&
-                                    (!filter.role || (client.role != undefined && client.role != null && (client.role.toLowerCase().indexOf(filter.role.toLowerCase()) > -1))) &&
-                                    (!filter.location || (client.location != undefined && client.location != null && (client.location.toLowerCase().indexOf(filter.location.toLowerCase()) > -1))) &&
-                                    (!filter.mobile || (client.mobile != undefined && client.mobile != null && (client.mobile.toLowerCase().indexOf(filter.mobile.toLowerCase()) > -1))) &&
-                                    (!filter.cisco || (client.cisco != undefined && client.cisco != null && (client.cisco.toLowerCase().indexOf(filter.cisco.toLowerCase()) > -1))) &&
-                                    (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status));
-                                // && (filter.status === undefined || (client.status != undefined && client.status != null && (client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1)));
-                                // && (!filter.created_at || (client.created_at != undefined && client.created_at != null && (client.created_at.toLowerCase().indexOf(filter.created_at.toLowerCase()) > -1))) &&
-                                // && (!filter.updated_at || (client.updated_at != undefined && client.updated_at != null && (client.updated_at.toLowerCase().indexOf(filter.updated_at.toLowerCase()) > -1))) &&
-                            });
-
-                        } else {
-
-                            return $.grep(dbClients, function(client) {
-
-                                return (!filter.id || (client.id != undefined && client.id != null && (client.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1))) &&
-                                    (!filter.name || (client.name != undefined && client.name != null && (client.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1))) &&
-                                    (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status)) &&
-                                    // (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status)) &&
-                                    (!filter.created_at || (client.created_at != undefined && client.created_at != null && (client.created_at.toLowerCase().indexOf(filter.created_at.toLowerCase()) > -1))) &&
-                                    (!filter.updated_at || (client.updated_at != undefined && client.updated_at != null && (client.updated_at.toLowerCase().indexOf(filter.updated_at.toLowerCase()) > -1)));
-                            });
-
-                        }
-                    }
-                },
-
-                // fields: [
-                //     { title: "ID", name: "id", type: "text", inserting: false, editing: false, width: 150 },
-                //     {
-                //         title: "NAME",
-                //         name: "name",
-                //         type: "text",
-                //         // validate: function (value, item) {
-
-                //         //     return itemEmptyOrExistsCheck(gridSelector, 'name', value);
-
-                //         //     // if (value == '') {
-
-                //         //     //     message = 'Name is required field';
-
-                //         //     //     fieldMessage(item, message);
-
-                //         //     //     $(gridSelector).jsGrid("fieldOption", "name", "css", "error-field");
-
-                //         //     // } else {
-
-                //         //     //     message = 'Value already exists';
-
-                //         //     //     itemExistsCheck(gridSelector, 'name', value, message);
-
-                //         //     // }
-
-
-                //         // },
-                //         width: 150
-                //     },
-                //     {
-                //         title: "STATUS",
-                //         name: "status",
-                //         type: "checkbox",
-                //         itemTemplate: function (value, item) {
-
-                //             return $("<input>").attr("type", "checkbox")
-                //                 // .attr("class", "js-switch js-switch-1")
-                //                 // .attr("data-size", "small")
-                //                 // .attr("data-color", "#8BC34A")
-                //                 // .attr("data-secondary", "#F8B32D")
-                //                 .attr("checked", JSON.parse(value))
-                //         },
-                //         // sorting: false,
-                //         css: "user-jsgrid-checkbox-width",
-                //         width: 150
-                //     },
-                //     { title: "CREATED AT", name: "created_at", type: "text", inserting: false, editing: false, width: 150 },
-                //     { title: "UPDATED AT", name: "updated_at", type: "text", inserting: false, editing: false, width: 150 },
-                //     {
-                //         type: "control",
-                //         updateButtonClass: "jsgrid-update-button edit-alert",
-                //     },
-                // ],
-
-                rowClick: function(args) {
-
-                    $(gridSelector).jsGrid("cancelEdit");
-
-                },
-
-                // rowClick: function (args) {
-
-                //     if (args.item.jobTitle != "") {
-
-                //         var targetUrl = jobDetailUrl + '/' + encodeURIComponent(args.item.jobTitle).replace(/%20/g, '+');
-
-                //         // window.location = jobDetailUrl + args.item.jobTitle;
-                //         window.location = targetUrl;
-                //     }
-                // },
-
-
-
-                onItemInserting: function(args, value) {
-
-                    if (itemEmptyOrExistsCheck(gridSelector, 'name', args.item.name)) {
-
-                        addItem(args, addUrl, gridSelector);
-
-                    } else {
-
-                        args.cancel = true;
-
-                    }
-
-                },
-
-                onItemUpdating: function(args) {
-
-                    // swal({
-                    //     title: "Are you sure to make the changes?",
-                    //     // text: "You will not be able to recover this imaginary file!",
-                    //     type: "info",
-                    //     showCancelButton: true,
-                    //     confirmButtonColor: "#16de6f",
-                    //     confirmButtonText: "Yes, save this!",
-                    //     cancelButtonText: "No, cancel!",
-                    //     closeOnConfirm: false,
-                    //     closeOnCancel: false,
-                    //     // customClass: 'slow-animation',
-                    //     // customClass: {
-                    //     //     confirmButton: 'btn btn-success',
-                    //     //     cancelButton: 'btn btn-danger',
-                    //     //     popup: 'animated tada',
-                    //     // },
-                    // }, function (isConfirm) {
-                    //     if (isConfirm) {
-                    //         swal("Saved!", "Changes saved successfully.", "success");
-                    //         editItem(args, editUrl, gridSelector);
-                    //     } else {
-                    //         swal("Cancelled", "error");
-                    //     }
-                    // });
-
-                    editItem(args, editUrl, gridSelector);
-
-                    return false;
-
-                },
-
-                onItemDeleting: function(args) {
-
-                    if (!args.item.deleteConfirmed) { // custom property for confirmation
-
-                        args.cancel = true; // cancel deleting
-
-                        $.MessageBox({
-
-                            buttonDone: "Yes",
-                            buttonFail: "No",
-                            message: "Are You Sure?"
-
-                        }).done(function() {
-
-                            deleteItem(args, deleteUrl, gridSelector);
-
-                        }).fail(function() {
-
-                            return false;
-
-                        });
-
-                    }
-
-
-
-                    // if (!args.item.deleteConfirmed) { // custom property for confirmation
-                    //     args.cancel = true; // cancel deleting
-
-                    //     if (confirmAlert()) {
-
-                    //         deleteItem(args, deleteUrl, gridSelector);
-
-                    //     }
-                    // }
-
-                    // if (confirmAlert()) {
-
-                    //     deleteItem(args, deleteUrl, gridSelector);
-
-                    // }
-
-                    // deleteItem(args, deleteUrl, gridSelector);
-
-
-                },
-                // insertItem: function (args) { addItem(args, addUrl) },
-                // onItemInserting: addItem(args),
-                // onDataLoading: loadGridItem(listUrl),
-
-            });
-
-        }
 
         var field = [];
 
@@ -334,6 +93,7 @@ $(function() {
                     inserting: false,
                     filtering: false,
                     editing: false,
+                    sorting: false,
                     width: 50
                 },
                 {
@@ -436,6 +196,238 @@ $(function() {
                 },
             ];
 
+            // if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
+
+            $(gridSelector).jsGrid({
+
+                height: "450px",
+                width: "100%",
+                autowidth: true,
+                editing: true,
+                inserting: true,
+                filtering: true,
+                sorting: true,
+                autoload: true,
+                paging: true,
+                pageLoading: true,
+                pageSize: pageSize,
+                pageIndex: 1,
+                pageButtonCount: 5,
+
+                confirmDeleting: false,
+
+                noDataContent: "No data",
+
+                invalidNotify: function(args) {
+
+                    $('#alert-error-not-submit').removeClass('hidden');
+
+                },
+
+                loadIndication: true,
+                // loadIndicationDelay: 500,
+                loadMessage: "Please, wait...",
+                loadShading: true,
+
+                fields: field,
+
+                onInit: function(args) {
+
+                    this._resetPager();
+
+                },
+
+                search: function(filter) {
+
+                    this._resetPager();
+                    return this.loadData(filter);
+
+                },
+
+                onPageChanged: function(args) {
+
+                    $('html, body').animate({
+                        scrollTop: $("#userGrid").offset().top - 140
+                    }, 0);
+
+                },
+
+                controller: {
+
+                    loadData: function(filter) {
+
+                        $('.user-count').html('');
+
+                        var d = $.Deferred();
+
+                        var userListPostData = {};
+
+                        userListPostData.filter = filter;
+
+                        /* AJAX call to get grid data */
+                        $.ajax({
+                            // url: listUrl + '?' + Math.random(),
+                            url: listUrl,
+                            // dataType: "json",
+                            data: userListPostData,
+                            // cache: false,
+                            // headers: {
+                            //     "Vary": "X-Requested-With"
+                            // },
+                        }).done(function(response) {
+
+                            var dataResult = {};
+                            dataResult.data = '';
+
+                            if (response.success == "true") {
+
+                                if (response.data != '') {
+
+                                    response.data = formatDataItem(response.data);
+
+                                    dbClients = response.data;
+
+                                    dataResult.data = response.data;
+                                    dataResult.itemsCount = response.result_count;
+
+                                    d.resolve(dataResult);
+
+                                    if ('result_count' in response) {
+
+                                        var resultCount = response.result_count;
+
+                                        if (parseInt(resultCount) != NaN && parseInt(resultCount) > 0) {
+
+                                            if (parseInt(resultCount) > 99999) {
+
+                                                resultCount = '99999+'
+
+                                            }
+
+                                            $('.user-count').html(' (' + resultCount + ')');
+
+                                        }
+
+
+                                    }
+
+                                    // $(gridSelector).jsGrid("option", "data", response.data);
+
+                                    $('.jsgrid-grid-body').slimscroll({
+                                        height: '300px',
+                                    });
+
+                                } else {
+
+                                    d.resolve(dataResult);
+
+                                }
+
+                            } else {
+
+                                d.resolve(dataResult);
+
+                            }
+
+                        });
+
+                        return d.promise();
+
+                        // if (gridType == 'user') {
+
+                        //     return $.grep(dbClients, function(client) {
+
+                        //         return (!filter.id || (client.id != undefined && client.id != null && (client.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1))) &&
+                        //             (!filter.spi_empcode || (client.spi_empcode != undefined && client.spi_empcode != null && (client.spi_empcode.toLowerCase().indexOf(filter.spi_empcode.toLowerCase()) > -1))) &&
+                        //             (!filter.empname || (client.empname != undefined && client.empname != null && (client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1))) &&
+                        //             (!filter.email || (client.email != undefined && client.email != null && (client.email.toLowerCase().indexOf(filter.email.toLowerCase()) > -1))) &&
+                        //             (!filter.role || (client.role != undefined && client.role != null && (client.role.toLowerCase().indexOf(filter.role.toLowerCase()) > -1))) &&
+                        //             (!filter.location || (client.location != undefined && client.location != null && (client.location.toLowerCase().indexOf(filter.location.toLowerCase()) > -1))) &&
+                        //             (!filter.mobile || (client.mobile != undefined && client.mobile != null && (client.mobile.toLowerCase().indexOf(filter.mobile.toLowerCase()) > -1))) &&
+                        //             (!filter.cisco || (client.cisco != undefined && client.cisco != null && (client.cisco.toLowerCase().indexOf(filter.cisco.toLowerCase()) > -1))) &&
+                        //             (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status));
+                        //         // && (filter.status === undefined || (client.status != undefined && client.status != null && (client.status.toLowerCase().indexOf(filter.status.toLowerCase()) > -1)));
+                        //         // && (!filter.created_at || (client.created_at != undefined && client.created_at != null && (client.created_at.toLowerCase().indexOf(filter.created_at.toLowerCase()) > -1))) &&
+                        //         // && (!filter.updated_at || (client.updated_at != undefined && client.updated_at != null && (client.updated_at.toLowerCase().indexOf(filter.updated_at.toLowerCase()) > -1))) &&
+                        //     });
+
+                        // } else {
+
+                        //     return $.grep(dbClients, function(client) {
+
+                        //         return (!filter.id || (client.id != undefined && client.id != null && (client.id.toLowerCase().indexOf(filter.id.toLowerCase()) > -1))) &&
+                        //             (!filter.name || (client.name != undefined && client.name != null && (client.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1))) &&
+                        //             (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status)) &&
+                        //             // (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status)) &&
+                        //             (!filter.created_at || (client.created_at != undefined && client.created_at != null && (client.created_at.toLowerCase().indexOf(filter.created_at.toLowerCase()) > -1))) &&
+                        //             (!filter.updated_at || (client.updated_at != undefined && client.updated_at != null && (client.updated_at.toLowerCase().indexOf(filter.updated_at.toLowerCase()) > -1)));
+                        //     });
+
+                        // }
+                    }
+                },
+
+                rowClick: function(args) {
+
+                    $(gridSelector).jsGrid("cancelEdit");
+
+                },
+
+                onItemInserting: function(args, value) {
+
+                    if (itemEmptyOrExistsCheck(gridSelector, 'name', args.item.name)) {
+
+                        addItem(args, addUrl, gridSelector);
+
+                    } else {
+
+                        args.cancel = true;
+
+                    }
+
+                },
+
+                onItemUpdating: function(args) {
+
+                    editItem(args, editUrl, gridSelector);
+
+                    return false;
+
+                },
+
+                onItemDeleting: function(args) {
+
+                    if (!args.item.deleteConfirmed) { // custom property for confirmation
+
+                        args.cancel = true; // cancel deleting
+
+                        $.MessageBox({
+
+                            buttonDone: "Yes",
+                            buttonFail: "No",
+                            message: "Are You Sure?"
+
+                        }).done(function() {
+
+                            deleteItem(args, deleteUrl, gridSelector);
+
+                        }).fail(function() {
+
+                            return false;
+
+                        });
+
+                    }
+
+                },
+                // insertItem: function (args) { addItem(args, addUrl) },
+                // onItemInserting: addItem(args),
+                // onDataLoading: loadGridItem(listUrl),
+
+            });
+
+            // }
+
             $(gridSelector).jsGrid("option", "editItem", function(item) {
 
                 if (gridType == 'user') {
@@ -446,127 +438,6 @@ $(function() {
 
             });
 
-        }
-
-        $(gridSelector).jsGrid("option", "fields", field);
-
-        /* AJAX call to get grid data */
-        $.ajax({
-            // url: listUrl + '?' + Math.random(),
-            url: listUrl,
-            dataType: "json",
-            // cache: false,
-            headers: {
-                "Vary": "X-Requested-With"
-            },
-        }).done(function(response) {
-
-            if (response.success == "true") {
-
-                response.data = formatDataItem(response.data);
-
-                // for (var i = 0, len = response.data.length; i < len; i++) {
-
-                //     response.data[i].s_no = i + 1;
-
-                //     if (response.data[i]["status"] != "") {
-
-                //         response.data[i]["status"] = JSON.parse(response.data[i]["status"]);
-                //         // response.data[i]["status"] = parseInt(JSON.parse(response.data[i]["status"]));
-
-                //     }
-                // }
-
-                dbClients = response.data;
-
-                if (gridType == 'user') {
-
-                    // $(gridSelector).jsGrid("fieldOption", "role", "items", response.data.role_list);
-                    // $(gridSelector).jsGrid("fieldOption", "role", "filterValue", function () {
-
-                    //     return this.items[this.filterControl.val()][this.textField];
-
-                    // });
-                    // // $(gridSelector).jsGrid("fieldOption", "role", "selectedIndex", response.data.role_list);
-                    // $(gridSelector).jsGrid("fieldOption", "group", "items", response.data.group_list);
-                    // $(gridSelector).jsGrid("fieldOption", "group", "filterValue", function () {
-
-                    //     return this.items[this.filterControl.val()][this.textField];
-
-                    // });
-                    // // $(gridSelector).jsGrid("fieldOption", "group", "selectedIndex", response.data.group_list);
-
-                    $(gridSelector).jsGrid("option", "data", response.data);
-
-                } else {
-
-                    $(gridSelector).jsGrid("option", "data", response.data);
-
-                }
-
-                $('.jsgrid-grid-body').slimscroll({
-                    height: '300px',
-                });
-
-            }
-
-        });
-
-
-        function loadGridItem(getUrl) {
-
-            /* AJAX call to get grid data */
-            $.ajax({
-                url: getUrl,
-                dataType: "json"
-            }).done(function(response) {
-
-                if (response.success == "true") {
-
-                    response.data = formatDataItem(response.data);
-
-                    // for (var i = 0, len = response.data.length; i < len; i++) {
-
-                    //     response.data[i].s_no = i + 1;
-
-                    //     if (response.data[i]["status"] != "") {
-
-                    //         response.data[i]["status"] = JSON.parse(response.data[i]["status"]);
-                    //         // response.data[i]["status"] = parseInt(JSON.parse(response.data[i]["status"]));
-
-                    //     }
-                    // }
-
-                    dbClients = response.data;
-
-                    if (gridType == 'user') {
-
-                        // $(gridSelector).jsGrid("fieldOption", "role", "items", response.data.role_list);
-                        // $(gridSelector).jsGrid("fieldOption", "role", "filterValue", function () {
-
-                        //     return this.items[this.filterControl.val()][this.textField];
-
-                        // });
-                        // // $(gridSelector).jsGrid("fieldOption", "role", "selectedIndex", response.data.role_list);
-                        // $(gridSelector).jsGrid("fieldOption", "group", "items", response.data.group_list);
-                        // $(gridSelector).jsGrid("fieldOption", "group", "filterValue", function () {
-
-                        //     return this.items[this.filterControl.val()][this.textField];
-
-                        // });
-                        // // $(gridSelector).jsGrid("fieldOption", "group", "selectedIndex", response.data.group_list);
-
-                        $(gridSelector).jsGrid("option", "data", response.data);
-
-                    } else {
-
-                        $(gridSelector).jsGrid("option", "data", response.data);
-
-                    }
-
-                }
-
-            });
         }
 
         function addItem(args, addUrl, gridSelector) {

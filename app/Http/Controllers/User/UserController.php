@@ -105,15 +105,69 @@ class UserController extends Controller
 
         try {
 
-            $responseData = $this->userResource->getAlluser();
+            $field = [];
 
-            if(is_array($responseData) && count($responseData) > 0) {
+            $filterData = [];
 
-                $returnResponse["success"] = "true";
-                $returnResponse["data"] = $responseData;
-                $returnResponse["message"] = "retrieved successfully";
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    // "subject_link" => "subject",
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
 
             }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if(isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+
+                    }
+
+                }
+
+                if (array_key_exists("status", $filterData)) {
+
+                    if ($filterData["status"] == "false") {
+
+                        $filterData["status"] = "0";
+                    }
+
+                    if ($filterData["status"] == "true") {
+
+                        $filterData["status"] = "1";
+                    }
+
+                }
+
+                $field["filter"] = $filterData;
+
+            }
+
+            $returnResponse = $this->userResource->getAlluser($field);
+
+            // if(is_array($responseData) && count($responseData) > 0) {
+
+            //     $returnResponse["success"] = "true";
+            //     $returnResponse["data"] = $responseData["data"];
+            //     $returnResponse["message"] = "retrieved successfully";
+
+            // }
 
         } catch (Exception $e) {
 
@@ -125,9 +179,7 @@ class UserController extends Controller
                 " => MESSAGE => " . $e->getMessage() . " "
             );
 
-            $returnResponse["success"] = "false";
             $returnResponse["error"] = "true";
-            $returnResponse["data"] = [];
             $returnResponse["message"] = $e->getMessage();
 
         }
@@ -150,6 +202,44 @@ class UserController extends Controller
             $field = [];
 
             $returnResponse = [];
+
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    // "subject_link" => "subject",
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if(isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+
+                    }
+
+                }
+
+                $field["filter"] = $filterData;
+
+            }
 
             $field["empcode"] = auth()->user()->empcode;
 

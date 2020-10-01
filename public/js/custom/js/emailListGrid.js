@@ -642,6 +642,7 @@ function getPmsEmailCountTableList(gridSelector) {
     var gridType = $(gridSelector).attr('data-type');
     var listUrl = $(gridSelector).attr('data-list-url');
     var currentRoute = $(gridSelector).attr('data-current-route');
+    var pageSize = $('#currentUserInfo').attr('data-page-size');
 
     var insertControlVisible = false;
     var editControlVisible = false;

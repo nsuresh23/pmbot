@@ -25,6 +25,7 @@
                                 <li role="presentation" class="active">
                                     <a data-toggle="tab" id="amEmailListTab" class="capitalize-font amEmailListTab" role="tab" href="#amEmailList" aria-expanded="false">
                                         {{ __('dashboard.am_email_list_tab_label') }}
+                                        <span class="pms-email-count"></span>
                                     </a>
                                 </li>
 
@@ -55,6 +56,7 @@
                                     <a data-toggle="tab" id="emailRulesTab" class="capitalize" role="tab" href="#emailRules"
                                         post-url="{{ route(__('job.email_rules_url')) }}">
                                         {{ __('job.email_rules_tab_label') }}
+                                        <span class="email-rules-count"></span>
                                     </a>
                                 </li>
 

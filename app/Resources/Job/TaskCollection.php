@@ -109,16 +109,22 @@ class TaskCollection
 
                 if (isset($responseData["data"]) && is_array($responseData["data"]) && count($responseData["data"]) > 0) {
 
-                    $responseData = $this->formatData($responseData["data"], $field);
+                    $responseFormatData = $this->formatData($responseData["data"], $field);
 
-                    if ($responseData) {
+                    if ($responseFormatData) {
 
-                        $returnResponse["data"] = $responseData;
+                        $returnResponse["data"] = $responseFormatData;
 
-                        if (is_array($responseData)) {
+                        if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
 
-                            $returnResponse["result_count"] = count($responseData);
+                            $returnResponse["result_count"] = $responseData["result_count"];
+
+                        } else if (is_array($responseFormatData)) {
+
+                            $returnResponse["result_count"] = count($responseFormatData);
+
                         }
+
                     }
                 }
             }
@@ -165,19 +171,28 @@ class TaskCollection
 
             if (is_array($responseData) && $responseData["success"] == "true" && $responseData["data"] != "") {
 
-                $responseData = $this->formatData($responseData["data"], $field);
+                $responseFormatData = $this->formatData($responseData["data"], $field);
 
-                if ($responseData) {
+                if ($responseFormatData) {
 
                     $returnResponse["success"] = "true";
-                    $returnResponse["data"] = $responseData;
 
-                    if (is_array($responseData)) {
+                    $returnResponse["data"] = $responseFormatData;
 
-                        $returnResponse["result_count"] = count($responseData);
+                    if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
+
+                        $returnResponse["result_count"] = $responseData["result_count"];
+
+                    } else if (is_array($responseFormatData)) {
+
+                        $returnResponse["result_count"] = count($responseFormatData);
+
                     }
+
                 }
+
             }
+
         } catch (Exception $e) {
 
             $returnResponse["error"] = "true";
@@ -296,9 +311,6 @@ class TaskCollection
             $url = $this->taskByFieldApiUrl;
 
             $responseData = $this->postRequest($url, $field);
-
-
-
 
             if (isset($responseData["success"]) && $responseData["success"] == "true" && isset($responseData["data"]) && count($responseData["data"]) > 0) {
 
@@ -665,7 +677,6 @@ class TaskCollection
 
         return $returnResponse;
     }
-
 
     /**
      * Delete the task based on task id.

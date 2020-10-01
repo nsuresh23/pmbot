@@ -11,6 +11,7 @@ $(function() {
     function getJobList(selector, stage, status, gridType, getUrl, jobDetailUrl) {
 
         var dbClients = "";
+        var pageSize = $('#currentUserInfo').attr('data-page-size');
 
         var readOnlyUser = $('#currentUserInfo').attr('data-read-only-user');
 

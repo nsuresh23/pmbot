@@ -60,6 +60,40 @@ class JobController extends Controller
 
             $field = [];
 
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    "job_id_value" => "womat_job_id",
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if (isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+                    }
+                }
+
+                $field["filter"] = $filterData;
+            }
+
             // $field[$this->currentUserCodeField] =  auth()->user()->empcode;
 
             // if(auth()->user()->role == "account_manager") {

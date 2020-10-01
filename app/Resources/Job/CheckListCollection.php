@@ -17,19 +17,19 @@ use App\Resources\Job\TaskCollection as TaskResource;
 
 class CheckListCollection
 {
-    
+
     use Helper;
-    
+
     use ApiClient;
-    
+
     use CustomLogger;
-    
+
     protected $client;
     protected $fractal;
 
     protected $checkListApiUrl;
     protected $checkListAddApiUrl;
-    protected $checkListUpdateApiUrl;  
+    protected $checkListUpdateApiUrl;
 
     protected $checkListByFieldApiUrl;
     protected $checkListDeleteApiUrl;
@@ -38,7 +38,7 @@ class CheckListCollection
     {
         // $this->client = new ApiClient();
         $this->fractal = new Manager();
-        
+
         $this->checkListApiUrl = env('API_CHECK_LIST_URL');
         $this->checkListAddApiUrl = env('API_CHECK_LIST_ADD_URL');
         $this->checkListUpdateApiUrl = env('API_CHECK_LIST_UPDATE_URL');
@@ -74,21 +74,25 @@ class CheckListCollection
 
             }
 
-            
             $responseData = $this->postRequest($url, $paramData);
 
             if ($responseData["success"] == "true" && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
-                $responseData = $this->formatData($responseData["data"]);
+                $responseFormatData = $this->formatData($responseData["data"]);
 
-                if ($responseData) {
+                if ($responseFormatData) {
 
                     $returnResponse["success"] = "true";
-                    $returnResponse["data"] = $responseData;
+                    $returnResponse["data"] = $responseFormatData;
 
-                    if (is_array($responseData)) {
+                    if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
 
-                        $returnResponse["result_count"] = count($responseData);
+                        $returnResponse["result_count"] = $responseData["result_count"];
+
+                    } else if (is_array($responseData)) {
+
+                        $returnResponse["result_count"] = count($responseFormatData);
+
                     }
 
                 }
@@ -106,7 +110,7 @@ class CheckListCollection
                     " => MESSAGE => " . $e->getMessage() . " "
             );
         }
-        
+
         return $returnResponse;
     }
 
@@ -126,7 +130,7 @@ class CheckListCollection
         ];
 
         try {
-            
+
            // validate
             // read more on validation at http://laravel.com/docs/validation
             $rules = array(
@@ -137,37 +141,37 @@ class CheckListCollection
                 'empname'       => 'required',
             );
 
-            
+
             if ($request->job_id && $request->job_id != "") {
-                
+
                 unset($rules['location']);
                 unset($rules['tasklist']);
                 $rules['job_id'] = 'required';
-                
+
             }
-            
+
             $url = $this->checkListAddApiUrl;
 
             $validator = Validator::make($request->all(), $rules);
-            
+
             // process the login
             if ($validator->fails()) {
-                
+
                 $returnResponse["error"] = "true";
                 $returnResponse["message"] = "Save failed";
-                
+
             } else {
-                
+
                 $paramInfo = $request->all();
-                
+
                 unset($paramInfo["c_id"]);
                 unset($paramInfo["files"]);
                 unset($paramInfo["_token"]);
                 unset($paramInfo["redirectTo"]);
                 unset($paramInfo["_wysihtml5_mode"]);
-                
+
                 $returnData = $this->postRequest($url, $paramInfo);
-              
+
                 if (isset($returnData["success"]) && $returnData["success"] == "true") {
 
                     $returnResponse["success"] = "true";
@@ -302,7 +306,7 @@ class CheckListCollection
 
                     if(is_array($checkListTasksIds) && count($checkListTasksIds) > 0) {
 
-                        
+
                         $responseData["data"]['task_list'] = $checkListTasksIds;
 
                     }
@@ -314,7 +318,7 @@ class CheckListCollection
                         $responseData["data"]['checkListTaskView'] = $checkListTaskView;
                     }
                 }
-                
+
                 $returnResponse = $responseData["data"];
 
             }
@@ -339,7 +343,7 @@ class CheckListCollection
      */
     public function checkListEdit($request)
     {
-      
+
         $returnResponse = [
             "success" => "false",
             "error" => "false",
@@ -382,7 +386,7 @@ class CheckListCollection
                 unset($paramInfo["_token"]);
                 unset($paramInfo["redirectTo"]);
                 unset($paramInfo["_wysihtml5_mode"]);
-                
+
                 $returnData = $this->postRequest($url, $paramInfo);
 
                 if (isset($returnData["success"]) && $returnData["success"] == "true") {
@@ -394,7 +398,7 @@ class CheckListCollection
 
                     $returnResponse["error"] = "true";
                     $returnResponse["message"] = "Update unsuccessfull";
-                    
+
                 }
 
             }
@@ -409,7 +413,7 @@ class CheckListCollection
                     " => MESSAGE => " . $e->getMessage() . " "
             );
         }
-        
+
         return $returnResponse;
     }
 
@@ -447,9 +451,9 @@ class CheckListCollection
                 // delete
 
                 $url = $this->checkListDeleteApiUrl;
-                
+
                 $returnData = $this->postRequest($url, ['c_id' => $request->get('c_id')]);
-          
+
                 if (isset($returnData["success"]) && $returnData["success"] == "true") {
 
                     $returnResponse["success"] = "true";
@@ -459,7 +463,7 @@ class CheckListCollection
 
                     $returnResponse["error"] = "true";
                     $returnResponse["message"] = "Delete unsuccessfull";
-                    
+
                 }
 
             }
@@ -530,7 +534,7 @@ class CheckListCollection
         $taskResource = new TaskResource();
 
         $resource = array_map(
-            
+
             function ($item) use ($taskResource) {
 
                 $status = false;
@@ -561,7 +565,7 @@ class CheckListCollection
                         $item['task_title_original'] =  $taskResponse["title"];
 
                         $item['task_title'] =  '<a class="btn-link" href="' . route(__('job.task_view_url'), (int) $taskResponse['task_id']) . '">' . mb_strimwidth($taskResponse['title'], 0, 50, "...") . '</a>';
-                        
+
                     }
 
                 }
@@ -578,8 +582,8 @@ class CheckListCollection
 
                 }
 
-                $item['status'] = $status; 
-                
+                $item['status'] = $status;
+
                 $item['job_id']   = isset($item['job_id'])? $item['job_id']:'';
                 $item['remarks']   = isset($item['remarks']) ? $item['remarks'] : '';
                 $item['location']   = isset($item['location']) ? $item['location'] : '';
@@ -618,7 +622,7 @@ class CheckListCollection
                 return $item;
 
             },
-            
+
             $items
         );
 

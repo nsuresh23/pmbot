@@ -52,6 +52,7 @@ function getCheckListTableList(gridSelector) {
     var editUrl = $(gridSelector).attr('data-edit-url');
     var deleteUrl = $(gridSelector).attr('data-delete-url');
     var readOnlyUser = $('#currentUserInfo').attr('data-read-only-user');
+    var pageSize = $('#currentUserInfo').attr('data-page-size');
 
     var insertControlVisible = true;
     var editControlVisible = false;
@@ -75,127 +76,6 @@ function getCheckListTableList(gridSelector) {
 
     insertControlVisible = false;
 
-    // controlVisible = false;
-
-    if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
-
-        $(gridSelector).jsGrid({
-
-            height: "450px",
-            width: "100%",
-
-            filtering: false,
-            inserting: insertControlVisible,
-            editing: editControlVisible,
-            sorting: true,
-            paging: false,
-            autoload: true,
-
-            pageSize: 10,
-            pageButtonCount: 5,
-
-            // deleteConfirm: "Do you really want to delete the client?",
-
-            confirmDeleting: false,
-
-            noDataContent: "No data",
-
-            loadIndication: true,
-            // loadIndicationDelay: 500,
-            loadMessage: "Please, wait...",
-            loadShading: true,
-
-            invalidNotify: function(args) {
-
-                $('#alert-error-not-submit').removeClass('hidden');
-
-            },
-
-            controller: {
-
-                loadData: function(filter) {
-
-                    if (gridType == 'jobDetail' && gridCategory == 'job') {
-
-                        return $.grep(dbClients, function(client) {
-                            return (!filter.title || (client.title != undefined && client.title != null && (client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1))) &&
-                                (!filter.task_title || (client.task_title != undefined && client.task_title != null && (client.task_title.toLowerCase().indexOf(filter.task_title.toLowerCase()) > -1))) &&
-                                (!filter.empcode || (client.empcode != undefined && client.empcode != null && (client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1)));
-                        });
-
-                    } else {
-
-                        return $.grep(dbClients, function(client) {
-
-                            return (!filter.title || (client.title != undefined && client.title != null && (client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1))) &&
-                                (!filter.location || (client.location != undefined && client.location != null && (client.location.toLowerCase().indexOf(filter.location.toLowerCase()) > -1))) &&
-                                (!filter.empcode || (client.empcode != undefined && client.empcode != null && (client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1)));
-                        });
-
-                    }
-                }
-            },
-
-            rowClick: function(args) {
-
-                $(gridSelector).jsGrid("cancelEdit");
-
-            },
-
-            onItemInserting: function(args, value) {
-
-                if (itemEmptyOrExistsCheck(gridSelector, 'name', args.item.name)) {
-
-                    addItem(args, addUrl, gridSelector);
-
-                } else {
-
-                    args.cancel = true;
-
-                }
-
-            },
-
-            onItemUpdating: function(args) {
-
-                editItem(args, editUrl, gridSelector);
-
-                return false;
-
-            },
-
-            onItemDeleting: function(args) {
-
-                if (!args.item.deleteConfirmed) { // custom property for confirmation
-
-                    args.cancel = true; // cancel deleting
-
-                    $.MessageBox({
-
-                        buttonDone: "Yes",
-                        buttonFail: "No",
-                        message: "Are You Sure?"
-
-                    }).done(function() {
-
-                        deleteItem(args, deleteUrl, gridSelector);
-
-                    }).fail(function() {
-
-                        return false;
-
-                    });
-
-                }
-
-            },
-
-            // onDataLoading: loadGridItem(listUrl),
-
-        });
-
-    }
-
     var field = [];
 
     field.push({
@@ -205,6 +85,7 @@ function getCheckListTableList(gridSelector) {
         inserting: false,
         filtering: false,
         editing: false,
+        sorting: false,
         width: 50
     });
 
@@ -280,7 +161,248 @@ function getCheckListTableList(gridSelector) {
         }
     });
 
-    $(gridSelector).jsGrid("option", "fields", field);
+    // controlVisible = false;
+
+    if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
+
+        $(gridSelector).jsGrid({
+
+            height: "450px",
+            width: "100%",
+            autowidth: true,
+            editing: editControlVisible,
+            inserting: insertControlVisible,
+            filtering: false,
+            sorting: true,
+            autoload: true,
+            paging: true,
+            pageLoading: true,
+            pageSize: pageSize,
+            pageIndex: 1,
+            pageButtonCount: 5,
+
+            confirmDeleting: false,
+
+            noDataContent: "No data",
+
+            invalidNotify: function(args) {
+
+                $('#alert-error-not-submit').removeClass('hidden');
+
+            },
+
+            loadIndication: true,
+            // loadIndicationDelay: 500,
+            loadMessage: "Please, wait...",
+            loadShading: true,
+
+            fields: field,
+
+            onInit: function(args) {
+
+                this._resetPager();
+
+            },
+
+            search: function(filter) {
+
+                this._resetPager();
+                return this.loadData(filter);
+
+            },
+
+            // onPageChanged: function(args) {
+
+            //     $('html, body').animate({
+            //         scrollTop: $("#userGrid").offset().top - 140
+            //     }, 0);
+
+            // },
+
+            controller: {
+
+                loadData: function(filter) {
+
+                    var d = $.Deferred();
+
+                    var checkListPostData = {};
+
+                    checkListPostData.filter = filter;
+
+                    $(gridSelector).parent().prev().find('.result-count').html('');
+
+                    if (type != undefined && type != '') {
+
+                        checkListPostData.type = type;
+
+                    }
+
+                    if (gridType == 'jobDetail') {
+
+                        if (jobId != undefined && jobId != '') {
+
+                            checkListPostData.job_id = jobId;
+
+                        }
+
+                        // if (gridCategory != undefined && gridCategory) {
+
+                        //     checkListPostData.category = gridCategory;
+
+                        //     if (jobId != undefined && jobId != '') {
+
+                        //         checkListPostData.job_id = jobId;
+
+                        //     }
+
+                        // }
+
+                    }
+
+                    /* AJAX call to get list */
+                    $.ajax({
+
+                        url: listUrl,
+                        data: checkListPostData,
+                        dataType: "json"
+
+                    }).done(function(response) {
+
+                        var dataResult = {};
+                        dataResult.data = '';
+
+                        if (response.success == "true") {
+
+                            if (response.data != "") {
+
+                                response.data = formatDataItem(response.data);
+
+                                dbClients = response.data;
+
+                                dataResult.data = response.data;
+                                dataResult.itemsCount = response.result_count;
+
+                                d.resolve(dataResult);
+
+                                // $(gridSelector).jsGrid("option", "data", response.data);
+
+                                $('.jsgrid-grid-body').slimscroll({
+                                    height: '300px',
+                                });
+
+                                if ('result_count' in response) {
+
+                                    $(gridSelector).parent().prev().find('.result-count').html('(' + response.result_count + ')');
+                                    // $(gridSelector).parent().prev().find('.result-count').addClass('result-count-icon-badge');
+
+                                } else {
+
+                                    $(gridSelector).parent().prev().find('.result-count').html('');
+                                    // $(gridSelector).parent().prev().find('.result-count').removeClass('result-count-icon-badge');
+
+                                }
+
+
+                            } else {
+
+                                $(gridSelector).parent().prev().find('.result-count').html('');
+                                // $(gridSelector).parent().prev().find('.result-count').removeClass('result-count-icon-badge');
+
+                                d.resolve(dataResult);
+
+                            }
+
+                        } else {
+
+                            d.resolve(dataResult);
+
+                        }
+
+                    });
+
+                    return d.promise();
+
+                    // if (gridType == 'jobDetail' && gridCategory == 'job') {
+
+                    //     return $.grep(dbClients, function(client) {
+                    //         return (!filter.title || (client.title != undefined && client.title != null && (client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1))) &&
+                    //             (!filter.task_title || (client.task_title != undefined && client.task_title != null && (client.task_title.toLowerCase().indexOf(filter.task_title.toLowerCase()) > -1))) &&
+                    //             (!filter.empcode || (client.empcode != undefined && client.empcode != null && (client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1)));
+                    //     });
+
+                    // } else {
+
+                    //     return $.grep(dbClients, function(client) {
+
+                    //         return (!filter.title || (client.title != undefined && client.title != null && (client.title.toLowerCase().indexOf(filter.title.toLowerCase()) > -1))) &&
+                    //             (!filter.location || (client.location != undefined && client.location != null && (client.location.toLowerCase().indexOf(filter.location.toLowerCase()) > -1))) &&
+                    //             (!filter.empcode || (client.empcode != undefined && client.empcode != null && (client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1)));
+                    //     });
+
+                    // }
+
+                }
+            },
+
+            rowClick: function(args) {
+
+                $(gridSelector).jsGrid("cancelEdit");
+
+            },
+
+            onItemInserting: function(args, value) {
+
+                if (itemEmptyOrExistsCheck(gridSelector, 'name', args.item.name)) {
+
+                    addItem(args, addUrl, gridSelector);
+
+                } else {
+
+                    args.cancel = true;
+
+                }
+
+            },
+
+            onItemUpdating: function(args) {
+
+                editItem(args, editUrl, gridSelector);
+
+                return false;
+
+            },
+
+            onItemDeleting: function(args) {
+
+                if (!args.item.deleteConfirmed) { // custom property for confirmation
+
+                    args.cancel = true; // cancel deleting
+
+                    $.MessageBox({
+
+                        buttonDone: "Yes",
+                        buttonFail: "No",
+                        message: "Are You Sure?"
+
+                    }).done(function() {
+
+                        deleteItem(args, deleteUrl, gridSelector);
+
+                    }).fail(function() {
+
+                        return false;
+
+                    });
+
+                }
+
+            },
+
+            // onDataLoading: loadGridItem(listUrl),
+
+        });
+
+    }
 
     $(gridSelector).jsGrid("option", "editItem", function(item) {
 
@@ -320,113 +442,6 @@ function getCheckListTableList(gridSelector) {
         // }
 
     });
-
-
-    var checkListPostData = {};
-
-    $(gridSelector).parent().prev().find('.result-count').html('');
-
-    if (type != undefined && type != '') {
-
-        checkListPostData.type = type;
-
-    }
-
-    if (gridType == 'jobDetail') {
-
-        if (jobId != undefined && jobId != '') {
-
-            checkListPostData.job_id = jobId;
-
-        }
-
-        // if (gridCategory != undefined && gridCategory) {
-
-        //     checkListPostData.category = gridCategory;
-
-        //     if (jobId != undefined && jobId != '') {
-
-        //         checkListPostData.job_id = jobId;
-
-        //     }
-
-        // }
-
-    }
-
-    /* AJAX call to get list */
-    $.ajax({
-
-        url: listUrl,
-        data: checkListPostData,
-        dataType: "json"
-
-    }).done(function(response) {
-
-        if (response.success == "true") {
-
-            if (response.data != "") {
-
-                response.data = formatDataItem(response.data);
-
-                dbClients = response.data;
-
-                $(gridSelector).jsGrid("option", "data", response.data);
-
-                $('.jsgrid-grid-body').slimscroll({
-                    height: '300px',
-                });
-
-                if ('result_count' in response) {
-
-                    $(gridSelector).parent().prev().find('.result-count').html('(' + response.result_count + ')');
-                    // $(gridSelector).parent().prev().find('.result-count').addClass('result-count-icon-badge');
-
-                } else {
-
-                    $(gridSelector).parent().prev().find('.result-count').html('');
-                    // $(gridSelector).parent().prev().find('.result-count').removeClass('result-count-icon-badge');
-
-                }
-
-
-            } else {
-
-                $(gridSelector).parent().prev().find('.result-count').html('');
-                // $(gridSelector).parent().prev().find('.result-count').removeClass('result-count-icon-badge');
-
-            }
-
-        }
-
-    });
-
-    function loadGridItem(getUrl) {
-
-        /* AJAX call to get grid data */
-        $.ajax({
-
-            url: getUrl,
-            dataType: "json"
-
-        }).done(function(response) {
-
-            if (response.success == "true") {
-
-                if (response.data != "") {
-
-                    response.data = formatDataItem(response.data);
-
-                    dbClients = response.data;
-
-                    $(gridSelector).jsGrid("option", "data", response.data);
-
-                }
-
-            }
-
-        });
-    }
 
     function addItem(args, addUrl, gridSelector) {
 
@@ -695,6 +710,9 @@ $("#checkListTab").on("click", function() {
     getCheckListTableList(".taskCheckList");
 
     setTimeout(() => {
+
+        console.log("checklisteeee");
+
 
         getCheckListTableList(".emailCheckList");
 

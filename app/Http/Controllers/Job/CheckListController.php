@@ -69,13 +69,48 @@ class CheckListController extends Controller
                 $field["job_id"] = $request->job_id;
             }
 
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    // "subject_link" => "subject"
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if (isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+                    }
+                }
+
+                $field["filter"] = $filterData;
+
+            }
+
             $returnResponse = $this->checkListResource->getAllCheckList($field);
 
             // if (count($field) > 0) {
 
             //     $returnResponse = $this->checkListResource->getCheckListByField($field);
             // }
-            
+
         } catch (Exception $e) {
 
             $returnResponse["success"] = "false";
@@ -88,7 +123,7 @@ class CheckListController extends Controller
                     " => LINE => " . __LINE__ . " => " .
                     " => MESSAGE => " . $e->getMessage() . " "
             );
-            
+
         }
 
         if ($request->ajax()) {
@@ -141,9 +176,9 @@ class CheckListController extends Controller
 
                     $jobInfo = cache($returnData["job_id"]);
 
-                    $returnData["job_stage"] =  isset($jobInfo["data"]["stage"])? $jobInfo["data"]["stage"] : "";                    
+                    $returnData["job_stage"] =  isset($jobInfo["data"]["stage"])? $jobInfo["data"]["stage"] : "";
 
-                } 
+                }
 
             }
 
@@ -226,23 +261,23 @@ class CheckListController extends Controller
                 $returnData["redirectTo"] = $request->redirectTo;
             }
 
-            
+
             if ($request->id != "") {
-                
+
                 $field = [];
-                
+
                 $field["c_id"] = $request->id;
 
                 $type = __("job.global_check_list_text");
-                
+
                 if ($request->job_id != "") {
-                    
+
                     $type = __("job.job_check_list_text");
-                    
+
                     $field["job_id"] = $request->job_id;
-                    
+
                 }
-                
+
                 $returnData["data"] = $this->checkListResource->getCheckList($field);
 
                 $checklistTaskField = [];
@@ -250,7 +285,7 @@ class CheckListController extends Controller
                 if(isset($returnData["data"]["type"]) && $returnData["data"]["type"]) {
 
                     $checklistTaskField["category"] = $returnData["data"]["type"];
-                    
+
                 }
 
                 if (isset($returnData["data"]["job_id"]) && $returnData["data"]["job_id"]) {
@@ -267,14 +302,14 @@ class CheckListController extends Controller
                 if ($request->job_id == "") {
 
                     if (isset($returnData["data"]["workflow_version"]) && $returnData["data"]["workflow_version"]) {
-                    
+
                         $returnData["task_list"] = $this->taskResource->getWorkflowTasks(["workflow_id" => $returnData["data"]["workflow_version"]]);
 
                     }
 
                 }
                 $returnData["location_list"] = Config::get('constants.locationList');
-                $returnData["status_list"] = Config::get('constants.jobCheckListStatus');  
+                $returnData["status_list"] = Config::get('constants.jobCheckListStatus');
                 // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($returnData);echo '<PRE/>';exit;
                 $returnData["data"]["notificationReadUrl"] = route(__("job.notification_read_url"), $request->id) . "?type=".$type;
 
@@ -426,7 +461,7 @@ class CheckListController extends Controller
                     " => LINE => " . __LINE__ . " => " .
                     " => MESSAGE => " . $e->getMessage() . " "
             );
-            
+
         }
 
         return view('pages.job.checkList.checkList', compact("returnData"));
@@ -444,7 +479,7 @@ class CheckListController extends Controller
         $redirectRouteAction = "Job\CheckListController@checkList";
 
         try {
-            
+
             $request->merge(['empcode' => $request->user()->empcode]);
             $request->merge(['empname' => $request->user()->empname]);
             $request->merge(['workflow_type' => __("job.hap_text")]);
@@ -453,7 +488,7 @@ class CheckListController extends Controller
             if ($request->redirectTo != __("job.job_detail_url")) {
 
                 $redirectRouteAction = $this->roleBasedDashboardRouteAction($request);
-            
+
             }
 
             // if ($request->redirectTo) {
@@ -547,7 +582,7 @@ class CheckListController extends Controller
             if ($request->redirectTo != __("job.job_detail_url")) {
 
                 $redirectRouteAction = $this->roleBasedDashboardRouteAction($request);
-            
+
             }
 
             $request->merge(['empcode' => auth()->user()->empcode]);
@@ -564,7 +599,7 @@ class CheckListController extends Controller
                 }
 
             }
-            
+
             $returnResponse = $this->checkListResource->checkListEdit($request);
 
         } catch (Exeception $e) {
@@ -585,7 +620,7 @@ class CheckListController extends Controller
         $redirectUrl = redirect()->action($redirectRouteAction);
 
         if ($request->redirectTo == __("job.job_detail_url") && $request->job_id) {
-            
+
             $redirectUrl = redirect()->route($request->redirectTo, $request->job_id);
 
         }
@@ -633,7 +668,7 @@ class CheckListController extends Controller
                         $request->merge(['creator_empcode' => session()->get("current_empcode")]);
 
                     }
-                    
+
                 }
 
                 $returnResponse = $this->checkListResource->checkListDelete($request);

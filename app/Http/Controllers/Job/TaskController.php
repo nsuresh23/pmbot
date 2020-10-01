@@ -59,6 +59,44 @@ class TaskController extends Controller
 
             $field = [];
 
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    "book_job_id" => "womat_job_id",
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if(isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+
+                    }
+
+                }
+
+                $field["filter"] = $filterData;
+
+            }
+
             if(!in_array(auth()->user()->role, Config::get('constants.nonStakeHolderUserRoles'))) {
 
                 $field["assignedto_empcode"] = auth()->user()->empcode;
@@ -114,6 +152,44 @@ class TaskController extends Controller
 
             $returnResponse = [];
 
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    "book_job_id" => "womat_job_id",
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if(isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+
+                    }
+
+                }
+
+                $field["filter"] = $filterData;
+
+            }
+
             if ($request->job_id && $request->job_id != "") {
 
                 $field["job_id"] = $request->job_id;
@@ -163,6 +239,44 @@ class TaskController extends Controller
             $returnResponse = [];
 
             $taskTypeList = [];
+
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    "book_job_id" => "womat_job_id",
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if(isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+
+                    }
+
+                }
+
+                $field["filter"] = $filterData;
+
+            }
 
             if($request->task_date){
 
@@ -222,6 +336,44 @@ class TaskController extends Controller
 
             $taskTypeList = [];
 
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    "book_job_id" => "womat_job_id",
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if(isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+
+                    }
+
+                }
+
+                $field["filter"] = $filterData;
+
+            }
+
             $taskTypeList = Config::get('constants.taskType');
 
             if (isset($taskTypeList["task"]) && $taskTypeList["task"] != "") {
@@ -268,6 +420,44 @@ class TaskController extends Controller
             $returnResponse = [];
 
             $taskTypeList = [];
+
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    "book_job_id" => "womat_job_id",
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if(isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+
+                    }
+
+                }
+
+                $field["filter"] = $filterData;
+
+            }
 
             $taskTypeList = Config::get('constants.taskType');
 
@@ -321,6 +511,44 @@ class TaskController extends Controller
             $returnResponse = [];
 
             $taskTypeList = [];
+
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    "book_job_id" => "womat_job_id",
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if(isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+
+                    }
+
+                }
+
+                $field["filter"] = $filterData;
+
+            }
 
             $taskTypeList = Config::get('constants.taskType');
 

@@ -7,69 +7,9 @@ $(function() {
         var currentUserId = $(gridSelector).attr('data-current-user-id');
         var listUrl = $(gridSelector).attr('data-list-url');
         var currentRoute = $(gridSelector).attr('data-current-route');
+        var pageSize = $('#currentUserInfo').attr('data-page-size');
 
         var dbClients = "";
-
-        if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
-
-            $(gridSelector).jsGrid({
-
-                height: "450px",
-                width: "100%",
-
-                filtering: false,
-                inserting: false,
-                editing: false,
-                sorting: true,
-                paging: false,
-                autoload: false,
-
-                pageSize: 10,
-                pageButtonCount: 5,
-
-                // deleteConfirm: "Do you really want to delete the client?",
-
-                confirmDeleting: false,
-
-                noDataContent: "No data",
-
-                invalidNotify: function(args) {
-
-                    $('#alert-error-not-submit').removeClass('hidden');
-
-                },
-
-                loadIndication: true,
-                // loadIndicationDelay: 500,
-                loadMessage: "Please, wait...",
-                loadShading: true,
-
-                controller: {
-
-                    loadData: function(filter) {
-
-                        return $.grep(dbClients, function(client) {
-                            return (!filter.email || (client.email != undefined && client.email != null && (client.email.toLowerCase().indexOf(filter.email.toLowerCase()) > -1))) &&
-                                (!filter.role || (client.role != undefined && client.role != null && (client.role.toLowerCase().indexOf(filter.role.toLowerCase()) > -1)));
-                        });
-
-                    }
-                },
-
-
-                rowClass: function(item, itemIndex) {
-
-                },
-
-                rowClick: function(args) {
-
-                    $(gridSelector).jsGrid("cancelEdit");
-
-                },
-
-            });
-
-        }
 
         var field = [];
 
@@ -86,6 +26,12 @@ $(function() {
         field.push({
             title: "Email",
             name: "email",
+            type: "text",
+        });
+
+        field.push({
+            title: "EMPCODE",
+            name: "spi_empcode",
             type: "text",
         });
 
@@ -108,40 +54,167 @@ $(function() {
             // width: 10,
         });
 
-        $(gridSelector).jsGrid("option", "fields", field);
+        // if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
 
-        var memberListPostData = {};
+        $(gridSelector).jsGrid({
 
-        // if (currentUserId != undefined && currentUserId != '') {
+            height: "450px",
+            width: "100%",
+            autowidth: true,
+            editing: false,
+            inserting: false,
+            filtering: false,
+            sorting: true,
+            autoload: true,
+            paging: true,
+            pageLoading: true,
+            pageSize: pageSize,
+            pageIndex: 1,
+            pageButtonCount: 5,
 
-        //     memberListPostData.empcode = currentUserId;
+            confirmDeleting: false,
 
-        // }
+            noDataContent: "No data",
 
-        /* AJAX call to get list */
-        $.ajax({
+            invalidNotify: function(args) {
 
-            url: listUrl,
-            data: memberListPostData,
-            dataType: "json"
+                $('#alert-error-not-submit').removeClass('hidden');
 
-        }).done(function(response) {
+            },
 
-            if (response.success == "true") {
+            loadIndication: true,
+            // loadIndicationDelay: 500,
+            loadMessage: "Please, wait...",
+            loadShading: true,
 
-                response.data = formatDataItem(response.data);
+            fields: field,
 
-                dbClients = response.data;
+            onInit: function(args) {
 
-                $(gridSelector).jsGrid("option", "data", response.data);
+                this._resetPager();
 
-                $('.jsgrid-grid-body').slimscroll({
-                    height: '300px',
-                });
+            },
 
-            }
+            search: function(filter) {
+
+                this._resetPager();
+                return this.loadData(filter);
+
+            },
+
+            onPageChanged: function(args) {
+
+                $('html, body').animate({
+                    scrollTop: $(".membersGrid").offset().top - 140
+                }, 0);
+
+            },
+
+            controller: {
+
+                loadData: function(filter) {
+
+                    $('.members-count').html('');
+
+                    var d = $.Deferred();
+
+                    var memberListPostData = {};
+
+                    memberListPostData.filter = filter;
+
+                    // if (currentUserId != undefined && currentUserId != '') {
+
+                    //     memberListPostData.empcode = currentUserId;
+
+                    // }
+
+                    /* AJAX call to get list */
+                    $.ajax({
+
+                        url: listUrl,
+                        data: memberListPostData,
+                        dataType: "json"
+
+                    }).done(function(response) {
+
+                        if (response.success == "true") {
+
+                            if (response.data != '') {
+
+                                response.data = formatDataItem(response.data);
+
+                                dbClients = response.data;
+
+                                var dataResult = {
+                                    data: response.data,
+                                    itemsCount: response.result_count,
+                                };
+
+                                d.resolve(dataResult);
+
+                                // $(gridSelector).jsGrid("option", "data", response.data);
+
+                                $('.jsgrid-grid-body').slimscroll({
+                                    height: '300px',
+                                });
+
+                                if ('result_count' in response) {
+
+                                    var resultCount = response.result_count;
+
+                                    if (parseInt(resultCount) != NaN && parseInt(resultCount) > 0) {
+
+                                        if (parseInt(resultCount) > 99999) {
+
+                                            resultCount = '99999+'
+
+                                        }
+
+                                        $('.members-count').html('(' + resultCount + ')');
+
+                                    }
+
+
+                                }
+
+                            } else {
+
+                                d.resolve(dataResult);
+
+                            }
+
+                        } else {
+
+                            d.resolve(dataResult);
+
+                        }
+
+                    });
+
+                    return d.promise();
+
+                    // return $.grep(dbClients, function(client) {
+                    //     return (!filter.email || (client.email != undefined && client.email != null && (client.email.toLowerCase().indexOf(filter.email.toLowerCase()) > -1))) &&
+                    //         (!filter.role || (client.role != undefined && client.role != null && (client.role.toLowerCase().indexOf(filter.role.toLowerCase()) > -1)));
+                    // });
+
+                }
+            },
+
+
+            rowClass: function(item, itemIndex) {
+
+            },
+
+            rowClick: function(args) {
+
+                $(gridSelector).jsGrid("cancelEdit");
+
+            },
 
         });
+
+        // }
 
         function formatDataItem(dataValue) {
 
