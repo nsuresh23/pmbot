@@ -29,6 +29,10 @@
                             <textarea class="form-control" rows="5" id="event-calendar-link" class="event-calendar-link" name="calendar_link"></textarea>
                         </div>
                         <div class="form-group mb-0">
+                            <span class="pull-left">
+                                For more help please click
+                                <a href="{{route('file') . Config::get('constants.emailImageDownloadPathParams') .'GENERIC/calendar_events.mp4'}}"> here </a>
+                            </span>
                             <button type="button" class="event-calendar-save-btn btn btn-success btn-anim pull-right">
                                 <i class="fa fa-check"></i>
                                 <span class="btn-text">save</span>
