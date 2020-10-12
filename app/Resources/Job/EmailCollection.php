@@ -40,6 +40,7 @@ class EmailCollection
     protected $jobEmailStatusUpdateUrl;
 	protected $signatureupdateApiUrl;
 	protected $getsignatureApiUrl;
+    protected $emailSentCountApiUrl;
 
     public function __construct()
     {
@@ -61,7 +62,8 @@ class EmailCollection
         $this->emailStatusUpdateUrl     = env("API_EMAIL_STATUS_UPDATE_URL");
         $this->jobEmailStatusUpdateUrl  = env("API_JOB_EMAIL_STATUS_UPDATE_URL");
 		$this->signatureupdateApiUrl    = env('API_SIGNATURE_UPDATE_URL');
-		$this->getsignatureApiUrl       = env('API_GET_SIGNATURE_URL');
+        $this->getsignatureApiUrl       = env('API_GET_SIGNATURE_URL');
+        $this->emailSentCountApiUrl     = env('API_EMAIL_SENT_COUNT_URL');
     }
 
     /**
@@ -511,6 +513,62 @@ class EmailCollection
         return $returnResponse;
     }
 
+    /**
+     * Get the email rules labels.
+     *
+     * @return array $returnData
+     */
+    public function emailSentCount($request)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // $userData = User::all();
+
+            $url = $this->emailSentCountApiUrl;
+
+            $params = ["empcode" => auth()->user()->empcode, "ipaddress" => $request->ip()];
+
+            $returnData = $this->postRequest($url, $params);
+
+            if (is_array($returnData) && count($returnData) > 0 && isset($returnData["success"]) && $returnData["success"]== "true") {
+
+                $returnResponse["success"] = "true";
+
+                if (isset($returnData["data"]) && is_array($returnData["data"]) && count($returnData["data"]) > 0 && $returnData["data"] != "") {
+
+                    // $responseData = $this->emailLabelsFormatData($returnData["data"]);
+
+                    $returnResponse["data"] = $returnData["data"];
+
+                }
+
+            }
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+
+            $returnResponse["error"] = "true";
+
+            $returnResponse["message"] = $e->getMessage();
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
 
     /**
      * Get the email list by email field array.

@@ -49,6 +49,37 @@
 
         $nonBusinessEmailLabels = $returnResponse['label_list'];
 
+        $emailOutboxCount = $emailOutboxWIPCount = $emailSentCount = $emailHoldCount = "0";
+
+        if(isset($returnResponse['email_sent_count']) && is_array($returnResponse['email_sent_count']) && count($returnResponse['email_sent_count']) > 0 ) {
+
+            if(isset($returnResponse['email_sent_count']["outbox_count"]) && $returnResponse['email_sent_count']["outbox_count"] != "") {
+
+                $emailOutboxCount = $returnResponse['email_sent_count']["outbox_count"];
+
+            }
+
+            if(isset($returnResponse['email_sent_count']["outbox_wip_count"]) && $returnResponse['email_sent_count']["outbox_wip_count"] != "") {
+
+                $emailOutboxWIPCount = $returnResponse['email_sent_count']["outbox_wip_count"];
+
+            }
+
+            if(isset($returnResponse['email_sent_count']["sent_count"]) && $returnResponse['email_sent_count']["sent_count"] != "") {
+
+                $emailSentCount = $returnResponse['email_sent_count']["sent_count"];
+
+            }
+
+            if(isset($returnResponse['email_sent_count']["hold_count"]) && $returnResponse['email_sent_count']["hold_count"] != "")
+            {
+
+                $emailHoldCount = $returnResponse['email_sent_count']["hold_count"];
+
+            }
+
+        }
+
 		$redirectTo = __("dashboard.dashboard_url");
 
         // $redirectToDashboard = isset($returnResponse['redirectToDashboard'])?'true':'false';

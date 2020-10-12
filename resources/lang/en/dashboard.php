@@ -112,4 +112,8 @@ return [
     'production_team_text' => 'production',
     'packing_team_label' => 'Packing',
     'packing_team_text' => 'packing',
+    'email_outbox_count_tooltip' => 'outbox email',
+    'email_outbox_wip_count_tooltip' => 'outbox wip email',
+    'email_sent_count_tooltip' => 'sent email',
+    'email_hold_count_tooltip' => 'hold email',
 ];

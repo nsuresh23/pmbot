@@ -110,6 +110,14 @@ class DashboardController extends Controller
 
             }
 
+            $emailSentCountData = $this->emailResource->emailSentCount($request);
+
+            if (is_array($emailSentCountData) && isset($emailSentCountData["success"]) && $emailSentCountData["success"] == "true") {
+
+                $returnResponse["email_sent_count"] = $emailSentCountData["data"];
+
+            }
+
         } catch (Exception $e) {
 
             $returnResponse["success"] = "false";

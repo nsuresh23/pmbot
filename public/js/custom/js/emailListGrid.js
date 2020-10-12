@@ -80,7 +80,7 @@ function getEmailTableList(gridSelector) {
     //     visible: false,
     // });
 
-    if (gridEmailFilter != undefined && gridEmailFilter != '' && gridEmailFilter == 'sent') {
+    if (gridEmailFilter != undefined && gridEmailFilter != '' && (gridEmailFilter == 'outbox' || gridEmailFilter == 'outboxwip' || gridEmailFilter == 'sent' || gridEmailFilter == 'hold')) {
         field.push({
             title: "TO",
             name: "email_to",
@@ -360,6 +360,36 @@ function getEmailTableList(gridSelector) {
                         }
 
                         emailListPostData.type = 'generic';
+
+                    }
+
+                    if (gridCategory == 'emailSentCount') {
+
+                        emailListPostData.type = '';
+
+                        if (emailFilter == 'outbox') {
+
+                            status = ['5'];
+
+                        }
+
+                        if (emailFilter == 'outboxwip') {
+
+                            status = ['55'];
+
+                        }
+
+                        if (emailFilter == 'sent') {
+
+                            status = ['6'];
+
+                        }
+
+                        if (emailFilter == 'hold') {
+
+                            status = ['99'];
+
+                        }
 
                     }
 
@@ -1788,6 +1818,45 @@ $(document).on('click', '.job-draft-email', function() {
     $(this).closest('li').addClass('active');
     $('.email-list-body').show();
     $('.email-detail-body').hide();
+
+});
+
+$(document).on('click', '.dashboard-email-sent-count-btn', function(e) {
+
+    e.preventDefault(false);
+
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var modalTitle = $(this).attr('data-grid-title');
+
+    var emailFilter = $(this).attr('data-email-filter');
+
+    var emailCount = $(this).attr('data-count');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (emailCount != undefined && emailCount != "0") {
+
+        if (modalTitle != undefined && modalTitle != "") {
+
+            $('.dashboard-email-sent-count-modal-title').html(modalTitle);
+
+        }
+
+        if (dataUrl != undefined && dataUrl != "" && emailFilter != undefined && emailFilter != "") {
+
+            $(gridSelector).attr('data-email-filter', emailFilter);
+
+            $(gridSelector).attr('data-email-label', '');
+
+            getEmailTableList(gridSelector);
+
+        }
+
+        $('.email-list-body').show();
+        $('.email-detail-body').hide();
+
+    }
 
 });
 

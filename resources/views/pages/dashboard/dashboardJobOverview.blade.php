@@ -31,6 +31,26 @@
 
         <div class="pull-right">
 
+            <?php if(in_array(auth()->user()->role, Config::get('constants.pmUserRoles'))) { ?>
+
+            <a class="pull-left inline-block btn btn-primary dashboard-email-sent-count-btn mr-5 {{ $emailOutboxCount == '0' ? 'disabled' : ''}}" href="#sentEmailModal" data-toggle="modal" title="{{ __("dashboard.email_outbox_count_tooltip") }}" data-grid-selector="emailSentCountGrid" data-grid-title="outbox email" data-count="{{ $emailOutboxCount ?? '0' }}" data-email-filter="outbox">
+                    <span class="text-dark">{{ $emailOutboxCount ?? '0' }}</span>
+                </a>
+                <a class="pull-left inline-block btn btn-warning dashboard-email-sent-count-btn mr-5 {{ $emailOutboxWIPCount == '0' ? 'disabled' : ''}}" href="#sentEmailModal" data-toggle="modal" title="{{ __("dashboard.email_outbox_wip_count_tooltip") }}" data-grid-selector="emailSentCountGrid" data-grid-title="outbox wip email" data-count="{{ $emailOutboxWIPCount ?? '0' }}" data-email-filter="outboxwip">
+                    <span class="text-dark">{{ $emailOutboxWIPCount ?? '0' }}</span>
+                </a>
+                <a class="pull-left inline-block btn btn-success dashboard-email-sent-count-btn mr-5 {{ $emailSentCount == '0' ? 'disabled' : ''}}" href="#sentEmailModal" data-toggle="modal" title="{{ __("dashboard.email_sent_count_tooltip") }}" data-grid-selector="emailSentCountGrid" data-grid-title="sent email" data-count="{{ $emailSentCount ?? '0' }}" data-email-filter="sent">
+                    <span class="text-dark">{{ $emailSentCount ?? '0' }}</span>
+                </a>
+                <a class="pull-left inline-block btn btn-danger dashboard-email-sent-count-btn mr-5 {{ $emailHoldCount == '0' ? 'disabled' : ''}}" href="#sentEmailModal" data-toggle="modal" title="{{ __("dashboard.email_hold_count_tooltip") }}" data-grid-selector="emailSentCountGrid" data-grid-title="hold email" data-count="{{ $emailHoldCount ?? '0' }}" data-email-filter="hold">
+                    <span class="text-dark">{{ $emailHoldCount ?? '0' }}</span>
+                </a>
+
+                @include('pages.dashboard.email.dashboardSentEmailModal')
+
+            <?php } ?>
+
+
             <?php if(isset($jobAddUrl) && $jobAddUrl != "") { ?>
 
                 <a class="pull-left inline-block btn btn-success new-job-btn mr-15" href="#newJobModal" data-toggle="modal"
