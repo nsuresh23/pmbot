@@ -1273,6 +1273,13 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
                         }
 
+                        if (response.data.status != undefined && response.data.status == '99') {
+
+                            $('.email-button-group').hide();
+                            $('.email-draftbutton-group').show();
+
+                        }
+
                         if (response.data.type != undefined && response.data.type == 'non_pmbot') {
 
                             $('.non-business-unmark-btn-block').show();
