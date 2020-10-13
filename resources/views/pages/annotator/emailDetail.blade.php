@@ -10,6 +10,82 @@
 <link href="{{ asset('public/assets/lib/css/annotator.touch.css') }}" rel="stylesheet"/>
 <link href="{{ asset('public/assets/select2/select2.min.css') }}" rel="stylesheet"/>
 <link href="{{ asset('public/assets/src/css/jquery.toggleinput.css') }}" rel="stylesheet"/>
+<style>
+
+    .attachment-block {
+        padding-right: 10px;
+        padding-left: 10px;
+        margin-right: auto;
+        margin-left: auto;
+        background: none;
+    }
+
+    .download-blocks {
+        margin-bottom: 10px !important;
+        color: #878787;
+    }
+
+    .attachment-mail ul {
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .attachment-mail li {
+        display: inline-block;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    .attachment-mail li .attached-img-container {
+        width: 120px;
+        height: 120px;
+        display: block;
+        background-position: center top;
+        background-size: cover;
+        margin-bottom: 10px;
+        border-radius: 2px;
+    }
+
+    .attachment-mail li:last-child {
+        margin-right: 0;
+    }
+
+    .email-attachment-item-block {
+        border: gray solid 1px;
+        padding: 0.3em;
+        pointer-events: visible;
+    }
+
+    .email-attachment-item-name {
+        vertical-align: top;
+        font-size: 0.8em;
+    }
+
+    .pr-10 {
+        padding-right: 10px !important;
+    }
+
+    .pr-15 {
+        padding-right: 15px !important;
+    }
+
+    .mb-10 {
+        margin-bottom: 10px !important;
+    }
+
+    .mb-0 {
+        margin-bottom: 0px !important;
+    }
+
+    .font-30 {
+        font-size: 30px !important;
+    }
+
+    .mr-5 {
+        margin-right: 5px !important;
+    }
+
+</style>
 @endpush
 
 @push('js')

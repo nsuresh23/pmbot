@@ -93,28 +93,121 @@ class ApiController extends Controller
             $loop_attach = '';
             $output .= '<div class="col-md-9">';
 
+
             foreach ($list as $k => $v) {
+
                 if ($list[$k]->attachments != '') {
-                    $attachment    = explode('|', base64_decode($list[$k]->attachments));
-                    foreach ($attachment as $attach) {
-                        if (!empty($attach)) {
-                            $ext = pathinfo($attach, PATHINFO_EXTENSION);
 
-                            $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-' . $this->getFileType($attach) . '-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
+                    if (isset($list[$k]->attachments) && $list[$k]->attachments && isset($list[$k]->email_path) && $list[$k]->email_path) {
 
-                            // if ($ext == 'docx' || $ext == 'doc') {
-                            //     $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-word-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
-                            // } else if ($ext == 'pdf') {
-                            //     $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-pdf-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
-                            // } else {
-                            //     $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-picture-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
-                            // }
+                        $emailAttachments = [];
+
+                        $emailAttachmentPath = $list[$k]->email_path;
+
+                        if (base64_decode($list[$k]->attachments, true)) {
+
+                            $list[$k]->attachments = base64_decode($list[$k]->attachments);
+                        }
+
+                        $emailAttachments = explode("|", $list[$k]->attachments);
+
+                        if (is_array($emailAttachments) && count($emailAttachments) > 0) {
+
+                            $emailAttachments = array_filter($emailAttachments, 'strlen');
+
+                            $emailAttachmentHtml = "";
+                            $emailAttachmentHtml .= '<div class="container-fluid attachment-block attachment-mail" style="display: block;">';
+                            $emailAttachmentHtml .= '<div class="download-blocks mb-10"> <span class="pr-15">';
+                            $emailAttachmentHtml .= '<i class="fa fa-paperclip pr-10"></i>';
+                            $emailAttachmentHtml .= '<span class="attachment-count">';
+                            $emailAttachmentHtml .= count($emailAttachments);
+                            $emailAttachmentHtml .= '</span> attachments</span>';
+                            $emailAttachmentHtml .= '</div>';
+                            $emailAttachmentHtml .= '<ul class="attachment-items mb-0">';
+
+                            array_walk(
+                                $emailAttachments,
+                                function ($item, $key) use ($emailAttachmentPath, &$emailAttachmentHtml, &$emailAttachments, &$emailForwardAttachmentList) {
+
+                                    try {
+
+                                        if ($item) {
+
+                                            $item_file = route('file') . Config::get('constants.emailImageDownloadPathParams');
+
+                                            $item_file .= $emailAttachmentPath . $item;
+                                            $item_name = $item;
+
+                                            $emailAttachmentHtml .= '<li class="mb-0">';
+                                            $emailAttachmentHtml .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email-attachment-item-block">';
+                                            $emailAttachmentHtml .= '<a href="';
+                                            $emailAttachmentHtml .= $item_file;
+                                            $emailAttachmentHtml .= '" title="';
+                                            $emailAttachmentHtml .= $item;
+                                            $emailAttachmentHtml .= '" class="atch-thumb">';
+                                            $emailAttachmentHtml .= '<span>';
+                                            $emailAttachmentHtml .= '<i class="font-30 mr-5 fa fa-file-';
+                                            $emailAttachmentHtml .= $this->getFileType($item_name);
+                                            $emailAttachmentHtml .= '-o"></i>';
+                                            $emailAttachmentHtml .= '</span>';
+                                            $emailAttachmentHtml .= '<span class="email-attachment-item-name ">';
+                                            $emailAttachmentHtml .= mb_strimwidth($item, 0, 25, "...");
+                                            $emailAttachmentHtml .= '</span>';
+                                            $emailAttachmentHtml .= '</a>';
+                                            $emailAttachmentHtml .= '</div>';
+                                            $emailAttachmentHtml .= '</li>';
+                                            $emailAttachments[$key] = ["attachment_name" => $item_name, "attachment_file" => $item_file];
+
+                                        } else {
+
+                                            unset($emailAttachments[$key]);
+
+                                        }
+
+                                    } catch (Exception $e) {
+
+                                        $this->error(
+                                            "app_error_log_" . date('Y-m-d'),
+                                            " => FILE => " . __FILE__ . " => " .
+                                            " => LINE => " . __LINE__ . " => " .
+                                            " => MESSAGE => " . $e->getMessage() . " "
+                                        );
+
+                                    }
+                                }
+
+                            );
+
+                            $emailAttachmentHtml .= '</ul>';
+                            $emailAttachmentHtml .= '</div>';
+
+                            $mailattachdnt         = $emailAttachmentHtml;
 
                         }
                     }
+
+                    // $attachment    = explode('|', base64_decode($list[$k]->attachments));
+                    // foreach ($attachment as $attach) {
+                    //     if (!empty($attach)) {
+
+                    //         $ext = pathinfo($attach, PATHINFO_EXTENSION);
+
+                    //         $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-' . $this->getFileType($attach) . '-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
+
+                    //         // if ($ext == 'docx' || $ext == 'doc') {
+                    //         //     $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-word-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
+                    //         // } else if ($ext == 'pdf') {
+                    //         //     $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-pdf-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
+                    //         // } else {
+                    //         //     $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-picture-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
+                    //         // }
+
+                    //     }
+                    // }
+
                 }
 
-                $mailattachdnt = '<div class="box-footer"><ul class="mailbox-attachments clearfix">' . $loop_attach . '</ul></div>';
+                // $mailattachdnt = '<div class="box-footer"><ul class="mailbox-attachments clearfix">' . $loop_attach . '</ul></div>';
                 $output .= '<script>document.getElementById("emailid").value=' . $list[$k]->id . ';</script>';
                 $output .= '<div class="emailid"><input type="hidden" id="emailid" name="emailid" value="' . $list[$k]->id . '" /></div>';
                 $output .= '<div class="question"><input type="hidden" id="rowcount" name="rowcount" value="1" /></div>';
@@ -212,7 +305,7 @@ class ApiController extends Controller
                 }
 
 
-                $output .= '<div class="box box-warning ' . $hide . '"><div class="box-body no-padding"><div id="mailbodycontent" class="no-copy"><div class="mailbox-read-info"><h3>' . base64_decode($list[$k]->subject) . '</h3><h5>From: ' . htmlspecialchars($list[$k]->email_from) . ' <span class="mailbox-read-time pull-right">' . $email_recdate . '</span></h5><h5>To: ' . htmlspecialchars($list[$k]->email_to) . '</span>' . $cc . '' . $bcc . '</h5></div><div class="mailbox-read-message"> ' . $bodyhtml . '  </div></div></div>' . $mailattachdnt . '</div>';
+                $output .= '<div class="box box-warning ' . $hide . '"><div class="box-body no-padding"><div id="mailbodycontent" class="no-copy"><div class="mailbox-read-info"><h3>' . base64_decode($list[$k]->subject) . '</h3><h5>From: ' . htmlspecialchars($list[$k]->email_from) . ' <span class="mailbox-read-time pull-right">' . $email_recdate . '</span></h5><h5>To: ' . htmlspecialchars($list[$k]->email_to) . '</span>' . $cc . '' . $bcc . '</h5></div>' . $mailattachdnt . '<div class="mailbox-read-message"> ' . $bodyhtml . '  </div></div></div></div>';
             }
 
             $output .= '</div>';
@@ -415,10 +508,10 @@ class ApiController extends Controller
                     //Set the content type to application/json
                     // Set HTTP Header for POST request
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataNotesEncoded)));
-	   
+
 					curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-	   
+
                     // Submit the POST request
                     $resultnotes = curl_exec($ch);
 
@@ -542,10 +635,10 @@ class ApiController extends Controller
                     //Set the content type to application/json
                     // Set HTTP Header for POST request
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
-					
+
 					curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-					
+
                     // Submit the POST request
                     $result = curl_exec($ch);
 
@@ -619,7 +712,7 @@ class ApiController extends Controller
 
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-					
+
             // Submit the POST request
             $result = curl_exec($ch);
 
@@ -680,7 +773,7 @@ class ApiController extends Controller
             $getjobid_url    =    env('GETPMJOBID');
 
             $getjoblist_url    =    env('GETPMJOBLIST');
-            
+
             // Prepare new cURL resource
             $ch = curl_init($getjobid_url);            //Initiate cURL.
             $jsonData = array(                        //The JSON data.
@@ -703,7 +796,7 @@ class ApiController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-	   
+
             // Submit the POST request
             $result = curl_exec($ch);
 
@@ -750,7 +843,7 @@ class ApiController extends Controller
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 				curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-	 	  
+
                 // Submit the POST request
                 $result = curl_exec($ch);
                 $this->info(
@@ -769,15 +862,15 @@ class ApiController extends Controller
 
                 // Close cURL session handle
                 curl_close($ch);
-                $json_data_decoded = json_decode($result, true);			
-				
+                $json_data_decoded = json_decode($result, true);
+
                 if ($annotationID == '') {
                     $output = '<select id="pmjobid"  onchange="getjobID()">'; //multiple="multiple"
                 } else {
                     $output = '<select id="pmjobid">'; //multiple="multiple"
                 }
                 $output .= '<option disabled selected>--select--</option>';
-				
+
 				/*
                 foreach ($json_data_decoded['result']['data'] as $key => $val) { //Dropdown code changed to Group by concept (Raja-2020-July-28)
                     if ($annotationID != '') {
@@ -791,35 +884,35 @@ class ApiController extends Controller
                     }
                 }
                 $output .= '</select>';
-				*/		
-				
+				*/
+
 				$Generic_Group 		= '';
 				$Non_Generic_Group 	= '';
-                foreach ($json_data_decoded['result']['data'] as $key => $val) {					
-					$selected = '';					
+                foreach ($json_data_decoded['result']['data'] as $key => $val) {
+					$selected = '';
 					if ($val['job_id'] == $annotationID) {
 						$selected = 'selected';
 					} else if ($val['job_id'] == $associatejobid) {
 						$selected = 'selected';
 					}else{
 						$selected = '';
-					}	
-					
+					}
+
 					if($val['pmbot_type'] == 'generic'){
 						$Generic_Group 	.= '<option value="'.$val['job_id'].'" '.$selected.'>'.$val['title'].'</option>';
 					}
-					
+
 					if($val['pmbot_type'] == 'non_generic'){
 						$Non_Generic_Group 	.= '<option value="'.$val['job_id'].'" '.$selected.'>'.$val['title'].'</option>';
-					}					
+					}
                 }
 
 				$output .= '<optgroup label="Title-ISBN">';
 				$output .= $Non_Generic_Group;
-				$output .= '</optgroup>';				
+				$output .= '</optgroup>';
 				$output .= '<optgroup label="Generic">';
 				$output .= $Generic_Group;
-				$output .= '</optgroup>';                
+				$output .= '</optgroup>';
 				$output .= '</select>';
                 return response()->json(['status' => 'success', 'message' => $output]);
             } else {
@@ -843,37 +936,37 @@ class ApiController extends Controller
                     }
                 }
                 $output .= '</select>';
-*/				
+*/
 				$Generic_Group 		= '';
 				$Non_Generic_Group 	= '';
-				
-                foreach ($json_data_decoded['result']['data'] as $key => $val) {					
+
+                foreach ($json_data_decoded['result']['data'] as $key => $val) {
 					$selected = '';
-					
+
 					if ($val['job_id'] == $annotationID) {
 						$selected = 'selected';
 					} else if ($val['job_id'] == $associatejobid) {
 						$selected = 'selected';
 					}else{
 						$selected = '';
-					}	
+					}
 					if($val['pmbot_type'] == 'generic'){
 						$Generic_Group 	.= '<option value="'.$val['job_id'].'" '.$selected.'>'.$val['title'].'</option>';
 					}
-					
+
 					if($val['pmbot_type'] == 'non_generic'){
 						$Non_Generic_Group 	.= '<option value="'.$val['job_id'].'" '.$selected.'>'.$val['title'].'</option>';
-					}					
+					}
                 }
 
 				$output .= '<optgroup label="Title-ISBN">';
 				$output .= $Non_Generic_Group;
-				$output .= '</optgroup>';				
+				$output .= '</optgroup>';
 				$output .= '<optgroup label="Generic">';
 				$output .= $Generic_Group;
-				$output .= '</optgroup>';                
+				$output .= '</optgroup>';
 				$output .= '</select>';
-				
+
                 return response()->json(['status' => 'success', 'message' => $output]);
             }
         }
@@ -974,7 +1067,7 @@ class ApiController extends Controller
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-					
+
         // Submit the POST request
         $result = curl_exec($ch);
 
@@ -1043,7 +1136,7 @@ class ApiController extends Controller
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-					
+
         // Submit the POST request
         $result = curl_exec($ch);
 
@@ -1105,7 +1198,7 @@ class ApiController extends Controller
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-					
+
         // Submit the POST request
         $result = curl_exec($ch);
 
@@ -1172,7 +1265,7 @@ class ApiController extends Controller
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-					
+
         // Submit the POST request
         $result = curl_exec($ch);
 
@@ -1237,7 +1330,7 @@ class ApiController extends Controller
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-					
+
         // Submit the POST request
         $result = curl_exec($ch);
 
@@ -1350,7 +1443,7 @@ class ApiController extends Controller
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-					
+
         // Submit the POST request
         $result = curl_exec($ch);
 
@@ -1360,7 +1453,7 @@ class ApiController extends Controller
             " => LINE => " . __LINE__ . " => " .
             " => REQUEST => " . json_encode(["REQUEST PARAMS" => $jsonData, "CURL INFO" => curl_getinfo($ch)]) . " "
         );
-		
+
 		$this->info(
             "api_annotator_log_" . date('Y-m-d'),
             " => FILE => " . __FILE__ . " => " .
@@ -1414,7 +1507,7 @@ class ApiController extends Controller
 
                 $jsonData["creator_empcode"] = session()->get("current_empcode");
             }
-            
+
         }
 
         if ($start_time != "") {
@@ -1439,7 +1532,7 @@ class ApiController extends Controller
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-					
+
         // Submit the POST request
         $result = curl_exec($ch);
 
