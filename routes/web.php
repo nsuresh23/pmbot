@@ -314,7 +314,9 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
     Route::any('email-label-update', 'Job\EmailController@emailLabelUpdate')->name('email-label-update');
 
 	Route::any('signature-update', 'Job\EmailController@signatureUpdate')->name('signature-update');
-	Route::any('get-signature', 'Job\EmailController@getSignature')->name('get-signature');
+    Route::any('get-signature', 'Job\EmailController@getSignature')->name('get-signature');
+
+    Route::any('email-sent-count', 'Job\EmailController@emailSentCount')->name('email-sent-count');
 
 	Route::any('job', 'Job\JobController@index')->name('job');
 

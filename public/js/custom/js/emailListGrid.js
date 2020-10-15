@@ -2419,6 +2419,36 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
 
         });
 
+        if (params.get('email_type') != undefined && params.get('email_type') != '') {
+
+            var typeSelector = '';
+            var btnSelector = '';
+
+            if (params.get('type') != undefined && params.get('type') != '') {
+
+                if (params.get('type') == 'non_pmbot') {
+
+                    typeSelector = 'dashboard';
+
+                }
+
+                if (params.get('type') == 'pmbot') {
+
+                    typeSelector = 'job';
+
+                }
+
+                btnSelector = '.' + typeSelector + '-' + params.get('email_type') + '-email';
+
+                $(btnSelector).trigger('click');
+
+            }
+
+        }
+
+        emailSentCount();
+
+        $('.sent-email-modal').modal('hide');
         //$(closeBtnSelector).trigger('click');
         return d.promise();
 
@@ -4614,6 +4644,66 @@ function tinymceEditorFocus() {
 
         ed.getBody().firstChild.scrollIntoView();
         ed.selection.setCursorLocation(ed.getBody().children[0], 0);
+
+    }
+
+}
+
+function emailSentCount() {
+
+    $('.dashboard-email-outbox-count').html('0').addClass('disabled');
+    $('.dashboard-email-outboxwip-count').html('0').addClass('disabled');
+    $('.dashboard-email-sent-count').html('0').addClass('disabled');
+    $('.dashboard-email-hold-count').html('0').addClass('disabled');
+
+    var postUrl = $('.dashboard-email-sent-count').attr('data-email-sent-count-url');
+
+    var postData = {};
+
+    if (postUrl != undefined && postUrl != '') {
+
+        $.ajax({
+
+            url: postUrl,
+            // data: postData,
+            dataType: 'json',
+            type: 'POST',
+
+        }).done(function(response) {
+
+            if (response.success == "true") {
+
+                if (response.data != undefined && typeof response.data == 'object') {
+
+                    if (response.data.outbox_count != undefined && response.data.outbox_count != '' && response.data.outbox_count != '0') {
+
+                        $('.dashboard-email-outbox-count').html(response.data.outbox_count).removeClass('disabled');
+
+                    }
+
+                    if (response.data.outbox_wip_count != undefined && response.data.outbox_wip_count != '' && response.data.outbox_wip_count != '0') {
+
+                        $('.dashboard-email-outboxwip-count').html(response.data.outbox_wip_count).removeClass('disabled');
+
+                    }
+
+                    if (response.data.sent_count != undefined && response.data.sent_count != '' && response.data.sent_count != '0') {
+
+                        $('.dashboard-email-sent-count').html(response.data.sent_count).removeClass('disabled');
+
+                    }
+
+                    if (response.data.hold_count != undefined && response.data.hold_count != '' && response.data.hold_count != '0') {
+
+                        $('.dashboard-email-hold-count').html(response.data.hold_count).removeClass('disabled');
+
+                    }
+
+                }
+
+            }
+
+        });
 
     }
 
