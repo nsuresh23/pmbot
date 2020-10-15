@@ -470,6 +470,36 @@ class EmailController extends Controller
     }
 
     /**
+     * sent email count.
+     *
+     *  @return json response
+     */
+    public function emailSentCount(Request $request)
+    {
+
+        $returnResponse = [];
+
+        try {
+
+            $returnResponse = $this->emailResource->emailSentCount($request);
+
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        //if ($request->ajax()) {
+
+        return json_encode($returnResponse);
+
+        //}
+
+    }
+
+    /**
      * pms email count.
      *
      *  @return json response
@@ -534,7 +564,6 @@ class EmailController extends Controller
 
         return view("errors.error404");
     }
-
 
     /**
      * Show the email detail.
