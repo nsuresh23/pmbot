@@ -4753,7 +4753,7 @@ function tinymceEditorFocus(editorId) {
 
         $('html, body').animate({
 
-            scrollTop: $('.attached').offset().top - 110
+            scrollTop: $('.email-reply-form').offset().top - 150
 
         }, 0);
 
