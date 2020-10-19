@@ -20,9 +20,13 @@ $(document).ready(function(e) {
 
         showform(type, selector);
 
-        tinymceEditorFocus();
-
     }, 500);
+
+    setTimeout(function() {
+
+        tinymceEditorFocus('textarea_editor_email_reply');
+
+    }, '2000');
 
     // showform(type, selector);
 });
@@ -175,7 +179,7 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                             <div class="email-label border-none">Attached</div>
                                             <input type="file" style="width:8.6% !important;" class="form-control attached replyattachements fileupload" name="attachement"
                                                 multiple="multiple">
-											
+
 											<!--<select style="width:20% !important;float:left;" class="form-control signature_change" id="select_signature" name="signature" data-signature-type = "new">
 												<option value="new_signature" >New Signature</option>
 												<option value="replyforward_signature">Replies/Forwards</option>
@@ -183,7 +187,7 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
 											<div class="high_importance">
 												High Importance <input type="checkbox" class="" name="priority" id="priority" style="margin-left: 0px;">
 											</div>
-												
+
                                         </div>
                                         <div class="box" class="attached_file_box" id="attached_file_box">
                                             <div class="attached_file" id="attached_file"></div>
@@ -205,12 +209,12 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                 <div class="form-group">
 
                                     <div class="col-lg-12">
-                                        <?php 
+                                        <?php
 
                                         $sig_class = 'emailsig_block_' . rand();
 
                                         session()->put("signature_classname", $sig_class);
-										
+
 										$message = '<p class="MsoNormal" style="font-family:Calibri; font-size:11pt;color:#337ab7;margin:0px;"><br></p>';
 
                                         $message .= '<br><br><div class="';

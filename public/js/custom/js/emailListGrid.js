@@ -680,69 +680,7 @@ function getPmsEmailCountTableList(gridSelector) {
 
     var dbClients = "";
 
-    if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
-
-        $(gridSelector).jsGrid({
-
-            height: "450px",
-            width: "100%",
-
-            filtering: false,
-            inserting: insertControlVisible,
-            editing: editControlVisible,
-            sorting: true,
-            paging: false,
-            autoload: false,
-            autowidth: true,
-
-            pageSize: 10,
-            pageButtonCount: 5,
-
-            // deleteConfirm: "Do you really want to delete the client?",
-
-            confirmDeleting: false,
-
-            noDataContent: "No data",
-
-            invalidNotify: function(args) {
-
-                $('#alert-error-not-submit').removeClass('hidden');
-
-            },
-
-            loadIndication: true,
-            // loadIndicationDelay: 500,
-            loadMessage: "Please, wait...",
-            loadShading: true,
-
-            controller: {
-
-                loadData: function(filter) {
-
-                    return $.grep(dbClients, function(client) {
-                        return (!filter.empname || (client.empname != undefined && client.empname != null && (client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1))) &&
-                            (!filter.email_count || (client.email_count != undefined && client.email_count != null && (client.email_count.toLowerCase().indexOf(filter.email_count.toLowerCase()) > -1))) &&
-                            (!filter.priority_count || (client.priority_count != undefined && client.priority_count != null && (client.priority_count.toLowerCase().indexOf(filter.priority_count.toLowerCase()) > -1))) &&
-                            (!filter.critical_jobs_email_count || (client.critical_jobs_email_count != undefined && client.critical_jobs_email_count != null && (client.critical_jobs_email_count.toLowerCase().indexOf(filter.critical_jobs_email_count.toLowerCase()) > -1))) &&
-                            (!filter.critical_job_count || (client.critical_job_count != undefined && client.critical_job_count != null && (client.critical_job_count.toLowerCase().indexOf(filter.critical_job_count.toLowerCase()) > -1))) &&
-                            (!filter.last_annotated_time || (client.last_annotated_time != undefined && client.last_annotated_time != null && (client.last_annotated_time.toLowerCase().indexOf(filter.last_annotated_time.toLowerCase()) > -1))) &&
-                            (!filter.over_due_task_count || (client.over_due_task_count != undefined && client.over_due_task_count != null && (client.over_due_task_count.toLowerCase().indexOf(filter.over_due_task_count.toLowerCase()) > -1))) &&
-                            (!filter.task_count || (client.task_count != undefined && client.task_count != null && (client.task_count.toLowerCase().indexOf(filter.task_count.toLowerCase()) > -1))) &&
-                            (!filter.last_processed_time || (client.last_processed_time != undefined && client.last_processed_time != null && (client.last_processed_time.toLowerCase().indexOf(filter.last_processed_time.toLowerCase()) > -1)));
-                    });
-
-                }
-            },
-
-            rowClick: function(args) {
-
-                $(gridSelector).jsGrid("cancelEdit");
-
-            },
-
-        });
-
-    }
+    // if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
 
     var field = [];
 
@@ -752,6 +690,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "number",
         inserting: false,
         filtering: false,
+        sorting: false,
         editing: false,
         // width: 10,
     });
@@ -767,6 +706,8 @@ function getPmsEmailCountTableList(gridSelector) {
         title: "EMAIL COUNT",
         name: "email_count",
         type: "text",
+        filtering: false,
+        sorting: false,
         // width: 40,
     });
 
@@ -774,6 +715,8 @@ function getPmsEmailCountTableList(gridSelector) {
         title: "PRIORITY EMAIL",
         name: "priority_count",
         type: "text",
+        filtering: false,
+        sorting: false,
         // width: 40,
     });
 
@@ -781,15 +724,17 @@ function getPmsEmailCountTableList(gridSelector) {
         title: "CRITICAL EMAILS",
         name: "critical_jobs_email_count",
         type: "text",
+        filtering: false,
+        sorting: false,
         // width: 40,
     });
-
-
 
     field.push({
         title: "CRITICAL JOBS",
         name: "critical_job_count",
         type: "text",
+        filtering: false,
+        sorting: false,
         // width: 40,
     });
 
@@ -797,13 +742,15 @@ function getPmsEmailCountTableList(gridSelector) {
         title: 'LAST ANNOTATED TIME',
         name: 'last_annotated_time',
         type: 'text',
-        width: 110,
+        width: '10%',
     });
 
     field.push({
         title: "TASK COUNT",
         name: "task_count",
         type: "text",
+        filtering: false,
+        sorting: false,
         // width: 40,
     });
 
@@ -811,6 +758,8 @@ function getPmsEmailCountTableList(gridSelector) {
         title: "OVER DUE TASK COUNT",
         name: "over_due_task_count",
         type: "text",
+        filtering: false,
+        sorting: false,
         // width: 40,
     });
 
@@ -818,7 +767,7 @@ function getPmsEmailCountTableList(gridSelector) {
         title: 'LAST PROCEESED TIME',
         name: 'last_processed_time',
         type: 'text',
-        width: 110,
+        width: '10%',
     });
 
     field.push({
@@ -834,34 +783,163 @@ function getPmsEmailCountTableList(gridSelector) {
         width: 70,
     });
 
-    $(gridSelector).jsGrid("option", "fields", field);
+    $(gridSelector).jsGrid({
 
-    var pmsEmailCountPostData = {};
+        height: "450px",
+        width: "100%",
+        autowidth: true,
+        editing: editControlVisible,
+        inserting: insertControlVisible,
+        filtering: false,
+        sorting: true,
+        autoload: true,
+        paging: false,
+        pageLoading: false,
+        pageSize: pageSize,
+        pageIndex: 1,
+        pageButtonCount: 5,
 
-    /* AJAX call to get list */
-    $.ajax({
+        confirmDeleting: false,
 
-        url: listUrl,
-        data: pmsEmailCountPostData,
-        dataType: "json"
+        noDataContent: "No data",
 
-    }).done(function(response) {
+        invalidNotify: function(args) {
 
-        if (response.success == "true") {
+            $('#alert-error-not-submit').removeClass('hidden');
 
-            response.data = formatDataItem(response.data);
+        },
 
-            dbClients = response.data;
+        loadIndication: true,
+        // loadIndicationDelay: 500,
+        loadMessage: "Please, wait...",
+        loadShading: true,
 
-            $(gridSelector).jsGrid("option", "data", response.data);
+        fields: field,
 
-            $('.jsgrid-grid-body').slimscroll({
-                height: '300px',
-            });
+        onInit: function(args) {
 
-        }
+            this._resetPager();
+
+        },
+
+        search: function(filter) {
+
+            this._resetPager();
+            return this.loadData(filter);
+
+        },
+
+        onPageChanged: function(args) {
+
+            $('html, body').animate({
+                scrollTop: $(".pmsEmailCountGrid").offset().top - 140
+            }, 0);
+
+        },
+
+        controller: {
+
+            loadData: function(filter) {
+
+                $('.pms-email-count').html('');
+
+                var d = $.Deferred();
+
+                var pmsEmailCountPostData = {};
+
+                pmsEmailCountPostData.filter = filter;
+
+                /* AJAX call to get list */
+                $.ajax({
+
+                    url: listUrl,
+                    data: pmsEmailCountPostData,
+                    dataType: "json"
+
+                }).done(function(response) {
+
+                    var dataResult = {};
+
+                    dataResult.data = '';
+
+                    if (response.success == "true") {
+
+                        if (response.data != '') {
+
+                            response.data = formatDataItem(response.data);
+
+                            dbClients = response.data;
+
+                            dataResult.data = response.data;
+                            dataResult.itemsCount = response.result_count;
+
+                            d.resolve(dataResult);
+
+                            if ('result_count' in response) {
+
+                                var resultCount = response.result_count;
+
+                                if (parseInt(resultCount) != NaN && parseInt(resultCount) > 0) {
+
+                                    if (parseInt(resultCount) > 99999) {
+
+                                        resultCount = '99999+'
+
+                                    }
+
+                                    $('.pms-email-count').html('(' + resultCount + ')');
+
+                                }
+
+
+                            }
+
+                            // $(gridSelector).jsGrid("option", "data", response.data);
+
+                            // $('.jsgrid-grid-body').slimscroll({
+                            //     height: '300px',
+                            // });
+
+                        } else {
+
+                            d.resolve(dataResult);
+
+                        }
+
+                    } else {
+
+                        d.resolve(dataResult);
+
+                    }
+
+                });
+
+                return d.promise();
+
+                // return $.grep(dbClients, function(client) {
+                //     return (!filter.empname || (client.empname != undefined && client.empname != null && (client.empname.toLowerCase().indexOf(filter.empname.toLowerCase()) > -1))) &&
+                //         (!filter.email_count || (client.email_count != undefined && client.email_count != null && (client.email_count.toLowerCase().indexOf(filter.email_count.toLowerCase()) > -1))) &&
+                //         (!filter.priority_count || (client.priority_count != undefined && client.priority_count != null && (client.priority_count.toLowerCase().indexOf(filter.priority_count.toLowerCase()) > -1))) &&
+                //         (!filter.critical_jobs_email_count || (client.critical_jobs_email_count != undefined && client.critical_jobs_email_count != null && (client.critical_jobs_email_count.toLowerCase().indexOf(filter.critical_jobs_email_count.toLowerCase()) > -1))) &&
+                //         (!filter.critical_job_count || (client.critical_job_count != undefined && client.critical_job_count != null && (client.critical_job_count.toLowerCase().indexOf(filter.critical_job_count.toLowerCase()) > -1))) &&
+                //         (!filter.last_annotated_time || (client.last_annotated_time != undefined && client.last_annotated_time != null && (client.last_annotated_time.toLowerCase().indexOf(filter.last_annotated_time.toLowerCase()) > -1))) &&
+                //         (!filter.over_due_task_count || (client.over_due_task_count != undefined && client.over_due_task_count != null && (client.over_due_task_count.toLowerCase().indexOf(filter.over_due_task_count.toLowerCase()) > -1))) &&
+                //         (!filter.task_count || (client.task_count != undefined && client.task_count != null && (client.task_count.toLowerCase().indexOf(filter.task_count.toLowerCase()) > -1))) &&
+                //         (!filter.last_processed_time || (client.last_processed_time != undefined && client.last_processed_time != null && (client.last_processed_time.toLowerCase().indexOf(filter.last_processed_time.toLowerCase()) > -1)));
+                // });
+
+            }
+        },
+
+        rowClick: function(args) {
+
+            $(gridSelector).jsGrid("cancelEdit");
+
+        },
 
     });
+
+    // }
 
     function formatDataItem(dataValue) {
 
@@ -927,13 +1005,13 @@ function findBrowser() {
 
 var browserName = findBrowser();
 
-var emailEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;"><br></p>';
-var emailSignatureEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 10.0pt; font-family: Arial; color: #1F497D;"><br></p>';
+var emailEditorParaTag = '<p class="pmbot_p" style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;"><br></p>';
+var emailSignatureEditorParaTag = '<p class="pmbot_p" style="margin: 0in; margin-bottom: .0001pt; font-size: 10.0pt; font-family: Arial; color: #1F497D;"><br></p>';
 
 if (browserName == 'Firefox') {
 
-    emailEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;"></p>';
-    emailSignatureEditorParaTag = '<p style="margin: 0in; margin-bottom: .0001pt; font-size: 10.0pt; font-family: Arial; color: #1F497D;"></p>';
+    emailEditorParaTag = '<p class="pmbot_p" style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;"></p>';
+    emailSignatureEditorParaTag = '<p class="pmbot_p" style="margin: 0in; margin-bottom: .0001pt; font-size: 10.0pt; font-family: Arial; color: #1F497D;"></p>';
 
 }
 
@@ -948,6 +1026,24 @@ if (dataUrl != undefined && dataUrl != "") {
     getEmailTableList(gridSelector);
 
 }
+
+setInterval(function() {
+
+    var gridSelector = ".myEmailGrid";
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    var gridPageIndex = $(gridSelector).jsGrid('option', 'pageIndex');
+
+    if (gridPageIndex != undefined && gridPageIndex == "1" && dataUrl != undefined && dataUrl != "") {
+
+        // $(".dashboard-inbox-email").trigger('click');
+
+        getEmailTableList(gridSelector);
+
+    }
+
+}, '15000');
 
 var jobEmailgridSelector = '.jobEmailGrid';
 
@@ -4636,14 +4732,30 @@ $('.fileupload').on('change', function() {
     filesPreview(this, '.attached_file');
 });
 
-function tinymceEditorFocus() {
+function tinymceEditorFocus(editorId) {
 
-    var ed = tinymce.activeEditor;
+    /* var ed = tinymce.activeEditor;
 
     if (ed != undefined && ed != null) {
 
         ed.getBody().firstChild.scrollIntoView();
         ed.selection.setCursorLocation(ed.getBody().children[0], 0);
+
+    } */
+
+    if ($('.pmbot_p') != undefined) {
+
+        var editor = tinymce.get(editorId);
+
+        $(editor.getBody()).find('.pmbot_p').get(0).scrollIntoView();
+
+        editor.selection.setCursorLocation($(editor.getBody()).find('.pmbot_p').get(0), 0);
+
+        $('html, body').animate({
+
+            scrollTop: $('.attached').offset().top - 110
+
+        }, 0);
 
     }
 
@@ -4651,10 +4763,12 @@ function tinymceEditorFocus() {
 
 function emailSentCount() {
 
-    $('.dashboard-email-outbox-count').html('0').addClass('disabled');
-    $('.dashboard-email-outboxwip-count').html('0').addClass('disabled');
-    $('.dashboard-email-sent-count').html('0').addClass('disabled');
-    $('.dashboard-email-hold-count').html('0').addClass('disabled');
+    $('.dashboard-email-outbox-count').html('0');
+    $('.dashboard-email-outboxwip-count').html('0');
+    $('.dashboard-email-sent-count').html('0');
+    $('.dashboard-email-hold-count').html('0');
+
+    $('.dashboard-email-sent-count-btn').addClass('disabled');
 
     var postUrl = $('.dashboard-email-sent-count').attr('data-email-sent-count-url');
 
@@ -4677,25 +4791,33 @@ function emailSentCount() {
 
                     if (response.data.outbox_count != undefined && response.data.outbox_count != '' && response.data.outbox_count != '0') {
 
-                        $('.dashboard-email-outbox-count').html(response.data.outbox_count).removeClass('disabled');
+                        $('.dashboard-email-outbox-count').html(response.data.outbox_count);
+                        $('.dashboard-email-outbox-count').attr('data-count', response.data.outbox_count);
+                        $('.dashboard-email-outbox-count').parent().removeClass('disabled');
 
                     }
 
                     if (response.data.outbox_wip_count != undefined && response.data.outbox_wip_count != '' && response.data.outbox_wip_count != '0') {
 
-                        $('.dashboard-email-outboxwip-count').html(response.data.outbox_wip_count).removeClass('disabled');
+                        $('.dashboard-email-outboxwip-count').html(response.data.outbox_wip_count);
+                        $('.dashboard-email-outboxwip-count').attr('data-count', response.data.outbox_wip_count);
+                        $('.dashboard-email-outboxwip-count').parent().removeClass('disabled');
 
                     }
 
                     if (response.data.sent_count != undefined && response.data.sent_count != '' && response.data.sent_count != '0') {
 
-                        $('.dashboard-email-sent-count').html(response.data.sent_count).removeClass('disabled');
+                        $('.dashboard-email-sent-count').html(response.data.sent_count);
+                        $('.dashboard-email-sent-count').attr('data-count', response.data.sent_count);
+                        $('.dashboard-email-sent-count').parent().removeClass('disabled');
 
                     }
 
                     if (response.data.hold_count != undefined && response.data.hold_count != '' && response.data.hold_count != '0') {
 
-                        $('.dashboard-email-hold-count').html(response.data.hold_count).removeClass('disabled');
+                        $('.dashboard-email-hold-count').html(response.data.hold_count);
+                        $('.dashboard-email-hold-count').attr('data-count', response.data.hold_count);
+                        $('.dashboard-email-hold-count').parent().removeClass('disabled');
 
                     }
 
