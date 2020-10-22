@@ -173,7 +173,7 @@
 <hr class="light-grey-hr mt-5 mb-5" />
 
 <div class="view-mail email-body-block hiddenBlock">
-    <textarea id="email-body" class="form-control email-body border-none" name="email-body" rows="15"></textarea>
+    <textarea id="sent-email-body" class="form-control email-body border-none" name="email-body" rows="15"></textarea>
 </div>
 {{-- <div class="container-fluid view-mail mt-20 email-body-block email-body" style="display: none;">
 </div> --}}

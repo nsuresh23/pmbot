@@ -1269,7 +1269,7 @@ class EmailCollection
 
 					if(isset($item["status"]) && $item["status"] != "") {
 
-						if( in_array($item["status"], ["0","1", "2", "3"])){
+						if( in_array($item["status"], ["0","1", "2", "3", "7"])){
 
 							if(isset($item["email_received_date"]) && $item["email_received_date"] != ""){
 
@@ -1277,7 +1277,7 @@ class EmailCollection
 							}
 						}
 
-						if( in_array($item["status"], ["4", "5"])){
+						if( in_array($item["status"], ["4", "5", "55"])){
 
 							if(isset($item["created_date"]) && $item["created_date"] != ""){
 
@@ -1287,7 +1287,7 @@ class EmailCollection
 
 						}
 
-						if( in_array($item["status"], ["6"])){
+						if( in_array($item["status"], ["6", "99"])){
 
 							if(isset($item["email_sent_date"]) && $item["email_sent_date"] != ""){
 

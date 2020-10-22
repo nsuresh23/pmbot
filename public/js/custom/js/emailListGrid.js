@@ -1043,7 +1043,7 @@ setInterval(function() {
 
     }
 
-}, '15000');
+}, '60000');
 
 var jobEmailgridSelector = '.jobEmailGrid';
 
@@ -1454,6 +1454,7 @@ $(document).on('click', '.pmbot-email-item', function(e) {
                             // $('.email-body').html(atob(response.data.body_html));
                             // $('.email-body').html(response.data.body_html);
                             tinymce.get('email-body').setContent(response.data.body_html);
+                            tinymce.get('sent-email-body').setContent(response.data.body_html);
 
                             $('.email-body-block').show();
 
