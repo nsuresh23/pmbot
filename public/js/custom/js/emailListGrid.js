@@ -461,6 +461,7 @@ function getEmailTableList(gridSelector) {
                 $('.email-inbox-unread-count').html('');
                 $('.email-result-count').html('');
                 $('.email-last-updated').html('-');
+                $('.email-last-updated').removeClass('bg-danger pa-5 txt-light');
 
                 /* AJAX call to get list */
                 $.ajax({
@@ -551,6 +552,16 @@ function getEmailTableList(gridSelector) {
                             }
 
                             if ('last_updated' in response) {
+
+                                if ('last_updated_delay' in response && response.last_updated_delay == 'true') {
+
+                                    $('.email-last-updated').addClass('bg-danger pa-5 txt-light');
+
+                                } else {
+
+                                    $('.email-last-updated').removeClass('bg-danger pa-5 txt-light');
+
+                                }
 
                                 $('.email-last-updated').html(response.last_updated);
 

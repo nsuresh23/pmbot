@@ -609,6 +609,8 @@ class EmailCollection
 
                         if (is_array($responseData)) {
 
+                            $returnResponse["last_updated_delay"] = "false";
+
                             $returnResponse["result_count"] = count($responseData);
 
                             if (!isset($returnResponseData["last_updated"]) || $returnResponseData["last_updated"] == "") {
@@ -631,6 +633,18 @@ class EmailCollection
                             }
 
                             if (isset($returnResponseData["last_updated"]) && $returnResponseData["last_updated"] != "") {
+
+                                $lastUpdated = new DateTime($returnResponseData["last_updated"], new DateTimeZone('Asia/Kolkata'));
+                                $currentTime = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+                                $diff = $lastUpdated->diff($currentTime);
+
+                                $minutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
+
+                                if($minutes > 5) {
+
+                                    $returnResponse["last_updated_delay"] = "true";
+
+                                }
 
                                 $returnResponse["last_updated"] = $returnResponseData["last_updated"];
 
@@ -1279,9 +1293,15 @@ class EmailCollection
 
 						if( in_array($item["status"], ["4", "5", "55"])){
 
-							if(isset($item["created_date"]) && $item["created_date"] != ""){
+                            if (isset($item["created_date"]) && $item["created_date"] != "") {
 
                                 $emailDate = $item["created_date"];
+
+                            }
+
+							if(isset($item["modified_date"]) && $item["modified_date"] != ""){
+
+                                $emailDate = $item["modified_date"];
 
                             }
 
