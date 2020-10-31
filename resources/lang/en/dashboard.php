@@ -116,4 +116,5 @@ return [
     'email_outbox_wip_count_tooltip' => 'outbox wip email',
     'email_sent_count_tooltip' => 'sent email',
     'email_hold_count_tooltip' => 'hold email',
+    'classification_emails_tab_label' => 'warning emails',
 ];

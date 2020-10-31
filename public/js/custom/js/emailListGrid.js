@@ -45,6 +45,7 @@ function getEmailTableList(gridSelector) {
     var currentJobId = $(gridSelector).attr('data-current-job-id');
     var listUrl = $(gridSelector).attr('data-list-url');
     var currentRoute = $(gridSelector).attr('data-current-route');
+    var empcode = $(gridSelector).attr('data-empcode');
     var readOnlyUser = $('#currentUserInfo').attr('data-read-only-user');
     var pageSize = $('#currentUserInfo').attr('data-page-size');
     var pageButtonCount = $('#currentUserInfo').attr('data-page-button-count');
@@ -391,11 +392,41 @@ function getEmailTableList(gridSelector) {
 
                         }
 
-                        // if (emailFilter == 'negative') {
+                        if (emailFilter == 'negative') {
 
-                        //     emailListPostData.category = 'negative';
+                            emailListPostData.category = 'negative';
+
+                            if (empcode != undefined && empcode != '') {
+
+                                emailListPostData.empcode = empcode;
+
+                            }
+
+                        }
+
+                        // if (emailFilter == 'positive') {
+
+                        //     emailListPostData.category = 'positive';
 
                         // }
+
+                    }
+
+                    if (gridCategory == 'classificationEmail') {
+
+                        emailListPostData.type = '';
+
+                        if (emailFilter == 'negative') {
+
+                            emailListPostData.category = 'negative';
+
+                            if (empcode != undefined && empcode != '') {
+
+                                emailListPostData.empcode = empcode;
+
+                            }
+
+                        }
 
                         // if (emailFilter == 'positive') {
 
@@ -753,6 +784,15 @@ function getPmsEmailCountTableList(gridSelector) {
     });
 
     field.push({
+        title: "WARNING EMAILS",
+        name: "negative_count_link",
+        type: "text",
+        // filtering: false,
+        // sorting: false,
+        // width: 40,
+    });
+
+    field.push({
         title: "CRITICAL JOBS",
         name: "critical_job_count",
         type: "text",
@@ -869,10 +909,11 @@ function getPmsEmailCountTableList(gridSelector) {
                         (!filter.email_count || (client.email_count != undefined && client.email_count != null && (client.email_count.toLowerCase().indexOf(filter.email_count.toLowerCase()) > -1))) &&
                         (!filter.priority_count || (client.priority_count != undefined && client.priority_count != null && (client.priority_count.toLowerCase().indexOf(filter.priority_count.toLowerCase()) > -1))) &&
                         (!filter.critical_jobs_email_count || (client.critical_jobs_email_count != undefined && client.critical_jobs_email_count != null && (client.critical_jobs_email_count.toLowerCase().indexOf(filter.critical_jobs_email_count.toLowerCase()) > -1))) &&
+                        (!filter.negative_count_link || (client.negative_count_link != undefined && client.negative_count_link != null && (client.negative_count_link.toLowerCase().indexOf(filter.negative_count_link.toLowerCase()) > -1))) &&
                         (!filter.critical_job_count || (client.critical_job_count != undefined && client.critical_job_count != null && (client.critical_job_count.toLowerCase().indexOf(filter.critical_job_count.toLowerCase()) > -1))) &&
-                        (!filter.last_annotated_time || (client.last_annotated_time != undefined && client.last_annotated_time != null && (client.last_annotated_time.toLowerCase().indexOf(filter.last_annotated_time.toLowerCase()) > -1))) &&
                         (!filter.over_due_task_count || (client.over_due_task_count != undefined && client.over_due_task_count != null && (client.over_due_task_count.toLowerCase().indexOf(filter.over_due_task_count.toLowerCase()) > -1))) &&
                         (!filter.task_count || (client.task_count != undefined && client.task_count != null && (client.task_count.toLowerCase().indexOf(filter.task_count.toLowerCase()) > -1))) &&
+                        (!filter.last_annotated_time || (client.last_annotated_time != undefined && client.last_annotated_time != null && (client.last_annotated_time.toLowerCase().indexOf(filter.last_annotated_time.toLowerCase()) > -1))) &&
                         (!filter.last_processed_time || (client.last_processed_time != undefined && client.last_processed_time != null && (client.last_processed_time.toLowerCase().indexOf(filter.last_processed_time.toLowerCase()) > -1)));
                 });
 
@@ -1462,8 +1503,18 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
                             // $('.email-body').html(atob(response.data.body_html));
                             // $('.email-body').html(response.data.body_html);
-                            tinymce.get('email-body').setContent(response.data.body_html);
-                            tinymce.get('sent-email-body').setContent(response.data.body_html);
+
+                            if (tinymce.get('email-body') != undefined && tinymce.get('email-body') != '') {
+
+                                tinymce.get('email-body').setContent(response.data.body_html);
+
+                            }
+
+                            if (tinymce.get('sent-email-body') != undefined && tinymce.get('sent-email-body') != '') {
+
+                                tinymce.get('sent-email-body').setContent(response.data.body_html);
+
+                            }
 
                             $('.email-body-block').show();
 
@@ -1946,9 +1997,17 @@ $(document).on('click', '.dashboard-email-sent-count-btn', function(e) {
 
     var emailCount = $(this).attr('data-count');
 
+    var epmcode = $(this).attr('data-empcode');
+
     var dataUrl = $(gridSelector).attr('data-list-url');
 
     if (emailCount != undefined && emailCount != "0") {
+
+        if (epmcode != undefined && epmcode != "") {
+
+            $(gridSelector).attr('data-empcode', epmcode);
+
+        }
 
         if (modalTitle != undefined && modalTitle != "") {
 

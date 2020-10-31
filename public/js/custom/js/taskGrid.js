@@ -1069,6 +1069,14 @@ $(document).ready(function() {
 
     });
 
+    $("#classificationEmailsTab").on('click', function() {
+
+        $('.email-detail-body').hide();
+
+        getEmailTableList(".classificationEmailGrid");
+
+    });
+
     $("#businessEmailsTab").on('click', function() {
 
         $('.email-detail-body').hide();

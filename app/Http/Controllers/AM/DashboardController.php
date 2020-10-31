@@ -9,12 +9,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
 use App\Resources\Job\JobCollection as JobResource;
 use App\Resources\User\UserCollection as UserResource;
+use App\Resources\Job\EmailCollection as EmailResource;
 
 class DashboardController extends Controller
 {
     protected $jobResource = "";
 
     protected $userResource = "";
+
+    protected $emailResource = "";
 
     protected $currentUserCodeField = "am_empcode";
 
@@ -24,6 +27,8 @@ class DashboardController extends Controller
         $this->jobResource = new JobResource();
 
         $this->userResource = new UserResource();
+
+        $this->emailResource = new EmailResource();
 
         $this->currentUserCodeField = env('CURRENT_USER_CODE_FIELD');
     }
@@ -127,6 +132,13 @@ class DashboardController extends Controller
 
             $returnResponse["location_list"] = Config::get('constants.locationList');
 
+            // $emailCategoryData = $this->emailResource->emailCategoryCount($request);
+
+            // if (is_array($emailCategoryData) && isset($emailCategoryData["success"]) && $emailCategoryData["success"] == "true") {
+
+            //     $returnResponse["email_category_count"] = $emailCategoryData["data"];
+
+            // }
 
         } catch (Exception $e) {
 

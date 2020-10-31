@@ -41,6 +41,8 @@ class EmailCollection
 	protected $signatureupdateApiUrl;
 	protected $getsignatureApiUrl;
     protected $emailSentCountApiUrl;
+    protected $emailCategoryCountApiUrl;
+    protected $classificationEmailListApiUrl;
 
     public function __construct()
     {
@@ -64,6 +66,8 @@ class EmailCollection
 		$this->signatureupdateApiUrl    = env('API_SIGNATURE_UPDATE_URL');
         $this->getsignatureApiUrl       = env('API_GET_SIGNATURE_URL');
         $this->emailSentCountApiUrl     = env('API_EMAIL_SENT_COUNT_URL');
+        $this->emailCategoryCountApiUrl     = env('API_EMAIL_CATEGORY_COUNT_URL');
+        $this->classificationEmailListApiUrl    = env('API_EMAIL_CLASSIFICATION_LIST_URL');
     }
 
     /**
@@ -571,6 +575,60 @@ class EmailCollection
     }
 
     /**
+     * Get the email category count.
+     *
+     * @return array $returnData
+     */
+    public function emailCategoryCount($request)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // $userData = User::all();
+
+            $url = $this->emailCategoryCountApiUrl;
+
+            $params = ["empcode" => auth()->user()->empcode, "ipaddress" => $request->ip()];
+
+            $returnData = $this->postRequest($url, $params);
+
+            if (is_array($returnData) && count($returnData) > 0 && isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                $returnResponse["success"] = "true";
+
+                if (isset($returnData["data"]) && is_array($returnData["data"]) && count($returnData["data"]) > 0 && $returnData["data"] != "") {
+
+                    $returnResponse["data"] = $returnData["data"];
+
+                }
+
+            }
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+
+            $returnResponse["error"] = "true";
+
+            $returnResponse["message"] = $e->getMessage();
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
      * Get the email list by email field array.
      *
      * @param  array $field
@@ -590,6 +648,12 @@ class EmailCollection
             $responseData = [];
 
             $url = $this->emailListApiUrl;
+
+            if(isset($field["category"])) {
+
+                $url = $this->classificationEmailListApiUrl;
+
+            }
 
             $returnResponseData = $this->postRequest($url, $field);
 
@@ -1434,6 +1498,11 @@ class EmailCollection
 
                         }
 
+                        if ($item["empcode"] != auth()->user()->empcode) {
+
+                            $emailTypeClass = "pmbot-email-item";
+                        }
+
 						//Bharathi changed as per Balaji's new format 10 May 2020
 						/* if (isset($item["empcode"]) &&  $item["empcode"] != "") {
 
@@ -1469,6 +1538,8 @@ class EmailCollection
 
                 try {
 
+                    $item["negative_count_link"] = "0";
+
                     if(isset($item["last_processed_time"]) && $item["last_processed_time"] != "") {
 
                         $item["last_processed_time"] = date("Y/m/d H:i:s", strtotime($item["last_processed_time"]));
@@ -1478,6 +1549,12 @@ class EmailCollection
                     if (isset($item["last_annotated_time"]) && $item["last_annotated_time"] != "") {
 
                         $item["last_annotated_time"] = date("Y/m/d H:i:s", strtotime($item["last_annotated_time"]));
+                    }
+
+                    if (isset($item["negative_count"]) && $item["negative_count"] != ""&& $item["negative_count"] != "0") {
+
+                        $item["negative_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#sentEmailModal" data-toggle="modal" data-grid-selector="emailSentCountGrid" data-grid-title="negative email" data-count="' . $item["negative_count"]. '" data-email-filter="negative" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["negative_count"] . '</span></a>';
+
                     }
 
                     return $item;

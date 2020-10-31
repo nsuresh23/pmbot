@@ -642,11 +642,27 @@ class EmailController extends Controller
             if (isset($request->email_type) && $request->email_type != "") {
 
                 $field["email_type"] = $request->email_type;
+
             }
+
             if (isset($request->type) && $request->type != "") {
 
                 $field["type"] = $request->type;
+
             }
+
+            if (isset($request->category) && $request->category != "") {
+
+                $field["category"] = $request->category;
+
+            }
+
+            if (isset($request->empcode) && $request->empcode != "") {
+
+                $field["current_empcode"] = $request->empcode;
+
+            }
+
             $field["empcode"] = auth()->user()->empcode;
 
             if (count($field) > 0) {

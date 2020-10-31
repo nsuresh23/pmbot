@@ -72,6 +72,17 @@
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
                                 <li class="" role="presentation">
+                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="classificationEmailsTab" class="capitalize-font"
+                                        href="#classificationEmails">
+                                        {{ __('dashboard.classification_emails_tab_label') }}
+                                    </a>
+                                </li>
+
+                            <?php } ?>
+
+                            <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+
+                                <li class="" role="presentation">
                                     <a aria-expanded="false" title="Add this item" data-toggle="modal" role="tab" id="genericJobsTab" class="capitalize-font job-list" data-type="{{ __('dashboard.generic_job_text') }}" data-count="1">
                                         {{ __('dashboard.generic_jobs_tab_label') }}
                                     </a>
@@ -212,6 +223,16 @@
                     <div id="nonBusinessEmails" class="nonBusinessEmails tab-pane fade pt-0" role="tabpanel">
 
                         @include('pages.dashboard.email.dashboardEmails')
+
+                    </div>
+
+                <?php } ?>
+
+                <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+
+                    <div id="classificationEmails" class="classificationEmails tab-pane fade pt-0" role="tabpanel">
+
+                        @include('pages.dashboard.email.dashboardClassificationEmails')
 
                     </div>
 

@@ -22,87 +22,92 @@
                         <i class="zmdi zmdi-chevron-left"></i></a>
                 </div>
             </div>
-            <div class="email-button-group">
 
-                <div class="email-move-to-block" style="float:right;margin-right:5px;display:none;">
+            <?php if(in_array(auth()->user()->role, Config::get('constants.pmUserRoles'))) { ?>
 
-                    <div class="pull-left inline-block">
-                        <form class="form-inline email-move-to-form" action="{{ route(__('job.email_move_to_url')) }}">
-                            <input type="hidden" class="email-move-to-email-id" name="id" value="" />
-                            <div class="form-group">
-                                <div class="input-group email-move-to-input-group">
-                                    <div class="input-group-btn">
-                                        <span type="button" class="btn bg-warning txt-light pt-10 pb-10 pr-10">
-                                            {{-- <span class="fa fa-arrow-circle-right"></span> --}}
-                                            {{ __('job.email_move_to_label') }}
-                                        </span>
+                <div class="email-button-group">
+
+                    <div class="email-move-to-block" style="float:right;margin-right:5px;display:none;">
+
+                        <div class="pull-left inline-block">
+                            <form class="form-inline email-move-to-form" action="{{ route(__('job.email_move_to_url')) }}">
+                                <input type="hidden" class="email-move-to-email-id" name="id" value="" />
+                                <div class="form-group">
+                                    <div class="input-group email-move-to-input-group">
+                                        <div class="input-group-btn">
+                                            <span type="button" class="btn bg-warning txt-light pt-10 pb-10 pr-10">
+                                                {{-- <span class="fa fa-arrow-circle-right"></span> --}}
+                                                {{ __('job.email_move_to_label') }}
+                                            </span>
+                                        </div>
+                                        <select class="form-control select2 email-move-to-input" name="label_name"
+                                            style="width: max-content;" placeholder="{{__('job.email_move_to_placeholder_text') }}"
+                                            required></select>
+                                        <div class="input-group-btn email-move-to-btn">
+                                            <span type="button" class="btn bg-success txt-light pa-10">
+                                                <span class="fa fa-arrow-circle-right"></span>
+                                                {{-- {{ __('job.email_move_to_label') }} --}}
+                                            </span>
+                                        </div>
+                                        <div class="help-block with-errors"></div>
                                     </div>
-                                    <select class="form-control select2 email-move-to-input" name="label_name"
-                                        style="width: max-content;" placeholder="{{__('job.email_move_to_placeholder_text') }}"
-                                        required></select>
-                                    <div class="input-group-btn email-move-to-btn">
-                                        <span type="button" class="btn bg-success txt-light pa-10">
-                                            <span class="fa fa-arrow-circle-right"></span>
-                                            {{-- {{ __('job.email_move_to_label') }} --}}
-                                        </span>
-                                    </div>
-                                    <div class="help-block with-errors"></div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div style="float:right;margin-right:5px;">
+                        <a href="#replymailModal" role="menuitem" data-toggle="modal" title="reply"
+                            class="btn btn-success btn-block email-forward-btn" data-email-geturl="{{ $emailGetUrl }}"
+                            data-type="forward">
+                            Forward
+                        </a>
+                    </div>
+
+                    <div style="float:right;margin-right:5px;">
+                        <a href="#replymailModal" role="menuitem" data-toggle="modal" title="reply"
+                            class="btn btn-success btn-block email-reply-all-btn" data-email-geturl="{{ $emailGetUrl }}"
+                            data-type="replyall">
+                            Reply All
+                        </a>
+                    </div>
+                    <div style="float:right;margin-right:5px;">
+                        <a href="#" role="menuitem" data-toggle="modal" title="Reply" class="btn btn-success btn-block email-reply-btn"
+                            data-email-geturl="{{ $emailGetUrl }}" data-type="reply">
+                            Reply
+                        </a>
+                    </div>
+                    <div class="non-business-unmark-btn-block" style="float:right;margin-right:5px;display:none;">
+                        <a href="#" title="unmark" class="btn btn-success btn-block non-business-unmark-btn"
+                            data-email-status-update-url="{{ $emailStatusUpdateUrl }}">
+                            Unmark
+                        </a>
+                    </div>
+
+                    <div class="job-unmark-btn-block" style="float:right;margin-right:5px;display:none;">
+                        <a href="#" title="unmark" class="btn btn-success btn-block job-unmark-btn" data-job-id=""
+                            data-email-status-update-url="{{ $emailStatusUpdateUrl }}">
+                            Unmark
+                        </a>
+                    </div>
+
+                    <div class="email-annotator-link-block" style="float:right;margin-right:5px;display:none;">
+                        <a href="javascript:void(0);" target="_blank" class="btn btn-success btn-block email-annotator-link">
+                            Annotated Email
+                        </a>
                     </div>
                 </div>
+                <div class="email-draftbutton-group" style="float:right;margin-right:5px;display:none;">
+                    <div style="float:right;">
+                        <a href="#draftmailModal" role="menuitem" data-toggle="modal" title="Edit/Send"
+                            class="btn btn-success btn-block email-draft-btn" data-email-geturl="{{ $emailGetUrl }}" data-type="draft">
+                            Edit/Send
+                        </a>
+                    </div>
 
-                <div style="float:right;margin-right:5px;">
-                    <a href="#replymailModal" role="menuitem" data-toggle="modal" title="reply"
-                        class="btn btn-success btn-block email-forward-btn" data-email-geturl="{{ $emailGetUrl }}"
-                        data-type="forward">
-                        Forward
-                    </a>
-                </div>
-
-                <div style="float:right;margin-right:5px;">
-                    <a href="#replymailModal" role="menuitem" data-toggle="modal" title="reply"
-                        class="btn btn-success btn-block email-reply-all-btn" data-email-geturl="{{ $emailGetUrl }}"
-                        data-type="replyall">
-                        Reply All
-                    </a>
-                </div>
-                <div style="float:right;margin-right:5px;">
-                    <a href="#" role="menuitem" data-toggle="modal" title="Reply" class="btn btn-success btn-block email-reply-btn"
-                        data-email-geturl="{{ $emailGetUrl }}" data-type="reply">
-                        Reply
-                    </a>
-                </div>
-                <div class="non-business-unmark-btn-block" style="float:right;margin-right:5px;display:none;">
-                    <a href="#" title="unmark" class="btn btn-success btn-block non-business-unmark-btn"
-                        data-email-status-update-url="{{ $emailStatusUpdateUrl }}">
-                        Unmark
-                    </a>
                 </div>
 
-                <div class="job-unmark-btn-block" style="float:right;margin-right:5px;display:none;">
-                    <a href="#" title="unmark" class="btn btn-success btn-block job-unmark-btn" data-job-id=""
-                        data-email-status-update-url="{{ $emailStatusUpdateUrl }}">
-                        Unmark
-                    </a>
-                </div>
-
-                <div class="email-annotator-link-block" style="float:right;margin-right:5px;display:none;">
-                    <a href="javascript:void(0);" target="_blank" class="btn btn-success btn-block email-annotator-link">
-                        Annotated Email
-                    </a>
-                </div>
-            </div>
-            <div class="email-draftbutton-group" style="float:right;margin-right:5px;display:none;">
-                <div style="float:right;">
-                    <a href="#draftmailModal" role="menuitem" data-toggle="modal" title="Edit/Send"
-                        class="btn btn-success btn-block email-draft-btn" data-email-geturl="{{ $emailGetUrl }}" data-type="draft">
-                        Edit/Send
-                    </a>
-                </div>
-
-            </div>
+            <?php } ?>
 
         </div>
 

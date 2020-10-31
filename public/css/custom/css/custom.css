@@ -71,6 +71,10 @@
         text-decoration: none !important;
     }
 
+    .underlined {
+        text-decoration: underline !important;
+    }
+
     .list-modal-dialog {
         width: 95% !important;
     }
@@ -635,6 +639,10 @@ content: "\f067";
 
     .email-body-block .mce-panel {
         border: none !important;
+    }
+
+    .dashboard-email-sent-count-btn {
+        color: #fff !important;
     }
     /* #textarea_editor_email_reply p.MsoNormal,
 #textarea_editor_email_reply li.MsoNormal,
