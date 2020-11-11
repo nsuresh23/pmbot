@@ -1524,7 +1524,7 @@ class TaskCollection
 
                 if (isset($item["followup_date"]) && $item["followup_date"] != "") {
 
-                    $item["followup_date"] = date("Y/m/d H:i:s", strtotime($item["followup_date"]));
+                    $item["followup_date"] = date("Y/m/d", strtotime($item["followup_date"]));
 
                 }
 
