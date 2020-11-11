@@ -547,7 +547,10 @@ function getTaskActivitiesTableList(gridSelector) {
 
         // }
 
+
         $('.note-modal').modal('show');
+        $(".note-modal[aria-label!='note']").hide();
+        $('.modal-backdrop').hide();
 
         // if (gridType == 'detail') {
 

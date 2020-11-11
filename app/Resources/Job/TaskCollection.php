@@ -1473,26 +1473,56 @@ class TaskCollection
 
                 $item["over_due_hours"] = $overdueClass = "";
 
-                if (isset($item["followup_count"]) && $item["followup_count"] != "" && $item["followup_count"] != null && $item["followup_count"] > 0 && isset($item["category"]) && $item["category"] != "" && $item["category"] != null) {
+                if (isset($item["followup_date"]) && $item["followup_date"] != "" && $item["followup_date"] != null ) {
 
-                    $taskCategoryFollowupTime = [];
+                    $current_date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+                    $current_date = $current_date->format("Y/m/d h:i:s");
+                    $followup_date = new DateTime($item["followup_date"], new DateTimeZone('Asia/Kolkata'));
+                    $followup_date    = $followup_date->format("Y/m/d h:i:s");
 
-                    $taskCategoryFollowupTime = Config::get('constants.taskCategoryFollowupTime');
+                    if ($current_date > $followup_date) {
 
-                    if (is_array($taskCategoryFollowupTime) && isset($taskCategoryFollowupTime[$item["category"]]) && $taskCategoryFollowupTime[$item["category"]] != "") {
+                        // Declare and define two dates
+                        $date1 = strtotime($current_date);
+                        $date2 = strtotime($followup_date);
 
-                        $item["over_due_hours"] = (string)((int) $item["followup_count"] * (int) $taskCategoryFollowupTime[$item["category"]]);
+                        $diff = abs($date2 - $date1);
+                        $years = floor($diff / (365*60*60*24));
+                        $months = floor(($diff - $years * 365*60*60*24)/(30*60*60*24));
+                        $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/(60*60*24));
+                        $hours = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24)/(60*60));
+                        $minutes = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60)/ 60);
+                        $seconds = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24 - $days*60*60*24 - $hours*60*60 - $minutes*60));
+
+                        $item["over_due_hours"] = $days . " days " . $hours . " hours " . $minutes . " minutes";
 
                         $overdueClass = "text-danger";
 
                     }
+
                 }
+
+                // if (isset($item["followup_count"]) && $item["followup_count"] != "" && $item["followup_count"] != null && $item["followup_count"] > 0 && isset($item["category"]) && $item["category"] != "" && $item["category"] != null) {
+
+                //     $taskCategoryFollowupTime = [];
+
+                //     $taskCategoryFollowupTime = Config::get('constants.taskCategoryFollowupTime');
+
+                //     if (is_array($taskCategoryFollowupTime) && isset($taskCategoryFollowupTime[$item["category"]]) && $taskCategoryFollowupTime[$item["category"]] != "") {
+
+                //         $item["over_due_hours"] = (string)((int) $item["followup_count"] * (int) $taskCategoryFollowupTime[$item["category"]]);
+
+                //         $overdueClass = "text-danger";
+
+                //     }
+
+                // }
 
                 $item['title'] = '<a class="btn-link ' . $overdueClass . '" href="' . $taskViewUrl . '">' . mb_strimwidth($item["title"], 0, 50, "...") . $isUpdatedFlag .'</a>';
 
                 if (isset($item["followup_date"]) && $item["followup_date"] != "") {
 
-                    $item["followup_date"] = date("y/m/d H:i:s", strtotime($item["followup_date"]));
+                    $item["followup_date"] = date("Y/m/d h:i:s", strtotime($item["followup_date"]));
 
                 }
 
