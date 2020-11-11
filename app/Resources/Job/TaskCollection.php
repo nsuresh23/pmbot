@@ -2,7 +2,9 @@
 
 namespace App\Resources\Job;
 
+use DateTime;
 use Exception;
+use DateTimeZone;
 use League\Fractal\Manager;
 use App\Traits\General\Helper;
 use App\Traits\General\ApiClient;
@@ -1476,9 +1478,9 @@ class TaskCollection
                 if (isset($item["followup_date"]) && $item["followup_date"] != "" && $item["followup_date"] != null ) {
 
                     $current_date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
-                    $current_date = $current_date->format("Y/m/d h:i:s");
+                    $current_date = $current_date->format("Y-m-d H:i:s");
                     $followup_date = new DateTime($item["followup_date"], new DateTimeZone('Asia/Kolkata'));
-                    $followup_date    = $followup_date->format("Y/m/d h:i:s");
+                    $followup_date    = $followup_date->format("Y-m-d H:i:s");
 
                     if ($current_date > $followup_date) {
 
@@ -1522,7 +1524,7 @@ class TaskCollection
 
                 if (isset($item["followup_date"]) && $item["followup_date"] != "") {
 
-                    $item["followup_date"] = date("Y/m/d h:i:s", strtotime($item["followup_date"]));
+                    $item["followup_date"] = date("Y/m/d H:i:s", strtotime($item["followup_date"]));
 
                 }
 
