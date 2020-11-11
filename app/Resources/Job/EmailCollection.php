@@ -1326,6 +1326,7 @@ class EmailCollection
                 try {
 
                     $emailTypeClass = "";
+                    $emailSubject = "no subject";
                     $emailGetUrl = route(__("job.email_get_url"));
 
                     $item["is_priority"] = "";
@@ -1465,6 +1466,9 @@ class EmailCollection
                         if (base64_decode($item["subject"], true)) {
 
                             $item["subject"] = base64_decode($item["subject"]);
+							
+							$emailSubject = $item["subject"];
+							
                         }
                     }
 
@@ -1510,7 +1514,7 @@ class EmailCollection
                             $emailViewUrl = $emailViewUrl . "/empcode/" . $item["empcode"];
                         } */
 
-                         $item['subject_link'] = '<a class="btn-link email-item ' . $emailTypeClass . '" href="' . $emailViewUrl . '" data-email-id="' . $item["id"] . '" data-email-geturl="' . $emailGetUrl . '">' . mb_strimwidth($item["subject"], 0, 75, "...") . '</a>';
+                         $item['subject_link'] = '<a class="btn-link email-item ' . $emailTypeClass . '" href="' . $emailViewUrl . '" data-email-id="' . $item["id"] . '" data-email-geturl="' . $emailGetUrl . '">' . mb_strimwidth($emailSubject, 0, 75, "...") . '</a>';
                     }
 
                     return $item;
