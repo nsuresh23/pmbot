@@ -171,23 +171,27 @@ class TaskCollection
 
             $responseData = $this->postRequest($url, $field);
 
-            if (is_array($responseData) && $responseData["success"] == "true" && $responseData["data"] != "") {
+            if (is_array($responseData) && $responseData["success"] == "true") {
 
-                $responseFormatData = $this->formatData($responseData["data"], $field);
+                $returnResponse["success"] = "true";
 
-                if ($responseFormatData) {
+                if (is_array($responseData["data"]) && $responseData["data"] != "") {
 
-                    $returnResponse["success"] = "true";
+                    $responseFormatData = $this->formatData($responseData["data"], $field);
 
-                    $returnResponse["data"] = $responseFormatData;
+                    if ($responseFormatData) {
 
-                    if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
+                        $returnResponse["data"] = $responseFormatData;
 
-                        $returnResponse["result_count"] = $responseData["result_count"];
+                        if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
 
-                    } else if (is_array($responseFormatData)) {
+                            $returnResponse["result_count"] = $responseData["result_count"];
 
-                        $returnResponse["result_count"] = count($responseFormatData);
+                        } else if (is_array($responseFormatData)) {
+
+                            $returnResponse["result_count"] = count($responseFormatData);
+
+                        }
 
                     }
 

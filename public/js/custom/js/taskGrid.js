@@ -184,7 +184,7 @@ function getTaskTableList(gridSelector) {
         type: "text",
         filtering: false,
         sorting: false,
-        // width: 50
+        width: 85
     });
 
 
