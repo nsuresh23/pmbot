@@ -1381,7 +1381,7 @@ class ApiController extends Controller
 
         if(!isset($_POST['generic'])) {
 
-            date_default_timezone_set("Asia/Kolkata");
+            date_default_timezone_set(env('APP_TIME_ZONE'));
             $duedate = date("Y-m-d", strtotime("tomorrow")) . ' ' . date('H:i:s');
 
         }

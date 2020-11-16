@@ -679,7 +679,7 @@ class EmailCollection
 
                             if (!isset($returnResponseData["last_updated"]) || $returnResponseData["last_updated"] == "") {
 
-                                $date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+                                $date = new DateTime('now', new DateTimeZone(env('APP_TIME_ZONE')));
                                 $lastUpdated =  $date->format('Y/m/d h:i:s A');
 
                                 $returnResponse["last_updated"] = $lastUpdated;
@@ -698,8 +698,8 @@ class EmailCollection
 
                             if (isset($returnResponseData["last_updated"]) && $returnResponseData["last_updated"] != "") {
 
-                                $lastUpdated = new DateTime($returnResponseData["last_updated"], new DateTimeZone('Asia/Kolkata'));
-                                $currentTime = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+                                $lastUpdated = new DateTime($returnResponseData["last_updated"], new DateTimeZone(env('APP_TIME_ZONE')));
+                                $currentTime = new DateTime('now', new DateTimeZone(env('APP_TIME_ZONE')));
                                 $diff = $lastUpdated->diff($currentTime);
 
                                 $minutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
@@ -720,7 +720,7 @@ class EmailCollection
 
                             }
 
-                            // $date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+                            // $date = new DateTime('now', new DateTimeZone(env('APP_TIME_ZONE')));
                             // $returnResponse["last_updated"] =  $date->format('Y/m/d h:i:s a');
 
                             // $returnResponse["last_updated"] = date('Y/m/d h:i:s a');

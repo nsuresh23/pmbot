@@ -1481,9 +1481,9 @@ class TaskCollection
 
                 if (isset($item["followup_date"]) && $item["followup_date"] != "" && $item["followup_date"] != null ) {
 
-                    $current_date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+                    $current_date = new DateTime('now', new DateTimeZone(env('APP_TIME_ZONE')));
                     $current_date = $current_date->format("Y-m-d H:i:s");
-                    $followup_date = new DateTime($item["followup_date"], new DateTimeZone('Asia/Kolkata'));
+                    $followup_date = new DateTime($item["followup_date"], new DateTimeZone(env('APP_TIME_ZONE')));
                     $followup_date    = $followup_date->format("Y-m-d H:i:s");
 
                     if ($current_date > $followup_date) {
