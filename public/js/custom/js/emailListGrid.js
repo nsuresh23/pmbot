@@ -62,6 +62,13 @@ function getEmailTableList(gridSelector) {
 
     var field = [];
 
+    var scoreValue = [
+        { Category: '', Id: '', Name: '' },
+        { Category: '<i class="fa fa-circle inline-block txt-grey font-16" title="normal"></i>', Id: 'normal', Name: 'Normal' },
+        { Category: '<i class="fa fa-circle inline-block txt-success font-16"></i>', Id: 'positive', Name: 'Positive' },
+        { Category: '<i class="fa fa-circle inline-block txt-danger font-16"></i>', Id: 'negative', Name: 'Negative' },
+    ];
+
     // field.push({
     //     title: "S.NO",
     //     name: "s_no",
@@ -93,6 +100,44 @@ function getEmailTableList(gridSelector) {
             name: "email_from",
             type: "text",
         });
+    }
+
+    if (gridCategory != undefined && gridCategory != '' && gridCategory == 'myEmail') {
+
+        field.push({
+            css: "text-center",
+            align: "center",
+            title: 'SCORE',
+            name: "email_classification_category",
+            type: "select",
+            items: scoreValue,
+            valueField: "Id",
+            textField: "Name",
+            itemTemplate: function(value, item) {
+
+                if (item.email_classification_category == null || item.email_classification_category == '' || item.email_classification_category == 'not_set') {
+
+                    return '<i class="fa fa-circle inline-block txt-grey font-16" title="normal"></i>';
+
+                }
+
+                if (item.email_classification_category == 'positive') {
+
+                    return '<i class="fa fa-circle inline-block txt-success font-16" title="positive"></i>';
+
+                }
+
+                if (item.email_classification_category == 'negative') {
+
+                    return '<i class="fa fa-circle inline-block txt-danger font-16" title="negative"></i>';
+
+                }
+
+                return '';
+
+            },
+        });
+
     }
 
     field.push({
@@ -784,7 +829,7 @@ function getPmsEmailCountTableList(gridSelector) {
     });
 
     field.push({
-        title: "WARNING EMAILS",
+        title: "ALARMING EMAILS",
         name: "negative_count_link",
         type: "text",
         // filtering: false,

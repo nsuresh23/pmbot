@@ -69,16 +69,16 @@
 
                             <?php } ?>
 
-                            <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+                            <?php // if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
-                                <li class="" role="presentation">
+                                {{-- <li class="" role="presentation">
                                     <a aria-expanded="true" data-toggle="tab" role="tab" id="classificationEmailsTab" class="capitalize-font"
                                         href="#classificationEmails">
                                         {{ __('dashboard.classification_emails_tab_label') }}
                                     </a>
-                                </li>
+                                </li> --}}
 
-                            <?php } ?>
+                            <?php // } ?>
 
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
@@ -228,15 +228,15 @@
 
                 <?php } ?>
 
-                <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
+                <?php // if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
-                    <div id="classificationEmails" class="classificationEmails tab-pane fade pt-0" role="tabpanel">
+                    {{-- <div id="classificationEmails" class="classificationEmails tab-pane fade pt-0" role="tabpanel">
 
                         @include('pages.dashboard.email.dashboardClassificationEmails')
 
-                    </div>
+                    </div> --}}
 
-                <?php } ?>
+                <?php // } ?>
 
                 <?php //if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
