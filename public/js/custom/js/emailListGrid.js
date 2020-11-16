@@ -548,7 +548,13 @@ function getEmailTableList(gridSelector) {
 
                 $('.email-item-count').html('');
                 $('.email-inbox-unread-count').html('');
-                $('.email-result-count').html('');
+
+                if (gridCategory != 'emailSentCount') {
+
+                    $('.email-result-count').html('');
+
+                }
+
                 $('.email-last-updated').html('-');
                 $('.email-last-updated').removeClass('bg-danger pa-5 txt-light');
 
@@ -613,7 +619,11 @@ function getEmailTableList(gridSelector) {
                                 // $(gridSelector).parent().prev().find('.result-count').html('(' + response.result_count + ')');
                                 // $(gridSelector).parent().prev().find('.result-count').addClass('result-count-icon-badge');
 
-                                $('.email-result-count').html('(' + response.result_count + ')');
+                                if (gridCategory != 'emailSentCount') {
+
+                                    $('.email-result-count').html('(' + response.result_count + ')');
+
+                                }
 
                                 emailResultClass = emailFilter;
 
