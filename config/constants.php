@@ -90,6 +90,7 @@ return [
 		"5" => "outbox",
 		"6" => "sent",
         "7" => "archived",
+        "55" => "outbox_wip",
         "99" => "undelivered",
     ],
     "stateList" => [
