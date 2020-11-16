@@ -136,6 +136,7 @@ function getEmailTableList(gridSelector) {
                 return '';
 
             },
+            width: 40,
         });
 
     }
