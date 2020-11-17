@@ -385,7 +385,7 @@ class ApiController extends Controller
         if (is_null($data['emailnotation'])) {
             $emailnotation = '';
         } else {
-            $emailnotation = $data['emailnotation'];
+            $emailnotation = strtolower($data['emailnotation']);
         }
 
         if (is_null($data['category']) || empty($data['category'])) {
@@ -557,6 +557,7 @@ class ApiController extends Controller
                             "description" => base64_encode($completedlist->taskdescription),
                             "createdby_empcode" => $completedlist->createdempcode,
                             "createdby_empname" => $completedlist->createdempcode,
+                            "email_notation" => $completedlist->emailnotation,
                             "createdby_role" => "project_manager",
                             "createdby_status" => "completed",
                             "assignedto_status" => "pending",
@@ -578,6 +579,7 @@ class ApiController extends Controller
                             "description" => base64_encode($completedlist->taskdescription),
                             "createdby_empcode" => $completedlist->createdempcode,
                             "createdby_empname" => $completedlist->createdempcode,
+                            "email_notation" => $completedlist->emailnotation,
                             "createdby_role" => "project_manager",
                             "createdby_status" => "completed",
                             "assignedto_status" => "pending",
