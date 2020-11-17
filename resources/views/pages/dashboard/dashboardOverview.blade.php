@@ -184,7 +184,7 @@ if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) 
                 <div class="panel-body pa-0">
                     <div class="sm-data-box">
                         <div class="container-fluid">
-                            <div class="row job-list jobs-appreciation" data-toggle="modal" data-type="{{ __('dashboard.appreciation_job_text') }}"
+                            <div class="row jobs-appreciation" data-toggle="modal" data-type="{{ __('dashboard.appreciation_job_text') }}"
                                 data-count="{{ $returnResponse['data'][__('dashboard.appreciation_job_text')]['count'] ?? '0'}}">
                                 <div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
                                     <span class="txt-dark block counter"><span
@@ -207,7 +207,7 @@ if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) 
                 <div class="panel-body pa-0">
                     <div class="sm-data-box">
                         <div class="container-fluid">
-                            <div class="row job-list jobs-escalation" data-toggle="modal" data-type="{{ __('dashboard.escalation_job_text') }}" data-count="{{ $returnResponse['data'][__('dashboard.escalation_job_text')]['count'] ?? '0'}}">
+                            <div class="row jobs-escalation" data-toggle="modal" data-type="{{ __('dashboard.escalation_job_text') }}" data-count="{{ $returnResponse['data'][__('dashboard.escalation_job_text')]['count'] ?? '0'}}">
                                 <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6 text-center">
                                     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-center pl-0 pr-0 data-wrap-left">
                                         <span class="txt-dark block counter">
