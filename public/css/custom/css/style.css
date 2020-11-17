@@ -1027,6 +1027,10 @@ code {
     color: #92F2EF !important;
 }
 
+.txt-a-blue {
+    color: #337ab7 !important;
+}
+
 .txt-danger,
 .text-danger {
     color: #f33923 !important;
