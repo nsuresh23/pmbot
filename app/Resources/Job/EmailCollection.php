@@ -1502,7 +1502,7 @@ class EmailCollection
 
                         }
 
-                        if ($item["empcode"] != auth()->user()->empcode) {
+                        if (strtolower($item["empcode"]) != strtolower(auth()->user()->empcode)) {
 
                             $emailTypeClass = "pmbot-email-item";
                         }
