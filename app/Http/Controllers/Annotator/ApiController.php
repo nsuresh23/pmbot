@@ -510,7 +510,8 @@ class ApiController extends Controller
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataNotesEncoded)));
 
 					curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, (int)env('SSLVERIFYHOST'));
 
                     // Submit the POST request
                     $resultnotes = curl_exec($ch);
@@ -639,7 +640,8 @@ class ApiController extends Controller
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
 					curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, (int)env('SSLVERIFYHOST'));
 
                     // Submit the POST request
                     $result = curl_exec($ch);
@@ -713,7 +715,8 @@ class ApiController extends Controller
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, (int)env('SSLVERIFYHOST'));
 
             // Submit the POST request
             $result = curl_exec($ch);
@@ -797,10 +800,20 @@ class ApiController extends Controller
             // Set HTTP Header for POST request
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, (int)env('SSLVERIFYHOST'));
             // Submit the POST request
             $result = curl_exec($ch);
+
+            if($result == "") {
+
+                if (curl_errno($ch)) {
+
+                    $result = curl_error($ch);
+
+                }
+
+            }
 
             $this->info(
                 "api_annotator_log_" . date('Y-m-d'),
@@ -844,7 +857,8 @@ class ApiController extends Controller
                 // Set HTTP Header for POST request
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 				curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, (int)env('SSLVERIFYHOST'));
 
                 // Submit the POST request
                 $result = curl_exec($ch);
@@ -1068,7 +1082,8 @@ class ApiController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, (int)env('SSLVERIFYHOST'));
 
         // Submit the POST request
         $result = curl_exec($ch);
@@ -1137,7 +1152,8 @@ class ApiController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, (int)env('SSLVERIFYHOST'));
 
         // Submit the POST request
         $result = curl_exec($ch);
@@ -1199,7 +1215,8 @@ class ApiController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, (int)env('SSLVERIFYHOST'));
 
         // Submit the POST request
         $result = curl_exec($ch);
@@ -1266,7 +1283,8 @@ class ApiController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, (int)env('SSLVERIFYHOST'));
 
         // Submit the POST request
         $result = curl_exec($ch);
@@ -1331,7 +1349,8 @@ class ApiController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, (int)env('SSLVERIFYHOST'));
 
         // Submit the POST request
         $result = curl_exec($ch);
@@ -1444,7 +1463,8 @@ class ApiController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, (int)env('SSLVERIFYHOST'));
 
         // Submit the POST request
         $result = curl_exec($ch);
@@ -1533,7 +1553,8 @@ class ApiController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($jsonDataEncoded)));
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, (int)env('SSLVERIFYHOST'));
 
         // Submit the POST request
         $result = curl_exec($ch);
