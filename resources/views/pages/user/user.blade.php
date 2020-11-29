@@ -172,7 +172,7 @@
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pa-0">
                                                                     <div class="form-group">
                                                                         <label for="role" class="control-label mb-10">{{ __('user.user_role_label') }}</label>
-                                                                        {!! Form::select('role', $userData["role_list"], $selectedRole, ['class' => 'form-control select2',
+                                                                        {!! Form::select('role', $userData["role_list"], $selectedRole, ['class' => 'form-control select2 user_role_select',
                                                                         'data-error' => "{{ __('user.user_role_error_msg') }}", 'required']) !!}
                                                                     </div>
                                                                 </div>
@@ -274,7 +274,7 @@
                                                                         <div class="help-block with-errors"></div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 lead-pm-block">
                                                                     <label for="lead-pm" class="control-label mb-10">{{ __('user.user_lead_pm_label') }}</label>
                                                                     <div class="form-group js-switch-mt-0">
                                                                         {{-- <input type="checkbox" id="terms" class="" data-error="Before you check yourself" required> --}}

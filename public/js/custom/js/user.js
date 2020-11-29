@@ -704,3 +704,25 @@ $(function() {
     }
 
 });
+
+function checkRole(item) {
+
+    console.log($('#lead-pm').is(':checked'));
+
+    if (item.value != 'project_manager') {
+
+        if ($('#lead-pm').is(':checked') == true) {
+
+            $('#lead-pm').trigger("click");
+
+        }
+
+    }
+
+}
+
+$('.user_role_select').on('change', function() {
+
+    checkRole(this);
+
+});
