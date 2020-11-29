@@ -494,25 +494,41 @@ trait Helper
 
                 if($item["action_item"] == "job") {
 
-                    $actionItemUrl = route(__("job.job_detail_url"), $item[$item["action_item"] . "_id"]);
+                    if(isset($item[$item["action_item"] . "_id"]) && $item[$item["action_item"] . "_id"] != "") {
+
+                        $actionItemUrl = route(__("job.job_detail_url"), $item[$item["action_item"] . "_id"]);
+
+                    }
 
                 }
 
                 if ($item["action_item"] == "task") {
 
-                    $actionItemUrl = route(__("job.task_view_url"), $item[$item["action_item"] . "_id"]);
+                    if (isset($item[$item["action_item"] . "_id"]) && $item[$item["action_item"] . "_id"] != "") {
+
+                        $actionItemUrl = route(__("job.task_view_url"), $item[$item["action_item"] . "_id"]);
+
+                    }
 
                 }
 
                 if ($item["action_item"] == "checklist") {
 
-                    $actionItemUrl = route(__("job.check_list_view_url"), $item[$item["action_item"] . "_id"]);
+                    if (isset($item[$item["action_item"] . "_id"]) && $item[$item["action_item"] . "_id"] != "") {
+
+                        $actionItemUrl = route(__("job.check_list_view_url"), $item[$item["action_item"] . "_id"]);
+
+                    }
 
                 }
 
                 if ($item["action_item"] == "email") {
 
-                    $actionItemUrl = route(__("job.email_view_url"), $item[$item["action_item"] . "_id"]);
+                    if (isset($item[$item["action_item"] . "_id"]) && $item[$item["action_item"] . "_id"] != "") {
+
+                        $actionItemUrl = route(__("job.email_view_url"), $item[$item["action_item"] . "_id"]);
+
+                    }
 
                 }
 
