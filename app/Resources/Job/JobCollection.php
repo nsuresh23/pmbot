@@ -893,7 +893,7 @@ class JobCollection
 
         $userClass = $userRoleClass = "";
 
-        if (isset($item["createdby_empcode"]) && $item["createdby_empcode"] == auth()->user()->empcode) {
+        if (isset($item["createdby_empcode"]) && strtolower($item["createdby_empcode"]) == strtolower(auth()->user()->empcode)) {
 
             $userClass = "timeline-inverted";
         }

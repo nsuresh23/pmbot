@@ -437,7 +437,7 @@ class UserController extends Controller
 
             if ($request->email) {
 
-                $request->merge(['empcode' => $request->email]);
+                $request->merge(['empcode' => strtolower($request->email)]);
             }
 
             if (auth()->check()) {

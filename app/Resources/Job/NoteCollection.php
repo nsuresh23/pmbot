@@ -126,12 +126,12 @@ class NoteCollection
 
                 $paramInfo = $request->all();
 
-                
+
                 unset($paramInfo["_token"]);
                 unset($paramInfo["files"]);
                 unset($paramInfo["redirectTo"]);
                 unset($paramInfo["_wysihtml5_mode"]);
-                
+
                 $url = $this->taskNoteAddApiUrl;
 
                 $returnData = $this->postRequest($url, $paramInfo);
@@ -225,7 +225,7 @@ class NoteCollection
         try {
 
             $url = $this->taskNoteByFieldApiUrl;
-            
+
             $responseData = $this->postRequest($url, $field);
 
             if (isset($responseData["success"]) && $responseData["success"] == "true") {
@@ -350,7 +350,7 @@ class NoteCollection
 
                 // delete
                 $url = $this->taskNoteDeleteApiUrl;
-                
+
                 $returnData = $this->postRequest($url, ['id' => $request->get('id')]);
 
                 if (isset($returnData["success"]) && $returnData["success"] == "true") {
@@ -410,7 +410,7 @@ class NoteCollection
 
                 }
 
-                if (isset($item['creator_empcode']) && $item['creator_empcode'] == auth()->user()->empcode) {
+                if (isset($item['creator_empcode']) && strtolower($item['creator_empcode']) == strtolower(auth()->user()->empcode)) {
 
                     $item['creator_empcode'] = "";
 
@@ -433,7 +433,7 @@ class NoteCollection
                 //     }
 
                 // }
-                
+
                 // $item['title'] = '<a class="btn-link" href="' . route('task-view', (int) $item['task_id']) . '">' . $item['title'] . '</a>';
                 // $item['diary_view'] = $this->taskDiaryView($item);
                 // $item['timeline_view'] = $this->taskTimelineView($item);
