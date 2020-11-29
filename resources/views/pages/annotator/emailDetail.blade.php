@@ -125,6 +125,14 @@
         </a><?php */?>
         <!--<button id="btnfollowup" class="btn btn-primary btn-sm">Followup</button>-->
 
+        <?php if(isset($returnData['email_download_path']) && $returnData['email_download_path'] != "") { ?>
+
+            <a href="{{$returnData['email_download_path'] ?? 'javascript:void(0);'}}" target="_blank" class="btn btn-sm btn-success email-download-link">
+                Download
+            </a>
+
+        <?php } ?>
+
         <a href="{{route('email-forward') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="forward" class="btn btn-sm btn-success email-forward-button email-button-group">
             Forward
         </a>

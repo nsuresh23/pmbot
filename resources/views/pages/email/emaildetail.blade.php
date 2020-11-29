@@ -84,7 +84,14 @@
 					<a href="javascript:void(0);" target="_blank" class="btn btn-success btn-block email-annotator-link">
 						Annotated Email
 					</a>
-				</div>
+                </div>
+
+                <div class="email-download-link-block" style="float:right;margin-right:5px;">
+                    <a href="javascript:void(0);" target="_blank" class="btn btn-success btn-block email-download-link">
+                        Download
+                    </a>
+                </div>
+
 			</div>
             <div class="email-draftbutton-group" style="float:right;margin-right:5px;display:none;">
 				<div style="float:right;">

@@ -62,9 +62,15 @@ class FileController extends Controller
                 if ($request->fileserver == "2") {
 
                     $imageFolderPath     = str_replace("\\", "/", $request->img_path);
-                    
+
                     // Storage::disk('s3')->put($imageFolderPath, file_get_contents($imageFolderPath));
-                    
+
+                    if(isset($request->alais_name) && $request->alais_name != "") {
+
+                        return Storage::disk('s3')->download($imageFolderPath, $request->alais_name);
+
+                    }
+
                     return Storage::disk('s3')->download($imageFolderPath);
 
                 }
@@ -129,7 +135,7 @@ class FileController extends Controller
 
                     $url .= $imageFolderPath;
 
-                    $returnResponse["success"] = "true"; 
+                    $returnResponse["success"] = "true";
 
                     $returnResponse["data"] = ["url" => $url, "filename" => $filename]; //change this URL
 

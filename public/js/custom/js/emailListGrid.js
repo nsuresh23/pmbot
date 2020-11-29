@@ -1405,6 +1405,8 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
         $('.email-annotator-link').attr('href', 'javascript:void(0);');
         $('.email-annotator-link-block').hide();
+        $('.email-download-link').attr('href', 'javascript:void(0);');
+        $('.email-download-link-block').hide();
         $('.email-draftbutton-group').hide();
 
         $('.email-move-to-block').hide();
@@ -1513,6 +1515,13 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
                             $('.email-annotator-link').attr('href', response.data.email_annotator_link);
                             $('.email-annotator-link-block').show();
+
+                        }
+
+                        if (response.data.email_download_path != undefined && response.data.email_download_path != '') {
+
+                            $('.email-download-link').attr('href', response.data.email_download_path);
+                            $('.email-download-link-block').show();
 
                         }
 

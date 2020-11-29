@@ -55,11 +55,60 @@ class ApiController extends Controller
     public function getannotatoremail(Request $request)
     {
         $returnData = [];
-        $emailData = DB::select(DB::raw(" SELECT id, email_id, subject, email_from, email_to, email_received_date, attachments, email_path, (SELECT body_html FROM email_box_details WHERE email_box_id = email_box.id ) as body_html from email_box where id = '" . $request->id . "' and email_id = '" . auth()->user()->empcode . "'  limit 0,1 "));
+        $emailData = DB::select(DB::raw(" SELECT id, email_id, subject, email_from, email_to, email_received_date, attachments, email_path, email_path_primary, (SELECT body_html FROM email_box_details WHERE email_box_id = email_box.id ) as body_html from email_box where id = '" . $request->id . "' and email_id = '" . auth()->user()->empcode . "'  limit 0,1 "));
         $returnData['emailData']     = $emailData;
         $returnData['id']             = $request->id;
         $returnData['empcode']         = auth()->user()->empcode;
+
+        if(is_array($emailData) && count($emailData) > 0) {
+
+            if (isset($emailData[0]->email_path_primary) && $emailData[0]->email_path_primary != "") {
+
+                $email_filename = "email.eml";
+
+                $file_name_split = pathinfo($email_filename);
+
+                if (is_array($file_name_split) && count($file_name_split) > 0) {
+
+                    if (isset($file_name_split["extension"]) && $file_name_split["extension"] != "") {
+
+                        $email_file_base_name = $file_name_split["filename"];
+
+                        if (isset($emailData[0]->subject) && $emailData[0]->subject != "") {
+
+                            $email_file_base_name = $emailData[0]->subject;
+
+                            if (base64_decode($email_file_base_name, true)) {
+
+                                $email_file_base_name = base64_decode($email_file_base_name);
+
+                            }
+
+                            $email_file_base_name = preg_replace('/[^A-Za-z0-9. _]/', '', $email_file_base_name);
+                            $email_file_base_name = preg_replace('/\\s+/', '_', $email_file_base_name);
+                            $email_file_base_name = strtolower(mb_strimwidth($email_file_base_name, 0, 50));
+                        }
+
+                        $email_file_path = route('file') . Config::get('constants.emailImageDownloadPathParams');
+
+                        $email_file_path .= $emailData[0]->email_path_primary . $email_filename;
+
+                        $alais_filename = $email_file_base_name . "." . $file_name_split["extension"];
+
+                        $email_file_path .= "&alais_name=" . $alais_filename;
+
+                        $returnData["email_download_path"] = $email_file_path;
+
+                    }
+
+                }
+
+            }
+
+        }
+
         return view("pages.annotator.emailDetail", compact("returnData"));
+
     }
 
     /**

@@ -1080,6 +1080,44 @@ class EmailCollection
                             $returnResponse["data"]["replyforward_signature"] = base64_decode($returnResponse["data"]["replyforward_signature"]);
                         }
                    }
+
+                    if (isset($returnResponse["data"]["email_path_primary"]) && $returnResponse["data"]["email_path_primary"] != "") {
+
+                        $email_filename = "email.eml";
+
+                        $file_name_split = pathinfo($email_filename);
+
+                        if (is_array($file_name_split) && count($file_name_split) > 0) {
+
+                            if (isset($file_name_split["extension"]) && $file_name_split["extension"] != "") {
+
+                                $email_file_base_name = $file_name_split["filename"];
+
+                                if (isset($returnResponse["data"]["subject"]) && $returnResponse["data"]["subject"] != "") {
+
+                                    $email_file_base_name = $returnResponse["data"]["subject"];
+                                    $email_file_base_name = preg_replace('/[^A-Za-z0-9. _]/', '', $email_file_base_name);
+                                    $email_file_base_name = preg_replace('/\\s+/', '_', $email_file_base_name);
+                                    $email_file_base_name = strtolower(mb_strimwidth($email_file_base_name, 0, 50));
+
+                                }
+
+                                $email_file_path = route('file') . Config::get('constants.emailImageDownloadPathParams');
+
+                                $email_file_path .= $returnResponse["data"]["email_path_primary"] . $email_filename;
+
+                                $alais_filename = $email_file_base_name . "." . $file_name_split["extension"];
+
+                                $email_file_path .= "&alais_name=" . $alais_filename;
+
+                                $returnResponse["data"]["email_download_path"] = $email_file_path;
+
+                            }
+
+                        }
+
+                    }
+
                     if (isset($returnResponse["data"]["attachments"]) && $returnResponse["data"]["attachments"] && isset($returnResponse["data"]["email_path"]) && $returnResponse["data"]["email_path"]) {
 
                         $emailAttachments = [];
@@ -1101,7 +1139,7 @@ class EmailCollection
                             // $returnResponse["data"]["attachment_count"] = count($emailAttachments);
 
                             $emailAttachmentHtml= "";
-							$emailForwardAttachmentList= "";
+                            $emailForwardAttachmentList= "";
 
                             array_walk(
                                 $emailAttachments,
@@ -1142,8 +1180,8 @@ class EmailCollection
                                             $emailAttachmentHtml .= '</li>';
 
 
-											/********** FORWARD EMAIL ATTACHEMENT LIST START ***********/
-											$emailForwardAttachmentList .= '<li class="mb-0 attachements_'.$key.'" id="attachements_'.$key.'" >';
+                                            /********** FORWARD EMAIL ATTACHEMENT LIST START ***********/
+                                            $emailForwardAttachmentList .= '<li class="mb-0 attachements_'.$key.'" id="attachements_'.$key.'" >';
                                                 $emailForwardAttachmentList .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email-attachment-item-block">';
                                                     $emailForwardAttachmentList .= '<a href="';
                                                     $emailForwardAttachmentList .= $item_file;
@@ -1162,7 +1200,7 @@ class EmailCollection
                                                     $emailForwardAttachmentList .= '</a>';
                                                 $emailForwardAttachmentList .= '</div>';
                                             $emailForwardAttachmentList .= '<input type="hidden" id="fw_attachements" name="fw_attachements[]" value="'.$item_name.'"></li>';
-											/********** FORWARD EMAIL ATTACHEMENT LIST END ***********/
+                                            /********** FORWARD EMAIL ATTACHEMENT LIST END ***********/
 
                                             $emailAttachments[$key] = ["attachment_name" => $item_name, "attachment_file" => $item_file];
 
@@ -1192,7 +1230,7 @@ class EmailCollection
                                 $returnResponse["data"]["email_attachment_count"]        = count($emailAttachments);
                                 $returnResponse["data"]["email_attachment"]              = $emailAttachments;
                                 $returnResponse["data"]["email_attachment_html"]         = $emailAttachmentHtml;
-								$returnResponse["data"]["email_forward_attachment_html"] = $emailForwardAttachmentList;
+                                $returnResponse["data"]["email_forward_attachment_html"] = $emailForwardAttachmentList;
 
                             }
 
