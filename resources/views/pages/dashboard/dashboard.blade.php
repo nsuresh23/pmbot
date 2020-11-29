@@ -109,6 +109,8 @@
 
         $myEmailListUrl = route(__("job.email_list_url"));
 
+        $emailRuleListUrl = route(__("dashboard.email_rules_list_url"));
+
         $emailSendUrl      = route(__("job.email_send_url"));
 		$draftemailSendUrl = route(__("job.draftemail_send_url"));
         $emailGetUrl = route(__("job.email_get_url"));

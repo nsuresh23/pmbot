@@ -101,6 +101,18 @@
 
                             <?php //} ?>
 
+                            <?php if(auth()->user()->lead_pm) { ?>
+
+                                <li class="" role="presentation">
+                                    <a data-toggle="tab" id="emailRulesTab" class="capitalize" role="tab" href="#emailRules"
+                                        post-url="{{ route(__('job.email_rules_url')) }}">
+                                        {{ __('job.email_rules_tab_label') }}
+                                        <span class="email-rules-count"></span>
+                                    </a>
+                                </li>
+
+                            <?php } ?>
+
                             <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 
                                 <li class="" role="presentation">
@@ -247,6 +259,16 @@
                                 </div> --}}
 
                 <?php //} ?>
+
+                <?php if(auth()->user()->lead_pm) { ?>
+
+                    <div id="emailRules" class="tab-pane fade" role="tabpanel">
+
+                        @include('pages.dashboard.email.emailRules')
+
+                    </div>
+
+                <?php } ?>
 
                 <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
 

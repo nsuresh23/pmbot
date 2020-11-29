@@ -49,6 +49,8 @@ return [
     'user_mobile_placeholder_text' => 'mobile',
     'user_status_label' => 'status',
     'user_status_placeholder_text' => 'status',
+    'user_lead_pm_label' => 'lead PM',
+    'user_lead_pm_placeholder_text' => 'lead pm',
     'user_submit_button_label' => 'save',
     'user_cancel_button_label' => 'cancel',
 

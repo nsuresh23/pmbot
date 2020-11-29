@@ -423,7 +423,7 @@ class UserController extends Controller
     public function userStore(Request $request)
     {
 
-        $status = "false";
+        $status = $lead_pm = "0";
 
         try {
 
@@ -434,6 +434,13 @@ class UserController extends Controller
             }
 
             $request->merge(['status' => $status]);
+
+            if ($request->get('lead_pm') == "on") {
+
+                $lead_pm = "1";
+            }
+
+            $request->merge(['lead_pm' => $lead_pm]);
 
             if ($request->email) {
 
@@ -487,7 +494,7 @@ class UserController extends Controller
 
         try {
 
-            $status = "0";
+            $status = $lead_pm = "0";
 
             if ($request->get('status') == "on") {
 
@@ -497,7 +504,12 @@ class UserController extends Controller
 
             $request->merge(['status' => $status]);
 
-            // $request->set('status', $status);
+            if ($request->get('lead_pm') == "on") {
+
+                $lead_pm = "1";
+            }
+
+            $request->merge(['lead_pm' => $lead_pm]);
 
             if (auth()->check()) {
 

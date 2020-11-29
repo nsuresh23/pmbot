@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Traits\General\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Annotation;
+use Illuminate\Support\Facades\Config;
 use App\Traits\General\CustomLogger;
 use Illuminate\Support\Facades;
 use App\Resources\Job\EmailCollection as EmailResource;
@@ -55,6 +56,12 @@ class EmailController extends Controller
             $paramInfo = $returnData = [];
 
             $request->merge(['empcode' => auth()->user()->empcode]);
+
+            if (in_array(auth()->user()->role, Config::get('constants.pmUserRoles')) && auth()->user()->lead_pm) {
+
+                $request->merge(['lead_pm' => auth()->user()->lead_pm]);
+
+            }
 
             if (auth()->check()) {
 

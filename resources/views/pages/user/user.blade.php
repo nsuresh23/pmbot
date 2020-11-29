@@ -15,7 +15,7 @@
 
             $disabledField = "";
 
-            $selectedStatus = "checked";
+            $selectedStatus = $lead_pm_status = "checked";
 
             $selectedRole = $selectedGroup = $selectedLocation = $selectedMembers = null;
 
@@ -82,6 +82,12 @@
                 if(isset($userData["data"]["status"]) && $userData["data"]["status"] == "0") {
 
                     $selectedStatus = "";
+
+                }
+
+                if(isset($userData["data"]["lead_pm"]) && $userData["data"]["lead_pm"] == "0") {
+
+                    $lead_pm_status = "";
 
                 }
 
@@ -257,14 +263,27 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                <label for="status" class="control-label mb-10">{{ __('user.user_status_label') }}</label>
-                                                                <div class="form-group js-switch-mt-0">
-                                                                    {{-- <input type="checkbox" id="terms" class="" data-error="Before you check yourself" required> --}}
-                                                                    {{-- <div class="clearfix"></div> --}}
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                                    <label for="status" class="control-label mb-10">{{ __('user.user_status_label') }}</label>
+                                                                    <div class="form-group js-switch-mt-0">
+                                                                        {{-- <input type="checkbox" id="terms" class="" data-error="Before you check yourself" required> --}}
+                                                                        {{-- <div class="clearfix"></div> --}}
 
-                                                                    <input type="checkbox" id="status" name="status" class="js-switch js-switch-1"  data-color="#8BC34A" data-secondary-color="#F8B32D" {{ $selectedStatus }}>
+                                                                        <input type="checkbox" id="status" name="status" class="js-switch js-switch-1"  data-color="#8BC34A" data-secondary-color="#F8B32D" {{ $selectedStatus }}>
 
-                                                                    <div class="help-block with-errors"></div>
+                                                                        <div class="help-block with-errors"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                                    <label for="lead-pm" class="control-label mb-10">{{ __('user.user_lead_pm_label') }}</label>
+                                                                    <div class="form-group js-switch-mt-0">
+                                                                        {{-- <input type="checkbox" id="terms" class="" data-error="Before you check yourself" required> --}}
+                                                                        {{-- <div class="clearfix"></div> --}}
+
+                                                                        <input type="checkbox" id="lead-pm" name="lead_pm" class="js-switch js-switch-1"  data-color="#8BC34A" data-secondary-color="#F8B32D" {{ $lead_pm_status }}>
+
+                                                                        <div class="help-block with-errors"></div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>

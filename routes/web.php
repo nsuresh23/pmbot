@@ -180,7 +180,6 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin']], function
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_manager']], function () {
 
     Route::any('/am/dashboard', 'AM\DashboardController@index')->name('am-dashboard');
-    Route::any('email-rules', 'Job\EmailController@fetchEmailRules')->name('email-rules');
 
 });
 
@@ -317,6 +316,8 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
     Route::any('get-signature', 'Job\EmailController@getSignature')->name('get-signature');
 
     Route::any('email-sent-count', 'Job\EmailController@emailSentCount')->name('email-sent-count');
+
+    Route::any('email-rules', 'Job\EmailController@fetchEmailRules')->name('email-rules');
 
 	Route::any('job', 'Job\JobController@index')->name('job');
 
