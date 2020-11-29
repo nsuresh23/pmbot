@@ -2403,14 +2403,19 @@ $(document).on('click', '.email-draft-save-btn', function(e) {
 
 });
 
-
 function validateEmail($email) {
 
     var emailMatch = $email.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
 
-    if (emailMatch != undefined && emailMatch.length > 0) {
+    if (emailMatch != undefined && emailMatch.length > 0 && emailMatch.length == 1) {
 
         $email = emailMatch[0];
+
+    }
+
+    if (emailMatch != undefined && emailMatch.length > 1) {
+
+        return false;
 
     }
 
@@ -3058,7 +3063,7 @@ function showdraftform(type, selector) {
 
                 var message = response.data.body_html;
 
-                if (tinymce.get('textarea_editor_email_draft') != undefined && tinymce.get('textarea_editor_email_draft') != null) {
+                if (tinymce.get('textarea_editor_email_draft') != undefined && tinymce.get('textarea_editor_email_draft') != null && message != null) {
 
                     tinymce.get('textarea_editor_email_draft').execCommand('mceInsertContent', false, message);
 
