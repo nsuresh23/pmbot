@@ -55,6 +55,17 @@ class FileController extends Controller
                     $imageFolderPath     = "/mnt/ppdysfs03_pmbot_emails/" . $imageFolderPath;
 
                     header('Content-Type: image/png');
+
+                    if (isset($request->alais_name) && $request->alais_name != "") {
+
+                        $filename = "filename=" . $request->alais_name;
+
+                        header('Content-Type: application/octet-stream');
+                        header('Content-Disposition: attachment; ' . $filename);
+                        header('Content-Transfer-Encoding: binary');
+
+                    }
+
                     readfile($imageFolderPath);
 
                 }
