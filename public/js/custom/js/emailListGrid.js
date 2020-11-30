@@ -70,6 +70,31 @@ function getEmailTableList(gridSelector) {
         { Category: '<i class="fa fa-circle inline-block txt-grey font-16" title="unknown"></i>', Id: 'error', Name: 'Unknown' },
     ];
 
+    if (gridCategory != undefined && gridCategory != '' && gridCategory == 'myEmail') {
+
+        field.push({
+            headerTemplate: function() {
+                return $("<input>").attr("type", "checkbox").attr("class", "selectAllCheckbox h-25-px");
+            },
+            itemTemplate: function(_, item) {
+                return $("<input>").attr("type", "checkbox").attr("class", "singleCheckbox")
+                    .attr("data-id", item.id)
+                    .prop("checked", $.inArray(item.id, selectedItems) > -1)
+                    .on("change", function() {
+                        $(this).is(":checked") ? selectItem(item) : unselectItem(item);
+                    });
+            },
+            align: "center",
+            css: "user-group-jsgrid-checkbox-width text-center",
+            inserting: false,
+            filtering: false,
+            editing: false,
+            sorting: false,
+            width: 30
+        });
+
+    }
+
     // field.push({
     //     title: "S.NO",
     //     name: "s_no",
@@ -233,6 +258,68 @@ function getEmailTableList(gridSelector) {
         width: 10,
     });
 
+
+    var selectedItems = [];
+
+    var selectItem = function(item) {
+        selectedItems.push(item.id);
+        if ($(".singleCheckbox").length == $(".singleCheckbox:checked").length) {
+            $(".selectAllCheckbox").prop("checked", true);
+        } else {
+            $(".selectAllCheckbox").prop("checked", false);
+        }
+
+        if (selectedItems.length > 0) {
+            $('.dashboard-email-move-to-email-id').val(JSON.stringify(selectedItems));
+        }
+
+    };
+
+    var unselectItem = function(item) {
+        selectedItems = $.grep(selectedItems, function(i) {
+            return i !== item.id;
+        });
+        if (selectedItems.length == 0) {
+            $('.selectAllCheckbox').attr('checked', false);
+        }
+        if ($(".singleCheckbox").length == $(".singleCheckbox:checked").length) {
+            $(".selectAllCheckbox").prop("checked", true);
+        } else {
+            $(".selectAllCheckbox").prop("checked", false);
+        }
+
+        if (selectedItems.length > 0) {
+            $('.dashboard-email-move-to-email-id').val(JSON.stringify(selectedItems));
+        }
+
+    };
+
+    $(document).on('click', '.selectAllCheckbox', function(item) {
+        selectedItems = [];
+        if (this.checked) { // check select status
+            $('.singleCheckbox').each(function() {
+                this.checked = true;
+                itemData = {};
+                if ($(this).attr('data-id') != undefined && $(this).attr('data-id') != '') {
+                    itemData.id = $(this).attr('data-id');
+                }
+                selectItem(itemData);
+            });
+        } else {
+            $('.singleCheckbox').each(function() {
+                this.checked = false;
+                itemData = {};
+                if ($(this).attr('data-id') != undefined && $(this).attr('data-id') != '') {
+                    itemData.id = $(this).attr('data-id');
+                }
+                unselectItem(itemData);
+            });
+            selectedItems = [];
+        }
+
+    });
+
+
     $(gridSelector).jsGrid({
 
         height: "450px",
@@ -291,6 +378,13 @@ function getEmailTableList(gridSelector) {
             $('html, body').animate({
                 scrollTop: $(".emailGrid").offset().top - 110
             }, 0);
+
+            $(".selectAllCheckbox").prop("checked", false);
+            $(".singleCheckbox").prop("checked", false);
+
+            $('.dashboard-email-move-to-email-id').val('');
+
+            selectedItems = [];
 
         },
 
@@ -1725,9 +1819,98 @@ $(document).on('click', '.email-move-to-btn', function(e) {
 
     }
 
-    emailSend(postUrl, params, '#emailSendModal', '');
+    // emailSend(postUrl, params, '#emailSendModal', '');
 
 });
+
+$(document).on('click', '.dashboard-email-move-to-btn', function(e) {
+
+    e.preventDefault();
+
+    var postUrl = '';
+    var params = '';
+    params = $('.dashboard-email-move-to-form').serialize();
+
+    postUrl = $('.dashboard-email-move-to-form').attr('action');
+
+    if (postUrl != undefined && postUrl != '') {
+
+        if ($('.dashboard-email-move-to-input').val() == null || $('.dashboard-email-move-to-input').val() == '') {
+
+            Swal.fire({
+
+                title: '',
+                text: "Invaild label!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            return false;
+
+        }
+
+        if ($('.dashboard-email-move-to-email-id').val() == null || $('.dashboard-email-move-to-email-id').val() == '') {
+
+            Swal.fire({
+
+                title: '',
+                text: "Please select email!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            return false;
+
+        }
+
+        /* AJAX call to email label update info */
+
+        var d = $.Deferred();
+
+        $.ajax({
+            url: postUrl,
+            data: params,
+            dataType: 'json',
+            type: 'POST',
+        }).done(function(response) {
+
+            if (response.success == "true") {
+
+                type = 'success';
+
+            } else {
+
+                type = 'error';
+
+                d.resolve();
+
+            }
+
+            message = response.message;
+
+            flashMessage(type, message);
+
+            $('#myTaskTab').trigger('click');
+
+        });
+
+        return d.promise();
+
+
+    }
+
+});
+
 
 $(document).on('click', '.dashboard-inbox-email', function() {
 

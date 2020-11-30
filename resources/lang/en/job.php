@@ -54,6 +54,7 @@ return [
     'hap_text' => 'hap',
     'email_view_url' => 'email-view',
     'email_move_to_url' => 'email-label-update',
+    'dashboard_email_move_to_url' => 'dashboard-email-label-update',
     'email_move_to_label' => 'move to',
     'email_move_to_placeholder_text' => 'select',
     'email_rules_url' => 'email-rules',

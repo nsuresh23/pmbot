@@ -327,6 +327,76 @@ class EmailController extends Controller
     }
 
     /**
+     * Update email label in email table by email id.
+     *
+     * @return json returnResponse
+     */
+    public function dashboardEmailLabelUpdate(Request $request)
+    {
+
+        $returnResponse = [];
+
+        try {
+
+            $request->merge(['empcode' => auth()->user()->empcode]);
+
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+                }
+            }
+
+            if (isset($request->id) && $request->id != "") {
+
+                $request->merge(['id' => json_decode($request->id, true)]);
+            }
+
+            if (isset($request->label_name) && $request->label_name != "") {
+
+                $label_name_split = explode("_", $request->label_name);
+
+                if (is_array($label_name_split) && count($label_name_split) > 0) {
+
+                    if (count($label_name_split) > 1 && $label_name_split[0] == "job") {
+
+                        $request->merge(['job_id' => $label_name_split[1]]);
+                        $request->merge(['status' => "2"]);
+
+                        // unset($request["label_name"]);
+
+                    } else {
+
+                        $request->merge(['type' => "non_pmbot"]);
+                        $request->merge(['status' => "3"]);
+
+                    }
+
+                }
+            }
+
+            $returnResponse = $this->emailResource->emailLabelUpdate($request);
+        } catch (Exeception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        // if ($redirectRouteAction) {
+
+        //     // $redirectUrl = redirect()->action($redirectRouteAction);
+        //     $returnResponse["redirectTo"] = route('home');
+        // }
+
+        return json_encode($returnResponse);
+    }
+
+    /**
      * Display a email compose form.
      *
      * @return Response

@@ -883,6 +883,57 @@ class JobCollection
     }
 
     /**
+     * Get jobs select.
+     *
+     * @return array $returnData
+     */
+    public function getGenericJobs()
+    {
+        $returnData = "";
+
+        try {
+
+
+            $url = $this->jobSelectApiUrl;
+
+            $field = [];
+
+            if (auth()->user()->role == env('ACCOUNT_MANAGER_ROLE_NAME')) {
+
+                $field[env('ACCOUNT_MANAGER_CODE_FIELD')] =  auth()->user()->empcode;
+            }
+
+            if (auth()->user()->role == env('PROJECT_MANAGER_ROLE_NAME')) {
+
+                $field[env('PROJECT_MANAGER_CODE_FIELD')] =  auth()->user()->empcode;
+            }
+
+            $field["pmbot_type"] = "generic";
+
+            $returnData = $this->postRequest($url, $field);
+
+            if ($returnData["success"] == "true" && count($returnData["data"]) > 0 && $returnData["data"] != "") {
+
+                $returnData = $returnData["data"];
+
+            }
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnData;
+    }
+
+    /**
      * format timeline view.
      *
      * @return array $item

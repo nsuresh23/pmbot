@@ -45,6 +45,8 @@
 
         }
 
+        $myEmailsMoveToList = [];
+
         $redirectToDashboard = $returnResponse['redirectToDashboard'];
 
         $nonBusinessEmailLabels = $returnResponse['label_list'];
@@ -77,6 +79,12 @@
                 $emailHoldCount = $returnResponse['email_sent_count']["hold_count"];
 
             }
+
+        }
+
+        if(isset($returnResponse['email_move_to_list']) && is_array($returnResponse['email_move_to_list']) && count($returnResponse['email_move_to_list']) > 0 ) {
+
+            $myEmailsMoveToList = $returnResponse['email_move_to_list'];
 
         }
 

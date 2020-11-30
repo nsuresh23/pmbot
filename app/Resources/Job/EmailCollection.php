@@ -34,6 +34,7 @@ class EmailCollection
     protected $emailUpdateRulesApiUrl;
     protected $emailDeleteRulesApiUrl;
     protected $emailRuleLabelsApiUrl;
+    protected $emailRuleLabelCategoryApiUrl;
     protected $emailMoveToApiUrl;
     protected $emailAnnotatorBaseUrl;
     protected $emailStatusUpdateUrl;
@@ -59,6 +60,7 @@ class EmailCollection
         $this->emailUpdateRulesApiUrl   = env('API_EMAIL_UPDATE_RULES_URL');
         $this->emailDeleteRulesApiUrl   = env('API_EMAIL_DELETE_RULES_URL');
         $this->emailRuleLabelsApiUrl    = env('API_EMAIL_FOLDERS_URL');
+        $this->emailRuleLabelCategoryApiUrl    = env('API_EMAIL_FOLDERS_CATEGORY_URL');
         $this->emailMoveToApiUrl        = env('API_EMAIL_MOVE_TO_URL');
         $this->emailAnnotatorBaseUrl    = env("EMAIL_ANNOTATOR_BASE_URL");
         $this->emailStatusUpdateUrl     = env("API_EMAIL_STATUS_UPDATE_URL");
@@ -171,6 +173,87 @@ class EmailCollection
                         "id" => "0",
                         "text" => "Inbox"
                     ]);
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["data"] = $responseData;
+                }
+            }
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+
+            $returnResponse["error"] = "true";
+
+            $returnResponse["message"] = $e->getMessage();
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
+     * Get the email rules labels.
+     *
+     * @return array $returnData
+     */
+    public function emailMoveToLabels()
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // $userData = User::all();
+
+            $url = $this->emailRuleLabelCategoryApiUrl;
+
+            $params = ["empcode" => Config::get('constants.job_add_am_empcode'), "current_empcode" => auth()->user()->empcode];
+
+            $returnData = $this->postRequest($url, $params);
+
+            if ($returnData["success"] == "true" && is_array($returnData["data"]) && count($returnData["data"]) > 0 && $returnData["data"] != "") {
+
+                $emailMoveToList = [];
+
+                if (isset($returnData["data"]["am"]) && is_array($returnData["data"]["am"]) && count($returnData["data"]["am"])) {
+
+                    $emailMoveToList["AM List"] = $this->emailMoveToLabelsFormatData($returnData["data"]["am"]);
+
+                    $emailMoveToList["AM List"] = ["0" => "Inbox"] + $emailMoveToList["AM List"];
+
+                }
+
+                if (isset($returnData["data"]["user"]) && is_array($returnData["data"]["user"]) && count($returnData["data"]["user"])) {
+
+                    $emailMoveToList["MY List"] = $this->emailMoveToLabelsFormatData($returnData["data"]["user"]);
+                }
+
+                // $emailMoveToList["AM List"] = $this->emailMoveToLabelsFormatData($returnData["data"]);
+                // $emailMoveToList["AM List"] = ["0" => "Inbox"] + $emailMoveToList["AM List"];
+                // $emailMoveToList["AM List"] = ["" => "Please select"] + $emailMoveToList["AM List"];
+
+                // $responseFormatData = $this->emailRulesFormatData($responseData["data"]);
+
+                $responseData = $emailMoveToList;
+
+                // $responseData = $this->emailLabelsFormatData($returnData["data"]);
+
+                if ($responseData) {
+
+                    // array_unshift($responseData, [
+                    //     "id" => "0",
+                    //     "text" => "Inbox"
+                    // ]);
 
                     $returnResponse["success"] = "true";
                     $returnResponse["data"] = $responseData;
@@ -1679,6 +1762,32 @@ class EmailCollection
                 }
             },
             $items
+        );
+
+        return $resource;
+    }
+
+    public function emailMoveToLabelsFormatData($items)
+    {
+        $resource= [];
+        array_walk($items,
+
+            function ($item) use(&$resource) {
+
+                try {
+
+                    $resource[$item["id"]] = $item["label_name"];
+
+                } catch (Exception $e) {
+
+                    $this->error(
+                        "app_error_log_" . date('Y-m-d'),
+                        " => FILE => " . __FILE__ . " => " .
+                        " => LINE => " . __LINE__ . " => " .
+                        " => MESSAGE => " . $e->getMessage() . " "
+                    );
+                }
+            }
         );
 
         return $resource;

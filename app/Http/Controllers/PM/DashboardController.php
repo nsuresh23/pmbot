@@ -110,7 +110,32 @@ class DashboardController extends Controller
 
             }
 
-            $emailSentCountData = $this->emailResource->emailSentCount($request);
+            $returnResponse['email_move_to_list'] = $emailMoveToReturnData = $genericJobsList = [];
+
+            $emailMoveToReturnData = $this->emailResource->emailMoveToLabels();
+
+            if (is_array($emailMoveToReturnData) && isset($emailMoveToReturnData["success"]) && $emailMoveToReturnData["success"] == "true") {
+
+                $returnResponse["email_move_to_list"] = $emailMoveToReturnData["data"];
+            }
+
+            $genericJobsList = $this->jobResource->getGenericJobs();
+
+            if (is_array($genericJobsList) && count($genericJobsList)) {
+
+                $genericJobsListData = [];
+
+                array_walk($genericJobsList, function ($item, $key) use (&$genericJobsListData) {
+
+                    $genericJobsListData["job_". $key] = $item;
+
+                });
+
+                $returnResponse["email_move_to_list"]["Generic Jobs"] = $genericJobsListData;
+
+            }
+
+           $emailSentCountData = $this->emailResource->emailSentCount($request);
 
             if (is_array($emailSentCountData) && isset($emailSentCountData["success"]) && $emailSentCountData["success"] == "true") {
 
