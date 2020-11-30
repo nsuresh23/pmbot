@@ -225,6 +225,12 @@ $(function() {
                         height: '300px',
                     });
 
+                } else {
+
+                    dbClients = [];
+
+                    $(selector).jsGrid("option", "data", []);
+
                 }
 
             }
@@ -589,26 +595,26 @@ $(document).on('click', '.job-complete-btn', function(e) {
     }).then((result) => {
 
         if (result.value != undefined && result.value == true) {
-			
-			var remarksVal = $('.job-complete-remarks-field').val();
 
-			if (remarksVal == undefined || remarksVal == false || remarksVal == '') {
+            var remarksVal = $('.job-complete-remarks-field').val();
 
-				Swal.fire({
+            if (remarksVal == undefined || remarksVal == false || remarksVal == '') {
 
-					title: '',
-					text: "Please enter remarks!",
-					showClass: {
-						popup: 'animated fadeIn faster'
-					},
-					hideClass: {
-						popup: 'animated fadeOut faster'
-					},
+                Swal.fire({
 
-				});
+                    title: '',
+                    text: "Please enter remarks!",
+                    showClass: {
+                        popup: 'animated fadeIn faster'
+                    },
+                    hideClass: {
+                        popup: 'animated fadeOut faster'
+                    },
 
-				return false
-			}
+                });
+
+                return false
+            }
 
             $("#job_status_update_status").val('completed');
             $("#job_status_update_remarks").val(remarksVal);

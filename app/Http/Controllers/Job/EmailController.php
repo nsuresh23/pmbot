@@ -365,6 +365,7 @@ class EmailController extends Controller
 
                         $request->merge(['job_id' => $label_name_split[1]]);
                         $request->merge(['status' => "2"]);
+                        $request->merge(['type' => "pmbot"]);
 
                         // unset($request["label_name"]);
 

@@ -513,6 +513,12 @@ function getEmailRulesTableList(gridSelector) {
 
                 type = 'success';
 
+                if (response.message == "Already Created" || response.message == "Already Created By AM") {
+
+                    type = 'error';
+
+                }
+
                 response.data = formatDataItem(response.data);
 
                 $(gridSelector).jsGrid("option", "data", response.data);
@@ -555,6 +561,12 @@ function getEmailRulesTableList(gridSelector) {
             if (response.success == "true") {
 
                 type = 'success';
+
+                if (response.message == "Already Created" || response.message == "Already Created By AM") {
+
+                    type = 'error';
+
+                }
 
                 response.data = formatDataItem(response.data);
 

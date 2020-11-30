@@ -36,11 +36,11 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="pull-right inline-block">
-                                <div class="pull-left inline-block mt-5 mb-3">
+                                <div class="pull-left inline-block mt-5 mb-5">
                                     <form class="form-inline dashboard-email-move-to-form" action="{{ route(__('job.dashboard_email_move_to_url')) }}">
                                         <input type="hidden" class="dashboard-email-move-to-email-id" name="id" value="" />
                                         <div class="form-group">
-                                            <div class="input-group dashboard-email-move-to-input-group">
+                                            <div class="input-group dashboard-email-move-to-input-group pr-5">
                                                 <div class="input-group-btn wd-20">
                                                     <span type="button" class="btn bg-warning txt-light pt-10 pb-10 pr-10">
                                                         {{-- <span class="fa fa-arrow-circle-right"></span> --}}
@@ -51,7 +51,7 @@
                                                 'data-error' => "{{ __('job.email_move_to_placeholder_text') }}", 'style' => 'width: max-content;', 'required']) !!}
                                                 {{-- <select class="form-control select2 dashboard-email-move-to-input" name="label_name" style="width: max-content;"
                                                     placeholder="{{__('job.email_move_to_placeholder_text') }}" required></select> --}}
-                                                <div class="input-group-btn dashboard-email-move-to-btn">
+                                                <div class="input-group-btn dashboard-email-move-to-btn wd-10">
                                                     <span type="button" class="btn bg-success txt-light pa-10">
                                                         <span class="fa fa-arrow-circle-right"></span>
                                                         {{-- {{ __('job.email_move_to_label') }} --}}

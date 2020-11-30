@@ -537,6 +537,10 @@ content: "\f067";
         width: 20% !important;
     }
 
+    .wd-10 {
+        width: 10% !important;
+    }
+
     .h-25-px {
         height: 25px !important;
     }

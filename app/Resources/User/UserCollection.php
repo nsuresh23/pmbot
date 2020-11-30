@@ -38,6 +38,7 @@ class UserCollection
     protected $userByFieldApiUrl;
     protected $userAddApiUrl;
     protected $userUpdateApiUrl;
+    protected $userPasswordUpdateApiUrl;
     protected $userDeleteApiUrl;
     protected $userSelectApiUrl;
     protected $userListSelectApiUrl;
@@ -57,6 +58,7 @@ class UserCollection
         $this->userByFieldApiUrl = env('API_USER_BY_FIELD_URL');
         $this->userAddApiUrl = env('API_USER_ADD_URL');
         $this->userUpdateApiUrl = env('API_USER_EDIT_URL');
+        $this->userPasswordUpdateApiUrl = env('API_USER_PASSWORD_UPDATE_URL');
         $this->userDeleteApiUrl = env('API_USER_DELETE_URL');
         $this->userSelectApiUrl = env('API_USER_SELECT_URL');
         $this->userListSelectApiUrl = env('API_USER_LIST_SELECT_URL');
@@ -1148,7 +1150,7 @@ class UserCollection
 
                 // unset($userInfo["id"]);
 
-                $url = $this->userUpdateApiUrl;
+                $url = $this->userPasswordUpdateApiUrl;
 
                 $returnData = $this->postRequest($url, $userInfo);
 

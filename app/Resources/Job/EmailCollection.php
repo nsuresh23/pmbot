@@ -225,6 +225,8 @@ class EmailCollection
 
                 $emailMoveToList = [];
 
+                $emailMoveToList[""] = "Please select";
+
                 if (isset($returnData["data"]["am"]) && is_array($returnData["data"]["am"]) && count($returnData["data"]["am"])) {
 
                     $emailMoveToList["AM List"] = $this->emailMoveToLabelsFormatData($returnData["data"]["am"]);
@@ -238,25 +240,13 @@ class EmailCollection
                     $emailMoveToList["MY List"] = $this->emailMoveToLabelsFormatData($returnData["data"]["user"]);
                 }
 
-                // $emailMoveToList["AM List"] = $this->emailMoveToLabelsFormatData($returnData["data"]);
-                // $emailMoveToList["AM List"] = ["0" => "Inbox"] + $emailMoveToList["AM List"];
-                // $emailMoveToList["AM List"] = ["" => "Please select"] + $emailMoveToList["AM List"];
-
-                // $responseFormatData = $this->emailRulesFormatData($responseData["data"]);
-
                 $responseData = $emailMoveToList;
-
-                // $responseData = $this->emailLabelsFormatData($returnData["data"]);
 
                 if ($responseData) {
 
-                    // array_unshift($responseData, [
-                    //     "id" => "0",
-                    //     "text" => "Inbox"
-                    // ]);
-
                     $returnResponse["success"] = "true";
                     $returnResponse["data"] = $responseData;
+
                 }
             }
         } catch (Exception $e) {
@@ -361,6 +351,12 @@ class EmailCollection
                 $returnResponse["success"] = "true";
                 $returnResponse["message"] = "Save successfull";
 
+                if(isset($responseData["data"]) && $responseData["data"] != "") {
+
+                    $returnResponse["message"] = $responseData["data"];
+
+                }
+
             } else {
 
                 $returnResponse["error"] = "true";
@@ -406,6 +402,12 @@ class EmailCollection
 
                 $returnResponse["success"] = "true";
                 $returnResponse["message"] = "Update successfull";
+
+                if(isset($responseData["data"]) && $responseData["data"] != "") {
+
+                    $returnResponse["message"] = $responseData["data"];
+
+                }
 
             } else {
 
