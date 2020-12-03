@@ -92,7 +92,8 @@ class EmailCollection
 
             $url = $this->emailRuleLabelsApiUrl;
 
-            $params = ["empcode" => Config::get('constants.job_add_am_empcode')];
+            // $params = ["empcode" => Config::get('constants.job_add_am_empcode')];
+            $params = ["empcode" => auth()->user->empcode];
 
             $returnData = $this->postRequest($url, $params);
 
@@ -159,7 +160,8 @@ class EmailCollection
 
             $url = $this->emailRuleLabelsApiUrl;
 
-            $params = ["empcode" => Config::get('constants.job_add_am_empcode')];
+            // $params = ["empcode" => Config::get('constants.job_add_am_empcode'), "status" => "1"];
+            $params = ["empcode" => auth()->user()->empcode, "status" => "1"];
 
             $returnData = $this->postRequest($url, $params);
 
@@ -217,7 +219,7 @@ class EmailCollection
 
             $url = $this->emailRuleLabelCategoryApiUrl;
 
-            $params = ["empcode" => Config::get('constants.job_add_am_empcode'), "current_empcode" => auth()->user()->empcode];
+            $params = ["empcode" => Config::get('constants.job_add_am_empcode'), "current_empcode" => auth()->user()->empcode, "status" => "1"];
 
             $returnData = $this->postRequest($url, $params);
 
@@ -239,6 +241,10 @@ class EmailCollection
 
                     $emailMoveToList["MY List"] = $this->emailMoveToLabelsFormatData($returnData["data"]["user"]);
                 }
+
+                $emailMoveToList = $this->emailMoveToLabelsFormatData($returnData["data"]);
+
+                $emailMoveToList = ["0" => "Inbox"] + $emailMoveToList;
 
                 $responseData = $emailMoveToList;
 
