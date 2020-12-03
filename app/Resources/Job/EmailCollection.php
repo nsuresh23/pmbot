@@ -93,7 +93,7 @@ class EmailCollection
             $url = $this->emailRuleLabelsApiUrl;
 
             // $params = ["empcode" => Config::get('constants.job_add_am_empcode')];
-            $params = ["empcode" => auth()->user->empcode];
+            $params = ["empcode" => auth()->user()->empcode];
 
             $returnData = $this->postRequest($url, $params);
 
@@ -227,24 +227,24 @@ class EmailCollection
 
                 $emailMoveToList = [];
 
-                $emailMoveToList[""] = "Please select";
+                // $emailMoveToList[""] = "Please select";
 
                 if (isset($returnData["data"]["am"]) && is_array($returnData["data"]["am"]) && count($returnData["data"]["am"])) {
 
-                    $emailMoveToList["AM List"] = $this->emailMoveToLabelsFormatData($returnData["data"]["am"]);
+                    $amEmailMoveToList = $this->emailMoveToLabelsFormatData($returnData["data"]["am"]);
 
-                    $emailMoveToList["AM List"] = ["0" => "Inbox"] + $emailMoveToList["AM List"];
+                    $emailMoveToList = $emailMoveToList + ["0" => "Inbox"] + $amEmailMoveToList;
 
                 }
 
                 if (isset($returnData["data"]["user"]) && is_array($returnData["data"]["user"]) && count($returnData["data"]["user"])) {
 
-                    $emailMoveToList["MY List"] = $this->emailMoveToLabelsFormatData($returnData["data"]["user"]);
+                    $emailMoveToList = $emailMoveToList + $this->emailMoveToLabelsFormatData($returnData["data"]["user"]);
                 }
 
-                $emailMoveToList = $this->emailMoveToLabelsFormatData($returnData["data"]);
+                // $emailMoveToList = $this->emailMoveToLabelsFormatData($returnData["data"]);
 
-                $emailMoveToList = ["0" => "Inbox"] + $emailMoveToList;
+                // $emailMoveToList = ["0" => "Inbox"] + $emailMoveToList;
 
                 $responseData = $emailMoveToList;
 

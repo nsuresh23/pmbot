@@ -112,12 +112,7 @@ class DashboardController extends Controller
 
             $returnResponse['email_move_to_list'] = $emailMoveToReturnData = $genericJobsList = [];
 
-            $emailMoveToReturnData = $this->emailResource->emailMoveToLabels();
-
-            if (is_array($emailMoveToReturnData) && isset($emailMoveToReturnData["success"]) && $emailMoveToReturnData["success"] == "true") {
-
-                $returnResponse["email_move_to_list"] = $emailMoveToReturnData["data"];
-            }
+            $returnResponse["email_move_to_list"][""] = "Please select";
 
             $genericJobsList = $this->jobResource->getGenericJobs();
 
@@ -132,6 +127,14 @@ class DashboardController extends Controller
                 });
 
                 $returnResponse["email_move_to_list"]["Generic Jobs"] = $genericJobsListData;
+
+            }
+
+            $emailMoveToReturnData = $this->emailResource->emailMoveToLabels();
+
+            if (is_array($emailMoveToReturnData) && isset($emailMoveToReturnData["success"]) && $emailMoveToReturnData["success"] == "true") {
+
+                $returnResponse["email_move_to_list"]["Non Business"] = $emailMoveToReturnData["data"];
 
             }
 
