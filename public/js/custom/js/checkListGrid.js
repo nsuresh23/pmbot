@@ -227,6 +227,18 @@ function getCheckListTableList(gridSelector) {
 
                     var checkListPostData = {};
 
+                    if ('pageIndex' in filter) {
+
+                        delete filter.pageIndex;
+
+                    }
+
+                    if ('pageSize' in filter) {
+
+                        delete filter.pageSize;
+
+                    }
+
                     checkListPostData.filter = filter;
 
                     $(gridSelector).parent().prev().find('.result-count').html('');

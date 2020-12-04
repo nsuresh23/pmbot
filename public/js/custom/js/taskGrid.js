@@ -348,6 +348,18 @@ function getTaskTableList(gridSelector) {
 
                 var taskListPostData = {};
 
+                if ('pageIndex' in filter) {
+
+                    delete filter.pageIndex;
+
+                }
+
+                if ('pageSize' in filter) {
+
+                    delete filter.pageSize;
+
+                }
+
                 taskListPostData.filter = filter;
 
                 $(gridSelector).parent().prev().find('.result-count').html('');
@@ -383,6 +395,8 @@ function getTaskTableList(gridSelector) {
                     dataType: "json"
 
                 }).done(function(response) {
+
+                    var dataResult = { data: [], itemsCount: '' };
 
                     if (response.success == "true") {
 
