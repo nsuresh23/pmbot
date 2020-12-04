@@ -1093,12 +1093,20 @@ function getPmsEmailCountTableList(gridSelector) {
 
     var pmsEmailCountPostData = {};
 
+    // $('.pmsemailcount_loader').show();
+
     /* AJAX call to get list */
     $.ajax({
 
         url: listUrl,
         data: pmsEmailCountPostData,
-        dataType: "json"
+        dataType: "json",
+        beforeSend: function() {
+            $('.pmsemailcount_loader').show();
+        },
+        complete: function() {
+            $('.pmsemailcount_loader').hide();
+        }
 
     }).done(function(response) {
 
@@ -1145,6 +1153,8 @@ function getPmsEmailCountTableList(gridSelector) {
             }
 
         }
+
+        // $('.pmsemailcount_loader').hide();
 
     });
 
