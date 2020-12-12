@@ -3,6 +3,8 @@
 namespace App\Traits\General;
 
 use Exception;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
 
@@ -1093,6 +1095,23 @@ trait Helper
                         unset($filterData[$key]);
 
                     }
+                }
+
+                if (array_key_exists("followup_date", $filterData)) {
+
+                    $filterData["followup_date"] = str_replace("/", "-", $filterData["followup_date"]);
+
+                }
+
+                if (array_key_exists("created_date", $filterData)) {
+
+                    $filterData["created_date"] = str_replace("/", "-", $filterData["created_date"]);
+
+                    // $date = new DateTime($filterData["created_date"]);
+                    // $created_date =  $date->format('Y-m-d h:i:s');
+
+                    // $filterData["created_date"] = $created_date;
+
                 }
 
             }

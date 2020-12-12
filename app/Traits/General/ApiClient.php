@@ -177,12 +177,64 @@ trait ApiClient
             if (isset($paramData["additional_note"]) && $paramData["additional_note"] != "") {
 
                 $paramData["additional_note"] = base64_encode($paramData["additional_note"]);
+
             }
 
             if (isset($paramData["attachment_path"]) && $paramData["attachment_path"] != "") {
 
                 $paramData["attachment_path"] = base64_encode($paramData["attachment_path"]);
+
             }
+
+            /*
+            if (isset($paramData["empcode"]) && $paramData["empcode"] != "") {
+
+                $paramData["empcode"] = strtolower(trim($paramData["empcode"]));
+
+            }
+
+            if (isset($paramData["am_empcode"]) && $paramData["am_empcode"] != "") {
+
+                $paramData["am_empcode"] = strtolower(trim($paramData["am_empcode"]));
+
+            }
+
+            if (isset($paramData["pm_empcode"]) && $paramData["pm_empcode"] != "") {
+
+                $paramData["pm_empcode"] = strtolower(trim($paramData["pm_empcode"]));
+
+            }
+
+            if (isset($paramData["assignedto_empcode"]) && $paramData["assignedto_empcode"] != "") {
+
+                $paramData["assignedto_empcode"] = strtolower(trim($paramData["assignedto_empcode"]));
+
+            }
+
+            if (isset($paramData["createdby_empcode"]) && $paramData["createdby_empcode"] != "") {
+
+                $paramData["createdby_empcode"] = strtolower(trim($paramData["createdby_empcode"]));
+
+            }
+
+            if (isset($paramData["current_empcode"]) && $paramData["current_empcode"] != "") {
+
+                $paramData["current_empcode"] = strtolower(trim($paramData["current_empcode"]));
+
+            }
+
+            if (isset($paramData["creator_empcode"]) && $paramData["creator_empcode"] != "") {
+
+                $paramData["creator_empcode"] = strtolower(trim($paramData["creator_empcode"]));
+
+            }
+
+            if (isset($paramData["notification_empcode"]) && $paramData["notification_empcode"] != "") {
+
+                $paramData["notification_empcode"] = strtolower(trim($paramData["notification_empcode"]));
+
+            }
+            */
 
             // if(Auth::check()) {
 

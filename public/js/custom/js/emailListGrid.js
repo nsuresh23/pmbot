@@ -3348,7 +3348,13 @@ $(document).ready(function() {
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
                             // $(".compose_to ul").append("<li class='compose_emaillist' value='" + atob(response.data[i].email_from) + "'>" + atob(response.data[i].email_from) + "</li>");
-                            $(".compose_to ul").append("<li class='compose_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
+							
+							if(response.data[i].name != '') {
+								var name = response.data[i].name + ',';
+							} else {
+								var name = '';
+							}
+                            $(".compose_to ul").append("<li class='compose_emaillist' value='" + response.data[i].email_from + "'>" + name + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".compose_to ul").empty();
@@ -3380,7 +3386,12 @@ $(document).ready(function() {
                     $(".compose_cc ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".compose_cc ul").append("<li class='composecc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
+							if(response.data[i].name != '') {
+								var name = response.data[i].name + ',';
+							} else {
+								var name = '';
+							}
+                            $(".compose_cc ul").append("<li class='composecc_emaillist' value='" + response.data[i].email_from + "'>" + name + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".compose_cc ul").empty();
@@ -3412,7 +3423,12 @@ $(document).ready(function() {
                     $(".compose_cc ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".compose_bcc ul").append("<li class='composebcc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
+							if(response.data[i].name != '') {
+								var name = response.data[i].name + ',';
+							} else {
+								var name = '';
+							}
+                            $(".compose_bcc ul").append("<li class='composebcc_emaillist' value='" + response.data[i].email_from + "'>" +name + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".compose_bcc ul").empty();
@@ -3445,7 +3461,12 @@ $(document).ready(function() {
                     $(".reply_to ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".reply_to ul").append("<li class='replyto_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
+							if(response.data[i].name != '') {
+								var name = response.data[i].name + ',';
+							} else {
+								var name = '';
+							}
+                            $(".reply_to ul").append("<li class='replyto_emaillist' value='" + response.data[i].email_from + "'>" + name + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".reply_to ul").empty();
@@ -3478,7 +3499,12 @@ $(document).ready(function() {
                     $(".reply_cc ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".reply_cc ul").append("<li class='replycc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
+							if(response.data[i].name != '') {
+								var name = response.data[i].name + ',';
+							} else {
+								var name = '';
+							}
+                            $(".reply_cc ul").append("<li class='replycc_emaillist' value='" + response.data[i].email_from + "'>" + name + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".reply_cc ul").empty();
@@ -3511,7 +3537,12 @@ $(document).ready(function() {
                     $(".reply_cc ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".reply_bcc ul").append("<li class='replybcc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
+							if(response.data[i].name != '') {
+								var name = response.data[i].name + ',';
+							} else {
+								var name = '';
+							}
+                            $(".reply_bcc ul").append("<li class='replybcc_emaillist' value='" + response.data[i].email_from + "'>" + name + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".reply_bcc ul").empty();
@@ -3544,7 +3575,12 @@ $(document).ready(function() {
                     $(".draft_to ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".draft_to ul").append("<li class='draftto_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
+							if(response.data[i].name != '') {
+								var name = response.data[i].name + ',';
+							} else {
+								var name = '';
+							}
+                            $(".draft_to ul").append("<li class='draftto_emaillist' value='" + response.data[i].email_from + "'>" + name + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".draft_to ul").empty();
@@ -3577,7 +3613,12 @@ $(document).ready(function() {
                     $(".draft_cc ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".draft_cc ul").append("<li class='draftcc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
+							if(response.data[i].name != '') {
+								var name = response.data[i].name + ',';
+							} else {
+								var name = '';
+							}
+                            $(".draft_cc ul").append("<li class='draftcc_emaillist' value='" + response.data[i].email_from + "'>" + name + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".draft_cc ul").empty();
@@ -3610,7 +3651,12 @@ $(document).ready(function() {
                     $(".draft_bcc ul").empty();
                     if (len > 0) {
                         for (var i = 0; i < len; i++) {
-                            $(".draft_bcc ul").append("<li class='draftbcc_emaillist' value='" + response.data[i].email_from + "'>" + response.data[i].email_from + "</li>");
+							if(response.data[i].name != '') {
+								var name = response.data[i].name + ',';
+							} else {
+								var name = '';
+							}
+                            $(".draft_bcc ul").append("<li class='draftbcc_emaillist' value='" + response.data[i].email_from + "'>" + name + response.data[i].email_from + "</li>");
                         }
                     } else {
                         $(".draft_bcc ul").empty();

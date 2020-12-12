@@ -137,6 +137,8 @@ $(function() {
 
                     }).done(function(response) {
 
+                        var dataResult = { data: [], itemsCount: '' };
+
                         if (response.success == "true") {
 
                             if (response.data != '') {

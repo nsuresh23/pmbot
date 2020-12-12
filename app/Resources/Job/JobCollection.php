@@ -131,6 +131,12 @@ class JobCollection
                     $returnResponse["error"] = "true";
                     $returnResponse["message"] = "Save unsuccessfull";
 
+                    if (isset($returnData["error_msg"]) && $returnData["error_msg"] != "") {
+
+                        $returnResponse["message"] = $returnData["error_msg"];
+
+                    }
+
                 }
             }
         } catch (Exception $e) {
@@ -208,6 +214,13 @@ class JobCollection
 
                     $returnResponse["error"] = "true";
                     $returnResponse["message"] = "Save unsuccessfull";
+
+                    if (isset($returnData["error_msg"]) && $returnData["error_msg"] != "") {
+
+                        $returnResponse["message"] = $returnData["error_msg"];
+
+                    }
+
                 }
             }
         } catch (Exception $e) {
@@ -277,6 +290,13 @@ class JobCollection
 
                     $returnResponse["error"] = "true";
                     $returnResponse["message"] = "Save unsuccessfull";
+
+                    if (isset($returnData["error_msg"]) && $returnData["error_msg"] != "") {
+
+                        $returnResponse["message"] = $returnData["error_msg"];
+
+                    }
+
                 }
             }
         } catch (Exception $e) {

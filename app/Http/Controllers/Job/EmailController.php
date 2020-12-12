@@ -693,6 +693,39 @@ class EmailController extends Controller
 
                 }
 
+                if (isset($request->status) && $request->status != "") {
+
+                    $emailStatus = implode(",", $request->status);
+
+                    if (in_array($emailStatus, ["0", "1", "2", "3", "7"])) {
+
+                        if (array_key_exists("created_date", $filterData)) {
+
+                            $filterData["email_received_date"] = $filterData["created_date"];
+
+                            unset($filterData["created_date"]);
+                        }
+                    }
+
+                    if (in_array($emailStatus, ["4", "5", "55"])) {
+
+                        if (array_key_exists("created_date", $filterData)) {
+
+                            $filterData["modified_date"] = $filterData["created_date"];
+                        }
+                    }
+
+                    if (in_array($emailStatus, ["6", "99"])) {
+
+                        if (array_key_exists("created_date", $filterData)) {
+
+                            $filterData["email_sent_date"] = $filterData["created_date"];
+
+                            unset($filterData["created_date"]);
+                        }
+                    }
+                }
+
                 $field["filter"] = $filterData;
 
             }

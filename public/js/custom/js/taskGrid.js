@@ -132,6 +132,9 @@ function getTaskTableList(gridSelector) {
             title: "TYPE",
             name: "type",
             type: "text",
+            inserting: false,
+            editing: false,
+            filtering: false,
         });
 
     }
