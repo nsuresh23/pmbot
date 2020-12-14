@@ -11,6 +11,11 @@
 	.email-title {text-transform:none !important;}
 </style>
 
+<div id="loader" class="email_detail_loader"
+    style="display: none;width: 100%;height: 100%;position: absolute;padding: 2px;z-index: 1;text-align: center;">
+    <img src="{{ asset('public/img/loader2.gif') }}" width="64" height="64" />
+</div>
+
 <div class="email-detail-body inbox-body pa-0" style="display:none;">
     <div class="heading-inbox">
         <div class="container-fluid mt-5 pr-0">

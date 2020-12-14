@@ -12,11 +12,11 @@
 
         // auth()->user()->is_members = '1';
 
-        $am_email_approved = "0";
+        $qc_email_approved = "0";
 
-        if (in_array(auth()->user()->role, config('constants.amUserRoles'))) {
+        if (in_array(auth()->user()->role, config('constants.qcUserRoles'))) {
 
-            $am_email_approved = "1";
+            $qc_email_approved = "1";
 
         }
 
@@ -177,17 +177,11 @@
         <!-- Row -->
         <div class="row">
             <div class="col-lg-12 col-sm-12">
-                <div class="panel card-view pt-5">
+                <div class="panel card-view pt-5 mb-0">
                     <div id="" class="panel-wrapper collapse in">
-                        <div class="panel-body pt-0 pmbottype" data-pmbottype="non_pmbot">
+                        <div class="panel-body pt-0 pmbottype pb-0" data-pmbottype="non_pmbot">
 
-                            <?php if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) { ?>
-
-                                @include('pages.dashboard.dashboardJobOverview')
-
-                            <?php } ?>
-
-                            @include('pages.dashboard.dashboardTaskOverview')
+                            @include('pages.dashboard.qc.dashboardMyTasksOverview')
 
                         </div>
                     </div>

@@ -73,7 +73,10 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
 			case 'project_manager':
 				// return '/pm/dashboard';
 				return Redirect::to('/pm/dashboard' . $redirectToDashboardParam);
-				break;
+                break;
+            case 'quality':
+                return Redirect::to('/qc/dashboard' . $redirectToDashboardParam);
+                break;
 			case 'copy_editing':
 				// return '/pm/dashboard';
 				return Redirect::to('/stakeholders/dashboard' . $redirectToDashboardParam);
@@ -89,7 +92,7 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
 			case 'art':
 				// return '/pm/dashboard';
 				return Redirect::to('/stakeholders/dashboard' . $redirectToDashboardParam);
-				break;
+                break;
 
 			// case 'stakeholder':
 			// 	// return '/stakeholders/dashboard';
@@ -189,6 +192,12 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'project_m
 
 });
 
+Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_manager', 'quality']], function () {
+
+    Route::any('/qc/dashboard', 'QC\DashboardController@index')->name('qc-dashboard');
+
+});
+
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'copy_editing', 'logistics', 'production', 'art']], function () {
 
 	Route::any('/stakeholders/dashboard', 'StakeHolders\DashboardController@index')->name('stakeholders-dashboard');
@@ -268,7 +277,14 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'roles'], 'roles' => 
 		// Route::any('inhouselistdata', 'UserController@inhouseListData');//Duplicate page
 
 		// Route::post('getusertype', 'UserController@getUserType');
-	});
+    });
+
+Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_manager', 'project_manager', 'quality']], function () {
+
+    Route::any('email-get', 'Job\EmailController@emailGet')->name('email-get');
+    Route::any('email-label-update', 'Job\EmailController@emailLabelUpdate')->name('email-label-update');
+
+});
 
 // Route::any('job/{id}', 'Job\JobController@getJobDetails')->name('jobDetail'); //done
 
@@ -301,7 +317,7 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
 
 	Route::any('email-send', 'Job\EmailController@emailSend')->name('email-send');
 	Route::any('draft-email-send', 'Job\EmailController@draftemailSend')->name('draft-email-send');
-	Route::any('email-get', 'Job\EmailController@emailGet')->name('email-get');
+	// Route::any('email-get', 'Job\EmailController@emailGet')->name('email-get');
     Route::any('pms-email-count', 'Job\EmailController@pmsEmailCount')->name('pms-email-count');
 	Route::any('get-emailid', 'Job\EmailController@emailidGet')->name('get-emailid');
 	Route::any('email-status-update', 'Job\EmailController@emailStatusUpdate')->name('email-status-update');
@@ -310,7 +326,6 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
     Route::any('email-reply', 'Job\EmailController@emailReply')->name('email-reply');
     Route::any('email-reply-all', 'Job\EmailController@emailReplyAll')->name('email-reply-all');
     Route::any('email-forward', 'Job\EmailController@emailForward')->name('email-forward');
-    Route::any('email-label-update', 'Job\EmailController@emailLabelUpdate')->name('email-label-update');
     Route::any('dashboard-email-label-update', 'Job\EmailController@dashboardEmailLabelUpdate')->name('dashboard-email-label-update');
 
 	Route::any('signature-update', 'Job\EmailController@signatureUpdate')->name('signature-update');

@@ -56,6 +56,7 @@ return [
     'email_move_to_url' => 'email-label-update',
     'dashboard_email_move_to_url' => 'dashboard-email-label-update',
     'email_move_to_label' => 'move to',
+    'email_approve_label' => 'approve',
     'email_move_to_placeholder_text' => 'select',
     'email_rules_url' => 'email-rules',
     'email_compose_label' => 'New Email',

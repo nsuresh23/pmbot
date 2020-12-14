@@ -30,10 +30,13 @@ return [
         // "copy_editing" => "copy_editing",
         "account_manager" => "account_manager",
         "project_manager" => "project_manager",
+        "quality" => "quality",
     ],
     "locationList" => [
         "pondy" => "pondy",
-        "chennai" => "chennai"
+        "chennai" => "chennai",
+        "manila" => "manila",
+        "us" => "us"
     ],
     "projectType" => [
         "King" => "King",
@@ -93,6 +96,28 @@ return [
         "55" => "outbox_wip",
         "99" => "undelivered",
     ],
+    "emailClassificationMoveToList" => [
+        [
+            "id" => "0",
+            "text" => "Please select"
+        ],
+        [
+            "id" => "not_set",
+            "text" => "not set"
+        ],
+        [
+            "id" => "negative",
+            "text" => "negative"
+        ],
+        [
+            "id" => "positive",
+            "text" => "positive"
+        ],
+        [
+            "id" => "error",
+            "text" => "error"
+        ],
+    ],
     "stateList" => [
         "1" => "enabled",
         "0" => "disabled",
@@ -127,6 +152,9 @@ return [
         "logistics",
         "production",
         "copy_editing",
+    ],
+    "qcUserRoles" => [
+        "quality",
     ],
     "pmUserRoles" => [
         "project_manager",

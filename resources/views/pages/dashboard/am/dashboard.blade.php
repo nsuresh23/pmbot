@@ -10,6 +10,14 @@
 <div class="container-fluid pa-5 pt-0">
     <?php
 
+        $am_email_approved = "0";
+
+        if (in_array(auth()->user()->role, config('constants.amUserRoles'))) {
+
+            $am_email_approved = "1";
+
+        }
+
         // auth()->user()->is_members = '1';
 
         $hasMembers = auth()->user()->is_members;
@@ -78,6 +86,7 @@
         $taskDeleteUrl = route(__("job.task_delete_url"));
 
         $myEmailListUrl = route(__("job.email_list_url"));
+        $emailCategoryMoveToUrl = route(__("job.email_move_to_url"));
 
         $emailSendUrl = route(__("job.email_send_url"));
         $draftemailSendUrl = route(__("job.draftemail_send_url"));
@@ -138,7 +147,8 @@
         data-dashboard-job-stage="{{ Session::get('data_dashboard_job_stage') }}"
         data-dashboard-job-status="{{ Session::get('data_dashboard_job_status') }}"
         data-job-list-url="{{ route('job-list') }}" data-delayed-job-list-url="{{ route('delayed-job-list') }}" data-job-detail-base-url="{{ route('job') }}"
-        data-redirect-to-dashboard="{{ $redirectToDashboard }}">
+        data-redirect-to-dashboard="{{ $redirectToDashboard }}"
+        data-email-category-move-to-url="{{ $emailCategoryMoveToUrl }}">
 
         <!-- Row -->
         <div class="row">

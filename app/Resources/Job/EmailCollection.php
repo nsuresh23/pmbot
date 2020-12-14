@@ -36,6 +36,7 @@ class EmailCollection
     protected $emailRuleLabelsApiUrl;
     protected $emailRuleLabelCategoryApiUrl;
     protected $emailMoveToApiUrl;
+    protected $emailClassificationMoveToApiUrl;
     protected $emailAnnotatorBaseUrl;
     protected $emailStatusUpdateUrl;
     protected $jobEmailStatusUpdateUrl;
@@ -44,32 +45,35 @@ class EmailCollection
     protected $emailSentCountApiUrl;
     protected $emailCategoryCountApiUrl;
     protected $classificationEmailListApiUrl;
+    protected $qcEmailListApiUrl;
 
     public function __construct()
     {
         $this->fractal = new Manager();
 
-        $this->emailSendApiUrl          = env('API_EMAIL_SEND_URL');
-		$this->draftemailSendApiUrl     = env('API_DRAFT_EMAIL_SEND_URL');
-        $this->emailGetApiUrl           = env('API_GET_EMAIL_URL');
-		$this->emailidGetApiUrl         = env('API_GET_EMAILID_URL');
-        $this->emailListApiUrl          = env('API_EMAIL_BOX_LIST_URL');
-        $this->pmsEmailCountApiUrl      = env('API_PMS_EMAIL_COUNT_URL');
-        $this->emailRulesApiUrl         = env('API_EMAIL_RULES_URL');
-        $this->emailAddRulesApiUrl      = env('API_EMAIL_ADD_RULES_URL');
-        $this->emailUpdateRulesApiUrl   = env('API_EMAIL_UPDATE_RULES_URL');
-        $this->emailDeleteRulesApiUrl   = env('API_EMAIL_DELETE_RULES_URL');
-        $this->emailRuleLabelsApiUrl    = env('API_EMAIL_FOLDERS_URL');
-        $this->emailRuleLabelCategoryApiUrl    = env('API_EMAIL_FOLDERS_CATEGORY_URL');
-        $this->emailMoveToApiUrl        = env('API_EMAIL_MOVE_TO_URL');
-        $this->emailAnnotatorBaseUrl    = env("EMAIL_ANNOTATOR_BASE_URL");
-        $this->emailStatusUpdateUrl     = env("API_EMAIL_STATUS_UPDATE_URL");
-        $this->jobEmailStatusUpdateUrl  = env("API_JOB_EMAIL_STATUS_UPDATE_URL");
-		$this->signatureupdateApiUrl    = env('API_SIGNATURE_UPDATE_URL');
-        $this->getsignatureApiUrl       = env('API_GET_SIGNATURE_URL');
-        $this->emailSentCountApiUrl     = env('API_EMAIL_SENT_COUNT_URL');
-        $this->emailCategoryCountApiUrl     = env('API_EMAIL_CATEGORY_COUNT_URL');
+        $this->emailSendApiUrl                  = env('API_EMAIL_SEND_URL');
+		$this->draftemailSendApiUrl             = env('API_DRAFT_EMAIL_SEND_URL');
+        $this->emailGetApiUrl                   = env('API_GET_EMAIL_URL');
+		$this->emailidGetApiUrl                 = env('API_GET_EMAILID_URL');
+        $this->emailListApiUrl                  = env('API_EMAIL_BOX_LIST_URL');
+        $this->pmsEmailCountApiUrl              = env('API_PMS_EMAIL_COUNT_URL');
+        $this->emailRulesApiUrl                 = env('API_EMAIL_RULES_URL');
+        $this->emailAddRulesApiUrl              = env('API_EMAIL_ADD_RULES_URL');
+        $this->emailUpdateRulesApiUrl           = env('API_EMAIL_UPDATE_RULES_URL');
+        $this->emailDeleteRulesApiUrl           = env('API_EMAIL_DELETE_RULES_URL');
+        $this->emailRuleLabelsApiUrl            = env('API_EMAIL_FOLDERS_URL');
+        $this->emailRuleLabelCategoryApiUrl     = env('API_EMAIL_FOLDERS_CATEGORY_URL');
+        $this->emailMoveToApiUrl                = env('API_EMAIL_MOVE_TO_URL');
+        $this->emailClassificationMoveToApiUrl  = env('API_EMAIL_CLASSIFICATION_MOVE_TO_URL');
+        $this->emailAnnotatorBaseUrl            = env("EMAIL_ANNOTATOR_BASE_URL");
+        $this->emailStatusUpdateUrl             = env("API_EMAIL_STATUS_UPDATE_URL");
+        $this->jobEmailStatusUpdateUrl          = env("API_JOB_EMAIL_STATUS_UPDATE_URL");
+		$this->signatureupdateApiUrl            = env('API_SIGNATURE_UPDATE_URL');
+        $this->getsignatureApiUrl               = env('API_GET_SIGNATURE_URL');
+        $this->emailSentCountApiUrl             = env('API_EMAIL_SENT_COUNT_URL');
+        $this->emailCategoryCountApiUrl         = env('API_EMAIL_CATEGORY_COUNT_URL');
         $this->classificationEmailListApiUrl    = env('API_EMAIL_CLASSIFICATION_LIST_URL');
+        $this->qcEmailListApiUrl                = env('API_EMAIL_QC_LIST_URL');
     }
 
     /**
@@ -503,10 +507,23 @@ class EmailCollection
 
             // validate
             // read more on validation at http://laravel.com/docs/validation
-            $rules = array(
-                'id'        => 'required',
-                'label_name'    => 'required',
-            );
+            $rules = [];
+            $paramInfo = $request->all();
+            $url = $this->emailMoveToApiUrl;
+
+            $rules["id"] = "required";
+
+            if (isset($paramInfo["email_classification_category"]) && $paramInfo["email_classification_category"]) {
+
+                $url = $this->emailClassificationMoveToApiUrl;
+
+                $rules["email_classification_category"] = "required";
+
+            } else {
+
+                $rules["label_name"] = "required";
+
+            }
 
             $validator = Validator::make($request->all(), $rules);
 
@@ -515,10 +532,6 @@ class EmailCollection
                 $returnResponse["error"] = "true";
                 $returnResponse["message"] = "Update failed";
             } else {
-
-                $paramInfo = $request->all();
-
-                $url = $this->emailMoveToApiUrl;
 
                 $returnData = $this->postRequest($url, $paramInfo);
 
@@ -746,6 +759,57 @@ class EmailCollection
 
             }
 
+            if (isset($field["email_type"]) && $field["email_type"] == "qcEmail") {
+
+                // $field["email_type"] = "myEmail";
+                // $field["empcode"] = "raddevelopers@spi-global.com";
+
+                $fieldData = [];
+
+                if (isset($field["filter"]) && $field["filter"] != "") {
+
+                    $fieldData["filter"] = $field["filter"];
+
+                }
+
+                $fieldData["email_classification_category"] = "negative";
+
+                // if(isset($field["empcode"]) && $field["empcode"] != "") {
+
+                //     $fieldData["empcode"] = $field["empcode"];
+
+                // }
+
+                if (isset($field["current_empcode"]) && $field["current_empcode"] != "") {
+
+                    $fieldData["empcode"] = $field["current_empcode"];
+
+                }
+
+                if (in_array(auth()->user()->role, config('constants.amUserRoles'))) {
+
+                    $fieldData["am_approved"] = "0";
+                    $fieldData["qc_approved"] = "1";
+
+                }
+
+                if (in_array(auth()->user()->role, config('constants.qcUserRoles'))) {
+
+                    $fieldData["qc_approved"] = "0";
+                    $fieldData["am_approved"] = "0";
+
+                }
+
+                if(is_array($fieldData) && count($fieldData)) {
+
+                    $field = $fieldData;
+
+                }
+
+                $url = $this->qcEmailListApiUrl;
+
+            }
+
             $returnResponseData = $this->postRequest($url, $field);
 
             if ($returnResponseData["success"] == "true") {
@@ -780,10 +844,6 @@ class EmailCollection
                             if (isset($returnResponseData["result_count"]) && $returnResponseData["result_count"] != "") {
 
                                 $returnResponse["result_count"] = $returnResponseData["result_count"];
-
-                            } elseif (is_array($returnResponseData)) {
-
-                                $returnResponse["result_count"] = count($returnResponseData);
 
                             }
 
@@ -1329,6 +1389,12 @@ class EmailCollection
 
                     }
 
+                    if(is_array(Config::get('constants.emailClassificationMoveToList')) && count(Config::get('constants.emailClassificationMoveToList'))) {
+
+                        $returnResponse["data"]["classification_list"] = Config::get('constants.emailClassificationMoveToList');
+
+                    }
+
                 }
                 $returnResponse["success"] = "true";
             }
@@ -1636,6 +1702,12 @@ class EmailCollection
                             $emailTypeClass = "pmbot-email-item";
                         }
 
+                        // if (in_array(auth()->user()->role, config('constants.qcUserRoles'))) {
+
+                        //     $emailTypeClass = "";
+
+                        // }
+
 						//Bharathi changed as per Balaji's new format 10 May 2020
 						/* if (isset($item["empcode"]) &&  $item["empcode"] != "") {
 
@@ -1672,6 +1744,7 @@ class EmailCollection
                 try {
 
                     $item["negative_count_link"] = "0";
+                    $item["escalation_count_link"] = "0";
 
                     if(isset($item["last_processed_time"]) && $item["last_processed_time"] != "") {
 
@@ -1687,6 +1760,12 @@ class EmailCollection
                     if (isset($item["negative_count"]) && $item["negative_count"] != ""&& $item["negative_count"] != "0") {
 
                         $item["negative_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#sentEmailModal" data-toggle="modal" data-grid-selector="emailSentCountGrid" data-grid-title="alarming email" data-count="' . $item["negative_count"]. '" data-email-filter="negative" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["negative_count"] . '</span></a>';
+
+                    }
+
+                    if (isset($item["escalation_count"]) && $item["escalation_count"] != "" && $item["escalation_count"] != "0") {
+
+                        $item["escalation_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#QCEmailModal" data-toggle="modal" data-grid-selector="emailQCCountGrid" data-grid-title="Escalation email" data-count="' . $item["escalation_count"] . '" data-email-filter="qcEmail" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["escalation_count"] . '</span></a>';
 
                     }
 

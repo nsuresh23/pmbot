@@ -49,6 +49,7 @@
             <?php } ?>
 
             @include('pages.dashboard.email.dashboardSentEmailModal')
+            @include('pages.dashboard.email.dashboardQCEmailModal')
 
             <?php // if(in_array(auth()->user()->role, Config::get('constants.amUserRoles'))) { ?>
 

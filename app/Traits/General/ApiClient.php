@@ -354,7 +354,7 @@ trait ApiClient
 
         if ($response && is_array($response) && count($response) > 0 && isset($response["result"])) {
 
-            if (is_array($response) && count($response["result"]) > 0 && isset($response["result"]["status"]) && $response["result"]["status"] == "1") {
+            if (is_array($response["result"]) && count($response["result"]) > 0 && isset($response["result"]["status"]) && $response["result"]["status"] == "1") {
 
                 $returnResponse["success"] = "true";
 
@@ -426,7 +426,11 @@ trait ApiClient
             } else {
 
                 // $returnResponse["error"] = "true";
-                $returnResponse["message"] = $response["result"]["error_msg"];
+                if (isset($response["result"]["error_msg"]) && $response["result"]["error_msg"] != "") {
+
+                    $returnResponse["message"] = $response["result"]["error_msg"];
+
+                }
 
             }
 
