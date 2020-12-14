@@ -200,6 +200,14 @@ hr {
     border-spacing: 0px;
 }
 
+table,
+table td,
+table th,
+table caption {
+    border: 1px solid grey;
+    border-spacing: 0px;
+}
+
 td[data-mce-selected],
 th[data-mce-selected] {
     background-color: #3399ff !important
