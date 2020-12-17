@@ -159,6 +159,8 @@ class UserController extends Controller
 
             }
 
+            $field["empcode"] = auth()->user()->empcode;
+
             $returnResponse = $this->userResource->getAlluser($field);
 
             // if(is_array($responseData) && count($responseData) > 0) {
