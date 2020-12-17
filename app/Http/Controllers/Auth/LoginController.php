@@ -116,7 +116,7 @@ class LoginController extends Controller
             if (isset($request->email_or_username) && $request->email_or_username != "" && isset($request->password) && $request->password != "") {
 
                 $param = [
-                    "empcode" => $request->email_or_username,
+                    "empcode" => strtolower(trim($request->email_or_username)),
                     // "password" => md5($request->password),
                     // "password" => $request->password,
                     // "password" => bcrypt($request->password),
