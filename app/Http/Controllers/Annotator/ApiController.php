@@ -503,6 +503,7 @@ class ApiController extends Controller
         $Annotationsql    = "SELECT * from annotations where page_id = '" . $id . "' and createdempcode ='" . $empcode . "' ";
         $Annotationlists    = DB::connection('mysql')->select(DB::raw($Annotationsql));
         if (!empty($Annotationlists)) {
+
             foreach ($Annotationlists as $completedlist) {
                 if ($completedlist->category != '0') {
                     $jsonDataTaskNotes = array(                        //The JSON data.
@@ -713,6 +714,10 @@ class ApiController extends Controller
                     curl_close($ch);
                 }
             }
+
+            $update = 'update annotations set status = "completed" where page_id = "' . $id . '" and createdempcode ="' . $empcode . '"';
+            $emailcount = DB::connection('mysql')->select(DB::raw($update));
+
         } else {
             $jsonData = array(                        //The JSON data.
                 'id' => $id,
@@ -788,8 +793,6 @@ class ApiController extends Controller
             curl_close($ch);
         }
 
-        $update = 'update annotations set status = "completed" where page_id = "' . $id . '" and createdempcode ="' . $empcode . '"';
-        $emailcount = DB::connection('mysql')->select(DB::raw($update));
         return response()->json(['message' => 'Email annotator task completed success!!', 'status' => '1']);
     }
 
