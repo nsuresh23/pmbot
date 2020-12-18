@@ -573,7 +573,7 @@ class JobController extends Controller
             $responseData["job_category_list"] = Config::get('constants.jobCategory');
 
 			// if($responseData['data']['pm_empcode'] != auth()->user()->empcode && $responseData['data']['am_empcode'] != auth()->user()->empcode){
-			if(!in_array(auth()->user()->empcode, [$responseData['data']['pm_empcode'], $responseData['data']['am_empcode']])){
+			if(!in_array(strtolower(auth()->user()->empcode), [strtolower($responseData['data']['pm_empcode']), strtolower($responseData['data']['am_empcode'])])){
 
 				return view('errors.error401');
 
