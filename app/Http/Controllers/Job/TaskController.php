@@ -641,7 +641,7 @@ class TaskController extends Controller
 
         if (is_array($userList) && count($userList) > 0) {
 
-            unset($userList[Config::get('constants.job_add_am_empcode')]);
+            unset($userList[env('JOB_ADD_AM_EMPCODE')]);
 
         }
 
@@ -782,7 +782,7 @@ class TaskController extends Controller
 
             if (is_array($returnData["user_list"]) && count($returnData["user_list"]) > 0) {
 
-                unset($returnData["user_list"][Config::get('constants.job_add_am_empcode')]);
+                unset($returnData["user_list"][env('JOB_ADD_AM_EMPCODE')]);
             }
 
             $returnData["category_followup_time"] = Config::get('constants.taskCategoryFollowupTime');

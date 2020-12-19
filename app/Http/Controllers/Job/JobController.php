@@ -254,8 +254,8 @@ class JobController extends Controller
 
         try {
 
-            $request->merge(['am_empcode' => Config::get('constants.job_add_am_empcode')]);
-            $request->merge(['am_empname' => Config::get('constants.job_add_am_empname')]);
+            $request->merge(['am_empcode' => env('JOB_ADD_AM_EMPCODE')]);
+            $request->merge(['am_empname' => env('JOB_ADD_AM_EMPNAME')]);
             // $request->merge(['stage' => 's5']);
             $request->merge(['status' => Config::get('constants.job_add_status')]);
 
@@ -326,8 +326,8 @@ class JobController extends Controller
 
         // try {
 
-        //     $request->merge(['am_empcode' => Config::get('constants.job_add_am_empcode')]);
-        //     $request->merge(['am_empname' => Config::get('constants.job_add_am_empname')]);
+        //     $request->merge(['am_empcode' => env('JOB_ADD_AM_EMPCODE')]);
+        //     $request->merge(['am_empname' => env('JOB_ADD_AM_EMPNAME')]);
         //     $request->merge(['status' => Config::get('constants.job_add_status')]);
 
         //     if($request->womat_job_id) {
@@ -463,8 +463,8 @@ class JobController extends Controller
             $request->merge(['title' => Config::get('constants.generic_job_title')]);
             $request->merge(['pmbot_type' => Config::get('constants.generic_job_type')]);
             $request->merge(['pm_empcode' => auth()->user()->empcode]);
-            $request->merge(['am_empcode' => Config::get('constants.job_add_am_empcode')]);
-            $request->merge(['am_empname' => Config::get('constants.job_add_am_empname')]);
+            $request->merge(['am_empcode' => env('JOB_ADD_AM_EMPCODE')]);
+            $request->merge(['am_empname' => env('JOB_ADD_AM_EMPNAME')]);
             // $request->merge(['stage' => 's5']);
             $request->merge(['status' => Config::get('constants.job_add_status')]);
 

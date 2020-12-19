@@ -96,7 +96,7 @@ class EmailCollection
 
             $url = $this->emailRuleLabelsApiUrl;
 
-            // $params = ["empcode" => Config::get('constants.job_add_am_empcode')];
+            // $params = ["empcode" => env('JOB_ADD_AM_EMPCODE')];
             $params = ["empcode" => auth()->user()->empcode];
 
             $returnData = $this->postRequest($url, $params);
@@ -164,7 +164,7 @@ class EmailCollection
 
             $url = $this->emailRuleLabelsApiUrl;
 
-            // $params = ["empcode" => Config::get('constants.job_add_am_empcode'), "status" => "1"];
+            // $params = ["empcode" => env('JOB_ADD_AM_EMPCODE'), "status" => "1"];
             $params = ["empcode" => auth()->user()->empcode, "status" => "1"];
 
             $returnData = $this->postRequest($url, $params);
@@ -223,7 +223,7 @@ class EmailCollection
 
             $url = $this->emailRuleLabelCategoryApiUrl;
 
-            $params = ["empcode" => Config::get('constants.job_add_am_empcode'), "current_empcode" => auth()->user()->empcode, "status" => "1"];
+            $params = ["empcode" => env('JOB_ADD_AM_EMPCODE'), "current_empcode" => auth()->user()->empcode, "status" => "1"];
 
             $returnData = $this->postRequest($url, $params);
 
