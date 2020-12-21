@@ -184,40 +184,33 @@ $jobEditReadonly = "";
                                                 href="#dropdown_14" aria-expanded="false">@mdo</a></li>
                                     </ul>
                                 </li> --}}
-                                <div class="pull-right">
+                                {{-- <div class="pull-right">
 
-                                    <?php if(isset($jobStatus) && $jobStatus == "hold") { ?>
+                                    <?php //if(isset($jobStatus) && $jobStatus == "hold") { ?>
 
-                                    <a class="pull-left inline-block btn btn-primary job-resume-btn" href="#">
-                                        {{ __("job.job_resume_btn_label") }}
-                                    </a>
+                                        <a class="pull-left inline-block btn btn-primary job-resume-btn" href="#">
+                                            {{ __("job.job_resume_btn_label") }}
+                                        </a>
 
-                                    <?php } ?>
+                                    <?php //} ?>
 
-                                    <?php if(isset($jobStatus) && $jobStatus != "hold" && $jobStatus != "completed") { ?>
+                                    <?php //if(isset($jobStatus) && $jobStatus != "hold" && $jobStatus != "completed") { ?>
 
-                                    <a class="pull-left inline-block btn btn-warning job-hold-btn mr-15" href="#">
-                                        {{ __("job.job_hold_btn_label") }}
-                                    </a>
+                                        <a class="pull-left inline-block btn btn-warning job-hold-btn mr-15" href="#">
+                                            {{ __("job.job_hold_btn_label") }}
+                                        </a>
 
-                                    <a class="pull-left inline-block btn btn-success job-complete-btn mr-15" href="#">
-                                        {{ __("job.job_completed_btn_label") }}
-                                    </a>
+                                        <a class="pull-left inline-block btn btn-success job-complete-btn mr-15" href="#">
+                                            {{ __("job.job_completed_btn_label") }}
+                                        </a>
 
-                                    {{-- <a class="pull-left inline-block btn btn-success job-completed-btn"
-                                        href="#jobCompleteModal" data-toggle="modal"
-                                        title="{{ __("job.job_completed_title") }}">
-                                        {{ __("job.job_completed_btn_label") }}
-                                    </a> --}}
-                                    {{-- @include('pages.job.newJobModal') --}}
-
-                                    <?php } ?>
+                                    <?php //} ?>
 
                                     <form id="job-status-update-form" class="job-status-update-form" style="display:none;"
-                                        action="{{route(__('job.job_update_url'))}}"">
-                                    
+                                        action="{{route(__('job.job_update_url'))}}">
+
                                         <div class=" form-body">
-                                    
+
                                             <div class="">
                                                 <input type="hidden" id="job_status_update_redirectTo" name="redirectTo" value="{{$redirectTo ?? '#'}}">
                                                 <input type="hidden" id="job_status_update_job_id" name="job_id" value="{{$jobId ?? ''}}">
@@ -226,11 +219,25 @@ $jobEditReadonly = "";
                                                 <input type="hidden" id="job_status_update_status" name="status" value="hold" />
                                                 <input type="hidden" id="job_status_update_remarks" name="remarks" value="" />
                                             </div>
-                                    
+
                                         </div>
                                     </form>
 
-                                </div>
+                                </div> --}}
+
+                                <form id="job-status-update-form" class="job-status-update-form" style="display:none;" action="{{route(__('job.job_update_url'))}}">
+                                    <div class="form-body">
+                                        <div class="">
+                                            <input type="hidden" id="job_status_update_redirectTo" name="redirectTo" value="{{$redirectTo ?? '#'}}">
+                                            <input type="hidden" id="job_status_update_job_id" name="job_id" value="{{$jobId ?? ''}}">
+                                            <input type="hidden" id="job_status_update_current_job_id" name="current_job_id" value="{{$jobId ?? ''}}">
+                                            <input type="hidden" id="job_status_update_start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
+                                            <input type="hidden" id="job_status_update_status" name="status" value="hold" />
+                                            <input type="hidden" id="job_status_update_remarks" name="remarks" value="" />
+                                        </div>
+                                    </div>
+                                </form>
+
                             </ul>
                             {{-- <hr class="light-grey-hr" /> --}}
                             <div class="tab-content" id="myTabContent_7">
