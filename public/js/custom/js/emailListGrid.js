@@ -1145,7 +1145,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         // filtering: false,
         // sorting: false,
-        // width: 40,
+        width: 110,
     });
 
     field.push({
