@@ -5,10 +5,51 @@
             <form id="job-update-form" class="job-update-form" action="{{route(__('job.job_update_url'))}}"">
                 <div class="form-body">
 
-                    <h6 class="txt-dark capitalize-font font-16">
-                        <i class="glyphicon glyphicon-book mr-10"></i>
-                        {{ __('job.book_info_label') }}
-                    </h6>
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <h6 class="txt-dark capitalize-font font-16">
+                                <i class="glyphicon glyphicon-book mr-10"></i>
+                                {{ __('job.book_info_label') }}
+                            </h6>
+
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                            <div class="pull-right">
+
+                                <?php if(isset($jobStatus) && $jobStatus == "hold") { ?>
+
+                                    <a class="pull-left inline-block btn btn-primary job-resume-btn" href="#">
+                                        {{ __("job.job_resume_btn_label") }}
+                                    </a>
+
+                                <?php } ?>
+
+                                <?php if(isset($jobStatus) && $jobStatus != "hold" && $jobStatus != "completed") { ?>
+
+                                    <a class="pull-left inline-block btn btn-warning job-hold-btn mr-15" href="javascript:void(0);">
+                                        {{ __("job.job_hold_btn_label") }}
+                                    </a>
+
+                                    <a class="pull-left inline-block btn btn-success job-complete-btn mr-15" href="javascript:void(0);">
+                                        {{ __("job.job_completed_btn_label") }}
+                                    </a>
+
+                                    {{-- <a class="pull-left inline-block btn btn-success job-completed-btn"
+                                                                        href="#jobCompleteModal" data-toggle="modal"
+                                                                        title="{{ __("job.job_completed_title") }}">
+                                    {{ __("job.job_completed_btn_label") }}
+                                    </a> --}}
+                                    {{-- @include('pages.job.newJobModal') --}}
+
+                                <?php } ?>
+                            </div>
+
+                        </div>
+
+                    </div>
                     <hr class="light-grey-hr" />
                     <div class="">
                         <input type="hidden" id="redirectTo" name="redirectTo" value="{{$redirectTo ?? '#'}}">
