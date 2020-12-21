@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <?php if(in_array(auth()->user()->role, Config::get('constants.amUserRoles'))) { ?>
+            <?php if(in_array(auth()->user()->role, Config::get('constants.qcUserRoles'))) { ?>
 
                 <div class="email-button-group">
                     <div class="email-classification-move-to-block pull-right">

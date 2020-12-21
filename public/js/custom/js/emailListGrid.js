@@ -117,7 +117,7 @@ function getEmailTableList(gridSelector) {
             filtering: false,
             editing: false,
             sorting: false,
-            width: 30
+            width: 35
         });
 
     }
@@ -1131,22 +1131,22 @@ function getPmsEmailCountTableList(gridSelector) {
 
     field.push({
         title: "ALARMING EMAILS",
-        // name: "negative_count_link",
-        name: "negative_count",
+        name: "negative_count_link",
+        // name: "negative_count",
         type: "text",
         // filtering: false,
         // sorting: false,
         // width: 40,
     });
 
-    field.push({
+    /* field.push({
         title: "ESCALATION EMAILS",
         name: "escalation_count_link",
         type: "text",
         // filtering: false,
         // sorting: false,
         // width: 40,
-    });
+    }); */
 
     field.push({
         title: "CRITICAL JOBS",
@@ -1888,6 +1888,16 @@ $(document).on('click', '.pmbot-email-item', function(e) {
                             if (tinymce.get('sent-email-body') != undefined && tinymce.get('sent-email-body') != '') {
 
                                 tinymce.get('sent-email-body').setContent(response.data.body_html);
+
+                            }
+
+                            if ($('.currentUserInfo').attr('data-current-user-role') == 'quality') {
+
+                                if (tinymce.get('qc-email-body') != undefined && tinymce.get('qc-email-body') != '') {
+
+                                    tinymce.get('qc-email-body').setContent(response.data.body_html);
+
+                                }
 
                             }
 
