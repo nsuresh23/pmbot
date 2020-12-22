@@ -30,7 +30,7 @@ return [
         // "copy_editing" => "copy_editing",
         "account_manager" => "account_manager",
         "project_manager" => "project_manager",
-        "quality" => "quality",
+        // "quality" => "quality",
     ],
     "locationList" => [
         "pondy" => "pondy",
