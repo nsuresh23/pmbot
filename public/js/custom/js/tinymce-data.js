@@ -32,6 +32,7 @@ $(function() {
             convert_urls: false,
             protect: [
                 /\<\!\[(if !supportLists|endif)\]\>/g, // Protect <![if !supportLists]> & <![endif]>
+                /\&lt;\!\[(if !supportLists|endif)\]\&gt;/g, // Protect &lt;![if !supportLists]&gt; & &lt;![endif]&gt;
             ],
             valid_children: '+body[style]',
             plugins: 'advlist anchor autolink charmap code codesample colorpicker directionality fullscreen hr image imagetools insertdatetime link lists media nonbreaking pagebreak powerpaste print preview searchreplace table template textcolor textpattern visualblocks visualchars wordcount',
@@ -68,6 +69,7 @@ $(function() {
             convert_urls: false,
             protect: [
                 /\<\!\[(if !supportLists|endif)\]\>/g, // Protect <![if !supportLists]> & <![endif]>
+                /\&lt;\!\[(if !supportLists|endif)\]\&gt;/g, // Protect &lt;![if !supportLists]&gt; & &lt;![endif]&gt;
             ],
             valid_children: '+body[style]',
             plugins: 'advlist anchor autolink charmap code codesample colorpicker directionality fullscreen hr image imagetools insertdatetime link lists media nonbreaking pagebreak powerpaste print preview searchreplace table template textcolor textpattern visualblocks visualchars wordcount',
@@ -263,6 +265,7 @@ $(function() {
             inline_styles: true,
             protect: [
                 /\<\!\[(if !supportLists|endif)\]\>/g, // Protect <![if !supportLists]> & <![endif]>
+                /\&lt;\!\[(if !supportLists|endif)\]\&gt;/g, // Protect &lt;![if !supportLists]&gt; & &lt;![endif]&gt;
             ],
             valid_children: '+body[style]',
             plugins: 'advlist anchor autolink charmap code codesample colorpicker directionality fullscreen hr image imagetools insertdatetime link lists media nonbreaking paste pagebreak print preview searchreplace table template textcolor textpattern visualblocks visualchars wordcount',
