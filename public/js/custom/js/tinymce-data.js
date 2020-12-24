@@ -30,6 +30,9 @@ $(function() {
             relative_urls: false,
             remove_script_host: false,
             convert_urls: false,
+            protect: [
+                /\<\!\[(if !supportLists|endif)\]\>/g, // Protect <![if !supportLists]> & <![endif]>
+            ],
             valid_children: '+body[style]',
             plugins: 'advlist anchor autolink charmap code codesample colorpicker directionality fullscreen hr image imagetools insertdatetime link lists media nonbreaking pagebreak powerpaste print preview searchreplace table template textcolor textpattern visualblocks visualchars wordcount',
             fontsize_formats: '8pt 9pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 21pt 22pt 23pt 24pt 25pt 26pt 27pt 28pt 29pt 30pt 31pt 32pt 33pt 34pt 35pt 36pt',
@@ -63,6 +66,9 @@ $(function() {
             relative_urls: false,
             remove_script_host: false,
             convert_urls: false,
+            protect: [
+                /\<\!\[(if !supportLists|endif)\]\>/g, // Protect <![if !supportLists]> & <![endif]>
+            ],
             valid_children: '+body[style]',
             plugins: 'advlist anchor autolink charmap code codesample colorpicker directionality fullscreen hr image imagetools insertdatetime link lists media nonbreaking pagebreak powerpaste print preview searchreplace table template textcolor textpattern visualblocks visualchars wordcount',
             fontsize_formats: '8pt 9pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 21pt 22pt 23pt 24pt 25pt 26pt 27pt 28pt 29pt 30pt 31pt 32pt 33pt 34pt 35pt 36pt',
@@ -255,6 +261,9 @@ $(function() {
             remove_script_host: false,
             convert_urls: false,
             inline_styles: true,
+            protect: [
+                /\<\!\[(if !supportLists|endif)\]\>/g, // Protect <![if !supportLists]> & <![endif]>
+            ],
             valid_children: '+body[style]',
             plugins: 'advlist anchor autolink charmap code codesample colorpicker directionality fullscreen hr image imagetools insertdatetime link lists media nonbreaking paste pagebreak print preview searchreplace table template textcolor textpattern visualblocks visualchars wordcount',
             fontsize_formats: '8pt 9pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 21pt 22pt 23pt 24pt 25pt 26pt 27pt 28pt 29pt 30pt 31pt 32pt 33pt 34pt 35pt 36pt',
