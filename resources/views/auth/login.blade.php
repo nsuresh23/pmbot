@@ -154,7 +154,7 @@
                                             <div class="clearfix"></div>
                                             <input id="password" type="password"
                                                 class="form-control @if ($password_error) is-invalid @endif"
-                                                name="password" required autocomplete="password"
+                                                name="password" required autocomplete="new-password"
                                                 placeholder="{{ __('auth.loginPasswordPlaceHolder') }}">
                                             @if ($password_error)
                                             <span class="invalid-feedback help-block">
@@ -174,7 +174,7 @@
                                             <div class="clearfix"></div>
 
                                             <input id="ldap-password" type="password" class="form-control @if ($ldap_password_error) is-invalid @endif"
-                                                name="ldap_password" autocomplete="ldap_password"
+                                                name="ldap_password" autocomplete="new-password"
                                                 placeholder="{{ __('auth.loginLdapPasswordPlaceHolder') }}" required>
                                             @if ($ldap_password_error)
                                             <span class="invalid-feedback help-block">
