@@ -11,8 +11,8 @@ class ComposerStaticInitf1bf02faa11c2306f7787f78627d384f
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
-        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
@@ -143,6 +143,7 @@ class ComposerStaticInitf1bf02faa11c2306f7787f78627d384f
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
+            'GeoSot\\EnvEditor\\' => 17,
         ),
         'F' => 
         array (
@@ -438,6 +439,10 @@ class ComposerStaticInitf1bf02faa11c2306f7787f78627d384f
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
+        'GeoSot\\EnvEditor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/geo-sot/laravel-env-editor/src',
+        ),
         'Fruitcake\\Cors\\' => 
         array (
             0 => __DIR__ . '/..' . '/fruitcake/laravel-cors/src',
@@ -585,8 +590,10 @@ class ComposerStaticInitf1bf02faa11c2306f7787f78627d384f
         'App\\Http\\Controllers\\Job\\QueriesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Job/QueriesController.php',
         'App\\Http\\Controllers\\Job\\StageController' => __DIR__ . '/../..' . '/app/Http/Controllers/Job/StageController.php',
         'App\\Http\\Controllers\\Job\\TaskController' => __DIR__ . '/../..' . '/app/Http/Controllers/Job/TaskController.php',
+        'App\\Http\\Controllers\\Members\\MembersController' => __DIR__ . '/../..' . '/app/Http/Controllers/Members/MembersController.php',
         'App\\Http\\Controllers\\Notification\\NotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Notification/NotificationController.php',
         'App\\Http\\Controllers\\PM\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/PM/DashboardController.php',
+        'App\\Http\\Controllers\\QC\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/QC/DashboardController.php',
         'App\\Http\\Controllers\\StakeHolders\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/StakeHolders/DashboardController.php',
         'App\\Http\\Controllers\\User\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/User/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
@@ -2175,6 +2182,14 @@ class ComposerStaticInitf1bf02faa11c2306f7787f78627d384f
         'Fideloper\\Proxy\\TrustedProxyServiceProvider' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustedProxyServiceProvider.php',
         'Fruitcake\\Cors\\CorsServiceProvider' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/CorsServiceProvider.php',
         'Fruitcake\\Cors\\HandleCors' => __DIR__ . '/..' . '/fruitcake/laravel-cors/src/HandleCors.php',
+        'GeoSot\\EnvEditor\\Controllers\\EnvController' => __DIR__ . '/..' . '/geo-sot/laravel-env-editor/src/Controllers/EnvController.php',
+        'GeoSot\\EnvEditor\\EnvEditor' => __DIR__ . '/..' . '/geo-sot/laravel-env-editor/src/EnvEditor.php',
+        'GeoSot\\EnvEditor\\Exceptions\\EnvException' => __DIR__ . '/..' . '/geo-sot/laravel-env-editor/src/Exceptions/EnvException.php',
+        'GeoSot\\EnvEditor\\Facades\\EnvEditor' => __DIR__ . '/..' . '/geo-sot/laravel-env-editor/src/Facades/EnvEditor.php',
+        'GeoSot\\EnvEditor\\Helpers\\EnvFileContentManager' => __DIR__ . '/..' . '/geo-sot/laravel-env-editor/src/Helpers/EnvFileContentManager.php',
+        'GeoSot\\EnvEditor\\Helpers\\EnvFilesManager' => __DIR__ . '/..' . '/geo-sot/laravel-env-editor/src/Helpers/EnvFilesManager.php',
+        'GeoSot\\EnvEditor\\Helpers\\EnvKeysManager' => __DIR__ . '/..' . '/geo-sot/laravel-env-editor/src/Helpers/EnvKeysManager.php',
+        'GeoSot\\EnvEditor\\ServiceProvider' => __DIR__ . '/..' . '/geo-sot/laravel-env-editor/src/ServiceProvider.php',
         'GuzzleHttp\\Client' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Client.php',
         'GuzzleHttp\\ClientInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/ClientInterface.php',
         'GuzzleHttp\\Cookie\\CookieJar' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Cookie/CookieJar.php',
