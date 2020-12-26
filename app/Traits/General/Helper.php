@@ -925,7 +925,7 @@ trait Helper
 
             if (auth()->user() === null || auth()->user() == "") {
 
-                // return view('layout.login');
+                // return view('auth.login');
                 redirect()->route("login");
             }
 

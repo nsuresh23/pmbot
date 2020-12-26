@@ -18,13 +18,13 @@ class CheckRole
    */
   public function handle($request, Closure $next)
   {
-    
+
     if($request->user() === null) {
-      return new Response(view('layout.login'));
+      return new Response(view('auth.login'));
     }
 
     if (auth()->user() === null) {
-      return new Response(view('layout.login'));
+      return new Response(view('auth.login'));
     }
 
     $actions = $request->route()->getAction();
@@ -43,7 +43,7 @@ class CheckRole
 
     }
     else
-    
+
       return $next($request);
 
     //return new Response(view('layout.404error'));

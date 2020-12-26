@@ -18,9 +18,9 @@ class QueriesController extends Controller
 {
 
     use Helper;
-    
+
     use CustomLogger;
-    
+
     protected $jobResource = "";
     protected $taskResource = "";
     protected $userResource = "";
@@ -56,9 +56,9 @@ class QueriesController extends Controller
 
             $field = [];
 
-            
+
             $returnResponse = [];
-            
+
             $taskTypeList = [];
 
             $taskTypeList = Config::get('constants.taskType');
@@ -69,15 +69,15 @@ class QueriesController extends Controller
             }
 
             $field["partialcomplete"] = "0";
-            
+
             $field["assignedto_status"] = "pending";
-            
+
             $field["assignedto_empcode"] = auth()->user()->empcode;
 
             if (count($field) > 0) {
 
                 $returnResponse = $this->taskResource->getMyTaskList($field);
-                
+
             }
         } catch (Exception $e) {
 
@@ -163,17 +163,17 @@ class QueriesController extends Controller
             if (isset($taskTypeList["inhouse_query"]) && $taskTypeList["inhouse_query"] != "") {
 
                 $field["type"] = __("job.task_inhouse_query_text");
-                
+
             }
 
             if ($request->job_id && $request->job_id != "") {
 
                 $field["job_id"] = $request->job_id;
-                
+
             }
 
             $field["partialcomplete"] = "1";
-            
+
             $field["createdby_empcode"] = auth()->user()->empcode;
 
             if (count($field) > 0) {
@@ -285,7 +285,7 @@ class QueriesController extends Controller
 
             if (auth()->user() === null || auth()->user() == "") {
 
-                return view('layout.login');
+                return view('auth.login');
             }
 
             if (!in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) {
@@ -740,7 +740,7 @@ class QueriesController extends Controller
                         $request->merge(['creator_empcode' => session()->get("current_empcode")]);
 
                     }
-                    
+
                 }
 
                 $returnResponse = $this->taskResource->taskClose($request);
