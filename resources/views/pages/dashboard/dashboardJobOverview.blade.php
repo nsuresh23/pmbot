@@ -19,13 +19,20 @@
                             </a>
                         </li>
 
+                    <?php } elseif(in_array(auth()->user()->role, Config::get('constants.amUserRoles'))) { ?>
+
+                        <li role="presentation" class="">
+                            <a data-toggle="tab" id="membersTab" role="tab" href="#overview" aria-expanded="false">
+                                {{ __('dashboard.members_tab_label') }}
+                                <span class="members-count"></span>
+                            </a>
+                        </li>
+
                     <?php } ?>
 
-
-
                 </ul>
-				 </div>
 
+			</div>
 
         </div>
 

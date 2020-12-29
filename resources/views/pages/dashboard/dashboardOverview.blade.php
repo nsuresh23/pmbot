@@ -12,6 +12,14 @@ if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) 
 
     </div>
 
+<?php } elseif (in_array(auth()->user()->role, Config::get('constants.amUserRoles'))) { ?>
+
+    <div id="members" class="membersTab mb-15" style="display: none;">
+
+        @include('pages.dashboard.members.members')
+
+    </div>
+
 <?php } ?>
 
 <!-- Row -->
