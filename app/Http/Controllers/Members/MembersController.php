@@ -70,7 +70,7 @@ class MembersController extends Controller
 
                 $request->currentempcode = base64_decode(urldecode($request->currentempcode));
 
-                $memberListResponse = $this->userResource->memberList(["empcode" => auth()->user()->empcode]);
+                $memberListResponse = $this->userResource->memberList(["empcode" => auth()->user()->empcode, "role" => auth()->user()->role]);
 
                 if ($memberListResponse["success"] == "true") {
 

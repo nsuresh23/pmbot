@@ -160,6 +160,7 @@ class UserController extends Controller
             }
 
             $field["empcode"] = auth()->user()->empcode;
+            $field["role"] = auth()->user()->role;
 
             $returnResponse = $this->userResource->getAlluser($field);
 

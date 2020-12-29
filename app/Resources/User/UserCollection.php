@@ -810,7 +810,7 @@ class UserCollection
 
             $url = $this->userListSelectApiUrl;
 
-            $params = ["empcode" => auth()->user()->empcode];
+            $params = ["empcode" => auth()->user()->empcode, "role" => auth()->user()->role];
 
             $userData = $this->postRequest($url, $params);
 
