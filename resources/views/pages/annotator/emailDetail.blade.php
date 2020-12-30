@@ -360,7 +360,7 @@ function myFunction() {
 function getjobID() {
 	var jobid = $('#pmjobid').select2("val");
 
-	if(jobid != ''){
+	if(jobid != undefined && jobid != ''){
 		if(jobid.length != ''){
 			$("#mailbodycontent").removeClass();
 			$("#btnannatorcompleted").show();
