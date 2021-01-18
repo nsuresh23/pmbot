@@ -30,6 +30,9 @@
 <!-- Bootstrap Datetimepicker CSS -->
 <link href="{{ asset('public/js/custom/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css" />
 
+<!-- Bootstrap Daterangepicker CSS -->
+<link href="{{ asset('public/js/custom/vendors/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" type="text/css" />
+
 <!-- Bootstrap Colorpicker CSS -->
 <link href="{{ asset('public/js/custom/vendors/bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet" type="text/css" />
 

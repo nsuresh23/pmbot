@@ -1423,12 +1423,15 @@ function findBrowser() {
 
 var browserName = findBrowser();
 
+var tinymceStyle = '<style>body {font-size: 11.0pt; font-family: Calibri; color: #1f497d;} p{margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;}</style>';
 var emailEditorParaTag = '<p class="pmbot_p" style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;"><br></p>';
+// var emailEditorParaTag = tinymceStyle + '<p class="pmbot_p" style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;"><br></p>';
 var emailSignatureEditorParaTag = '<p class="pmbot_p" style="margin: 0in; margin-bottom: .0001pt; font-size: 10.0pt; font-family: Arial; color: #1F497D;"><br></p>';
 
 if (browserName == 'Firefox') {
 
     emailEditorParaTag = '<p class="pmbot_p" style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;"></p>';
+    // emailEditorParaTag = tinymceStyle + '<p class="pmbot_p" style="margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;"></p>';
     emailSignatureEditorParaTag = '<p class="pmbot_p" style="margin: 0in; margin-bottom: .0001pt; font-size: 10.0pt; font-family: Arial; color: #1F497D;"></p>';
 
 }
@@ -3243,6 +3246,7 @@ $(document).on('click', '.email-reply-btn', function(e) {
     $('.email-reply-to').val('');
     $('.email-reply-cc').val('');
     $('.email-reply-bcc').val('');
+    $('.email-reply-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
     showform(type, selector);
 });
 $(document).on('click', '.email-reply-all-btn', function(e) {
@@ -3256,6 +3260,7 @@ $(document).on('click', '.email-reply-all-btn', function(e) {
     $('.email-reply-to').val('');
     $('.email-reply-cc').val('');
     $('.email-reply-bcc').val('');
+    $('.email-reply-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
     showform(type, selector);
 });
 $(document).on('click', '.email-forward-btn', function(e) {
@@ -3269,6 +3274,7 @@ $(document).on('click', '.email-forward-btn', function(e) {
     $('.email-reply-to').val('');
     $('.email-reply-cc').val('');
     $('.email-reply-bcc').val('');
+    $('.email-reply-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
     showform(type, selector);
 });
 $(document).on('click', '.email-draft-btn', function(e) {
@@ -3282,6 +3288,8 @@ $(document).on('click', '.email-draft-btn', function(e) {
 
     $(".email-draft-to").val('');
     $(".email-draft-cc").val('');
+
+    $('.email-draft-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
 
     showdraftform(type, selector);
 });
@@ -4086,6 +4094,7 @@ $(document).on('click', '.email-compose-btn', function(e) {
     $('#to').val('');
     $('#cc').val('');
     $('#subject').val('');
+    $('.email-send-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
     $('#textarea_editor_email_compose').val('');
 
     if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {

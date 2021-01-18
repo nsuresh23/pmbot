@@ -132,6 +132,8 @@ class DashboardController extends Controller
 
             $returnResponse["location_list"] = Config::get('constants.locationList');
 
+            $returnResponse["report_type_list"] = Config::get('constants.reportType');
+
             // $emailCategoryData = $this->emailResource->emailCategoryCount($request);
 
             // if (is_array($emailCategoryData) && isset($emailCategoryData["success"]) && $emailCategoryData["success"] == "true") {

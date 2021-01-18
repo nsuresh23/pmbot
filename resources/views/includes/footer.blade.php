@@ -82,10 +82,17 @@
 
 <!-- Data table JavaScript -->
 <script type="text/javascript"  src="{{ asset('public/js/custom/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('public/js/custom/js/dataTables-data.js') }}"></script>
-<script type="text/javascript"  src="{{ asset('public/js/custom/vendors/bower_components/editable-table/mindmup-editabletable.js') }}"></script>
-<script type="text/javascript"  src="{{ asset('public/js/custom/vendors/bower_components/editable-table/numeric-input-example.js') }}"></script>
-<script type="text/javascript" src="{{ asset('public/js/custom/js/editable-table-data.js') }}"></script>
+<script type="text/javascript"  src="{{ asset('public/js/custom/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script type="text/javascript"  src="{{ asset('public/js/custom/vendors/bower_components/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+<script type="text/javascript"  src="{{ asset('public/js/custom/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+<script type="text/javascript"  src="{{ asset('public/js/custom/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+<script type="text/javascript"  src="{{ asset('public/js/custom/vendors/bower_components/jszip/dist/jszip.min.js') }}"></script>
+<script type="text/javascript"  src="{{ asset('public/js/custom/vendors/bower_components/pdfmake/build/pdfmake.min.js') }}"></script>
+<script type="text/javascript"  src="{{ asset('public/js/custom/vendors/bower_components/pdfmake/build/vfs_fonts.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('public/js/custom/js/dataTables-data.js') }}"></script> --}}
+{{-- <script type="text/javascript"  src="{{ asset('public/js/custom/vendors/bower_components/editable-table/mindmup-editabletable.js') }}"></script> --}}
+{{-- <script type="text/javascript"  src="{{ asset('public/js/custom/vendors/bower_components/editable-table/numeric-input-example.js') }}"></script> --}}
+{{-- <script type="text/javascript" src="{{ asset('public/js/custom/js/editable-table-data.js') }}"></script> --}}
 
 <!-- Progressbar Animation JavaScript -->
 <script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/waypoints/lib/jquery.waypoints.min.js') }}"></script>
@@ -167,6 +174,7 @@
 <script type="text/javascript" src="{{ asset('public/js/custom/js/emailListGrid.js') }}"></script>
 <script type="text/javascript" src="{{ asset('public/js/custom/js/memberListGrid.js') }}"></script>
 <script type="text/javascript" src="{{ asset('public/js/custom/js/emailRulesGrid.js') }}"></script>
+<script type="text/javascript" src="{{ asset('public/js/custom/js/reportGrid.js') }}"></script>
 
 
 

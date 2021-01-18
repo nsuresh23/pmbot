@@ -73,6 +73,11 @@
 
         $membersListUrl = route(__("dashboard.member_list_url"));
 
+        $summaryReportListUrl = route(__("dashboard.summary_report_list_url"));
+        $receivedEmailReportListUrl = route(__("dashboard.received_email_report_list_url"));
+        $sentEmailReportListUrl = route(__("dashboard.sent_email_report_list_url"));
+        $classifiedEmailReportListUrl = route(__("dashboard.classified_email_report_list_url"));
+
         $checkListUrl = route(__("job.check_list_url"));
         $checkListAddUrl = route(__("job.check_list_add_url"));
         $checkListEditUrl = route(__("job.check_list_edit_url"), "");
@@ -163,7 +168,7 @@
 
                             <?php } ?>
 
-                            @include('pages.dashboard.am.dashboardTaskOverview')
+                            {{-- @include('pages.dashboard.am.dashboardTaskOverview') --}}
 
                         </div>
                     </div>

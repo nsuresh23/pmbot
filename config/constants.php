@@ -38,6 +38,11 @@ return [
         "manila" => "manila",
         "us" => "us"
     ],
+    "reportType" => [
+        "internal" => "Internal",
+        "external" => "External",
+        "both" => "Both",
+    ],
     "projectType" => [
         "King" => "King",
         "Queen" => "Queen",

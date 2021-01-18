@@ -895,6 +895,11 @@ class EmailController extends Controller
             $returnResponse = [];
             $field["from"] = '';
 
+            if (isset($request->start_time) && $request->start_time != "") {
+                $field["start_time"] = $request->start_time;
+                $field["end_time"] = date('Y-m-d H:i:s');
+            }
+
             if (isset($request->to) && $request->to != "") {
                 $field["to"] = $request->to;
             }
@@ -1124,6 +1129,11 @@ class EmailController extends Controller
             $field = [];
 
             $returnResponse = [];
+
+            if (isset($request->start_time) && $request->start_time != "") {
+                $field["start_time"] = $request->start_time;
+                $field["end_time"] = date('Y-m-d H:i:s');
+            }
 
             if (isset($request->to) && $request->to != "") {
                 $field["email_to"] = $request->to;

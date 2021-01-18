@@ -30,6 +30,16 @@
 
                     <?php } ?>
 
+                    <?php if(in_array(auth()->user()->role, Config::get('constants.amUserRoles'))) { ?>
+
+                        <li role="presentation" class="">
+                            <a data-toggle="tab" id="reportsTab" role="tab" href="#reports" aria-expanded="false">
+                                {{ __('dashboard.reports_tab_label') }}
+                            </a>
+                        </li>
+
+                    <?php } ?>
+
                 </ul>
 
 			</div>
@@ -104,6 +114,12 @@
 
                             @include('pages.dashboard.dashboardOverview')
 
+                            <?php if(in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
+
+                                @include('pages.dashboard.am.dashboardTaskOverview')
+
+                            <?php } ?>
+
                         </div>
 
                         <div id="stage" class="tab-pane fade" role="tabpanel">
@@ -115,6 +131,16 @@
                         <div id="financial" class="tab-pane fade" role="tabpanel" style="height: 200px;">
 
                             {{-- @include('pages.dashboard.dashboardFinancialInVoice') --}}
+
+                        </div>
+
+                        <div id="reports" class="tab-pane fade pt-0" role="tabpanel">
+
+                            <?php if(in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
+
+                                @include('pages.dashboard.reports.dashboardReportsOverview')
+
+                            <?php } ?>
 
                         </div>
 

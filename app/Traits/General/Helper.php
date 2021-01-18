@@ -1129,4 +1129,59 @@ trait Helper
 
     }
 
+    public function formatDataTableFilter(&$filterData, $fieldData, $orderData, $formatData)
+    {
+
+        try {
+
+            if (is_array($orderData) && count($orderData) > 0 ) {
+
+                $orderDataColumns = array_shift($orderData);
+
+                if (is_array($orderDataColumns) && count($orderDataColumns) > 0 ) {
+
+                    $value = $sortOrder = '';
+
+                    if (isset($orderDataColumns["column"]) && $orderDataColumns["column"] != '') {
+
+                        $value = $orderDataColumns["column"];
+
+                    }
+
+                    if (isset($orderDataColumns["dir"]) && $orderDataColumns["dir"] != '') {
+
+                        $sortOrder = $orderDataColumns["dir"];
+
+                    }
+
+                    if (is_array($fieldData) && count($fieldData) > 0) {
+
+                        if (isset($fieldData[$value]) && is_array($fieldData[$value]) && isset($fieldData[$value]["data"]) != '') {
+
+                            if (array_key_exists($fieldData[$value]["data"], $formatData)) {
+
+                                $fieldData[$value]["data"] = $formatData[$fieldData[$value]["data"]];
+                            }
+
+                            $filterData['sortField'] = $fieldData[$value]["data"];
+                            $filterData['sortOrder'] = $sortOrder;
+
+                        }
+                    }
+
+                }
+
+            }
+
+        } catch (Exception $e) {
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+    }
+
 }

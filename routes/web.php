@@ -184,6 +184,14 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
 
     Route::any('/am/dashboard', 'AM\DashboardController@index')->name('am-dashboard');
 
+    // AM Reports
+
+    Route::any('summary-report', 'AM\Report\ReportController@summaryReport')->name('summary-report'); //done
+    Route::any('received-email-report', 'AM\Report\ReportController@receivedEmailReport')->name('received-email-report'); //done
+    Route::any('sent-email-report', 'AM\Report\ReportController@sentEmailReport')->name('sent-email-report'); //done
+    Route::any('classified-email-report', 'AM\Report\ReportController@classifiedEmailReport')->name('classified-email-report'); //done
+
+
 });
 
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'project_manager']], function () {
@@ -240,7 +248,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'roles'], 'roles' => 
 	Route::any('stage-add', 'Job\StageController@stageAdd')->name('stage-add'); //done
 	Route::any('stage-edit', 'Job\StageController@stageEdit')->name('stage-edit'); //done
 	Route::any('stage-delete', 'Job\StageController@stageDelete')->name('stage-delete'); //done
-	Route::any('stage-active', 'Job\StageController@getActiveStages')->name('stage-active'); //done
+    Route::any('stage-active', 'Job\StageController@getActiveStages')->name('stage-active'); //done
 
 		// Route::any('addgroup', 'User\UserController@updateUserGroup')->name('addgroup'); //done
 		// Route::any('editgroup/{id}', 'User\UserController@updateUserGroup')->name('editgroup'); //done

@@ -88,6 +88,24 @@ $(document).ready(function() {
         applyClass: 'btn-info',
         cancelClass: 'btn-default'
     });
+    $('.report-daterange-datepicker').daterangepicker({
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-info',
+        cancelClass: 'btn-default',
+        // format: 'Y-m-d H:i:s',
+        locale: {
+            format: 'YYYY-MM-DD',
+            separator: ' to ',
+        },
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    });
     $('.input-daterange-timepicker').daterangepicker({
         timePicker: true,
         format: 'MM/DD/YYYY h:mm A',
