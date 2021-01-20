@@ -111,7 +111,7 @@
 
 						<div class="form-group">
 
-							<div class="col-lg-12">
+							<div class="col-lg-12" style="float:left;">
 								<textarea id="textarea_editor_email_draft" class="textarea_editor_email form-control email-draft-body_html" name="body_html" rows="15"
                                 placeholder="Enter text ..."></textarea>
 							</div>
