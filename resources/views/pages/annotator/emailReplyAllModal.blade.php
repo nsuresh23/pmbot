@@ -208,7 +208,7 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
 
                                 <div class="form-group">
 
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" style="float:left;">
                                         <?php
 
                                         $sig_class = 'emailsig_block_' . rand();

@@ -368,7 +368,7 @@ class ApiController extends Controller
 
 
         //$update = 'update ee_mail_body set annotate_status = "pending" where email_id = "'.$list[0]->email_id.'"';
-        //$emailcount = DB::connection('mysql')->select(DB::raw($update));
+        //$emailcount = DB::connection('mysql')->update(DB::raw($update));
         //return $output;
 
     }
@@ -716,7 +716,7 @@ class ApiController extends Controller
             }
 
             $update = 'update annotations set status = "completed" where page_id = "' . $id . '" and createdempcode ="' . $empcode . '"';
-            $emailcount = DB::connection('mysql')->select(DB::raw($update));
+            $emailcount = DB::connection('mysql')->update(DB::raw($update));
 
         } else {
             $jsonData = array(                        //The JSON data.
@@ -1069,7 +1069,7 @@ class ApiController extends Controller
     public function statusupdate($id, Request $request)
     {
         $update = 'update ee_mail_body set annotate_status = "progress" where email_id = "' . $id . '"';
-        $emailcount = DB::connection('mysql')->select(DB::raw($update));
+        $emailcount = DB::connection('mysql')->update(DB::raw($update));
         return response()->json(['status' => 'success']);
     }
 
@@ -1098,7 +1098,7 @@ class ApiController extends Controller
 
         $actiongroup     = '"' . str_replace(',', '","', $_POST['actionid']) . '"';
         $update     = 'update annotations set group_ID = "group-' . (count($lists) + 1) . '", groupinfo ="' . $_POST['content'] . '" where annotationid IN (' . $actiongroup . ')';
-        $emailcount = DB::connection('mysql')->select(DB::raw($update));
+        $emailcount = DB::connection('mysql')->update(DB::raw($update));
         return $_POST['referenceid'];
     }
 
@@ -1630,7 +1630,7 @@ class ApiController extends Controller
         $json_data_decoded = json_decode($result, true);
 
         //$update 	= 'update annotations set status = "completed" and emailtype = "1" where page_id = "'.$id.'")';
-        //$emailcount = DB::connection('mysql')->select(DB::raw($update));
+        //$emailcount = DB::connection('mysql')->update(DB::raw($update));
 
         //$output = json_encode($output);
         return response()->json([$json_data_decoded]);

@@ -19,7 +19,7 @@
                             </a>
                         </li>
 
-                    <?php } elseif(in_array(auth()->user()->role, Config::get('constants.amUserRoles'))) { ?>
+                    <?php } elseif(in_array(auth()->user()->role, Config::get('constants.amUserRoles')) && !session()->has("current_empcode")) { ?>
 
                         <li role="presentation" class="">
                             <a data-toggle="tab" id="membersTab" role="tab" href="#overview" aria-expanded="false">
