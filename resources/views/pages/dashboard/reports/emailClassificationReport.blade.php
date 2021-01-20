@@ -9,7 +9,7 @@ data-current-route="{{ $currentRoute }}">
                 placeholder="{{ __('dashboard.report_range_placeholder_text') }}" />
         </div>
     </div>
-    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pl-0">
+    {{-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pl-0">
         <div class="form-group mb-0">
             {!! Form::select('report_type', [ "" =>
             __('dashboard.report_type_select_placeholder_text') ] +
@@ -18,7 +18,7 @@ data-current-route="{{ $currentRoute }}">
             ])
             !!}
         </div>
-    </div>
+    </div> --}}
     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pl-0">
         <div class="form-group mb-0">
             {!! Form::select('user_empcode', [ "" =>
@@ -40,7 +40,7 @@ data-current-route="{{ $currentRoute }}">
             <th class="wd-10">Date</th>
             <th class="wd-15">First Login Time</th>
             <th class="wd-15">Last Logout Time</th>
-            <th class="">Overall Time<br><span class="column-note">(In Minutes)</span></th>
+            <th class="">Overall Time</th>
             <th class="nosort">Positive</th>
             <th class="nosort">Neutral</th>
             <th class="nosort">Negative</th>

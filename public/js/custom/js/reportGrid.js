@@ -15,9 +15,9 @@ function getSummaryReportTableList(gridSelector) {
     var columnFields = [
         { 'data': 's_no' },
         { 'data': 'pmname_link' },
-        { 'data': 'date' },
-        { 'data': 'first_login', 'className': 'report-user-login-info-bg' },
-        { 'data': 'last_logout', 'className': 'report-user-login-info-bg' },
+        { 'data': 'formatted_date' },
+        { 'data': 'formatted_first_login', 'className': 'report-user-login-info-bg' },
+        { 'data': 'formatted_last_logout', 'className': 'report-user-login-info-bg' },
         { 'data': 'overall_time', 'className': 'report-user-login-info-bg' },
     ];
 
@@ -583,12 +583,6 @@ function getUserLoginHistoryReportTableList(gridSelector) {
 
                             }
 
-                            // $(gridSelector).jsGrid("option", "data", response.data);
-
-                            // $('.jsgrid-grid-body').slimscroll({
-                            //     height: '300px',
-                            // });
-
                         } else {
 
                             d.resolve(dataResult);
@@ -605,15 +599,6 @@ function getUserLoginHistoryReportTableList(gridSelector) {
                 });
 
                 return d.promise();
-
-                // return $.grep(dbClients, function(client) {
-                //     return (!filter.empcode || (client.empcode != undefined && client.empcode != null && (client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1))) &&
-                //         (!filter.creator_empcode || (client.creator_empcode != undefined && client.creator_empcode != null && (client.creator_empcode.toLowerCase().indexOf(filter.creator_empcode.toLowerCase()) > -1))) &&
-                //         (!filter.ipaddress || (client.ipaddress != undefined && client.ipaddress != null && (client.ipaddress.toLowerCase().indexOf(filter.ipaddress.toLowerCase()) > -1))) &&
-                //         (!filter.type || (client.type != undefined && client.type != null && (client.type.toLowerCase().indexOf(filter.type.toLowerCase()) > -1))) &&
-                //         (!filter.action_type || (client.action_type != undefined && client.action_type != null && (client.action_type.toLowerCase().indexOf(filter.action_type.toLowerCase()) > -1))) &&
-                //         (!filter.created_date || (client.created_date != undefined && client.created_date != null && (client.created_date.toLowerCase().indexOf(filter.created_date.toLowerCase()) > -1)));
-                // });
 
             }
         },

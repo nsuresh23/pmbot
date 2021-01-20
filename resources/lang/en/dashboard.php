@@ -21,7 +21,7 @@ return [
     'reports_tab_label' => 'reports',
     'report_range_placeholder_text' => 'select range',
     'report_type_select_placeholder_text' => 'select type',
-    'report_user_select_placeholder_text' => 'select PM',
+    'report_user_select_placeholder_text' => 'All PM',
     'summary_report_tab_label' => 'summary',
     'received_email_report_tab_label' => 'received email',
     'sent_email_report_tab_label' => 'sent email',

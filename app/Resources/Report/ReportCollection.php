@@ -91,90 +91,6 @@ class ReportCollection
 
             $responseData = $this->postRequest($url, $paramInfo);
 
-            // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($responseData);echo '<PRE/>';exit;
-
-            // $responseData["success"] = true;
-
-            // $responseData["data"] = [
-
-            //     [
-            //         "url" => "url1",
-            //         "title" => "title1",
-            //         "date" => "2020/10/29 16:33:24",
-            //         "url" => "url1",
-            //         "title" => "title1",
-            //         "date" => "2020/10/29 16:33:24",
-            //         "url" => "url1",
-            //         "title" => "title1",
-            //         "date" => "2020/10/29 16:33:24",
-            //         "url" => "url1",
-            //         "title" => "title1",
-            //         "date" => "2020/10/29 16:33:24",
-            //     ],
-            //     [
-            //         "url" => "url2",
-            //         "title" => "title2",
-            //         "date" => "2020/02/29 16:33:24",
-            //         "url" => "url2",
-            //         "title" => "title2",
-            //         "date" => "2020/02/29 16:33:24",
-            //         "url" => "url2",
-            //         "title" => "title2",
-            //         "date" => "2020/02/29 16:33:24",
-            //         "url" => "url2",
-            //         "title" => "title2",
-            //         "date" => "2020/02/29 16:33:24",
-            //     ],
-            //     [
-            //         "url" => "url3",
-            //         "title" => "title3",
-            //         "date" => "2020/03/29 16:33:24",
-            //         "url" => "url3",
-            //         "title" => "title3",
-            //         "date" => "2020/03/29 16:33:24",
-            //         "url" => "url3",
-            //         "title" => "title3",
-            //         "date" => "2020/03/29 16:33:24",
-            //         "url" => "url3",
-            //         "title" => "title3",
-            //         "date" => "2020/03/29 16:33:24",
-            //     ],
-            //     [
-            //         "url" => "url4",
-            //         "title" => "title4",
-            //         "date" => "2020/04/29 16:33:24",
-            //         "url" => "url4",
-            //         "title" => "title4",
-            //         "date" => "2020/04/29 16:33:24",
-            //     ],
-            //     [
-            //         "url" => "url5",
-            //         "title" => "title5",
-            //         "date" => "2020/05/29 16:33:24",
-            //         "url" => "url5",
-            //         "title" => "title5",
-            //         "date" => "2020/05/29 16:33:24",
-            //         "url" => "url5",
-            //         "title" => "title5",
-            //         "date" => "2020/05/29 16:33:24",
-            //         "url" => "url5",
-            //         "title" => "title5",
-            //         "date" => "2020/05/29 16:33:24",
-            //     ],
-            //     [
-            //         "url" => "url6",
-            //         "title" => "title6",
-            //         "date" => "2020/06/29 16:33:24",
-            //         "url" => "url6",
-            //         "title" => "title6",
-            //         "date" => "2020/06/29 16:33:24",
-            //     ],
-
-            // ];
-
-            // $responseData["data"] = array_merge($responseData["data"], $responseData["data"]);
-            // $responseData["data"] = array_merge($responseData["data"], $responseData["data"]);
-
             if ($responseData["success"] == "true" && is_array($responseData["data"]) && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
                 $responseFormatData = $this->summaryReportFormatData($responseData["data"]);
@@ -233,6 +149,12 @@ class ReportCollection
 
                     $item["s_no"] = $s_no;
 
+                    $item["formatted_date"] = "-";
+
+                    $item["formatted_first_login"] = "-";
+
+                    $item["formatted_last_logout"] = "-";
+
                     $item["overall_time"] = "-";
 
                     $item["email_received_time_in_minutes"] = "-";
@@ -274,6 +196,24 @@ class ReportCollection
 
                         $item["pmname_link"] = '<a class="user-login-history-btn" href="#userLoginHistorModal" data-toggle="modal" data-grid-selector="user-login-history-grid" data-grid-title="Login history" data-date="' . $item["date"] . '" data-empcode="' . $item["pmname"] . '"><span class="txt-a-blue underlined">' . $item["pmname"] . '</span></a>';
                         // $item["pmname_link"] = '<a class="user-login-history-btn" href="#sentEmailModal" data-toggle="modal" data-grid-selector="emailSentCountGrid" data-grid-title="alarming email" data-count="10" data-email-filter="negative" data-empcode="' . $item["pmname"] . '"><span class="txt-danger underlined">10</span></a>';
+
+                    }
+
+                    if (isset($item["date"]) && $item["date"] != "") {
+
+                        $item["formatted_date"] = date("Y/m/d H:i:s", strtotime($item["date"]));
+
+                    }
+
+                    if (isset($item["first_login"]) && $item["first_login"] != "") {
+
+                        $item["formatted_first_login"] = date("Y/m/d H:i:s", strtotime($item["first_login"]));
+
+                    }
+
+                    if (isset($item["last_logout"]) && $item["last_logout"] != "") {
+
+                        $item["formatted_last_logout"] = date("Y/m/d H:i:s", strtotime($item["last_logout"]));;
 
                     }
 
@@ -483,24 +423,6 @@ class ReportCollection
 
                             $item["email_sent_generic_average_time_in_minutes"] = $emailSentGenericAverageTimeInMinutes;
                         }
-                    }
-
-                    if (!isset($item["date"]) && $item["date"] == "") {
-
-                        $item["date"] = "-";
-
-                    }
-
-                    if (!isset($item["first_login"]) || $item["first_login"] == "") {
-
-                        $item["first_login"] = "-";
-
-                    }
-
-                    if (!isset($item["last_logout"]) && $item["last_logout"] == "") {
-
-                        $item["last_logout"] = "-";
-
                     }
 
                 }
