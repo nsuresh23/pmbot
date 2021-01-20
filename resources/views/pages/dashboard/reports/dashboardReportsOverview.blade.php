@@ -1,6 +1,8 @@
 <!-- Row -->
 <div class="row pl-10 pr-10" >
 
+    @include('pages.user.userLoginHistoryModal')
+
     <!-- Pannel -->
     <div class="panel panel-default card-view mb-0 report-block">
 
@@ -58,19 +60,19 @@
 
                     </div>
 
-                    <div id="received-email-report" class="tab-pane fade" role="tabpanel">
+                    <div id="received-email-report" class="tab-pane fade pa-0" role="tabpanel">
 
                         @include('pages.dashboard.reports.emailReceivedReport')
 
                     </div>
 
-                    <div id="sent-email-report" class="tab-pane fade" role="tabpanel">
+                    <div id="sent-email-report" class="tab-pane fade pa-0" role="tabpanel">
 
                         @include('pages.dashboard.reports.emailSentReport')
 
                     </div>
 
-                    <div id="classification-email-report" class="tab-pane fade" role="tabpanel">
+                    <div id="classification-email-report" class="tab-pane fade pa-0" role="tabpanel">
 
                         @include('pages.dashboard.reports.emailClassificationReport')
 

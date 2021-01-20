@@ -1184,4 +1184,65 @@ trait Helper
         }
     }
 
+    public function dateTimeDifferenceInMinutes($sartDateTime, $endDateTime)
+    {
+
+        $returnMinutes = "";
+
+        try {
+
+            $fromDateTime = new DateTime($sartDateTime, new DateTimeZone(env('APP_TIME_ZONE')));
+            $toDateTime = new DateTime($endDateTime, new DateTimeZone(env('APP_TIME_ZONE')));
+            $diff = $fromDateTime->diff($toDateTime);
+
+            $returnMinutes = $diff->format("%H:%I:%S");
+
+            // $returnMinutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
+
+        } catch (Exception $e) {
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnMinutes;
+
+    }
+
+    public function secondsToMinutes($seconds)
+    {
+
+        $returnMinutes = "";
+
+        try {
+
+            $hours = floor($seconds / 3600);
+            $minutes = floor(((int)$seconds / 60) % 60);
+            $seconds = $seconds % 60;
+
+            // $returnMinutes = $hours . ":" . $minutes .":" . $seconds;
+
+            $returnMinutes = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
+
+            // $returnMinutes = gmdate("H:i:s", $seconds);
+
+        } catch (Exception $e) {
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnMinutes;
+
+
+    }
+
 }

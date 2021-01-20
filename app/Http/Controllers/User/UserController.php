@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Traits\General\Helper;
 use Illuminate\Support\Facades\Auth;
@@ -311,6 +312,91 @@ class UserController extends Controller
         }
 
         return json_encode($returnResponse);
+    }
+
+    /**
+     * Show the user login history detail.
+     *
+     *  @return json response
+     */
+    public function userLoginHistory(Request $request)
+    {
+
+        try {
+
+            $field = [];
+
+            $returnResponse = [];
+
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    // "subject_link" => "subject",
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if (isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+                    }
+                }
+
+                $field["filter"] = $filterData;
+            }
+
+            if (isset($request->date) && $request->date != "") {
+
+                $field["date"] = $request->date;
+
+            }
+
+            if (isset($request->empcode) && $request->empcode != "") {
+
+                $field["empcode"] = $request->empcode;
+
+            }
+
+            $field["current_empcode"] = auth()->user()->empcode;
+
+            $field["role"] = auth()->user()->role;
+
+            if (count($field) > 0) {
+
+                $returnResponse = $this->userResource->userLoginHistory($field);
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        //if ($request->ajax()) {
+
+        return $returnResponse;
+        // return json_encode($returnResponse);
+        //}
+
+        return view("errors.error404");
     }
 
     /**

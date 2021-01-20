@@ -2,6 +2,8 @@
 
 namespace App\Resources\User;
 
+use Exception;
+
 use App\Models\User;
 
 use League\Fractal\Manager;
@@ -45,6 +47,7 @@ class UserCollection
     protected $memberListApiUrl;
     protected $pmUserSelectApiUrl;
     protected $loginHistoryApiUrl;
+    protected $userLoginHistoryReportApiUrl;
 
     public function __construct()
     {
@@ -65,6 +68,7 @@ class UserCollection
         $this->pmUserSelectApiUrl = env('API_PM_USER_SELECT_URL');
         $this->memberListApiUrl = env('API_MEMBER_LIST_URL');
         $this->loginHistoryApiUrl = env('API_USER_HISTORY_URL');
+        $this->userLoginHistoryReportApiUrl = env('API_USER_LOGIN_HISTORY_URL');
 
     }
 
@@ -261,6 +265,97 @@ class UserCollection
 
         return $returnData;
 
+    }
+
+    /**
+     * Get the list of user login history report.
+     *
+     * @return array $returnData
+     */
+    public function userLoginHistory($params)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            $paramInfo = [];
+
+            $paramInfo = $params;
+
+            $url = $this->userLoginHistoryReportApiUrl;
+
+            $responseData = $this->postRequest($url, $paramInfo);
+
+            if ($responseData["success"] == "true" && is_array($responseData["data"]) && count($responseData["data"]) > 0 && $responseData["data"] != "") {
+
+                $responseFormatData = $this->userLoginHistoryReportFormatData($responseData["data"]);
+
+                if ($responseFormatData) {
+
+                    $returnResponse["success"] = "true";
+
+                    $returnResponse["data"] = $responseFormatData;
+
+                    if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
+
+                        $returnResponse["result_count"] = $responseData["result_count"];
+
+                    } else if (is_array($responseFormatData)) {
+
+                        $returnResponse["result_count"] = count($responseFormatData);
+
+                    }
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
+     * format user login history result.
+     *
+     * @return array $resource
+     */
+    public function userLoginHistoryReportFormatData($items)
+    {
+
+        $s_no = 0;
+
+        $resource = array_map(
+
+            function ($item) use (&$s_no) {
+
+                if (is_array($item) && count($item)) {
+
+                    $s_no = $s_no + 1;
+
+                    $item["s_no"] = $s_no;
+                }
+
+                return $item;
+
+            },
+            $items
+
+        );
+
+        return $resource;
     }
 
     /**

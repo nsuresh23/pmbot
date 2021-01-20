@@ -47,6 +47,7 @@ return [
     'emails_last_updated_label' => 'last updated',
     'am_email_list_tab_label' => 'PM emails',
 
+    'user_login_history_list_url' => 'user-login-history',
     'summary_report_list_url' => 'summary-report',
     'received_email_report_list_url' => 'received-email-report',
     'sent_email_report_list_url' => 'sent-email-report',

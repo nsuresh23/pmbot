@@ -7,8 +7,82 @@
 
 function getSummaryReportTableList(gridSelector) {
 
+    var reportBlockId = "summary-report";
     var listUrl = $(gridSelector).attr('data-list-url');
+    var category = $(gridSelector).attr('data-category');
     var pageSize = $('#currentUserInfo').attr('data-page-size');
+
+    var columnFields = [
+        { 'data': 's_no' },
+        { 'data': 'pmname_link' },
+        { 'data': 'date' },
+        { 'data': 'first_login', 'className': 'report-user-login-info-bg' },
+        { 'data': 'last_logout', 'className': 'report-user-login-info-bg' },
+        { 'data': 'overall_time', 'className': 'report-user-login-info-bg' },
+    ];
+
+    if (category != undefined && category == 'summary') {
+
+        reportBlockId = "summary-report";
+
+        columnFields.push(...[
+            { 'data': 'email_received_count', 'className': 'report-email-info-bg' },
+            { 'data': 'email_received_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_received_average_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_sent_count', 'className': 'report-email-info-bg' },
+            { 'data': 'email_sent_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_sent_average_time_in_minutes', 'className': 'report-email-info-bg' },
+        ]);
+
+    }
+
+    if (category != undefined && category == 'received_email') {
+
+        reportBlockId = "received-email-report";
+
+        columnFields.push(...[
+            { 'data': 'email_received_title_count', 'className': 'report-email-info-bg' },
+            { 'data': 'email_received_title_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_received_title_average_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_received_nonbusiness_count', 'className': 'report-email-info-bg' },
+            { 'data': 'email_received_nonbusiness_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_received_nonbusiness_average_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_received_generic_count', 'className': 'report-email-info-bg' },
+            { 'data': 'email_received_generic_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_received_generic_average_time_in_minutes', 'className': 'report-email-info-bg' },
+        ]);
+
+    }
+
+    if (category != undefined && category == 'sent_email') {
+
+        reportBlockId = "sent-email-report";
+
+        columnFields.push(...[
+            { 'data': 'email_sent_title_count', 'className': 'report-email-info-bg' },
+            { 'data': 'email_sent_title_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_sent_title_average_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_sent_nonbusiness_count', 'className': 'report-email-info-bg' },
+            { 'data': 'email_sent_nonbusiness_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_sent_nonbusiness_average_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_sent_generic_count', 'className': 'report-email-info-bg' },
+            { 'data': 'email_sent_generic_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_sent_generic_average_time_in_minutes', 'className': 'report-email-info-bg' },
+        ]);
+
+    }
+
+    if (category != undefined && category == 'classified_email') {
+
+        reportBlockId = "classification-email-report";
+
+        columnFields.push(...[
+            { 'data': 'positive', 'className': 'report-email-info-bg' },
+            { 'data': 'netural', 'className': 'report-email-info-bg' },
+            { 'data': 'negative', 'className': 'report-email-info-bg' },
+        ]);
+
+    }
 
     if ($.fn.DataTable.isDataTable(gridSelector)) {
 
@@ -24,10 +98,19 @@ function getSummaryReportTableList(gridSelector) {
         retrieve: true,
         processing: true,
         serverSide: true,
+        ordering: false,
+        paging: false,
+        autoWidth: false,
+        // scrollY: '50vh',
+        // scrollCollapse: true,
         // stateSave: true,
         "language": {
             processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
         },
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': ['nosort']
+        }],
         // pagingType: 'full',
         pageLength: 25,
         // lengthChange: true,
@@ -36,7 +119,7 @@ function getSummaryReportTableList(gridSelector) {
         //     'copy', 'csv', 'excel', 'pdf', 'print'
         // ],
         buttons: [
-            'excel'
+            { extend: 'csv', text: 'Download' }
         ],
         /* AJAX call to get list */
         ajax: {
@@ -46,10 +129,11 @@ function getSummaryReportTableList(gridSelector) {
             data: function(d) {
                 return $.extend({}, d, {
                     'filter_option': {
-                        'range': $('.report-daterange-datepicker').val(),
-                        'report_type': $('.report-type').val(),
-                        'user_empcode': $('.user-empcode').val()
-                    }
+                        'range': $('#' + reportBlockId + ' .report-daterange-datepicker').val(),
+                        'report_type': $('#' + reportBlockId + ' .report-type').val(),
+                        'user_empcode': $('#' + reportBlockId + ' .user-empcode').val(),
+                    },
+                    'category': $(gridSelector).attr('data-category'),
                 });
             },
             dataType: "json",
@@ -120,46 +204,31 @@ function getSummaryReportTableList(gridSelector) {
         //             className: "never"
         //         },
         //     ],
-        columns: [
-            { 'data': 's_no' },
-            { 'data': 'url' },
-            { 'data': 'title' },
-            { 'data': 'date' },
-            { 'data': 's_no' },
-            { 'data': 'url' },
-            { 'data': 'title' },
-            { 'data': 'date' },
-            { 'data': 's_no' },
-            { 'data': 'url' },
-            { 'data': 'title' },
-            { 'data': 'date' },
-        ],
+        // columns: [
+        //     { 'data': 's_no' },
+        //     { 'data': 'pmname' },
+        //     { 'data': 'date' },
+        //     { 'data': 'first_login' },
+        //     { 'data': 'last_logout' },
+        //     { 'data': 'overall_time' },
+        //     { 'data': 'email_received_count' },
+        //     { 'data': 'email_received_time' },
+        //     { 'data': 'email_received_average_time' },
+        //     { 'data': 'email_sent_count' },
+        //     { 'data': 'email_sent_time_in_minutes' },
+        //     { 'data': 'email_sent_average_time_in_minutes' },
+        // ],
+        columns: columnFields,
 
     });
 
-    function formatDataItem(dataValue) {
-
-        if (dataValue.length > 0) {
-
-            for (var i = 0, len = dataValue.length; i < len; i++) {
-
-                dataValue[i].s_no = i + 1;
-
-            }
-
-        }
-
-        return dataValue;
-
-    }
-
-    if ($('.report-daterange-datepicker') != undefined) {
+    if ($('#' + reportBlockId + ' .report-daterange-datepicker') != undefined) {
 
         // $('.report-daterange-datepicker').val('');
 
     }
 
-    $('.report-daterange-datepicker').on('apply.daterangepicker', function(ev, picker) {
+    $('#' + reportBlockId + ' .report-daterange-datepicker').on('apply.daterangepicker', function(ev, picker) {
 
         if (reportTable != undefined && reportTable != null) {
 
@@ -172,7 +241,7 @@ function getSummaryReportTableList(gridSelector) {
 
     });
 
-    $('.report-type').on('change', function() {
+    $('#' + reportBlockId + ' .report-type').on('change', function() {
 
         if (reportTable != undefined && reportTable != null) {
 
@@ -182,7 +251,7 @@ function getSummaryReportTableList(gridSelector) {
 
     });
 
-    $('.user-empcode').on('change', function() {
+    $('#' + reportBlockId + ' .user-empcode').on('change', function() {
 
         if (reportTable != undefined && reportTable != null) {
 
@@ -191,495 +260,29 @@ function getSummaryReportTableList(gridSelector) {
         }
 
     });
-
-    // if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
-
-    // window.dbClients = "";
-    // window.folderLabels = "";
-
-    // var field = [];
-
-    // var DateField = function(config) {
-    //     jsGrid.Field.call(this, config);
-    // };
-
-    // DateField.prototype = new jsGrid.Field({
-    //     sorter: function(date1, date2) {
-    //         return new Date(date1) - new Date(date2);
-    //     },
-
-    //     itemTemplate: function(value) {
-    //         // return new Date(value).toDateString();
-    //         return value;
-    //     },
-
-    //     filterTemplate: function() {
-    //         var now = new Date();
-    //         this._fromPicker = $("<input>").datetimepicker({ defaultDate: now.setFullYear(now.getFullYear() - 1) });
-    //         this._toPicker = $("<input>").datetimepicker({ defaultDate: now.setFullYear(now.getFullYear() + 1) });
-    //         return $("<input>").attr('class', 'form-control report-daterange-datepicker');
-    //     },
-
-    //     insertTemplate: function(value) {
-    //         return this._insertPicker = $("<input>").attr('class', 'form-control input-daterange-datepicker');
-    //     },
-
-    //     editTemplate: function(value) {
-    //         return this._editPicker = $("<input>").datetimepicker().datetimepicker("setDate", new Date(value));
-    //     },
-
-    //     insertValue: function() {
-    //         return this._insertPicker.datetimepicker("getDate").toISOString();
-    //     },
-
-    //     editValue: function() {
-    //         return this._editPicker.datetimepicker("getDate").toISOString();
-    //     },
-
-    //     filterValue: function() {
-    //         return {
-    //             from: this._fromPicker.datetimepicker("getDate"),
-    //             to: this._toPicker.datetimepicker("getDate")
-    //         };
-    //     }
-    // });
-
-    // jsGrid.fields.date = DateField;
-
-    // field.push({
-    //     title: "S.NO",
-    //     name: "s_no",
-    //     type: "number",
-    //     inserting: false,
-    //     filtering: false,
-    //     editing: false,
-    //     sorting: false,
-    //     width: 32,
-    // });
-
-    // field.push({
-    //     title: "ID",
-    //     name: "id",
-    //     type: "text",
-    //     inserting: false,
-    //     editing: false,
-    //     visible: false,
-    //     // width: 150
-    // });
-
-    // field.push({
-    //     title: "FROM",
-    //     name: "from_name",
-    //     type: "textarea",
-
-    //     validate: [
-    //         "required",
-    //         function(value, item) {
-
-    //             if (!IsEmail(value)) {
-
-    //                 Swal.fire({
-
-    //                     title: '',
-    //                     text: "Enter valid email address!",
-    //                     showClass: {
-    //                         popup: 'animated fadeIn faster'
-    //                     },
-    //                     hideClass: {
-    //                         popup: 'animated fadeOut faster'
-    //                     },
-
-    //                 });
-
-    //                 return false;
-
-    //             }
-
-    //             return true;
-
-    //         }
-
-    //     ],
-
-    //     // width: 100,
-
-    // });
-
-    // field.push({
-    //     title: "SUBJECT (<span class='text-lowercase'>contains</span>)<p><span class='text-lowercase font-12'>(For multiple keywords use pipe (|) seperator)</span></p>",
-    //     name: "subject",
-    //     type: "textarea",
-    //     validate: [
-    //             "required",
-    //             function(value, item) {
-
-    //                 if (value == '') {
-
-    //                     Swal.fire({
-
-    //                         title: '',
-    //                         text: "Enter valid keywords!",
-    //                         showClass: {
-    //                             popup: 'animated fadeIn faster'
-    //                         },
-    //                         hideClass: {
-    //                             popup: 'animated fadeOut faster'
-    //                         },
-
-    //                     });
-
-    //                     return false;
-
-    //                 }
-
-    //                 return true;
-
-    //             }
-
-    //         ]
-    //         // width: 100,
-    // });
-
-    // field.push({
-    //     title: "FOLDER",
-    //     name: "label_name",
-    //     type: "textarea",
-    //     validate: [
-    //             "required",
-    //             function(value, item) {
-
-    //                 if (value == '') {
-
-    //                     Swal.fire({
-
-    //                         title: '',
-    //                         text: "Enter valid folder!",
-    //                         showClass: {
-    //                             popup: 'animated fadeIn faster'
-    //                         },
-    //                         hideClass: {
-    //                             popup: 'animated fadeOut faster'
-    //                         },
-
-    //                     });
-
-    //                     return false;
-
-    //                 }
-
-    //                 return true;
-
-    //             }
-
-    //         ]
-    //         // width: 100,
-    // });
-
-    // field.push({
-    //     title: "STATUS",
-    //     name: "status",
-    //     type: "checkbox",
-    //     itemTemplate: function(value, item) {
-    //         return $("<input>").attr("type", "checkbox")
-    //             // .attr("class", "js-switch js-switch-1")
-    //             // .attr("data-size", "small")
-    //             // .attr("data-color", "#8BC34A")
-    //             // .attr("data-secondary", "#F8B32D")
-    //             .attr("checked", JSON.parse(value))
-    //             .attr("disabled", true)
-    //     },
-    //     sorting: false,
-    //     editing: true,
-    //     css: "user-jsgrid-checkbox-width",
-    //     width: 60
-    // });
-
-    // field.push({
-    //     type: "control",
-    //     name: "Control",
-    //     // width: 30,
-    // });
-
-    // $(gridSelector).jsGrid({
-
-    //     height: "450px",
-    //     width: "100%",
-    //     autowidth: true,
-    //     editing: true,
-    //     inserting: true,
-    //     filtering: true,
-    //     sorting: true,
-    //     autoload: true,
-    //     paging: true,
-    //     pageLoading: true,
-    //     pageSize: pageSize,
-    //     pageIndex: 1,
-    //     pageButtonCount: 5,
-
-    //     confirmDeleting: false,
-
-    //     noDataContent: "No data",
-
-    //     invalidNotify: function(args) {
-
-    //         $('#alert-error-not-submit').removeClass('hidden');
-
-    //     },
-
-    //     loadIndication: true,
-    //     // loadIndicationDelay: 500,
-    //     loadMessage: "Please, wait...",
-    //     loadShading: true,
-
-    //     fields: field,
-
-    //     onInit: function(args) {
-
-    //         this._resetPager();
-
-    //     },
-
-    //     search: function(filter) {
-
-    //         this._resetPager();
-    //         return this.loadData(filter);
-
-    //     },
-
-    //     onPageChanged: function(args) {
-
-    //         $('html, body').animate({
-    //             scrollTop: $(".email-rules-grid").offset().top - 140
-    //         }, 0);
-
-    //     },
-
-    //     controller: {
-
-    //         loadData: function(filter) {
-
-    //             $('.email-rules-count').html('');
-
-    //             var d = $.Deferred();
-
-    //             var emailRulesListPostData = {};
-
-    //             emailRulesListPostData.filter = filter;
-
-    //             /* AJAX call to get list */
-    //             $.ajax({
-
-    //                 url: listUrl,
-    //                 data: emailRulesListPostData,
-    //                 dataType: "json"
-
-    //             }).done(function(response) {
-
-    //                 var dataResult = { data: [], itemsCount: '' };
-
-    //                 if (response.success == "true") {
-
-    //                     if (response.data != '') {
-
-    //                         response.data = formatDataItem(response.data);
-
-    //                         window.dbClients = response.data;
-
-    //                         var dataResult = {
-    //                             data: response.data,
-    //                             itemsCount: response.result_count,
-    //                         };
-
-    //                         d.resolve(dataResult);
-
-    //                         if (response.folder_labels != undefined && response.folder_labels != '') {
-
-    //                             // window.folderLabels = response.folder_labels;
-
-    //                             // $(gridSelector).jsGrid("option", "fields", response.folder_labels);
-
-    //                             $(gridSelector).jsGrid("fieldOption", "folder", "items", response.folder_labels);
-
-    //                         }
-
-    //                         if ('result_count' in response) {
-
-    //                             var resultCount = response.result_count;
-
-    //                             if (parseInt(resultCount) != NaN && parseInt(resultCount) > 0) {
-
-    //                                 if (parseInt(resultCount) > 99999) {
-
-    //                                     resultCount = '99999+'
-
-    //                                 }
-
-    //                                 $('.email-rules-count').html('(' + resultCount + ')');
-
-    //                             }
-
-
-    //                         }
-
-    //                         // $(gridSelector).jsGrid("option", "data", response.data);
-
-    //                         $('.jsgrid-grid-body').slimscroll({
-    //                             height: '300px',
-    //                         });
-
-    //                     } else {
-
-    //                         d.resolve(dataResult);
-
-    //                     }
-
-    //                 } else {
-
-    //                     d.resolve(dataResult);
-
-    //                 }
-
-    //             });
-
-    //             return d.promise();
-
-    //             // return $.grep(window.dbClients, function(client) {
-    //             //     return (!filter.from_name || (client.from_name != undefined && client.from_name != null && (client.from_name.toLowerCase().indexOf(filter.from_name.toLowerCase()) > -1))) &&
-    //             //         (!filter.subject || (client.subject != undefined && client.subject != null && (client.subject.toLowerCase().indexOf(filter.subject.toLowerCase()) > -1))) &&
-    //             //         (!filter.label_name || (client.label_name != undefined && client.label_name != null && (client.label_name.toLowerCase().indexOf(filter.label_name.toLowerCase()) > -1))) &&
-    //             //         (filter.status === undefined || (client.status != undefined && client.status != null && client.status === filter.status));
-    //             // });
-
-    //         },
-
-    //     },
-
-    //     rowClick: function(args) {
-
-    //         $(gridSelector).jsGrid("cancelEdit");
-
-    //     },
-
-
-    //     onItemInserting: function(args, value) {
-
-    //         if (itemEmptyOrExistsCheck(gridSelector, 'from_name', args.item.from_name, 'subject', args.item.subject, 'label_name', args.item.label_name)) {
-
-    //             addItem(args, listUrl, gridSelector);
-
-    //         } else {
-
-    //             args.cancel = true;
-
-    //         }
-
-    //         // addItem(args, listUrl, gridSelector);
-
-    //         // $('#emailRulesTab').trigger('click');
-
-    //     },
-
-    //     onItemUpdating: function(args) {
-
-    //         if (args.item.status == false) {
-
-    //             Swal.fire({
-
-    //                 title: 'Are you sure?',
-    //                 text: "Do you want to inactive this! Rules doesn't applied for future emails",
-    //                 // icon: 'warning',
-    //                 showCancelButton: true,
-    //                 confirmButtonColor: '#3085d6',
-    //                 cancelButtonColor: '#d33',
-    //                 confirmButtonText: 'Yes',
-    //                 showClass: {
-    //                     popup: 'animated slideInDown'
-    //                 },
-    //                 hideClass: {
-    //                     popup: 'animated fadeOut faster'
-    //                 },
-
-    //             }).then((result) => {
-
-    //                 if (result.value != undefined && result.value == true) {
-
-    //                     editItem(args, listUrl, gridSelector);
-
-    //                 } else {
-
-    //                     $("#emailRulesTab").trigger('click');
-
-    //                 }
-
-    //             });
-
-    //         } else {
-
-    //             editItem(args, listUrl, gridSelector);
-
-    //         }
-
-    //         return false;
-
-    //     },
-
-    //     onItemDeleting: function(args) {
-
-    //         if (!args.item.deleteConfirmed) { // custom property for confirmation
-
-    //             args.cancel = true; // cancel deleting
-
-    //             Swal.fire({
-
-    //                 title: 'Are you sure?',
-    //                 text: "Do you want to inactive this! Rules doesn't applied for future emails",
-    //                 // icon: 'warning',
-    //                 showCancelButton: true,
-    //                 confirmButtonColor: '#3085d6',
-    //                 cancelButtonColor: '#d33',
-    //                 confirmButtonText: 'Yes',
-    //                 showClass: {
-    //                     popup: 'animated slideInDown'
-    //                 },
-    //                 hideClass: {
-    //                     popup: 'animated fadeOut faster'
-    //                 },
-
-    //             }).then((result) => {
-
-    //                 if (result.value != undefined && result.value == true) {
-
-    //                     deleteItem(args, listUrl, gridSelector);
-
-    //                 }
-
-    //             });
-
-    //         }
-
-    //     },
-
-    // });
-
-    // // }
-
-    // function formatDataItem(dataValue) {
-
-    //     if (dataValue.length > 0) {
-
-    //         for (var i = 0, len = dataValue.length; i < len; i++) {
-
-    //             dataValue[i].s_no = i + 1;
-
-    //         }
-
-    //     }
-
-    //     return dataValue;
-
-    // }
 
 }
+
+
+$('.summary-report-grid tbody').slimscroll({
+    height: '520px',
+    alwaysVisible: 'true',
+});
+
+$('.received-email-report-grid tbody').slimscroll({
+    height: '520px',
+    alwaysVisible: 'true',
+});
+
+$('.sent-email-report-grid tbody').slimscroll({
+    height: '520px',
+    alwaysVisible: 'true',
+});
+
+$('.classified-email-report-grid tbody').slimscroll({
+    height: '520px',
+    alwaysVisible: 'true',
+});
 
 // $(document).on('shown.bs.tab', '#reportsTab', function(e) {
 
@@ -721,4 +324,353 @@ $(document).on('click', '#summaryReportTab', function(e) {
 
     }
 
+});
+
+$(document).on('click', '#receivedEmailReportTab', function(e) {
+
+    var gridSelector = "#received-email-report-grid";
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        getSummaryReportTableList(gridSelector);
+
+    }
+
+});
+
+$(document).on('click', '#sentEmailReportTab', function(e) {
+
+    var gridSelector = "#sent-email-report-grid";
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        getSummaryReportTableList(gridSelector);
+
+    }
+
+});
+
+$(document).on('click', '#classificationEmailReportTab', function(e) {
+
+    var gridSelector = "#classified-email-report-grid";
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        getSummaryReportTableList(gridSelector);
+
+    }
+
+});
+
+function getUserLoginHistoryReportTableList(gridSelector) {
+
+    var listUrl = $(gridSelector).attr('data-list-url');
+    var category = $(gridSelector).attr('data-category');
+    var date = $(gridSelector).attr('data-date');
+    var empcode = $(gridSelector).attr('data-empcode');
+    var pageSize = $('#currentUserInfo').attr('data-page-size');
+
+    var insertControlVisible = false;
+    var editControlVisible = false;
+    var deleteControlVisible = false;
+
+    var dbClients = "";
+
+    var field = [];
+
+    field.push({
+        title: "S.NO",
+        name: "s_no",
+        type: "number",
+        inserting: false,
+        filtering: false,
+        sorting: false,
+        editing: false,
+        // width: 10,
+    });
+
+    field.push({
+        title: "PM NAME",
+        name: "empcode",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        // width: 40,
+    });
+
+    field.push({
+        title: "LOGGED IN BY",
+        name: "creator_empcode",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        // width: 40,
+    });
+
+    field.push({
+        title: "IP ADDRESS",
+        name: "ipaddress",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        // width: 40,
+    });
+
+    field.push({
+        title: "STATUS",
+        name: "type",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        // width: 40,
+    });
+
+    field.push({
+        title: "ACTION",
+        name: "action_type",
+        // name: "negative_count",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        // width: 40,
+    });
+
+    field.push({
+        title: "Date",
+        name: "created_date",
+        // name: "negative_count",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        // width: 40,
+    });
+
+    // field.push({
+    //     type: "control",
+    //     name: "Control",
+    //     editButton: editControlVisible,
+    //     deleteButton: deleteControlVisible,
+    //     headerTemplate: function() {
+
+    //         return this._createOnOffSwitchButton("filtering", this.searchModeButtonClass, false);
+
+    //     },
+    //     width: 70,
+    // });
+
+    $(gridSelector).jsGrid({
+
+        height: "450px",
+        width: "100%",
+        autowidth: true,
+        editing: editControlVisible,
+        inserting: insertControlVisible,
+        filtering: false,
+        sorting: false,
+        autoload: true,
+        paging: false,
+        pageLoading: true,
+        pageSize: pageSize,
+        pageIndex: 1,
+        pageButtonCount: 5,
+
+        confirmDeleting: false,
+
+        noDataContent: "No data",
+
+        invalidNotify: function(args) {
+
+            $('#alert-error-not-submit').removeClass('hidden');
+
+        },
+
+        loadIndication: true,
+        // loadIndicationDelay: 500,
+        loadMessage: "Please, wait...",
+        loadShading: true,
+
+        fields: field,
+
+        onInit: function(args) {
+
+            this._resetPager();
+
+        },
+
+        search: function(filter) {
+
+            this._resetPager();
+            return this.loadData(filter);
+
+        },
+
+        onPageChanged: function(args) {
+
+            $('html, body').animate({
+                scrollTop: $(".emailGrid").offset().top - 110
+            }, 0);
+
+        },
+
+        controller: {
+
+            loadData: function(filter) {
+
+                $('.user-login-history-count').html('');
+
+                var d = $.Deferred();
+
+                var userLoginHistoryPostData = {};
+
+                userLoginHistoryPostData.filter = filter
+
+                userLoginHistoryPostData.date = date;
+
+                userLoginHistoryPostData.empcode = empcode;
+
+                /* AJAX call to get list */
+                $.ajax({
+
+                    url: listUrl,
+                    data: userLoginHistoryPostData,
+                    dataType: "json",
+                    beforeSend: function() {
+                        $('.userLoginHistory_loader').show();
+                    },
+                    complete: function() {
+                        $('.userLoginHistory_loader').hide();
+                    }
+
+                }).done(function(response) {
+
+                    var dataResult = {};
+
+                    dataResult.data = '';
+
+                    if (response.success == "true") {
+
+                        if (response.data != '') {
+
+                            dbClients = response.data;
+
+                            dataResult.data = response.data;
+                            dataResult.itemsCount = response.result_count;
+
+                            d.resolve(dataResult);
+
+                            if ('result_count' in response) {
+
+                                var resultCount = response.result_count;
+
+                                if (parseInt(resultCount) != NaN && parseInt(resultCount) > 0) {
+
+                                    if (parseInt(resultCount) > 99999) {
+
+                                        resultCount = '99999+'
+
+                                    }
+
+                                    $('.user-login-history-count').html('(' + resultCount + ')');
+
+                                }
+
+
+                            }
+
+                            // $(gridSelector).jsGrid("option", "data", response.data);
+
+                            // $('.jsgrid-grid-body').slimscroll({
+                            //     height: '300px',
+                            // });
+
+                        } else {
+
+                            d.resolve(dataResult);
+
+                        }
+
+                    } else {
+
+                        d.resolve(dataResult);
+
+                    }
+
+
+                });
+
+                return d.promise();
+
+                // return $.grep(dbClients, function(client) {
+                //     return (!filter.empcode || (client.empcode != undefined && client.empcode != null && (client.empcode.toLowerCase().indexOf(filter.empcode.toLowerCase()) > -1))) &&
+                //         (!filter.creator_empcode || (client.creator_empcode != undefined && client.creator_empcode != null && (client.creator_empcode.toLowerCase().indexOf(filter.creator_empcode.toLowerCase()) > -1))) &&
+                //         (!filter.ipaddress || (client.ipaddress != undefined && client.ipaddress != null && (client.ipaddress.toLowerCase().indexOf(filter.ipaddress.toLowerCase()) > -1))) &&
+                //         (!filter.type || (client.type != undefined && client.type != null && (client.type.toLowerCase().indexOf(filter.type.toLowerCase()) > -1))) &&
+                //         (!filter.action_type || (client.action_type != undefined && client.action_type != null && (client.action_type.toLowerCase().indexOf(filter.action_type.toLowerCase()) > -1))) &&
+                //         (!filter.created_date || (client.created_date != undefined && client.created_date != null && (client.created_date.toLowerCase().indexOf(filter.created_date.toLowerCase()) > -1)));
+                // });
+
+            }
+        },
+
+        rowClick: function(args) {
+
+            $(gridSelector).jsGrid("cancelEdit");
+
+        },
+
+    });
+
+}
+
+$(document).on('click', '.user-login-history-btn', function(e) {
+
+    e.preventDefault(false);
+
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var modalTitle = $(this).attr('data-grid-title');
+
+    var date = $(this).attr('data-date');
+
+    var epmcode = $(this).attr('data-empcode');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (date != undefined && date != "") {
+
+        $(gridSelector).attr('data-date', date);
+
+        if (epmcode != undefined && epmcode != "") {
+
+            $(gridSelector).attr('data-empcode', epmcode);
+
+        }
+
+        if (modalTitle != undefined && modalTitle != "") {
+
+            $('.user-login-history-modal-title').html(modalTitle);
+
+        }
+
+        if (dataUrl != undefined && dataUrl != "" && epmcode != undefined && epmcode != "") {
+
+            getUserLoginHistoryReportTableList(gridSelector);
+
+        }
+
+        $(".user-login-history-modal").modal('show');
+
+    }
+
+});
+
+$('.user-login-history-grid .jsgrid-grid-body').slimscroll({
+    height: '520px',
+    alwaysVisible: 'true',
 });

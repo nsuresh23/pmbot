@@ -73,6 +73,7 @@
 
         $membersListUrl = route(__("dashboard.member_list_url"));
 
+        $userLoginHistoryListUrl = route(__("dashboard.user_login_history_list_url"));
         $summaryReportListUrl = route(__("dashboard.summary_report_list_url"));
         $receivedEmailReportListUrl = route(__("dashboard.received_email_report_list_url"));
         $sentEmailReportListUrl = route(__("dashboard.sent_email_report_list_url"));

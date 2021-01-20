@@ -30,26 +30,26 @@ data-current-route="{{ $currentRoute }}">
     </div>
 </div>
 
-<table id="summary-report-grid" class="summary-report-grid table display ma-0" data-type="dashboard" data-category="summary"
+<table id="summary-report-grid" class="summary-report-grid table table-striped table-bordered nowrap ma-0 wd-100" data-type="dashboard" data-category="summary"
     data-list-url="{{ $summaryReportListUrl }}" data-current-route="{{ $currentRoute }}">
     <thead>
         <tr>
-            <th rowspan="2">SNO</th>
-            <th rowspan="2">PM Name</th>
-            <th rowspan="2">Date (History) list of login and logout and session time</th>
-            <th rowspan="2">First Login Time</th>
-            <th rowspan="2">Last Logout Time</th>
-            <th rowspan="2">Overall Time</th>
-            <th colspan="3">Emails Received (Business)</th>
-            <th colspan="3">Emails Sent (Business)</th>
+            <th rowspan="2" class="nosort">SNO</th>
+            <th rowspan="2" class="nosort">PM Name</th>
+            <th rowspan="2" class="wd-10">Date</th>
+            <th rowspan="2" class="wd-15">First Login Time</th>
+            <th rowspan="2" class="wd-15">Last Logout Time</th>
+            <th rowspan="2" class="">Overall Time<br><span class="column-note">(In Minutes)</span></th>
+            <th colspan="3" class="report-email-info-bg nosort">Emails Received</th>
+            <th colspan="3" class="report-email-info-bg nosort">Emails Sent</th>
         </tr>
         <tr>
-            <th>Count</th>
-            <th>Time</th>
-            <th>Average</th>
-            <th>Count</th>
-            <th>Time</th>
-            <th>Average</th>
+            <th class="nosort">Count</th>
+            <th class="nosort ">Time<br><span class="column-note">(In Minutes)</span></th>
+            <th class="nosort ">Average<br><span class="column-note">(In Minutes)</span></th>
+            <th class="nosort">Count</th>
+            <th class="nosort ">Time<br><span class="column-note">(In Minutes)</span></th>
+            <th class="nosort ">Average<br><span class="column-note">(In Minutes)</span></th>
         </tr>
     </thead>
 </table>

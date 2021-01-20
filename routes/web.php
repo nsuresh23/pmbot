@@ -219,6 +219,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'roles'], 'roles' => 
 	Route::any('user-password-update/{id}', 'User\UserController@userPasswordUpdate')->name('user-password-update');
 
 	Route::any('user-list', 'User\UserController@userList')->name('user-list'); //done
+    Route::any('user-login-history', 'User\UserController@userLoginHistory')->name('user-login-history'); //done
     Route::any('users', 'User\UserController@users')->name('users'); //done
 	Route::any('user-store', 'User\UserController@userStore')->name('user-store'); //done
 	Route::any('user-add', 'User\UserController@userAdd')->name('user-add'); //done
