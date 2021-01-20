@@ -194,14 +194,14 @@ class ReportCollection
 
                     if (isset($item["pmname"]) && $item["pmname"] != "") {
 
-                        $item["pmname_link"] = '<a class="user-login-history-btn" href="#userLoginHistorModal" data-toggle="modal" data-grid-selector="user-login-history-grid" data-grid-title="Login history" data-date="' . $item["date"] . '" data-empcode="' . $item["pmname"] . '"><span class="txt-a-blue underlined">' . $item["pmname"] . '</span></a>';
+                        $item["pmname_link"] = '<a class="user-login-history-btn" href="#userLoginHistorModal" data-toggle="modal" data-grid-selector="user-login-history-grid" data-grid-title="Login history" data-date="' . $item["date"] . '" data-empcode="' . $item["empcode"] . '"><span class="txt-a-blue underlined">' . $item["pmname"] . '</span></a>';
                         // $item["pmname_link"] = '<a class="user-login-history-btn" href="#sentEmailModal" data-toggle="modal" data-grid-selector="emailSentCountGrid" data-grid-title="alarming email" data-count="10" data-email-filter="negative" data-empcode="' . $item["pmname"] . '"><span class="txt-danger underlined">10</span></a>';
 
                     }
 
                     if (isset($item["date"]) && $item["date"] != "") {
 
-                        $item["formatted_date"] = date("Y/m/d H:i:s", strtotime($item["date"]));
+                        $item["formatted_date"] = date("Y/m/d", strtotime($item["date"]));
 
                     }
 
