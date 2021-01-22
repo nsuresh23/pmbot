@@ -32,11 +32,11 @@
 
                     <?php if(in_array(auth()->user()->role, Config::get('constants.amUserRoles'))) { ?>
 
-                        {{-- <li role="presentation" class="">
+                        <li role="presentation" class="">
                             <a data-toggle="tab" id="reportsTab" role="tab" href="#reports" aria-expanded="false">
                                 {{ __('dashboard.reports_tab_label') }}
                             </a>
-                        </li> --}}
+                        </li>
 
                     <?php } ?>
 
@@ -136,11 +136,11 @@
 
                         <?php if(in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
 
-                            {{-- <div id="reports" class="tab-pane fade pt-0" role="tabpanel">
+                            <div id="reports" class="tab-pane fade pt-0" role="tabpanel">
 
                                 @include('pages.dashboard.reports.dashboardReportsOverview')
 
-                            </div> --}}
+                            </div>
 
                         <?php } ?>
 
