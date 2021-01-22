@@ -253,9 +253,9 @@ class ReportCollection
 
                     }
 
-                    if(isset($item["received_title_time"]) && $item["received_title_time"] !="" && $item["received_title_time"] != "0") {
+                    if(isset($item["receive_title_time"]) && $item["receive_title_time"] !="" && $item["receive_title_time"] != "0") {
 
-                        $emailReceivedTitleTimeInMinutes = $this->secondsToMinutes($item["received_title_time"]);
+                        $emailReceivedTitleTimeInMinutes = $this->secondsToMinutes($item["receive_title_time"]);
 
                         if($emailReceivedTitleTimeInMinutes != "") {
 
@@ -265,9 +265,9 @@ class ReportCollection
 
                     }
 
-                    if(isset($item["received_nonbusiness_time"]) && $item["received_nonbusiness_time"] != "" && $item["received_nonbusiness_time"] != "0") {
+                    if(isset($item["receive_nonbusiness_time"]) && $item["receive_nonbusiness_time"] != "" && $item["receive_nonbusiness_time"] != "0") {
 
-                        $emailReceivedNonbusinessTimeInMinutes = $this->secondsToMinutes($item["received_nonbusiness_time"]);
+                        $emailReceivedNonbusinessTimeInMinutes = $this->secondsToMinutes($item["receive_nonbusiness_time"]);
 
                         if($emailReceivedNonbusinessTimeInMinutes != "") {
 
@@ -277,9 +277,9 @@ class ReportCollection
 
                     }
 
-                    if(isset($item["received_generic_time"]) && $item["received_generic_time"] != "" && $item["received_generic_time"] != "0") {
+                    if(isset($item["receive_generic_time"]) && $item["receive_generic_time"] != "" && $item["receive_generic_time"] != "0") {
 
-                        $emailReceivedGenericTimeInMinutes = $this->secondsToMinutes($item["received_generic_time"]);
+                        $emailReceivedGenericTimeInMinutes = $this->secondsToMinutes($item["receive_generic_time"]);
 
                         if($emailReceivedGenericTimeInMinutes != "") {
 
@@ -347,9 +347,9 @@ class ReportCollection
 
                     }
 
-                    if (isset($item["received_title_time"]) && $item["received_title_time"] != "" && $item["received_title_time"] != "0" && isset($item["received_title_count"]) && $item["received_title_count"] != "" && $item["received_title_count"] != "0") {
+                    if (isset($item["receive_title_time"]) && $item["receive_title_time"] != "" && $item["receive_title_time"] != "0" && isset($item["receive_title_count"]) && $item["receive_title_count"] != "" && $item["receive_title_count"] != "0") {
 
-                        $emailReceivedTitleAverageTime = (int)$item["received_title_time"] / (int)$item["received_title_count"];
+                        $emailReceivedTitleAverageTime = (int)$item["receive_title_time"] / (int)$item["receive_title_count"];
 
                         $emailReceivedTitleAverageTimeInMinutes = $this->secondsToMinutes($emailReceivedTitleAverageTime);
 
@@ -361,9 +361,9 @@ class ReportCollection
 
                     }
 
-                    if (isset($item["received_nonbusiness_time"]) && $item["received_nonbusiness_time"] != "" && $item["received_nonbusiness_time"] != "0" && isset($item["received_nonbusiness_count"]) && $item["received_nonbusiness_count"] != "" && $item["received_nonbusiness_count"] != "0") {
+                    if (isset($item["receive_nonbusiness_time"]) && $item["receive_nonbusiness_time"] != "" && $item["receive_nonbusiness_time"] != "0" && isset($item["receive_nonbusiness_count"]) && $item["receive_nonbusiness_count"] != "" && $item["receive_nonbusiness_count"] != "0") {
 
-                        $emailReceivedNonbusinessAverageTime = (int)$item["received_nonbusiness_time"] / (int)$item["received_nonbusiness_count"];
+                        $emailReceivedNonbusinessAverageTime = (int)$item["receive_nonbusiness_time"] / (int)$item["receive_nonbusiness_count"];
 
                         $emailReceivedNonbusinessAverageTimeInMinutes = $this->secondsToMinutes($emailReceivedNonbusinessAverageTime);
 
@@ -375,9 +375,9 @@ class ReportCollection
 
                     }
 
-                    if (isset($item["received_generic_time"]) && $item["received_generic_time"] != "" && $item["received_generic_time"] != "0" && isset($item["received_generic_count"]) && $item["received_generic_count"] != "" && $item["received_generic_count"] != "0") {
+                    if (isset($item["receive_generic_time"]) && $item["receive_generic_time"] != "" && $item["receive_generic_time"] != "0" && isset($item["receive_generic_count"]) && $item["receive_generic_count"] != "" && $item["receive_generic_count"] != "0") {
 
-                        $emailReceivedGenericAverageTime = (int)$item["received_generic_time"] / (int)$item["received_generic_count"];
+                        $emailReceivedGenericAverageTime = (int)$item["receive_generic_time"] / (int)$item["receive_generic_count"];
 
                         $emailReceivedGenericAverageTimeInMinutes = $this->secondsToMinutes($emailReceivedGenericAverageTime);
 

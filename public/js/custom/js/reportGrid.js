@@ -41,13 +41,13 @@ function getSummaryReportTableList(gridSelector) {
         reportBlockId = "received-email-report";
 
         columnFields.push(...[
-            { 'data': 'email_received_title_count', 'className': 'report-email-info-bg' },
+            { 'data': 'receive_title_count', 'className': 'report-email-info-bg' },
             { 'data': 'email_received_title_time_in_minutes', 'className': 'report-email-info-bg' },
             { 'data': 'email_received_title_average_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_received_nonbusiness_count', 'className': 'report-email-info-bg' },
+            { 'data': 'receive_nonbusiness_count', 'className': 'report-email-info-bg' },
             { 'data': 'email_received_nonbusiness_time_in_minutes', 'className': 'report-email-info-bg' },
             { 'data': 'email_received_nonbusiness_average_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_received_generic_count', 'className': 'report-email-info-bg' },
+            { 'data': 'receive_generic_count', 'className': 'report-email-info-bg' },
             { 'data': 'email_received_generic_time_in_minutes', 'className': 'report-email-info-bg' },
             { 'data': 'email_received_generic_average_time_in_minutes', 'className': 'report-email-info-bg' },
         ]);
@@ -59,13 +59,13 @@ function getSummaryReportTableList(gridSelector) {
         reportBlockId = "sent-email-report";
 
         columnFields.push(...[
-            { 'data': 'email_sent_title_count', 'className': 'report-email-info-bg' },
+            { 'data': 'sent_title_count', 'className': 'report-email-info-bg' },
             { 'data': 'email_sent_title_time_in_minutes', 'className': 'report-email-info-bg' },
             { 'data': 'email_sent_title_average_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_sent_nonbusiness_count', 'className': 'report-email-info-bg' },
+            { 'data': 'sent_nonbusiness_count', 'className': 'report-email-info-bg' },
             { 'data': 'email_sent_nonbusiness_time_in_minutes', 'className': 'report-email-info-bg' },
             { 'data': 'email_sent_nonbusiness_average_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_sent_generic_count', 'className': 'report-email-info-bg' },
+            { 'data': 'sent_generic_count', 'className': 'report-email-info-bg' },
             { 'data': 'email_sent_generic_time_in_minutes', 'className': 'report-email-info-bg' },
             { 'data': 'email_sent_generic_average_time_in_minutes', 'className': 'report-email-info-bg' },
         ]);
