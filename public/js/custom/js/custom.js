@@ -530,7 +530,9 @@ function unauthorizedAjaxRequest(exception) {
 
             title: 'Your session has expired.',
             text: "Please login again!",
+            closeOnClickOutside: false,
             allowOutsideClick: false,
+            allowEscapeKey: false,
             icon: 'warning',
             showCancelButton: false,
             confirmButtonColor: '#3085d6',
