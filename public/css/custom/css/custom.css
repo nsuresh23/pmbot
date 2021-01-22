@@ -686,17 +686,26 @@ content: "\f067";
                     margin-top: 0px !important;
                     margin-bottom: 5px !important;
                 }
-                /* .table.dataTable thead {
-                background-color: #f6f6f6;
-            } */
-
-                .table.dataTable thead th {
-                    border: 1px solid #dedede;
-                }
 
                 table.dataTable thead th,
                 table.dataTable thead td {
                     padding: 5px !important;
+                }
+
+                .datatable_border_right {
+                    border-right: 1px solid #111 !important;
+                }
+
+                .datatable_border_left {
+                    border-left: 1px solid #111 !important;
+                }
+
+                table.dataTable {
+                    border: 1px solid #111 !important;
+                }
+
+                table.dataTable thead th {
+                    border-bottom: 1px solid #111 !important;
                 }
 
                 .column-note {

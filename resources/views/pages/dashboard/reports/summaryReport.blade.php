@@ -1,11 +1,11 @@
 {{-- <div id="summary-report-grid" class="summary-report-grid" data-type="dashboard" data-category="summary" data-list-url="{{ $checkListUrl }}"
 data-current-route="{{ $currentRoute }}">
 </div> --}}
-
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0 pr-0 pt-10">
     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pl-0">
         <div class="form-group mb-0">
-        <input class="form-control report-daterange-datepicker h-42-px" placeholder="{{ __('dashboard.report_range_placeholder_text') }}" />
+            <input class="form-control report-daterange-datepicker h-42-px"
+                placeholder="{{ __('dashboard.report_range_placeholder_text') }}" />
         </div>
     </div>
     {{-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pl-0">
@@ -34,22 +34,22 @@ data-current-route="{{ $currentRoute }}">
     data-list-url="{{ $summaryReportListUrl }}" data-current-route="{{ $currentRoute }}">
     <thead>
         <tr>
-            <th rowspan="2" class="nosort">SNO</th>
-            <th rowspan="2" class="nosort">PM Name</th>
-            <th rowspan="2" class="wd-10">Date</th>
-            <th rowspan="2" class="wd-15">First Login Time</th>
-            <th rowspan="2" class="wd-15">Last Logout Time</th>
-            <th rowspan="2" class="">Overall Time</th>
-            <th colspan="3" class="report-email-info-bg nosort">Emails Received</th>
-            <th colspan="3" class="report-email-info-bg nosort">Emails Sent</th>
+            <th rowspan="2" class="nosort capitalize-font text-center">S.NO</th>
+            <th rowspan="2" class="nosort capitalize-font text-center">PM Name</th>
+            <th rowspan="2" class="wd-10 capitalize-font text-center">Date</th>
+            <th rowspan="2" class="capitalize-font text-center wd-15">First Login Time</th>
+            <th rowspan="2" class="capitalize-font text-center wd-15">Last Logout Time</th>
+            <th rowspan="2" class="capitalize-font text-center">Overall Time</th>
+            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right">Emails Received</th>
+            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right">Emails Sent</th>
         </tr>
         <tr>
-            <th class="nosort">Count</th>
-            <th class="nosort ">Time</th>
-            <th class="nosort ">Average</th>
-            <th class="nosort">Count</th>
-            <th class="nosort ">Time</th>
-            <th class="nosort ">Average</th>
+            <th class="capitalize-font text-center nosort">Count</th>
+            <th class="capitalize-font text-center nosort ">Time</th>
+            <th class="capitalize-font text-center nosort ">Average</th>
+            <th class="capitalize-font text-center nosort">Count</th>
+            <th class="capitalize-font text-center nosort ">Time</th>
+            <th class="capitalize-font text-center nosort ">Average</th>
         </tr>
     </thead>
 </table>

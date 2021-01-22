@@ -13,12 +13,12 @@ function getSummaryReportTableList(gridSelector) {
     var pageSize = $('#currentUserInfo').attr('data-page-size');
 
     var columnFields = [
-        { 'data': 's_no' },
-        { 'data': 'pmname_link' },
-        { 'data': 'formatted_date' },
-        { 'data': 'formatted_first_login', 'className': 'report-user-login-info-bg' },
-        { 'data': 'formatted_last_logout', 'className': 'report-user-login-info-bg' },
-        { 'data': 'overall_time', 'className': 'report-user-login-info-bg' },
+        { 'data': 's_no', 'className': 'datatable_border_right' },
+        { 'data': 'pmname_link', 'className': 'datatable_border_right' },
+        { 'data': 'formatted_date', 'className': 'text-center datatable_border_right' },
+        { 'data': 'formatted_first_login', 'className': 'report-user-login-info-bg text-center' },
+        { 'data': 'formatted_last_logout', 'className': 'report-user-login-info-bg text-center' },
+        { 'data': 'overall_time', 'className': 'report-user-login-info-bg text-center datatable_border_right' },
     ];
 
     if (category != undefined && category == 'summary') {
@@ -26,12 +26,12 @@ function getSummaryReportTableList(gridSelector) {
         reportBlockId = "summary-report";
 
         columnFields.push(...[
-            { 'data': 'email_received_count', 'className': 'report-email-info-bg' },
-            { 'data': 'email_received_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_received_average_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_sent_count', 'className': 'report-email-info-bg' },
-            { 'data': 'email_sent_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_sent_average_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'email_received_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_received_time_in_minutes', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_received_average_time_in_minutes', 'className': 'report-email-info-bg text-center datatable_border_right' },
+            { 'data': 'email_sent_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_sent_time_in_minutes', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_sent_average_time_in_minutes', 'className': 'report-email-info-bg text-center' },
         ]);
 
     }
@@ -41,15 +41,15 @@ function getSummaryReportTableList(gridSelector) {
         reportBlockId = "received-email-report";
 
         columnFields.push(...[
-            { 'data': 'receive_title_count', 'className': 'report-email-info-bg' },
-            { 'data': 'email_received_title_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_received_title_average_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'receive_nonbusiness_count', 'className': 'report-email-info-bg' },
-            { 'data': 'email_received_nonbusiness_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_received_nonbusiness_average_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'receive_generic_count', 'className': 'report-email-info-bg' },
-            { 'data': 'email_received_generic_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_received_generic_average_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'receive_title_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_received_title_time_in_minutes', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_received_title_average_time_in_minutes', 'className': 'report-email-info-bg text-center datatable_border_right' },
+            { 'data': 'receive_nonbusiness_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_received_nonbusiness_time_in_minutes', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_received_nonbusiness_average_time_in_minutes', 'className': 'report-email-info-bg text-center datatable_border_right' },
+            { 'data': 'receive_generic_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_received_generic_time_in_minutes', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_received_generic_average_time_in_minutes', 'className': 'report-email-info-bg text-center' },
         ]);
 
     }
@@ -59,15 +59,15 @@ function getSummaryReportTableList(gridSelector) {
         reportBlockId = "sent-email-report";
 
         columnFields.push(...[
-            { 'data': 'sent_title_count', 'className': 'report-email-info-bg' },
-            { 'data': 'email_sent_title_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_sent_title_average_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'sent_nonbusiness_count', 'className': 'report-email-info-bg' },
-            { 'data': 'email_sent_nonbusiness_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_sent_nonbusiness_average_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'sent_generic_count', 'className': 'report-email-info-bg' },
-            { 'data': 'email_sent_generic_time_in_minutes', 'className': 'report-email-info-bg' },
-            { 'data': 'email_sent_generic_average_time_in_minutes', 'className': 'report-email-info-bg' },
+            { 'data': 'sent_title_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_sent_title_time_in_minutes', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_sent_title_average_time_in_minutes', 'className': 'report-email-info-bg text-center datatable_border_right' },
+            { 'data': 'sent_nonbusiness_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_sent_nonbusiness_time_in_minutes', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_sent_nonbusiness_average_time_in_minutes', 'className': 'report-email-info-bg text-center datatable_border_right' },
+            { 'data': 'sent_generic_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_sent_generic_time_in_minutes', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'email_sent_generic_average_time_in_minutes', 'className': 'report-email-info-bg text-center' },
         ]);
 
     }
@@ -77,9 +77,9 @@ function getSummaryReportTableList(gridSelector) {
         reportBlockId = "classification-email-report";
 
         columnFields.push(...[
-            { 'data': 'positive', 'className': 'report-email-info-bg' },
-            { 'data': 'netural', 'className': 'report-email-info-bg' },
-            { 'data': 'negative', 'className': 'report-email-info-bg' },
+            { 'data': 'positive', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'netural', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'negative', 'className': 'report-email-info-bg text-center' },
         ]);
 
     }

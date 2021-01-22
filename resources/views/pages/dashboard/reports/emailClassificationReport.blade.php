@@ -35,15 +35,15 @@ data-current-route="{{ $currentRoute }}">
     data-category="classified_email" data-list-url="{{ $classifiedEmailReportListUrl }}" data-current-route="{{ $currentRoute }}">
     <thead>
         <tr>
-            <th class="nosort">SNO</th>
-            <th class="nosort">PM Name</th>
-            <th class="wd-10">Date</th>
-            <th class="wd-15">First Login Time</th>
-            <th class="wd-15">Last Logout Time</th>
-            <th class="">Overall Time</th>
-            <th class="nosort">Positive</th>
-            <th class="nosort">Neutral</th>
-            <th class="nosort">Negative</th>
+            <th class="capitalize-font text-center nosort">S.NO</th>
+            <th class="capitalize-font text-center nosort">PM Name</th>
+            <th class="capitalize-font text-center wd-10">Date</th>
+            <th class="capitalize-font text-center wd-15">First Login Time</th>
+            <th class="capitalize-font text-center wd-15">Last Logout Time</th>
+            <th class="capitalize-font text-center">Overall Time</th>
+            <th class="capitalize-font text-center nosort">Positive</th>
+            <th class="capitalize-font text-center nosort">Neutral</th>
+            <th class="capitalize-font text-center nosort">Negative</th>
         </tr>
     </thead>
 </table>

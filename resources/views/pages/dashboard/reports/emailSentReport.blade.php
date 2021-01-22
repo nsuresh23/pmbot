@@ -35,26 +35,26 @@ data-current-route="{{ $currentRoute }}">
     data-category="sent_email" data-list-url="{{ $sentEmailReportListUrl }}" data-current-route="{{ $currentRoute }}">
     <thead>
         <tr>
-            <th rowspan="2" class="nosort">SNO</th>
-            <th rowspan="2" class="nosort">PM Name</th>
-            <th rowspan="2" class="wd-10">Date</th>
-            <th rowspan="2" class="wd-15">First Login Time</th>
-            <th rowspan="2" class="wd-15">Last Logout Time</th>
-            <th rowspan="2" class="">Overall Time</th>
-            <th colspan="3" class="report-email-info-bg nosort">Title</th>
-            <th colspan="3" class="report-email-info-bg nosort">Non Business</th>
-            <th colspan="3" class="report-email-info-bg nosort">Generic</th>
+            <th rowspan="2" class="nosort capitalize-font text-center">S.NO</th>
+            <th rowspan="2" class="nosort capitalize-font text-center">PM Name</th>
+            <th rowspan="2" class="wd-10 capitalize-font text-center">Date</th>
+            <th rowspan="2" class="capitalize-font text-center wd-15">First Login Time</th>
+            <th rowspan="2" class="capitalize-font text-center wd-15">Last Logout Time</th>
+            <th rowspan="2" class="capitalize-font text-center">Overall Time</th>
+            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right">Title</th>
+            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right">Non Business</th>
+            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort">Generic</th>
         </tr>
         <tr>
-            <th class="nosort">Count</th>
-            <th class="nosort ">Time</th>
-            <th class="nosort ">Average</th>
-            <th class="nosort">Count</th>
-            <th class="nosort ">Time</th>
-            <th class="nosort ">Average</th>
-            <th class="nosort">Count</th>
-            <th class="nosort ">Time</th>
-            <th class="nosort ">Average</th>
+            <th class="capitalize-font text-center nosort">Count</th>
+            <th class="capitalize-font text-center nosort ">Time</th>
+            <th class="capitalize-font text-center nosort ">Average</th>
+            <th class="capitalize-font text-center nosort">Count</th>
+            <th class="capitalize-font text-center nosort ">Time</th>
+            <th class="capitalize-font text-center nosort ">Average</th>
+            <th class="capitalize-font text-center nosort">Count</th>
+            <th class="capitalize-font text-center nosort ">Time</th>
+            <th class="capitalize-font text-center nosort ">Average</th>
         </tr>
     </thead>
 </table>
