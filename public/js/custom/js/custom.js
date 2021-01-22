@@ -136,7 +136,7 @@ $(function() {
 
 
 //         }
-//     );    
+//     );
 
 // }
 
@@ -387,7 +387,7 @@ function getFileType(filename) {
 
     switch (extension) {
         case 'pdf':
-		case 'PDF':
+        case 'PDF':
             type = 'pdf';
             break;
         case 'txt':
@@ -399,7 +399,7 @@ function getFileType(filename) {
             break;
         case 'xls':
         case 'xlsx':
-		case 'csv':
+        case 'csv':
             type = 'excel';
             break;
         case 'mp3':
@@ -419,13 +419,13 @@ function getFileType(filename) {
         case 'jpg':
         case 'jpeg':
         case 'png':
-		case 'PNG':
+        case 'PNG':
             type = 'image';
             break;
-		case 'html':
+        case 'html':
             type = 'code';
             break;
-		case 'txt':
+        case 'txt':
             type = 'txt';
             break;
         default:
@@ -519,3 +519,46 @@ function mb_strimwidth(str, start, width, trimmarker) {
     return trimmedStr;
 
 }
+
+function unauthorizedAjaxRequest(exception) {
+
+    if (exception == 'Unauthorized') {
+
+        // Prompt user if they'd like to be redirected to the login page
+
+        Swal.fire({
+
+            title: 'Your session has expired.',
+            text: "Please login again!",
+            allowOutsideClick: false,
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            // confirmButtonText: 'Yes',
+            showClass: {
+                popup: 'animated fadeIn faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+
+        }).then((result) => {
+
+            if (result.value != undefined && result.value == true) {
+
+                window.location.reload();
+
+            }
+
+        });
+
+    }
+
+}
+
+$(document).ajaxError(function(event, jqxhr, settings, exception) {
+
+    unauthorizedAjaxRequest(exception);
+
+});
