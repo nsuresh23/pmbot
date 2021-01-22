@@ -293,6 +293,8 @@ class EmailController extends Controller
         try {
 
             $request->merge(['empcode' => auth()->user()->empcode]);
+            $request->merge(['start_time' => date('Y-m-d H:i:s')]);
+            $request->merge(['ip_address' => $request->ip()]);
 
             if (auth()->check()) {
 
@@ -339,6 +341,8 @@ class EmailController extends Controller
         try {
 
             $request->merge(['empcode' => auth()->user()->empcode]);
+            $request->merge(['start_time' => date('Y-m-d H:i:s')]);
+            $request->merge(['ip_address' => $request->ip()]);
 
             if (auth()->check()) {
 
