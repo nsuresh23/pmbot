@@ -32,6 +32,11 @@
                             aria-expanded="false">{{ __('dashboard.classification_email_report_tab_label') }}</a>
                     </li>
 
+                    <li role="presentation" class="">
+                        <a data-toggle="tab" id="externalEmailReportTab" role="tab" href="#external-email-report"
+                            aria-expanded="false">{{ __('dashboard.external_email_report_tab_label') }}</a>
+                    </li>
+
                 </ul>
 
             </div>
@@ -75,6 +80,12 @@
                     <div id="classification-email-report" class="tab-pane fade pa-0" role="tabpanel">
 
                         @include('pages.dashboard.reports.emailClassificationReport')
+
+                    </div>
+
+                    <div id="external-email-report" class="tab-pane fade pa-0" role="tabpanel">
+
+                        @include('pages.dashboard.reports.externalEmailReport')
 
                     </div>
 

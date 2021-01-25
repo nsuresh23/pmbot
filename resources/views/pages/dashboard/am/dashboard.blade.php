@@ -78,6 +78,7 @@
         $receivedEmailReportListUrl = route(__("dashboard.received_email_report_list_url"));
         $sentEmailReportListUrl = route(__("dashboard.sent_email_report_list_url"));
         $classifiedEmailReportListUrl = route(__("dashboard.classified_email_report_list_url"));
+        $externalEmailReportListUrl = route(__("dashboard.external_email_report_list_url"));
 
         $checkListUrl = route(__("job.check_list_url"));
         $checkListAddUrl = route(__("job.check_list_add_url"));

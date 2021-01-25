@@ -26,6 +26,7 @@ return [
     'received_email_report_tab_label' => 'received email',
     'sent_email_report_tab_label' => 'sent email',
     'classification_email_report_tab_label' => 'classified email',
+    'external_email_report_tab_label' => 'productivity',
     'new_job_title' => 'Add job',
     'new_job_btn_label' => 'New job',
     'team_tab_label' => 'Team',
@@ -52,6 +53,7 @@ return [
     'received_email_report_list_url' => 'received-email-report',
     'sent_email_report_list_url' => 'sent-email-report',
     'classified_email_report_list_url' => 'classified-email-report',
+    'external_email_report_list_url' => 'external-email-report',
 
     'task_list_url' => 'task-list',
     'task_add_url' => 'task-add',

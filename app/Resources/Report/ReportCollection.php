@@ -35,6 +35,7 @@ class ReportCollection
     protected $receivedEmailReportApiUrl;
     protected $sentEmailReportApiUrl;
     protected $classifiedEmailReportApiUrl;
+    protected $externalEmailReportApiUrl;
 
     public function __construct()
     {
@@ -44,6 +45,7 @@ class ReportCollection
         $this->receivedEmailReportApiUrl = env('API_RECEIVED_EMAIL_REPORT_LIST_URL');
         $this->sentEmailReportApiUrl = env('API_SENT_EMAIL_REPORT_LIST_URL');
         $this->classifiedEmailReportApiUrl = env('API_CLASSIFIED_EMAIL_REPORT_LIST_URL');
+        $this->externalEmailReportApiUrl = env('API_EXTERNAL_EMAIL_REPORT_LIST_URL');
 
     }
 
@@ -89,11 +91,31 @@ class ReportCollection
 
             }
 
+            if (isset($paramInfo["category"]) && $paramInfo["category"] == "external_email") {
+
+                $url = $this->externalEmailReportApiUrl;
+
+            }
+
             $responseData = $this->postRequest($url, $paramInfo);
 
             if ($responseData["success"] == "true" && is_array($responseData["data"]) && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
-                $responseFormatData = $this->summaryReportFormatData($responseData["data"]);
+                if (isset($paramInfo["category"]) && $paramInfo["category"] != "") {
+
+                    if ($paramInfo["category"] == "external_email") {
+
+                        $responseFormatData = $this->externalEmailReportFormatData($responseData["data"]);
+
+                    }
+
+                    if ($paramInfo["category"] != "external_email") {
+
+                        $responseFormatData = $this->summaryReportFormatData($responseData["data"]);
+
+                    }
+
+                }
 
                 if ($responseFormatData) {
 
@@ -119,6 +141,7 @@ class ReportCollection
 
                 }
             }
+
         } catch (Exception $e) {
 
             $returnResponse["error"] = "true";
@@ -437,6 +460,131 @@ class ReportCollection
 
         return $resource;
 
+    }
+
+    public function externalEmailReportFormatData($items)
+    {
+
+        $s_no = 0;
+
+        $resource = array_map(
+
+            function ($item) use (&$s_no) {
+
+                if (is_array($item) && count($item)) {
+
+                    $s_no = $s_no + 1;
+
+                    $item["s_no"] = $s_no;
+
+                    $item["formatted_lastest_activity_at"] = "-";
+
+                    $item["formatted_group"] = "-";
+
+                    $item["formatted_total_count"] = "-";
+
+                    $item["formatted_internal_count"] = "-";
+
+                    $item["formatted_external_count"] = "-";
+
+                    $item["formatted_last_24_count"] = "-";
+
+                    $item["formatted_last_24_to_48_count"] = "-";
+
+                    $item["formatted_above_48_count"] = "-";
+
+
+                    $item["formatted_pmbot_count"] = "-";
+
+                    $item["formatted_outlook_count"] = "-";
+
+                    $item["formatted_wip_count"] = "-";
+
+                    $item["formatted_overdue_count"] = "-";
+
+                    if (isset($item["pmname"]) && $item["pmname"] != "") {
+
+                        $item["pmname_link"] = '<a class="user-login-history-btn" href="#userLoginHistorModal" data-toggle="modal" data-grid-selector="user-login-history-grid" data-grid-title="Login history" data-date="' . $item["date"] . '" data-empcode="' . $item["empcode"] . '"><span class="txt-a-blue underlined">' . $item["pmname"] . '</span></a>';
+                        // $item["pmname_link"] = '<a class="user-login-history-btn" href="#sentEmailModal" data-toggle="modal" data-grid-selector="emailSentCountGrid" data-grid-title="alarming email" data-count="10" data-email-filter="negative" data-empcode="' . $item["pmname"] . '"><span class="txt-danger underlined">10</span></a>';
+
+                    }
+
+                    if (isset($item["group"]) && $item["group"] != "") {
+
+                        $item["formatted_group"] = $item["group"];
+
+                    }
+
+                    if (isset($item["total_count"]) && $item["total_count"] != "") {
+
+                        $item["formatted_total_count"] = $item["total_count"];
+
+                    }
+
+                    if (isset($item["internal_count"]) && $item["internal_count"] != "") {
+
+                        $item["formatted_internal_count"] = $item["internal_count"];
+
+                    }
+
+                    if (isset($item["external_count"]) && $item["external_count"] != "") {
+
+                        $item["formatted_external_count"] = $item["external_count"];
+
+                    }
+
+                    if (isset($item["last_24_count"]) && $item["last_24_count"] != "") {
+
+                        $item["formatted_last_24_count"] = $item["last_24_count"];
+
+                    }
+
+                    if (isset($item["last_24_to_48_count"]) && $item["last_24_to_48_count"] != "") {
+
+                        $item["formatted_last_24_to_48_count"] = $item["last_24_to_48_count"];
+
+                    }
+
+                    if (isset($item["above_48_count"]) && $item["above_48_count"] != "") {
+
+                        $item["formatted_above_48_count"] = $item["above_48_count"];
+
+                    }
+
+                    if (isset($item["pmbot_count"]) && $item["pmbot_count"] != "") {
+
+                        $item["formatted_pmbot_count"] = $item["pmbot_count"];
+
+                    }
+
+                    if (isset($item["outlook_count"]) && $item["outlook_count"] != "") {
+
+                        $item["formatted_outlook_count"] = $item["outlook_count"];
+
+                    }
+
+                    if (isset($item["wip_count"]) && $item["wip_count"] != "") {
+
+                        $item["formatted_wip_count"] = $item["wip_count"];
+
+                    }
+
+                    if (isset($item["lastest_activity_at"]) && $item["lastest_activity_at"] != "") {
+
+                        $item["formatted_lastest_activity_at"] = date("Y/m/d H:i:s", strtotime($item["lastest_activity_at"]));
+
+                    }
+
+                }
+
+                return $item;
+            },
+
+            $items
+
+        );
+
+        return $resource;
     }
 
 }

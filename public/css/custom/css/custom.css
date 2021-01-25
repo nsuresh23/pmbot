@@ -692,6 +692,14 @@ content: "\f067";
                     padding: 5px !important;
                 }
 
+                .datatable_border_top {
+                    border-top: 1px solid #111 !important;
+                }
+
+                .datatable_border_bottom {
+                    border-bottom: 1px solid #111 !important;
+                }
+
                 .datatable_border_right {
                     border-right: 1px solid #111 !important;
                 }
@@ -704,8 +712,14 @@ content: "\f067";
                     border: 1px solid #111 !important;
                 }
 
-                table.dataTable thead th {
-                    border-bottom: 1px solid #111 !important;
+                .dataTables_scrollHeadInner .dataTable>thead>tr>th {
+                    border-bottom: none !important;
+                }
+
+                .dataTables_scrollBody table {
+                    border: none !important;
+                    border-left: 1px solid #111 !important;
+                    border-right: 1px solid #111 !important;
                 }
 
                 .column-note {

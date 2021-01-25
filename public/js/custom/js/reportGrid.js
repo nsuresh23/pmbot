@@ -15,11 +15,18 @@ function getSummaryReportTableList(gridSelector) {
     var columnFields = [
         { 'data': 's_no', 'className': 'datatable_border_right' },
         { 'data': 'pmname_link', 'className': 'datatable_border_right' },
-        { 'data': 'formatted_date', 'className': 'text-center datatable_border_right' },
-        { 'data': 'formatted_first_login', 'className': 'report-user-login-info-bg text-center' },
-        { 'data': 'formatted_last_logout', 'className': 'report-user-login-info-bg text-center' },
-        { 'data': 'overall_time', 'className': 'report-user-login-info-bg text-center datatable_border_right' },
     ];
+
+    if (category != undefined && category != 'external_email') {
+
+        columnFields.push(...[
+            { 'data': 'formatted_date', 'className': 'text-center datatable_border_right' },
+            { 'data': 'formatted_first_login', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'formatted_last_logout', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'overall_time', 'className': 'report-user-login-info-bg text-center datatable_border_right' },
+        ]);
+
+    }
 
     if (category != undefined && category == 'summary') {
 
@@ -72,6 +79,27 @@ function getSummaryReportTableList(gridSelector) {
 
     }
 
+    if (category != undefined && category == 'external_email') {
+
+        reportBlockId = "external-email-report";
+
+        columnFields.push(...[
+            { 'data': 'formatted_group', 'className': 'report-email-info-bg text-center datatable_border_right' },
+            { 'data': 'formatted_total_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_internal_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_externail_count', 'className': 'report-email-info-bg text-center  datatable_border_right' },
+            { 'data': 'formatted_last_24_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_last_24_to_48_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_above_48_count', 'className': 'report-email-info-bg text-center datatable_border_right' },
+            { 'data': 'formatted_pmbot_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_outlook_count', 'className': 'report-email-info-bg text-center  datatable_border_right' },
+            { 'data': 'formatted_wip_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_overdue_count', 'className': 'report-email-info-bg text-center  datatable_border_right' },
+            { 'data': 'formatted_lastest_activity_at', 'className': 'report-email-info-bg text-center' },
+        ]);
+
+    }
+
     if (category != undefined && category == 'classified_email') {
 
         reportBlockId = "classification-email-report";
@@ -101,8 +129,12 @@ function getSummaryReportTableList(gridSelector) {
         ordering: false,
         paging: false,
         autoWidth: false,
-        // scrollY: '50vh',
-        // scrollCollapse: true,
+        scrollY: '60vh',
+        scrollX: true,
+        scrollCollapse: true,
+        initComplete: function(settings, json) {
+            $('.dataTables_scrollBody thead tr').css({ visibility: 'collapse' });
+        },
         // stateSave: true,
         "language": {
             processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
@@ -263,7 +295,6 @@ function getSummaryReportTableList(gridSelector) {
 
 }
 
-
 $('.summary-report-grid tbody').slimscroll({
     height: '520px',
     alwaysVisible: 'true',
@@ -280,6 +311,11 @@ $('.sent-email-report-grid tbody').slimscroll({
 });
 
 $('.classified-email-report-grid tbody').slimscroll({
+    height: '520px',
+    alwaysVisible: 'true',
+});
+
+$('.external-email-report-grid tbody').slimscroll({
     height: '520px',
     alwaysVisible: 'true',
 });
@@ -368,6 +404,20 @@ $(document).on('click', '#classificationEmailReportTab', function(e) {
 
 });
 
+$(document).on('click', '#externalEmailReportTab', function(e) {
+
+    var gridSelector = "#external-email-report-grid";
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        getSummaryReportTableList(gridSelector);
+
+    }
+
+});
+
 function getUserLoginHistoryReportTableList(gridSelector) {
 
     var listUrl = $(gridSelector).attr('data-list-url');
@@ -395,14 +445,14 @@ function getUserLoginHistoryReportTableList(gridSelector) {
         // width: 10,
     });
 
-    field.push({
-        title: "PM NAME",
-        name: "empcode",
-        type: "text",
-        filtering: false,
-        sorting: false,
-        // width: 40,
-    });
+    // field.push({
+    //     title: "PM NAME",
+    //     name: "empcode",
+    //     type: "text",
+    //     filtering: false,
+    //     sorting: false,
+    //     // width: 40,
+    // });
 
     field.push({
         title: "LOGGED IN BY",

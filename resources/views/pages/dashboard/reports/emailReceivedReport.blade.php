@@ -35,15 +35,15 @@ data-current-route="{{ $currentRoute }}">
     data-category="received_email" data-list-url="{{ $receivedEmailReportListUrl }}" data-current-route="{{ $currentRoute }}">
     <thead>
         <tr>
-            <th rowspan="2" class="capitalize-font text-center nosort">S.NO</th>
+            <th rowspan="2" class="capitalize-font text-center nosort">S.No</th>
             <th rowspan="2" class="capitalize-font text-center nosort">PM Name</th>
             <th rowspan="2" class="capitalize-font text-center wd-10">Date</th>
             <th rowspan="2" class="capitalize-font text-center wd-15">First Login Time</th>
             <th rowspan="2" class="capitalize-font text-center wd-15">Last Logout Time</th>
             <th rowspan="2" class="capitalize-font text-center ">Overall Time</th>
-            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right">Title</th>
-            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right">Non Business</th>
-            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort">Generic</th>
+            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right" style="border-bottom: 1px solid #111 !important;">Title</th>
+            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right" style="border-bottom: 1px solid #111 !important;">Non Business</th>
+            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort" style="border-bottom: 1px solid #111 !important;">Generic</th>
         </tr>
         <tr>
             <th class="capitalize-font text-center nosort">Count</th>
