@@ -84,18 +84,19 @@ function getSummaryReportTableList(gridSelector) {
         reportBlockId = "external-email-report";
 
         columnFields.push(...[
-            { 'data': 'formatted_group', 'className': 'report-email-info-bg text-center datatable_border_right' },
-            { 'data': 'formatted_total_count', 'className': 'report-email-info-bg text-center' },
-            { 'data': 'formatted_internal_count', 'className': 'report-email-info-bg text-center' },
-            { 'data': 'formatted_externail_count', 'className': 'report-email-info-bg text-center  datatable_border_right' },
+            { 'data': 'formatted_total_count', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'formatted_internal_count', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'formatted_external_count', 'className': 'report-user-login-info-bg text-center  datatable_border_right' },
+            { 'data': 'formatted_positive_count', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'formatted_neutral_count', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'formatted_negative_count', 'className': 'report-user-login-info-bg text-center  datatable_border_right' },
             { 'data': 'formatted_last_24_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_last_24_time', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_last_24_average', 'className': 'report-email-info-bg text-center datatable_border_right' },
             { 'data': 'formatted_last_24_to_48_count', 'className': 'report-email-info-bg text-center' },
-            { 'data': 'formatted_above_48_count', 'className': 'report-email-info-bg text-center datatable_border_right' },
-            { 'data': 'formatted_pmbot_count', 'className': 'report-email-info-bg text-center' },
-            { 'data': 'formatted_outlook_count', 'className': 'report-email-info-bg text-center  datatable_border_right' },
-            { 'data': 'formatted_wip_count', 'className': 'report-email-info-bg text-center' },
-            { 'data': 'formatted_overdue_count', 'className': 'report-email-info-bg text-center  datatable_border_right' },
-            { 'data': 'formatted_lastest_activity_at', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_last_24_to_48_time', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_last_24_to_48_average', 'className': 'report-email-info-bg text-center datatable_border_right' },
+            { 'data': 'formatted_above_48_count', 'className': 'report-email-info-bg text-center' },
         ]);
 
     }
@@ -135,6 +136,9 @@ function getSummaryReportTableList(gridSelector) {
         initComplete: function(settings, json) {
             $('.dataTables_scrollBody thead tr').css({ visibility: 'collapse' });
         },
+        drawCallback: function(settings) {
+            $('.dataTables_scrollBody thead tr').css({ visibility: 'collapse' });
+        },
         // stateSave: true,
         "language": {
             processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
@@ -161,7 +165,7 @@ function getSummaryReportTableList(gridSelector) {
             data: function(d) {
                 return $.extend({}, d, {
                     'filter_option': {
-                        'range': $('#' + reportBlockId + ' .report-daterange-datepicker').val(),
+                        'range': $('#' + reportBlockId + ' .report-datepicker').val(),
                         'report_type': $('#' + reportBlockId + ' .report-type').val(),
                         'user_empcode': $('#' + reportBlockId + ' .user-empcode').val(),
                     },
@@ -254,18 +258,18 @@ function getSummaryReportTableList(gridSelector) {
 
     });
 
-    if ($('#' + reportBlockId + ' .report-daterange-datepicker') != undefined) {
+    if ($('#' + reportBlockId + ' .report-datepicker') != undefined) {
 
-        // $('.report-daterange-datepicker').val('');
+        // $('.report-datepicker').val('');
 
     }
 
-    $('#' + reportBlockId + ' .report-daterange-datepicker').on('apply.daterangepicker', function(ev, picker) {
+    $('#' + reportBlockId + ' .report-datepicker').on('apply.daterangepicker', function(ev, picker) {
 
         if (reportTable != undefined && reportTable != null) {
 
-            // $('.report-daterange-datepicker').attr('from', picker.startDate.format('YYYY-MM-DD'));
-            // $('.report-daterange-datepicker').attr('to', picker.endDate.format('YYYY-MM-DD'));
+            // $('.report-datepicker').attr('from', picker.startDate.format('YYYY-MM-DD'));
+            // $('.report-datepicker').attr('to', picker.endDate.format('YYYY-MM-DD'));
 
             reportTable.draw();
 

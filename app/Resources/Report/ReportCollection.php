@@ -477,41 +477,36 @@ class ReportCollection
 
                     $item["s_no"] = $s_no;
 
-                    $item["formatted_lastest_activity_at"] = "-";
-
-                    $item["formatted_group"] = "-";
-
                     $item["formatted_total_count"] = "-";
 
                     $item["formatted_internal_count"] = "-";
 
                     $item["formatted_external_count"] = "-";
 
+                    $item["formatted_positive_count"] = "-";
+
+                    $item["formatted_neutral_count"] = "-";
+
+                    $item["formatted_negative_count"] = "-";
+
                     $item["formatted_last_24_count"] = "-";
+
+                    $item["formatted_last_24_time"] = "-";
+
+                    $item["formatted_last_24_average"] = "-";
 
                     $item["formatted_last_24_to_48_count"] = "-";
 
+                    $item["formatted_last_24_to_48_time"] = "-";
+
+                    $item["formatted_last_24_to_48_average"] = "-";
+
                     $item["formatted_above_48_count"] = "-";
-
-
-                    $item["formatted_pmbot_count"] = "-";
-
-                    $item["formatted_outlook_count"] = "-";
-
-                    $item["formatted_wip_count"] = "-";
-
-                    $item["formatted_overdue_count"] = "-";
 
                     if (isset($item["pmname"]) && $item["pmname"] != "") {
 
-                        $item["pmname_link"] = '<a class="user-login-history-btn" href="#userLoginHistorModal" data-toggle="modal" data-grid-selector="user-login-history-grid" data-grid-title="Login history" data-date="' . $item["date"] . '" data-empcode="' . $item["empcode"] . '"><span class="txt-a-blue underlined">' . $item["pmname"] . '</span></a>';
-                        // $item["pmname_link"] = '<a class="user-login-history-btn" href="#sentEmailModal" data-toggle="modal" data-grid-selector="emailSentCountGrid" data-grid-title="alarming email" data-count="10" data-email-filter="negative" data-empcode="' . $item["pmname"] . '"><span class="txt-danger underlined">10</span></a>';
-
-                    }
-
-                    if (isset($item["group"]) && $item["group"] != "") {
-
-                        $item["formatted_group"] = $item["group"];
+                        $item["pmname_link"] = $item["pmname"];
+                        // $item["pmname_link"] = '<a class="user-login-history-btn" href="#userLoginHistorModal" data-toggle="modal" data-grid-selector="user-login-history-grid" data-grid-title="Login history" data-date="' . $item["date"] . '" data-empcode="' . $item["empcode"] . '"><span class="txt-a-blue underlined">' . $item["pmname"] . '</span></a>';
 
                     }
 
@@ -533,45 +528,89 @@ class ReportCollection
 
                     }
 
-                    if (isset($item["last_24_count"]) && $item["last_24_count"] != "") {
+                    if (isset($item["positive_count"]) && $item["positive_count"] != "") {
 
-                        $item["formatted_last_24_count"] = $item["last_24_count"];
-
-                    }
-
-                    if (isset($item["last_24_to_48_count"]) && $item["last_24_to_48_count"] != "") {
-
-                        $item["formatted_last_24_to_48_count"] = $item["last_24_to_48_count"];
+                        $item["formatted_positive_count"] = $item["positive_count"];
 
                     }
 
-                    if (isset($item["above_48_count"]) && $item["above_48_count"] != "") {
+                    if (isset($item["neutral_count"]) && $item["neutral_count"] != "") {
 
-                        $item["formatted_above_48_count"] = $item["above_48_count"];
-
-                    }
-
-                    if (isset($item["pmbot_count"]) && $item["pmbot_count"] != "") {
-
-                        $item["formatted_pmbot_count"] = $item["pmbot_count"];
+                        $item["formatted_neutral_count"] = $item["neutral_count"];
 
                     }
 
-                    if (isset($item["outlook_count"]) && $item["outlook_count"] != "") {
+                    if (isset($item["negative_count"]) && $item["negative_count"] != "") {
 
-                        $item["formatted_outlook_count"] = $item["outlook_count"];
-
-                    }
-
-                    if (isset($item["wip_count"]) && $item["wip_count"] != "") {
-
-                        $item["formatted_wip_count"] = $item["wip_count"];
+                        $item["formatted_negative_count"] = $item["negative_count"];
 
                     }
 
-                    if (isset($item["lastest_activity_at"]) && $item["lastest_activity_at"] != "") {
+                    if (isset($item["ontime"]) && $item["ontime"] != "") {
 
-                        $item["formatted_lastest_activity_at"] = date("Y/m/d H:i:s", strtotime($item["lastest_activity_at"]));
+                        $item["formatted_last_24_count"] = $item["ontime"];
+
+                    }
+
+                    if (isset($item["ontime_duration"]) && $item["ontime_duration"] != "") {
+
+                        $onTimeInMinutes = $this->secondsToMinutes($item["ontime_duration"]);
+
+                        if ($onTimeInMinutes != "") {
+
+                            $item["formatted_last_24_time"] = $onTimeInMinutes;
+
+                        }
+
+                    }
+
+                    if (isset($item["ontime_duration"]) && $item["ontime_duration"] != "" && $item["ontime_duration"] != "0" && isset($item["ontime"]) && $item["ontime"] != "" && $item["ontime"] != "0") {
+
+                        $onTimeAverageTime = (int)$item["ontime_duration"] / (int)$item["ontime"];
+
+                        $onTimeAverageTimeInMinutes = $this->secondsToMinutes($onTimeAverageTime);
+
+                        if ($onTimeAverageTimeInMinutes != "") {
+
+                            $item["formatted_last_24_average"] = $onTimeAverageTimeInMinutes;
+
+                        }
+                    }
+
+                    if (isset($item["delay"]) && $item["delay"] != "") {
+
+                        $item["formatted_last_24_to_48_count"] = $item["delay"];
+
+                    }
+
+                    if (isset($item["delay_duration"]) && $item["delay_duration"] != "") {
+
+                        $delayInMinutes = $this->secondsToMinutes($item["delay_duration"]);
+
+                        if ($delayInMinutes != "") {
+
+                            $item["formatted_last_24_to_48_time"] = $delayInMinutes;
+
+                        }
+
+                    }
+
+                    if (isset($item["delay_duration"]) && $item["delay_duration"] != "" && $item["delay_duration"] != "0" && isset($item["delay"]) && $item["delay"] != "" && $item["delay"] != "0") {
+
+                        $delayAverageTime = (int)$item["delay_duration"] / (int)$item["delay"];
+
+                        $delayAverageTimeInMinutes = $this->secondsToMinutes($delayAverageTime);
+
+                        if ($delayAverageTimeInMinutes != "") {
+
+                            $item["formatted_last_24_to_48_average"] = $delayAverageTimeInMinutes;
+
+                        }
+                    }
+
+                    if (isset($item["yet_to_replied"]) && $item["yet_to_replied"] != "") {
+
+                        $item["formatted_above_48_count"] = $item["yet_to_replied"];
 
                     }
 

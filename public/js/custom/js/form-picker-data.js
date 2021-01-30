@@ -106,6 +106,20 @@ $(document).ready(function() {
             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
     });
+    $('.report-daterange-timepicker').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 5,
+        timePicker24Hour: true,
+        timePickerSeconds: false,
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-info',
+        cancelClass: 'btn-default',
+        // format: 'Y-m-d H:i:s',
+        locale: {
+            format: 'YYYY-MM-DD HH:mm:ss',
+            separator: ' to ',
+        },
+    });
     $('.input-daterange-timepicker').daterangepicker({
         timePicker: true,
         format: 'MM/DD/YYYY h:mm A',
@@ -127,4 +141,5 @@ $(document).ready(function() {
             days: 6
         }
     });
+
 });

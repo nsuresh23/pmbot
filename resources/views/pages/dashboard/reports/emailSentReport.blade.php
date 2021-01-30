@@ -5,7 +5,7 @@ data-current-route="{{ $currentRoute }}">
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0 pr-0 pt-10">
     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pl-0">
         <div class="form-group mb-0">
-            <input class="form-control report-daterange-datepicker h-42-px"
+            <input class="form-control report-daterange-datepicker report-datepicker h-42-px"
                 placeholder="{{ __('dashboard.report_range_placeholder_text') }}" />
         </div>
     </div>

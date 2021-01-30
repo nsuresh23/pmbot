@@ -712,6 +712,10 @@ content: "\f067";
                     border: 1px solid #111 !important;
                 }
 
+                .dataTable>thead>tr>th {
+                    border-bottom: 1px solid #111 !important;
+                }
+
                 .dataTables_scrollHeadInner .dataTable>thead>tr>th {
                     border-bottom: none !important;
                 }
