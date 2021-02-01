@@ -37,7 +37,7 @@ data-current-route="{{ $currentRoute }}">
         <tr>
             <th rowspan="2" class="nosort capitalize-font text-center">S.No</th>
             <th rowspan="2" class="nosort capitalize-font text-center">PM Name</th>
-            <th rowspan="2" class="wd-10 capitalize-font text-center">Date</th>
+            <th rowspan="2" class="capitalize-font text-center">Date</th>
             <th rowspan="2" class="capitalize-font text-center wd-15">First Login Time</th>
             <th rowspan="2" class="capitalize-font text-center wd-15">Last Logout Time</th>
             <th rowspan="2" class="capitalize-font text-center">Overall Time</th>
