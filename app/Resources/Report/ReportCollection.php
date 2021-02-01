@@ -477,6 +477,8 @@ class ReportCollection
 
                     $item["s_no"] = $s_no;
 
+					$item["formatted_date"] = "-";
+					
                     $item["formatted_total_count"] = "-";
 
                     $item["formatted_internal_count"] = "-";
@@ -507,6 +509,12 @@ class ReportCollection
 
                         $item["pmname_link"] = $item["pmname"];
                         // $item["pmname_link"] = '<a class="user-login-history-btn" href="#userLoginHistorModal" data-toggle="modal" data-grid-selector="user-login-history-grid" data-grid-title="Login history" data-date="' . $item["date"] . '" data-empcode="' . $item["empcode"] . '"><span class="txt-a-blue underlined">' . $item["pmname"] . '</span></a>';
+
+                    }
+					
+					if (isset($item["date"]) && $item["date"] != "") {
+
+                        $item["formatted_date"] = date("Y/m/d", strtotime($item["date"]));
 
                     }
 

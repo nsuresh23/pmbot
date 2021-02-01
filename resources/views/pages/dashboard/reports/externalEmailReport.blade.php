@@ -37,6 +37,7 @@ data-current-route="{{ $currentRoute }}">
         <tr>
             <th rowspan="2" class="capitalize-font text-center nosort">S.No</th>
             <th rowspan="2" class="capitalize-font text-center nosort">PM Name</th>
+			<!-- <th rowspan="2" class="capitalize-font text-center">Date</th> -->
             <th rowspan="2" class="capitalize-font text-center nosort">Total</th>
             <th rowspan="2" class="capitalize-font text-center nosort">Internal</th>
             <th rowspan="2" class="capitalize-font text-center nosort">External</th>

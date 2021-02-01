@@ -26,7 +26,7 @@ return [
     'received_email_report_tab_label' => 'received email',
     'sent_email_report_tab_label' => 'sent email',
     'classification_email_report_tab_label' => 'classified email',
-    'external_email_report_tab_label' => 'productivity',
+    'external_email_report_tab_label' => 'Response Time',
     'new_job_title' => 'Add job',
     'new_job_btn_label' => 'New job',
     'team_tab_label' => 'Team',
