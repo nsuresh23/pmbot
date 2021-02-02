@@ -479,31 +479,31 @@ class ReportCollection
 
 					$item["formatted_date"] = "-";
 					
-                    $item["formatted_total_count"] = "-";
+                    $item["formatted_total_count"] = "0";
 
-                    $item["formatted_internal_count"] = "-";
+                    $item["formatted_internal_count"] = "0";
 
-                    $item["formatted_external_count"] = "-";
+                    $item["formatted_external_count"] = "0";
 
-                    $item["formatted_positive_count"] = "-";
+                    $item["formatted_positive_count"] = "0";
 
-                    $item["formatted_neutral_count"] = "-";
+                    $item["formatted_neutral_count"] = "0";
 
-                    $item["formatted_negative_count"] = "-";
+                    $item["formatted_negative_count"] = "0";
 
-                    $item["formatted_last_24_count"] = "-";
+                    $item["formatted_last_24_count"] = "0";
 
                     $item["formatted_last_24_time"] = "-";
 
                     $item["formatted_last_24_average"] = "-";
 
-                    $item["formatted_last_24_to_48_count"] = "-";
+                    $item["formatted_last_24_to_48_count"] = "0";
 
                     $item["formatted_last_24_to_48_time"] = "-";
 
                     $item["formatted_last_24_to_48_average"] = "-";
 
-                    $item["formatted_above_48_count"] = "-";
+                    $item["formatted_above_48_count"] = "0";
 
                     if (isset($item["pmname"]) && $item["pmname"] != "") {
 

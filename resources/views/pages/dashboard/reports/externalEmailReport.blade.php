@@ -44,9 +44,15 @@ data-current-route="{{ $currentRoute }}">
             <th rowspan="2" class="capitalize-font text-center nosort">Positive</th>
             <th rowspan="2" class="capitalize-font text-center nosort">Neutral</th>
             <th rowspan="2" class="capitalize-font text-center nosort">Negative</th>
-            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right" style="border-bottom: 1px solid #111 !important;">Last 24<br><span class="column-note capitalize-font text-center">(Hours)</span></th>
-            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right" style="border-bottom: 1px solid #111 !important;">Last 24 To 48<br><span class="column-note capitalize-font text-center">(Hours)</span></th>
-            <th rowspan="2" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right">Above 48<br><span class="column-note capitalize-font text-center">(Hours)</span></th>
+            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right" style="border-bottom: 1px solid #111 !important;">On-Time
+			<!-- <br><span class="column-note capitalize-font text-center">(Hours)</span> -->
+			</th>
+            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right" style="border-bottom: 1px solid #111 !important;">Delay
+			<!-- <br><span class="column-note capitalize-font text-center">(Hours)</span> -->
+			</th>
+            <th rowspan="2" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right">Yet to replied
+			<!-- <br><span class="column-note capitalize-font text-center">(Hours)</span> -->
+			</th>
         </tr>
         <tr>
             <th class="capitalize-font text-center nosort">Count</th>
