@@ -1319,7 +1319,7 @@ class EmailCollection
                                                     $emailAttachmentHtml .= $item;
                                                     $emailAttachmentHtml .= '" class="atch-thumb">';
                                                         $emailAttachmentHtml .= '<span>';
-                                                            $emailAttachmentHtml .= '<i class="font-30 mr-5 fa fa-file-';
+                                                            $emailAttachmentHtml .= '<i class="font-30 mr-5 fa fa-';
                                                             $emailAttachmentHtml .= $this->getFileType($item_name);
                                                             $emailAttachmentHtml .= '-o"></i>';
                                                         $emailAttachmentHtml .= '</span>';
@@ -1340,7 +1340,7 @@ class EmailCollection
                                                     $emailForwardAttachmentList .= $item;
                                                     $emailForwardAttachmentList .= '" class="atch-thumb" style="text-decoration:none;">';
                                                         $emailForwardAttachmentList .= '<span>';
-                                                            $emailForwardAttachmentList .= '<i class="font-30 mr-5 fa fa-file-';
+                                                            $emailForwardAttachmentList .= '<i class="font-30 mr-5 fa fa-';
                                                             $emailForwardAttachmentList .= $this->getFileType($item_name);
                                                             $emailForwardAttachmentList .= '-o"></i>';
                                                         $emailForwardAttachmentList .= '</span>';

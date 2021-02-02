@@ -195,7 +195,7 @@ class ApiController extends Controller
                                             $emailAttachmentHtml .= $item;
                                             $emailAttachmentHtml .= '" class="atch-thumb">';
                                             $emailAttachmentHtml .= '<span>';
-                                            $emailAttachmentHtml .= '<i class="font-30 mr-5 fa fa-file-';
+                                            $emailAttachmentHtml .= '<i class="font-30 mr-5 fa fa-';
                                             $emailAttachmentHtml .= $this->getFileType($item_name);
                                             $emailAttachmentHtml .= '-o"></i>';
                                             $emailAttachmentHtml .= '</span>';
@@ -241,7 +241,7 @@ class ApiController extends Controller
 
                     //         $ext = pathinfo($attach, PATHINFO_EXTENSION);
 
-                    //         $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-' . $this->getFileType($attach) . '-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
+                    //         $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-' . $this->getFileType($attach) . '-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';
 
                     //         // if ($ext == 'docx' || $ext == 'doc') {
                     //         //     $loop_attach .= '<li><a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><span class="mailbox-attachment-icon"><i class="fa fa-file-word-o"></i></span></a><div class="mailbox-attachment-info"> <a class="mailbox-attachment-name" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-paperclip"></i>&nbsp;' . $attach . '</a> <span class="mailbox-attachment-size">&nbsp;&nbsp;<a class="btn btn-default btn-xs pull-right" href="' . $filedownloadlink . $list[$k]->email_path . '/' . $attach . '" target="_blank"><i class="fa fa-cloud-download"></i></a> </span></div></li>';

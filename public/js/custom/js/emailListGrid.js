@@ -628,8 +628,8 @@ function getEmailTableList(gridSelector) {
             htmlFile += filename;
             htmlFile += '" class="atch-thumb" style="text-decoration:none;">';
             htmlFile += '<span>';
-            htmlFile += '<i class="font-30 mr-5 fa fa-envelope';
-            // htmlFile += getFileType(filename);
+            htmlFile += '<i class="font-30 mr-5 fa fa-';
+            htmlFile += getFileType(filename);
             htmlFile += '-o"></i>';
             htmlFile += '</span>';
             htmlFile += '<span class="email-attachment-item-name ">';
@@ -4281,6 +4281,7 @@ $(document).on('click', '.email-compose-btn', function(e) {
     $('#to').val('');
     $('#cc').val('');
     $('#subject').val('');
+	attachtedEmailFilesToUpload = [];
     $('.email-send-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
     $('#textarea_editor_email_compose').val('');
 
@@ -5586,7 +5587,7 @@ function filesPreview(input, placeToInsertFilePreview) {
             htmlFile += filename;
             htmlFile += '" class="atch-thumb" style="text-decoration:none;">';
             htmlFile += '<span>';
-            htmlFile += '<i class="font-30 mr-5 fa fa-file-';
+            htmlFile += '<i class="font-30 mr-5 fa fa-';
             htmlFile += getFileType(filename);
             htmlFile += '-o"></i>';
             htmlFile += '</span>';

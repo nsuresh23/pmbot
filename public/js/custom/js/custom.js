@@ -388,51 +388,51 @@ function getFileType(filename) {
     switch (extension) {
         case 'pdf':
         case 'PDF':
-            type = 'pdf';
+            type = 'file-pdf';
             break;
         case 'txt':
-            type = 'text';
+            type = 'file-text';
             break;
         case 'docx':
         case 'doc':
-            type = 'word';
+            type = 'file-word';
             break;
         case 'xls':
         case 'xlsx':
         case 'csv':
-            type = 'excel';
+            type = 'file-excel';
             break;
         case 'mp3':
         case 'ogg':
         case 'wav':
-            type = 'audio';
+            type = 'file-audio';
             break;
         case 'mp4':
         case 'mov':
-            type = 'video';
+            type = 'file-video';
             break;
         case 'zip':
         case '7z':
         case 'rar':
-            type = 'archive';
+            type = 'file-archive';
             break;
         case 'jpg':
         case 'jpeg':
         case 'png':
         case 'PNG':
-            type = 'image';
+            type = 'file-image';
             break;
         case 'html':
-            type = 'code';
+            type = 'file-code';
             break;
         case 'txt':
-            type = 'txt';
+            type = 'file-txt';
             break;
         case 'eml':
             type = 'envelope';
             break;
         default:
-            type = 'picture';
+            type = 'file-picture';
     }
 
     return type;
