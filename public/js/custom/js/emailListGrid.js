@@ -101,7 +101,7 @@ function getEmailTableList(gridSelector) {
             headerTemplate: function() {
                 return $("<a>").attr("href", "javascript:void(0);").attr("class", "btn btn-success pa-5").attr("title", "approve").text("Approve").on("click", function() {
                     approveSelectedItems();
-                });;
+                });
             },
             itemTemplate: function(_, item) {
                 return $("<input>").attr("type", "checkbox").attr("class", "approveCheckbox")
@@ -109,6 +109,34 @@ function getEmailTableList(gridSelector) {
                     .prop("checked", $.inArray(item.id, selectedApprovedItems) > -1)
                     .on("change", function() {
                         $(this).is(":checked") ? selectApproveItem(item) : unselectApproveItem(item);
+                    });
+            },
+            align: "center",
+            css: "user-group-jsgrid-checkbox-width text-center",
+            inserting: false,
+            filtering: false,
+            editing: false,
+            sorting: false,
+            width: 35
+        });
+
+    }
+
+    if (gridCategory != undefined && gridCategory != '' && gridEmailFilter != 'outbox' && gridEmailFilter != 'draft' && (gridCategory == 'nonBusinessEmail' || gridCategory == 'jobEmail')) {
+
+        field.push({
+            headerTemplate: function() {
+                return $("<a>").attr("href", "javascript:void(0);").attr("class", "btn btn-success pa-5 font-12 email-forward-attachment").attr("title", "Forward").text("Forward");
+                // return $("<button>").attr("class", "btn btn-success pa-5 font-12 email-forward-attachment").attr("title", "forward").text("Forward").on("click", function() {
+                //     forwardSelectedItems();
+                // });
+            },
+            itemTemplate: function(_, item) {
+                return $("<input>").attr("type", "checkbox").attr("class", "forwardCheckbox")
+                    .attr("data-id", item.id)
+                    .prop("checked", $.inArray(item.id, selectedForwardItems) > -1)
+                    .on("change", function() {
+                        $(this).is(":checked") ? selectForwardItem(item) : unselectForwardItem(item);
                     });
             },
             align: "center",
@@ -245,7 +273,7 @@ function getEmailTableList(gridSelector) {
         title: "DATE",
         name: "created_date",
         type: "text",
-        width: 50,
+        width: 60,
     });
 
     // field.push({
@@ -282,7 +310,7 @@ function getEmailTableList(gridSelector) {
             return this._createOnOffSwitchButton("filtering", this.searchModeButtonClass, false);
 
         },
-        width: 10,
+        width: 18,
     });
 
 
@@ -380,32 +408,34 @@ function getEmailTableList(gridSelector) {
 
         }
 
-        if (selectedApprovedItems.length)
+        if (selectedApprovedItems.length) {
 
             Swal.fire({
 
-            title: 'Are you sure?',
-            text: "Do you want to approve the selected emails!",
-            // icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes',
-            showClass: {
-                popup: 'animated fadeIn faster'
-            },
-            hideClass: {
-                popup: 'animated fadeOut faster'
-            },
+                title: 'Are you sure?',
+                text: "Do you want to approve the selected emails!",
+                // icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
 
-        }).then((result) => {
+            }).then((result) => {
 
-            if (result.value != undefined && result.value == true) {
+                if (result.value != undefined && result.value == true) {
 
-                approveEscalationEmails(selectedApprovedItems);
+                    approveEscalationEmails(selectedApprovedItems);
 
-            }
-        });
+                }
+            });
+
+        }
 
     }
 
@@ -494,6 +524,135 @@ function getEmailTableList(gridSelector) {
         }
 
     };
+
+    var selectedForwardItems = [];
+
+    var selectForwardItem = function(item) {
+
+        selectedForwardItems.push(...[{
+            'id': item.id,
+            'subject': item.subject,
+            'subject_min_width': item.subject_min_width,
+            'email_filename': item.subject + '.eml',
+            'email_download_path': item.email_download_path,
+        }]);
+
+    };
+
+    var unselectForwardItem = function(item) {
+
+        selectedForwardItems = $.grep(selectedForwardItems, function(i) {
+            return i.id !== item.id;
+        });
+
+    };
+
+    var forwardSelectedItems = function() {
+
+        if (selectedForwardItems.length == 0) {
+
+            /* Swal.fire({
+
+                title: '',
+                text: "Please select the email to forward!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            }); */
+
+            return false;
+
+        }
+
+        if (selectedForwardItems.length) {
+
+            /* Swal.fire({
+
+                title: 'Are you sure?',
+                text: "Do you want to forward the selected emails!",
+                // icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            }).then((result) => {
+
+                if (result.value != undefined && result.value == true) {
+
+                    downloadForwardSelectedItems(selectedForwardItems);
+
+                }
+            }); */
+
+            downloadForwardSelectedItems(selectedForwardItems);
+
+        }
+
+    };
+
+    var downloadForwardSelectedItems = function(selectedForwardItems) {
+
+        attachtedEmailFilesToUpload = [];
+
+        $('.attached_file').html('');
+
+        $('.email-compose-modal').modal({
+            show: 'true'
+        });
+
+        for (i = 0; i < selectedForwardItems.length; i++) {
+
+            var filename = selectedForwardItems[i].email_filename;
+
+            var currentTimestamp = '';
+
+            currentTimestamp = moment.utc().format('YYYYMMDDHHmmssSSS') + '_' + Math.floor(Math.random() * 101);
+
+            attachtedEmailFilesToUpload[currentTimestamp] = selectedForwardItems[i].email_download_path;
+
+            var htmlFile = '';
+            htmlFile += '<li class="pb-5" id="new_attachements_' + currentTimestamp + '">';
+            htmlFile += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email-attachment-item-block">';
+            htmlFile += '<a href="javascript:void(0);" title="';
+            htmlFile += filename;
+            htmlFile += '" class="atch-thumb" style="text-decoration:none;">';
+            htmlFile += '<span>';
+            htmlFile += '<i class="font-30 mr-5 fa fa-envelope';
+            // htmlFile += getFileType(filename);
+            htmlFile += '-o"></i>';
+            htmlFile += '</span>';
+            htmlFile += '<span class="email-attachment-item-name ">';
+            htmlFile += mb_strimwidth(filename, 0, 25, '...');
+            htmlFile += '<i class="fa fa-times text-danger ml-5" onclick="removeAttachedEmailFile($(this))" type="button" value="Remove" data-remove-id="new_attachements_' + i + '" data-remove-filename="' + filename + '" data-src="' + currentTimestamp + '"></i></a>';
+            htmlFile += '</span>';
+            htmlFile += '</div></li>';
+
+            $($.parseHTML(htmlFile)).appendTo('.attached_file');
+
+            $('.attached_file_box').show();
+
+        }
+
+    };
+
+    $(document).on('click', '.email-forward-attachment', function(e) {
+
+        e.preventDefault();
+
+        forwardSelectedItems();
+
+    });
 
     $(gridSelector).jsGrid({
 
@@ -2706,6 +2865,20 @@ $(document).on('click', '.email-send-btn', function(e) {
 
     }
 
+    if (attachtedEmailFilesToUpload != undefined && Object.keys(attachtedEmailFilesToUpload).length > 0) {
+
+        var i = 0;
+
+        for (var index in attachtedEmailFilesToUpload) {
+
+            params.append('attached_email_file_' + i, attachtedEmailFilesToUpload[index]);
+
+            i = i + 1;
+
+        }
+
+    }
+
     params.delete('attachement');
 
     emailSend(postUrl, params, '#emailSendModal', '.compose_loader');
@@ -2748,6 +2921,20 @@ $(document).on('click', '.email-save-btn', function(e) {
         for (var index in filesToUpload) {
 
             params.append('file-' + i, filesToUpload[index]);
+
+            i = i + 1;
+
+        }
+
+    }
+
+    if (attachtedEmailFilesToUpload != undefined && Object.keys(attachtedEmailFilesToUpload).length > 0) {
+
+        var i = 0;
+
+        for (var index in attachtedEmailFilesToUpload) {
+
+            params.append('attached_email_file_' + i, attachtedEmailFilesToUpload[index]);
 
             i = i + 1;
 
@@ -5462,7 +5649,38 @@ function removeFile(item) {
 
 }
 
+function removeAttachedEmailFile(item) {
+
+    var fileSrc = item.attr('data-src');
+
+    if (attachtedEmailFilesToUpload != undefined && Object.keys(attachtedEmailFilesToUpload).length > 0) {
+
+        for (var index in attachtedEmailFilesToUpload) {
+
+            if (index == fileSrc) {
+
+                delete attachtedEmailFilesToUpload[index];
+
+                item.closest('li').remove();
+
+            }
+
+        }
+
+    }
+
+    if (Object.keys(attachtedEmailFilesToUpload).length == 0) {
+
+        $('.attached_file_box').hide();
+
+    }
+
+}
+
+
 var filesToUpload = [];
+
+var attachtedEmailFilesToUpload = [];
 
 $('.fileupload').on('change', function() {
     filesPreview(this, '.attached_file');

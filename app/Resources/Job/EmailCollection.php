@@ -1716,6 +1716,41 @@ class EmailCollection
                         } */
 
                          $item['subject_link'] = '<a class="btn-link email-item ' . $emailTypeClass . '" href="' . $emailViewUrl . '" data-email-id="' . $item["id"] . '" data-email-geturl="' . $emailGetUrl . '">' . mb_strimwidth($emailSubject, 0, 75, "...") . '</a>';
+                         $item["subject_min_width"] = mb_strimwidth($emailSubject, 0, 75, "...");
+                    }
+
+                    if (isset($item["email_path_primary"]) && $item["email_path_primary"] != "") {
+
+                        $email_filename = "email.eml";
+
+                        $file_name_split = pathinfo($email_filename);
+
+                        if (is_array($file_name_split) && count($file_name_split) > 0) {
+
+                            if (isset($file_name_split["extension"]) && $file_name_split["extension"] != "") {
+
+                                $email_file_base_name = $file_name_split["filename"];
+
+                                if (isset($item["subject"]) && $item["subject"] != "") {
+
+                                    $email_file_base_name = $item["subject"];
+                                    $email_file_base_name = preg_replace('/[^A-Za-z0-9. _]/', '', $email_file_base_name);
+                                    $email_file_base_name = preg_replace('/\\s+/', '_', $email_file_base_name);
+                                    $email_file_base_name = strtolower(mb_strimwidth($email_file_base_name, 0, 50));
+                                }
+
+                                $email_file_path = route('file') . Config::get('constants.emailImageDownloadPathParams');
+
+                                $email_file_path .= $item["email_path_primary"] . $email_filename;
+
+                                $alais_filename = $email_file_base_name . "." . $file_name_split["extension"];
+
+                                $email_file_path .= "&alais_name=" . $alais_filename;
+
+                                $item["email_download_path"] = $email_file_path;
+
+                            }
+                        }
                     }
 
                     return $item;

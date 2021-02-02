@@ -428,6 +428,9 @@ function getFileType(filename) {
         case 'txt':
             type = 'txt';
             break;
+        case 'eml':
+            type = 'envelope';
+            break;
         default:
             type = 'picture';
     }

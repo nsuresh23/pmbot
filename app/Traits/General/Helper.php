@@ -1055,8 +1055,10 @@ trait Helper
                     break;
 				case 'html':
 					$type = 'code';
-					break;
-
+                    break;
+                case 'eml':
+                    $type = 'envelope';
+                    break;
                 default:
                     $type = 'picture';
             }
