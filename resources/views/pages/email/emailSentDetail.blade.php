@@ -54,6 +54,37 @@
 
             <?php } ?>
 
+            <?php if(in_array(auth()->user()->role, Config::get('constants.amUserRoles'))) { ?>
+
+                <div class="email-button-group">
+                    <div class="email-classification-move-to-block pull-right">
+                        <div class="inline-block">
+                            <form class="form-inline email-classification-move-to-form"
+                                action="{{ route(__('job.email_move_to_url')) }}">
+                                <input type="hidden" class="email-classification-move-to-email-id" name="id" value="" />
+                                <input type="hidden" class="email-classification-move-to-am-approved" name="am_approved"
+                                    value="{{$am_email_approved ?? '0'}}" />
+                                <div class="form-group">
+                                    <div class="input-group email-classification-move-to-input-group">
+                                        <select class="form-control select2 email-classification-move-to-input"
+                                            name="email_classification_category" style="width: max-content;"
+                                            placeholder="{{__('job.email_move_to_placeholder_text') }}" required></select>
+                                        <div class="input-group-btn email-classification-move-to-btn wd-20">
+                                            <span type="button" class="btn bg-success btn-anim txt-light pa-10">
+                                                <i class="fa fa-check txt-light"></i>
+                                                <span class="btn-text">{{ __('job.email_approve_label') }}</span>
+                                            </span>
+                                        </div>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            <?php } ?>
+
             <?php if(in_array(auth()->user()->role, Config::get('constants.pmUserRoles'))) { ?>
 
                 <div class="email-button-group">

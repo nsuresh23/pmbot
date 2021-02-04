@@ -123,6 +123,24 @@ return [
             "text" => "error"
         ],
     ],
+    "emailClassificationList" => [
+        [
+            "id" => "not_set",
+            "text" => "not set"
+        ],
+        [
+            "id" => "negative",
+            "text" => "negative"
+        ],
+        [
+            "id" => "positive",
+            "text" => "positive"
+        ],
+        [
+            "id" => "error",
+            "text" => "error"
+        ],
+    ],
     "stateList" => [
         "1" => "enabled",
         "0" => "disabled",

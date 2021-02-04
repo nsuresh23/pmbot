@@ -118,9 +118,10 @@ class ApiController extends Controller
     public function getresult(Request $request)
     {
 
+        $response_data = [];
         $id = $request->id;
         $empcode = auth()->user()->empcode;
-        $sql = "SELECT id,email_id,job_id,subject,email_from,email_to,email_cc,email_bcc,(SELECT body_html FROM email_box_details WHERE email_box_id = email_box.id ) as body_html,email_received_date,attachments,email_path,status from email_box where id = '" . $id . "' and email_id = '" . auth()->user()->empcode . "' ";
+        $sql = "SELECT id,email_id,job_id,subject,email_from,email_to,email_cc,email_bcc,(SELECT body_html FROM email_box_details WHERE email_box_id = email_box.id ) as body_html,email_received_date,attachments,email_path,status,email_classification_category from email_box where id = '" . $id . "' and email_id = '" . auth()->user()->empcode . "' ";
         // $filedownloadlink = env('ANNOTATIONEMAILFILEDOWNLOADED');
         $filedownloadlink = route('file') . Config::get('constants.emailImageDownloadPathParams');
 
@@ -141,7 +142,6 @@ class ApiController extends Controller
             $mailattachdnt = '';
             $loop_attach = '';
             $output .= '<div class="col-md-9">';
-
 
             foreach ($list as $k => $v) {
 
@@ -353,13 +353,25 @@ class ApiController extends Controller
                     $bodyhtml = $list[$k]->body_html;
                 }
 
+                if($list[$k]->email_classification_category != "") {
+
+                    $response_data["email_classification_category"] = $list[$k]->email_classification_category;
+
+                }
+
 
                 $output .= '<div class="box box-warning ' . $hide . '"><div class="box-body no-padding"><div id="mailbodycontent" class="no-copy"><div class="mailbox-read-info"><h3>' . base64_decode($list[$k]->subject) . '</h3><h5>From: ' . htmlspecialchars($list[$k]->email_from) . ' <span class="mailbox-read-time pull-right">' . $email_recdate . '</span></h5><h5>To: ' . htmlspecialchars($list[$k]->email_to) . '</span>' . $cc . '' . $bcc . '</h5></div>' . $mailattachdnt . '<div class="mailbox-read-message"> ' . $bodyhtml . '  </div></div></div></div>';
             }
 
             $output .= '</div>';
 
-            return response()->json(['msg' => $output,  'status' => $list[$k]->status]);
+            if (is_array(Config::get('constants.emailClassificationList')) && count(Config::get('constants.emailClassificationList'))) {
+
+                $response_data["email_classification_category_list"] = Config::get('constants.emailClassificationList');
+
+            }
+
+            return response()->json(['msg' => $output,  'status' => $list[$k]->status, 'response_data'=> $response_data]);
         } else {
             return response()->json(['msg' => '',  'status' => '-1']);
         }
@@ -491,12 +503,19 @@ class ApiController extends Controller
         $id         =    $_POST['id'];
         $jobid      =    $_POST['jobid'];
         $start_time =    $_POST['start_time'];
+        $email_classification_category = "";
 
         $isGeneric = "false";
 
         if(isset($_POST["is_generic"]) && $_POST["is_generic"] == "true") {
 
             $isGeneric = "true";
+
+        }
+
+        if (isset($_POST["email_classification_category"]) && $_POST["email_classification_category"] != "") {
+
+            $email_classification_category = $_POST["email_classification_category"];
 
         }
 
@@ -525,6 +544,12 @@ class ApiController extends Controller
                         // "emprole" => "project_manager"
                     );
 
+                    if ($email_classification_category != "") {
+
+                        $jsonDataTaskNotes["email_classification_category"] = $email_classification_category;
+
+                    }
+
                     if (auth()->check()) {
 
                         $jsonDataTaskNotes["creator_empcode"] = auth()->user()->empcode;
@@ -542,6 +567,7 @@ class ApiController extends Controller
                         $jsonDataTaskNotes["ip_address"] = request()->ip();
 
                     }
+
                     $jsonDataNotesEncoded = json_encode($jsonDataTaskNotes);
 
                     // once taks created create task notes
@@ -647,6 +673,12 @@ class ApiController extends Controller
 
                     }
 
+                    if ($email_classification_category != "") {
+
+                        $jsonData["email_classification_category"] = $email_classification_category;
+
+                    }
+
                     if (auth()->check()) {
 
                         $jsonData["creator_empcode"] = auth()->user()->empcode;
@@ -723,7 +755,14 @@ class ApiController extends Controller
                 'id' => $id,
                 'job_id' => $jobid,
                 'status' => '2',
+                "empcode" => auth()->user()->empcode,
             );
+
+            if($email_classification_category != "") {
+
+                $jsonData["email_classification_category"] = $email_classification_category;
+
+            }
 
             // if($isGeneric == "true" ) {
 

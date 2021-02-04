@@ -1389,15 +1389,24 @@ class EmailCollection
 
                     }
 
-                    if(is_array(Config::get('constants.emailClassificationMoveToList')) && count(Config::get('constants.emailClassificationMoveToList'))) {
+                    // if(is_array(Config::get('constants.emailClassificationMoveToList')) && count(Config::get('constants.emailClassificationMoveToList'))) {
 
-                        $returnResponse["data"]["classification_list"] = Config::get('constants.emailClassificationMoveToList');
+                    //     $returnResponse["data"]["classification_list"] = Config::get('constants.emailClassificationMoveToList');
+
+                    // }
+
+                    if (is_array(Config::get('constants.emailClassificationList')) && count(Config::get('constants.emailClassificationList'))) {
+
+                        $returnResponse["data"]["classification_list"] = Config::get('constants.emailClassificationList');
 
                     }
 
                 }
+
                 $returnResponse["success"] = "true";
+
             }
+
         } catch (Exception $e) {
 
             $returnResponse["error"] = "true";

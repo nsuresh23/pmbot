@@ -215,7 +215,9 @@ function annotatorcompleted(){
     url = '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/completetaskdetail'
 	var jobId = $('#pmjobid').val();
 
-	var jobTitle = $('#pmjobid option:selected').text();
+    var jobTitle = $('#pmjobid option:selected').text();
+
+    var emailClassificationCategory = $('.email-classification-category-list').select2().val();
 
 	if(jobId == undefined || jobId == '') {	//CODED ADDED ON 2020-07-02 :: OVER-RIDING THE COMPLETED BUTTON TO DEFAULT SHOW(SURESH)
 	 alert('Please select the job');
@@ -234,7 +236,13 @@ function annotatorcompleted(){
 
 		postData.is_generic = 'true';
 
-	}
+    }
+
+    if(emailClassificationCategory != undefined && emailClassificationCategory != '') {
+
+        postData.email_classification_category = emailClassificationCategory;
+
+    }
 
     var emailAnnotatorStartTime = '<?php echo isset($emailAnnotatorStartTime)? $emailAnnotatorStartTime : "" ?>';
 
@@ -427,6 +435,31 @@ function getjob_tasklist(val) {
 			error: function()
 			{}
 	   });
+}
+
+function  emailClassificationList(data)
+{
+
+    $('.email-classification-category-block').hide();
+
+    if(data.email_classification_category_list != undefined) {
+
+        $('.email-classification-category-list').select2({
+
+            data: data.email_classification_category_list
+
+        });
+
+        if(data.email_classification_category != undefined) {
+
+            $('.email-classification-category-list').select2().val(data.email_classification_category);
+            $('.email-classification-category-list').select2().trigger('change');
+            $('.email-classification-category-block').show();
+
+        }
+
+    }
+
 }
 
 function annotationjobID() {
@@ -646,6 +679,12 @@ function getresult(url) {
 
                 }
 
+                if(data['response_data'] != undefined) {
+
+                    emailClassificationList(data['response_data']);
+
+                }
+
                 $('.email-subject').html('');
                 $('.email-subject').html($('.mailbox-read-info').find('h3:first').html());
 
@@ -656,10 +695,12 @@ function getresult(url) {
                     data:  '',
                     beforeSend: function(){$("#overlay").show();},
                     success: function(data){
-                    $("#refemailid").val($('#emailid').val());
+
+                        $("#refemailid").val($('#emailid').val());
                         getpmbotjoblist("<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/getpmbotjoblist");
                         annotationjobID();
-                        },
+
+                    },
                     error: function()
                     {}
                 });

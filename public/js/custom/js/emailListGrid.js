@@ -2222,6 +2222,8 @@ $(document).on('click', '.email-classification-move-to-btn', function(e) {
 
     e.preventDefault();
 
+    $('.email-classification-move-to-input').select2().val($('.email-classification-move-to-input').select2().val()).trigger('change');
+
     var postUrl = '';
     var params = '';
     params = $('.email-classification-move-to-form').serialize();
