@@ -1232,6 +1232,16 @@ class EmailCollection
                         }
                    }
 
+                    if (isset($returnResponse["data"]["email_classification_category"]) && $returnResponse["data"]["email_classification_category"] != "") {
+
+                        if ($returnResponse["data"]["email_classification_category"] == null || $returnResponse["data"]["email_classification_category"] == '' || $returnResponse["data"]["email_classification_category"] == 'not_set' || $returnResponse["data"]["email_classification_category"] == 'neutral') {
+
+                            $returnResponse["data"]["email_classification_category"] = "neutral";
+
+                        }
+
+                    }
+
                     if (isset($returnResponse["data"]["email_path_primary"]) && $returnResponse["data"]["email_path_primary"] != "") {
 
                         $email_filename = "email.eml";
