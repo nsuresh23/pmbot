@@ -2321,7 +2321,9 @@ $(document).on('click', '.email-classification-move-to-btn', function(e) {
 
                     if ($('.currentUserInfo').attr('data-current-user-role') == 'account_manager') {
 
-                        gridSelector = ".emailQCCountGrid";
+                        // gridSelector = ".emailQCCountGrid";
+
+                        gridSelector = ".emailSentCountGrid";
 
                         pmsEmailCountGrid = ".pmsEmailCountGrid";
 

@@ -359,15 +359,11 @@ class ApiController extends Controller
 
                 }
 
-                if ($list[$k]->email_classification_category != "") {
+                $response_data["email_classification_category"] = $list[$k]->email_classification_category;
 
-                    $response_data["email_classification_category"] = $list[$k]->email_classification_category;
+                if ($list[$k]->email_classification_category == null || $list[$k]->email_classification_category == '' || $list[$k]->email_classification_category == 'not_set' || $list[$k]->email_classification_category == 'neutral') {
 
-                    if ($list[$k]->email_classification_category == null || $list[$k]->email_classification_category == '' || $list[$k]->email_classification_category == 'not_set' || $list[$k]->email_classification_category == 'neutral') {
-
-                        $response_data["email_classification_category"] = "neutral";
-
-                    }
+                    $response_data["email_classification_category"] = "neutral";
 
                 }
 
