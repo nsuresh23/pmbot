@@ -38,9 +38,10 @@ data-current-route="{{ $currentRoute }}">
             <th rowspan="2" class="capitalize-font text-center nosort">S.No</th>
             <th rowspan="2" class="capitalize-font text-center nosort">PM Name</th>
 			<!-- <th rowspan="2" class="capitalize-font text-center">Date</th> -->
-            <th rowspan="2" class="capitalize-font text-center nosort">Total</th>
-            <th rowspan="2" class="capitalize-font text-center nosort">Internal</th>
-            <th rowspan="2" class="capitalize-font text-center nosort">External</th>
+            <!-- <th rowspan="2" class="capitalize-font text-center nosort">Total</th> -->
+            <!-- <th rowspan="2" class="capitalize-font text-center nosort">Internal</th> -->
+            <!-- <th rowspan="2" class="capitalize-font text-center nosort">External</th> -->
+            <th rowspan="2" class="capitalize-font text-center nosort">Not Set</th>
             <th rowspan="2" class="capitalize-font text-center nosort">Positive</th>
             <th rowspan="2" class="capitalize-font text-center nosort">Neutral</th>
             <th rowspan="2" class="capitalize-font text-center nosort">Negative</th>

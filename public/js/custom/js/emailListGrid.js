@@ -196,7 +196,7 @@ function getEmailTableList(gridSelector) {
             textField: "Name",
             itemTemplate: function(value, item) {
 
-                if (item.email_classification_category == null || item.email_classification_category == '' || item.email_classification_category == 'not_set') {
+                if (item.email_classification_category == null || item.email_classification_category == '' || item.email_classification_category == 'not_set' || item.email_classification_category == 'neutral') {
 
                     return '<i class="fa fa-circle inline-block txt-light font-16" title="neutral"></i>';
 
@@ -2090,6 +2090,7 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
                         if (response.data.email_classification_category != undefined && response.data.email_classification_category != '') {
 
+                            $('.email-classification-move-to-input').attr('previous_value', response.data.email_classification_category);
                             $('.email-classification-move-to-input').select2().val(response.data.email_classification_category).trigger('change');
 
                         }
@@ -2222,10 +2223,26 @@ $(document).on('click', '.email-classification-move-to-btn', function(e) {
 
     e.preventDefault();
 
-    $('.email-classification-move-to-input').select2().val($('.email-classification-move-to-input').select2().val()).trigger('change');
-
     var postUrl = '';
+
     var params = '';
+
+    $('.email-classification-move-to-input').select2().val($('.email-classification-move-to-input').select2().val())
+
+    // emailClassificationCategory = $('.email-classification-move-to-input').select2().val();
+
+    // emailClassificationCategoryPreviousValue = $('.email-classification-move-to-input').attr('previous_value');
+
+    // if (emailClassificationCategory != undefined && emailClassificationCategory != '') {
+
+    //     if (emailClassificationCategoryPreviousValue != undefined && emailClassificationCategoryPreviousValue != '' && emailClassificationCategory == emailClassificationCategoryPreviousValue) {
+
+    //         $('.email-classification-move-to-input').select2().val('').trigger('change');
+
+    //     }
+
+    // }
+
     params = $('.email-classification-move-to-form').serialize();
 
     postUrl = $('.email-classification-move-to-form').attr('action');
@@ -4283,7 +4300,7 @@ $(document).on('click', '.email-compose-btn', function(e) {
     $('#to').val('');
     $('#cc').val('');
     $('#subject').val('');
-	attachtedEmailFilesToUpload = [];
+    attachtedEmailFilesToUpload = [];
     $('.email-send-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
     $('#textarea_editor_email_compose').val('');
 

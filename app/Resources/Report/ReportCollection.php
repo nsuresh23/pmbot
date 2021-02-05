@@ -478,12 +478,14 @@ class ReportCollection
                     $item["s_no"] = $s_no;
 
 					$item["formatted_date"] = "-";
-					
+
                     $item["formatted_total_count"] = "0";
 
                     $item["formatted_internal_count"] = "0";
 
                     $item["formatted_external_count"] = "0";
+
+                    $item["formatted_not_set_count"] = "0";
 
                     $item["formatted_positive_count"] = "0";
 
@@ -511,7 +513,7 @@ class ReportCollection
                         // $item["pmname_link"] = '<a class="user-login-history-btn" href="#userLoginHistorModal" data-toggle="modal" data-grid-selector="user-login-history-grid" data-grid-title="Login history" data-date="' . $item["date"] . '" data-empcode="' . $item["empcode"] . '"><span class="txt-a-blue underlined">' . $item["pmname"] . '</span></a>';
 
                     }
-					
+
 					if (isset($item["date"]) && $item["date"] != "") {
 
                         $item["formatted_date"] = date("Y/m/d", strtotime($item["date"]));
@@ -533,6 +535,12 @@ class ReportCollection
                     if (isset($item["external_count"]) && $item["external_count"] != "") {
 
                         $item["formatted_external_count"] = $item["external_count"];
+
+                    }
+
+                    if (isset($item["not_set_count"]) && $item["not_set_count"] != "") {
+
+                        $item["formatted_not_set_count"] = $item["not_set_count"];
 
                     }
 

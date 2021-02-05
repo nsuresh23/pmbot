@@ -217,6 +217,8 @@ function annotatorcompleted(){
 
     var jobTitle = $('#pmjobid option:selected').text();
 
+    var emailClassificationCategoryPreviousValue = $('.email-classification-category-list').attr('previous_value');
+
     var emailClassificationCategory = $('.email-classification-category-list').select2().val();
 
 	if(jobId == undefined || jobId == '') {	//CODED ADDED ON 2020-07-02 :: OVER-RIDING THE COMPLETED BUTTON TO DEFAULT SHOW(SURESH)
@@ -240,7 +242,11 @@ function annotatorcompleted(){
 
     if(emailClassificationCategory != undefined && emailClassificationCategory != '') {
 
-        postData.email_classification_category = emailClassificationCategory;
+        if(emailClassificationCategoryPreviousValue != undefined && emailClassificationCategoryPreviousValue != '' && emailClassificationCategory != emailClassificationCategoryPreviousValue) {
+
+            postData.email_classification_category = emailClassificationCategory;
+
+        }
 
     }
 
@@ -450,8 +456,9 @@ function  emailClassificationList(data)
 
         });
 
-        if(data.email_classification_category != undefined) {
+        if(data.email_classification_category != undefined && data.am_approved != undefined && data.am_approved == '0') {
 
+            $('.email-classification-category-list').attr('previous_value', data.email_classification_category);
             $('.email-classification-category-list').select2().val(data.email_classification_category);
             $('.email-classification-category-list').select2().trigger('change');
             $('.email-classification-category-block').show();
@@ -687,6 +694,13 @@ function getresult(url) {
 
                 $('.email-subject').html('');
                 $('.email-subject').html($('.mailbox-read-info').find('h3:first').html());
+
+                $('.container-anotacions').slimscroll({
+
+                    height: '620px',
+                    size: '3px',
+
+                });
 
                 $.ajax({
                     url: '<?php echo env('EMAIL_ANNOTATOR_BASE_URL');?>/search?page='+<?php echo $returnData['id'];?>,

@@ -121,7 +121,7 @@ class ApiController extends Controller
         $response_data = [];
         $id = $request->id;
         $empcode = auth()->user()->empcode;
-        $sql = "SELECT id,email_id,job_id,subject,email_from,email_to,email_cc,email_bcc,(SELECT body_html FROM email_box_details WHERE email_box_id = email_box.id ) as body_html,email_received_date,attachments,email_path,status,email_classification_category from email_box where id = '" . $id . "' and email_id = '" . auth()->user()->empcode . "' ";
+        $sql = "SELECT id,email_id,job_id,subject,email_from,email_to,email_cc,email_bcc,(SELECT body_html FROM email_box_details WHERE email_box_id = email_box.id ) as body_html,email_received_date,attachments,email_path,status,email_classification_category,am_approved from email_box where id = '" . $id . "' and email_id = '" . auth()->user()->empcode . "' ";
         // $filedownloadlink = env('ANNOTATIONEMAILFILEDOWNLOADED');
         $filedownloadlink = route('file') . Config::get('constants.emailImageDownloadPathParams');
 
@@ -353,14 +353,26 @@ class ApiController extends Controller
                     $bodyhtml = $list[$k]->body_html;
                 }
 
-                if($list[$k]->email_classification_category != "") {
+                if ($list[$k]->am_approved != "") {
 
-                    $response_data["email_classification_category"] = $list[$k]->email_classification_category;
+                    $response_data["am_approved"] = $list[$k]->am_approved;
 
                 }
 
+                if ($list[$k]->email_classification_category != "") {
+
+                    $response_data["email_classification_category"] = $list[$k]->email_classification_category;
+
+                    if ($list[$k]->email_classification_category == null || $list[$k]->email_classification_category == '' || $list[$k]->email_classification_category == 'not_set' || $list[$k]->email_classification_category == 'neutral') {
+
+                        $response_data["email_classification_category"] = "neutral";
+
+                    }
+
+                }
 
                 $output .= '<div class="box box-warning ' . $hide . '"><div class="box-body no-padding"><div id="mailbodycontent" class="no-copy"><div class="mailbox-read-info"><h3>' . base64_decode($list[$k]->subject) . '</h3><h5>From: ' . htmlspecialchars($list[$k]->email_from) . ' <span class="mailbox-read-time pull-right">' . $email_recdate . '</span></h5><h5>To: ' . htmlspecialchars($list[$k]->email_to) . '</span>' . $cc . '' . $bcc . '</h5></div>' . $mailattachdnt . '<div class="mailbox-read-message"> ' . $bodyhtml . '  </div></div></div></div>';
+
             }
 
             $output .= '</div>';

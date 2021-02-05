@@ -125,8 +125,8 @@ return [
     ],
     "emailClassificationList" => [
         [
-            "id" => "not_set",
-            "text" => "not set"
+            "id" => "neutral",
+            "text" => "neutral"
         ],
         [
             "id" => "negative",
@@ -135,10 +135,6 @@ return [
         [
             "id" => "positive",
             "text" => "positive"
-        ],
-        [
-            "id" => "error",
-            "text" => "error"
         ],
     ],
     "stateList" => [

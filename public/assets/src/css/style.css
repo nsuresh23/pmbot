@@ -200,6 +200,7 @@
         right: 0em;
         height: 100%;
         z-index: 100;
+        /* overflow-y: scroll; */
     }
     
     .label-compartit {
@@ -2636,7 +2637,7 @@
     } */
     
     .email-classification-category-block .select2-container {
-        width: max-content !important;
+        width: 84% !important;
     }
     
     .select2-container .select2-selection--single {
