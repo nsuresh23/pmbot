@@ -85,13 +85,13 @@ function getSummaryReportTableList(gridSelector) {
 
         columnFields.push(...[
             // { 'data': 'formatted_date', 'className': 'text-center datatable_border_right' },
-            // { 'data': 'formatted_total_count', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'formatted_total_count', 'className': 'text-center datatable_border_right' },
             // { 'data': 'formatted_internal_count', 'className': 'report-user-login-info-bg text-center' },
             // { 'data': 'formatted_external_count', 'className': 'report-user-login-info-bg text-center  datatable_border_right' },
             { 'data': 'formatted_not_set_count', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_positive_count', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_neutral_count', 'className': 'report-user-login-info-bg text-center' },
-            { 'data': 'formatted_negative_count', 'className': 'report-user-login-info-bg text-center  datatable_border_right' },
+            { 'data': 'formatted_negative_count', 'className': 'report-user-login-info-bg text-center datatable_border_right' },
             { 'data': 'formatted_last_24_count', 'className': 'report-email-info-bg text-center' },
             { 'data': 'formatted_last_24_time', 'className': 'report-email-info-bg text-center' },
             { 'data': 'formatted_last_24_average', 'className': 'report-email-info-bg text-center datatable_border_right' },
