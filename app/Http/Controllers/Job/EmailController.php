@@ -934,7 +934,10 @@ class EmailController extends Controller
                 $field["email_id"] = '';
             }
             if (isset($request->body_html) && $request->body_html != "") {
-                $field["body_html"] = $request->body_html;
+
+                // $field["body_html"] = $request->body_html;
+                $emailEditorStyle = Config::get('constants.email_editor_style');
+                $field["body_html"] = $emailEditorStyle . "<div>" . $request->body_html ."</div>";
             } else {
                 $field["body_html"] = '';
             }
