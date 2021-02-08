@@ -93,6 +93,12 @@ $(function() {
                     // tinymce.activeEditor.dom.setStyles(tinymce.activeEditor.dom.select('table caption'), { 'border': '1px solid grey', 'border-spacing': '0px' });
                     // o.content = tinymceStyle + o.content;
                 });
+                ed.on('keyup', function(evt) {
+                    if (evt.keyCode == 32) {
+                        ed.undoManager.add();
+                        ed.execCommand('mceSave');
+                    }
+                });
                 // ed.on('init', function(ed) {
                 //     ed.target.editorCommands.execCommand("fontName", false, "calibri");
                 //     ed.target.editorCommands.execCommand("fontSize", false, "11pt");
@@ -272,6 +278,15 @@ $(function() {
             fontsize_formats: '8pt 9pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 21pt 22pt 23pt 24pt 25pt 26pt 27pt 28pt 29pt 30pt 31pt 32pt 33pt 34pt 35pt 36pt',
             font_formats: ' Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Calibri=calibri; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats',
             toolbar: 'formatselect | fontselect | fontsizeselect | forecolor | backcolor | bold italic underline strikethrough superscript subscript | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | link',
+
+            setup: function(ed) {
+                ed.on('keyup', function(evt) {
+                    if (evt.keyCode == 32) {
+                        ed.undoManager.add();
+                        ed.execCommand('mceSave');
+                    }
+                });
+            },
 
             images_upload_handler: function(blobInfo, success, failure, progress) {
 
