@@ -5739,6 +5739,8 @@ function tinymceEditorFocus(editorId) {
 
         }
 
+        $('.modal').animate({ scrollTop: 0 }, 0);
+
         $('html, body').animate({
 
             scrollTop: $('.email-reply-form').offset().top - 150
