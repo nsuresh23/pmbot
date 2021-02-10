@@ -3700,7 +3700,11 @@ function showform(type, selector) {
                 if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
 
                     tinymce.get('textarea_editor_email_reply').setContent('');
+
                     tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, emailEditorParaTag + message);
+
+                    tinymceEditorFocus('textarea_editor_email_reply');
+
                     // tinymce.get('textarea_editor_email_reply').setContent(message, { format: 'html' });
 
                     // tinymce.get('textarea_editor_email_reply').setContent(message, { format: 'html' });
@@ -3826,6 +3830,8 @@ function showdraftform(type, selector) {
                 if (tinymce.get('textarea_editor_email_draft') != undefined && tinymce.get('textarea_editor_email_draft') != null && message != null) {
 
                     tinymce.get('textarea_editor_email_draft').execCommand('mceInsertContent', false, message);
+
+                    tinymceEditorFocus('textarea_editor_email_draft');
 
                     // $('#textarea_editor_email_draft').append(message);
 
@@ -5723,9 +5729,15 @@ function tinymceEditorFocus(editorId) {
 
         var editor = tinymce.get(editorId);
 
-        $(editor.getBody()).find('.pmbot_p').get(0).scrollIntoView();
+        editor.execCommand('mceSave');
 
-        editor.selection.setCursorLocation($(editor.getBody()).find('.pmbot_p').get(0), 0);
+        if ($(editor.getBody()).find('.pmbot_p') != undefined && $(editor.getBody()).find('.pmbot_p').get(0) != undefined) {
+
+            $(editor.getBody()).find('.pmbot_p').get(0).scrollIntoView();
+
+            editor.selection.setCursorLocation($(editor.getBody()).find('.pmbot_p').get(0), 0);
+
+        }
 
         $('html, body').animate({
 
