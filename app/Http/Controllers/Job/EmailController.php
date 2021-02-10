@@ -1098,10 +1098,20 @@ class EmailController extends Controller
 
 				} else {
 					$uploadPath = $uploadPath;
-					$field['email_path'] = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath;
-					$field["attachments"] = $field["attachments"].'|'.$returnResponse['data']['attachments'];
-					$upath = $_ENV['UPLOAD_FILE_ROUTE_PATH'].'\\'.$uploadPath;
-				}
+                    $field['email_path'] = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')) . '\\' .$uploadPath;
+
+                    if(isset($field["attachments"]) && !empty($field["attachments"])) {
+
+                        $field["attachments"] = $field["attachments"].'|'.$returnResponse['data']['attachments'];
+
+                    } else {
+
+                        $field["attachments"] = $returnResponse['data']['attachments'];
+
+                    }
+
+					$upath = env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')).'\\'.$uploadPath;
+                }
 
 				if(!empty($returnResponse['data'])) {
 					$spath = $returnResponse['data']['email_path'];
@@ -1233,9 +1243,9 @@ class EmailController extends Controller
 				$files = $request->file();
 
 				if(!empty($returnResponse['data']['email_path'])) {
-					//$uploadPath = str_replace($_ENV['UPLOAD_FILE_ROUTE_PATH'].'\\',"",$returnResponse['data']['email_path']);
+					//$uploadPath = str_replace(env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')).'\\',"",$returnResponse['data']['email_path']);
 					//$uploadPath = str_replace($_ENV['UPLOAD_FILE_ROUTE_PATH1'].'\\',"",$uploadPath);
-					$uploadPath = str_replace($_ENV['UPLOAD_FILE_ROUTE_PATH'].'\\',"",$returnResponse['data']['email_path']);
+					$uploadPath = str_replace(env('UPLOAD_FILE_ROUTE_PATH', storage_path('app')).'\\',"",$returnResponse['data']['email_path']);
 				} else {
 					/*$guid = date('Y-m-d-hms');
 					$currentTime = date('Y') . '\\' . date('m') . '\\' . date('d') . '\\' . $guid;
