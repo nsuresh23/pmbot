@@ -424,6 +424,14 @@ $(document).on('click', '#externalEmailReportTab', function(e) {
 
     if (dataUrl != undefined && dataUrl != "") {
 
+        $('.pm_total').html('');
+        $('.noset_total').html('');
+        $('.positive_total').html('');
+        $('.neutral_total').html('');
+        $('.negative_total').html('');
+        $('.emails_responded_total').html('');
+        $('.average_response_time_total').html('');
+
         getSummaryReportTableList(gridSelector);
 
     }
