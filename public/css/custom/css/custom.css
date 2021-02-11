@@ -676,6 +676,7 @@ content: "\f067";
 
                 .dt-buttons {
                     float: right !important;
+                    margin-right: 1% !important;
                 }
 
                 .dt-buttons a {
