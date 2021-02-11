@@ -683,7 +683,8 @@ content: "\f067";
                 }
 
                 .dt-buttons .dt-button {
-                    margin-top: 14px !important;
+                    /* margin-top: 14px !important; */
+                    margin-top: 0px !important;
                     margin-bottom: 5px !important;
                 }
 
