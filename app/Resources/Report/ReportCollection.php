@@ -97,15 +97,33 @@ class ReportCollection
 
             }
 
+            $responseData = [];
+
             $responseData = $this->postRequest($url, $paramInfo);
 
             if ($responseData["success"] == "true" && is_array($responseData["data"]) && count($responseData["data"]) > 0 && $responseData["data"] != "") {
+
+                $responseFormatData = [];
 
                 if (isset($paramInfo["category"]) && $paramInfo["category"] != "") {
 
                     if ($paramInfo["category"] == "external_email") {
 
-                        $responseFormatData = $this->externalEmailReportFormatData($responseData["data"]);
+                        $responseFormattedData = $this->externalEmailReportFormatData($responseData["data"]["list"]);
+
+                        if(is_array($responseFormattedData) && count($responseFormattedData) > 0) {
+
+                            $responseFormatData["list"] = $responseFormattedData;
+
+                            $responseFormatData["recordsTotal"] = count($responseFormattedData);
+
+                        }
+
+                        if(isset($responseData["data"]["totallist"]) && is_array($responseData["data"]["totallist"]) && count($responseData["data"]["totallist"]) > 0) {
+
+                            $responseFormatData["totallist"] = $responseData["data"]["totallist"];
+
+                        }
 
                     }
 
@@ -119,26 +137,25 @@ class ReportCollection
 
                 if ($responseFormatData) {
 
-                    $returnResponse["success"] = "true";
+                    if (isset($responseFormatData["result_count"]) && $responseFormatData["result_count"] != "") {
 
-                    $returnResponse["data"] = $responseFormatData;
+                        $returnResponse["recordsTotal"] = $responseFormatData["result_count"];
 
-                    if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
+                        $returnResponse["recordsFiltered"] = $responseFormatData["result_count"];
 
-                        $returnResponse["recordsTotal"] = $responseData["result_count"];
+                        unset($responseFormatData["result_count"]);
 
                     } else if (is_array($responseFormatData)) {
 
                         $returnResponse["recordsTotal"] = count($responseFormatData);
 
-                    }
-
-                    if (is_array($responseFormatData)) {
-
                         $returnResponse["recordsFiltered"] = count($responseFormatData);
 
                     }
 
+                    $returnResponse["success"] = "true";
+
+                    $returnResponse["data"] = $responseFormatData;
                 }
             }
 
@@ -493,19 +510,9 @@ class ReportCollection
 
                     $item["formatted_negative_count"] = "0";
 
-                    $item["formatted_last_24_count"] = "0";
+                    $item["formatted_emails_responded_count"] = "0";
 
-                    $item["formatted_last_24_time"] = "-";
-
-                    $item["formatted_last_24_average"] = "-";
-
-                    $item["formatted_last_24_to_48_count"] = "0";
-
-                    $item["formatted_last_24_to_48_time"] = "-";
-
-                    $item["formatted_last_24_to_48_average"] = "-";
-
-                    $item["formatted_above_48_count"] = "0";
+                    $item["formatted_average_response_time"] = "0";
 
                     if (isset($item["pmname"]) && $item["pmname"] != "") {
 
@@ -562,71 +569,15 @@ class ReportCollection
 
                     }
 
-                    if (isset($item["ontime"]) && $item["ontime"] != "") {
+                    if (isset($item["emails_responded_count"]) && $item["emails_responded_count"] != "") {
 
-                        $item["formatted_last_24_count"] = $item["ontime"];
-
-                    }
-
-                    if (isset($item["ontime_duration"]) && $item["ontime_duration"] != "") {
-
-                        $onTimeInMinutes = $this->secondsToMinutes($item["ontime_duration"]);
-
-                        if ($onTimeInMinutes != "") {
-
-                            $item["formatted_last_24_time"] = $onTimeInMinutes;
-
-                        }
+                        $item["formatted_emails_responded_count"] = $item["emails_responded_count"];
 
                     }
 
-                    if (isset($item["ontime_duration"]) && $item["ontime_duration"] != "" && $item["ontime_duration"] != "0" && isset($item["ontime"]) && $item["ontime"] != "" && $item["ontime"] != "0") {
+                    if (isset($item["average_response_time"]) && $item["average_response_time"] != "") {
 
-                        $onTimeAverageTime = (int)$item["ontime_duration"] / (int)$item["ontime"];
-
-                        $onTimeAverageTimeInMinutes = $this->secondsToMinutes($onTimeAverageTime);
-
-                        if ($onTimeAverageTimeInMinutes != "") {
-
-                            $item["formatted_last_24_average"] = $onTimeAverageTimeInMinutes;
-
-                        }
-                    }
-
-                    if (isset($item["delay"]) && $item["delay"] != "") {
-
-                        $item["formatted_last_24_to_48_count"] = $item["delay"];
-
-                    }
-
-                    if (isset($item["delay_duration"]) && $item["delay_duration"] != "") {
-
-                        $delayInMinutes = $this->secondsToMinutes($item["delay_duration"]);
-
-                        if ($delayInMinutes != "") {
-
-                            $item["formatted_last_24_to_48_time"] = $delayInMinutes;
-
-                        }
-
-                    }
-
-                    if (isset($item["delay_duration"]) && $item["delay_duration"] != "" && $item["delay_duration"] != "0" && isset($item["delay"]) && $item["delay"] != "" && $item["delay"] != "0") {
-
-                        $delayAverageTime = (int)$item["delay_duration"] / (int)$item["delay"];
-
-                        $delayAverageTimeInMinutes = $this->secondsToMinutes($delayAverageTime);
-
-                        if ($delayAverageTimeInMinutes != "") {
-
-                            $item["formatted_last_24_to_48_average"] = $delayAverageTimeInMinutes;
-
-                        }
-                    }
-
-                    if (isset($item["yet_to_replied"]) && $item["yet_to_replied"] != "") {
-
-                        $item["formatted_above_48_count"] = $item["yet_to_replied"];
+                        $item["formatted_average_response_time"] = $item["average_response_time"];
 
                     }
 

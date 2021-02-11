@@ -37,31 +37,28 @@ data-current-route="{{ $currentRoute }}">
         <tr>
             <th rowspan="2" class="capitalize-font text-center nosort">S.No</th>
             <th rowspan="2" class="capitalize-font text-center nosort">PM Name</th>
-			<!-- <th rowspan="2" class="capitalize-font text-center">Date</th> -->
-            <th rowspan="2" class="capitalize-font text-center nosort">Total</th>
-            <!-- <th rowspan="2" class="capitalize-font text-center nosort">Internal</th> -->
-            <!-- <th rowspan="2" class="capitalize-font text-center nosort">External</th> -->
-            <th rowspan="2" class="capitalize-font text-center nosort">Not Set</th>
-            <th rowspan="2" class="capitalize-font text-center nosort">Positive</th>
-            <th rowspan="2" class="capitalize-font text-center nosort">Neutral</th>
-            <th rowspan="2" class="capitalize-font text-center nosort">Negative</th>
-            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right" style="border-bottom: 1px solid #111 !important;">On-Time
-			<!-- <br><span class="column-note capitalize-font text-center">(Hours)</span> -->
-			</th>
-            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right" style="border-bottom: 1px solid #111 !important;">Delay
-			<!-- <br><span class="column-note capitalize-font text-center">(Hours)</span> -->
-			</th>
-            <th rowspan="2" class="capitalize-font text-center report-email-info-bg nosort datatable_border_right">Yet to replied
-			<!-- <br><span class="column-note capitalize-font text-center">(Hours)</span> -->
-			</th>
+            <th colspan="4" class="capitalize-font text-center report-user-login-info-bg nosort datatable_border_right" style="border-bottom: 1px solid #111 !important;">Email Sentiment</th>
+            <th colspan="3" class="capitalize-font text-center report-email-info-bg nosort" style="border-bottom: 1px solid #111 !important;">Response Time</th>
         </tr>
         <tr>
-            <th class="capitalize-font text-center nosort">Count</th>
-            <th class="capitalize-font text-center nosort ">Time</th>
-            <th class="capitalize-font text-center nosort ">Average</th>
-            <th class="capitalize-font text-center nosort">Count</th>
-            <th class="capitalize-font text-center nosort ">Time</th>
-            <th class="capitalize-font text-center nosort ">Average</th>
+            <th class="capitalize-font text-center nosort">Not Set</th>
+            <th class="capitalize-font text-center nosort">Positive</th>
+            <th class="capitalize-font text-center nosort">Neutral</th>
+            <th class="capitalize-font text-center nosort">Negative</th>
+            <th class="capitalize-font text-center nosort"># Of Emails Responded</th>
+            <th class="capitalize-font text-center nosort ">Avg.Response Time Per Email<br><span class="column-note capitalize-font text-center">(In Hours)</span></th>
         </tr>
     </thead>
+    <tfoot>
+        <tr>
+            <th style="text-align:center">Total</th>
+            <th class="pm_total" style="text-align:center"></th>
+            <th class="noset_total" style="text-align:center"></th>
+            <th class="positive_total" style="text-align:center"></th>
+            <th class="neutral_total" style="text-align:center"></th>
+            <th class="negative_total" style="text-align:center"></th>
+            <th class="emails_responded_total" style="text-align:center"></th>
+            <th class="average_response_time_total" style="text-align:center"></th>
+        </tr>
+    </tfoot>
 </table>

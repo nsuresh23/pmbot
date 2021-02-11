@@ -84,21 +84,12 @@ function getSummaryReportTableList(gridSelector) {
         reportBlockId = "external-email-report";
 
         columnFields.push(...[
-            // { 'data': 'formatted_date', 'className': 'text-center datatable_border_right' },
-            { 'data': 'formatted_total_count', 'className': 'text-center datatable_border_right' },
-            // { 'data': 'formatted_internal_count', 'className': 'report-user-login-info-bg text-center' },
-            // { 'data': 'formatted_external_count', 'className': 'report-user-login-info-bg text-center  datatable_border_right' },
             { 'data': 'formatted_not_set_count', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_positive_count', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_neutral_count', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_negative_count', 'className': 'report-user-login-info-bg text-center datatable_border_right' },
-            { 'data': 'formatted_last_24_count', 'className': 'report-email-info-bg text-center' },
-            { 'data': 'formatted_last_24_time', 'className': 'report-email-info-bg text-center' },
-            { 'data': 'formatted_last_24_average', 'className': 'report-email-info-bg text-center datatable_border_right' },
-            { 'data': 'formatted_last_24_to_48_count', 'className': 'report-email-info-bg text-center' },
-            { 'data': 'formatted_last_24_to_48_time', 'className': 'report-email-info-bg text-center' },
-            { 'data': 'formatted_last_24_to_48_average', 'className': 'report-email-info-bg text-center datatable_border_right' },
-            { 'data': 'formatted_above_48_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_emails_responded_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_average_response_time', 'className': 'report-email-info-bg text-center' },
         ]);
 
     }
@@ -128,9 +119,9 @@ function getSummaryReportTableList(gridSelector) {
         dom: 'lBrtip',
         retrieve: true,
         processing: true,
-        serverSide: true,
+        serverSide: false,
         ordering: false,
-        paging: false,
+        paging: true,
         autoWidth: false,
         scrollY: '60vh',
         scrollX: true,
@@ -175,62 +166,77 @@ function getSummaryReportTableList(gridSelector) {
                 });
             },
             dataType: "json",
-            // dataSrc: function(response) {
+            dataSrc: function(response) {
 
-            //     var d = $.Deferred();
+                if (response.success == "true") {
 
-            //     var dataResult = { draw: '', recordsTotal: '', recordsFiltered: '', data: [] };
+                    if (response.data != '') {
 
-            //     if (response.success == "true") {
+                        if ('totallist' in response.data) {
 
-            //         if (response.data != '') {
+                            if ('numberofpm' in response.data.totallist) {
 
-            //             response.data = formatDataItem(response.data);
+                                $('.pm_total').html(response.data.totallist.numberofpm);
 
-            //             var dataResult = {
-            //                 data: response.data,
-            //                 recordsTotal: response.recordsTotal,
-            //                 recordsFiltered: response.recordsFiltered,
-            //             };
+                            }
 
-            //             return dataResult;
+                            if ('notset' in response.data.totallist) {
 
-            //             d.resolve(dataResult);
+                                $('.noset_total').html(response.data.totallist.notset);
 
-            //             if ('result_count' in response) {
+                            }
 
-            //                 var resultCount = response.result_count;
+                            if ('positive' in response.data.totallist) {
 
-            //                 if (parseInt(resultCount) != NaN && parseInt(resultCount) > 0) {
+                                $('.positive_total').html(response.data.totallist.positive);
 
-            //                     if (parseInt(resultCount) > 99999) {
+                            }
 
-            //                         resultCount = '99999+'
+                            if ('neutral' in response.data.totallist) {
 
-            //                     }
+                                $('.neutral_total').html(response.data.totallist.neutral);
 
-            //                     $('.email-rules-count').html('(' + resultCount + ')');
+                            }
 
-            //                 }
+                            if ('negative' in response.data.totallist) {
 
+                                $('.negative_total').html(response.data.totallist.negative);
 
-            //             }
+                            }
 
-            //         } else {
+                            if ('responded_count' in response.data.totallist) {
 
-            //             d.resolve(dataResult);
+                                $('.emails_responded_total').html(response.data.totallist.responded_count);
 
-            //         }
+                            }
 
-            //     } else {
+                            if ('avg' in response.data.totallist) {
 
-            //         d.resolve(dataResult);
+                                $('.average_response_time_total').html(response.data.totallist.avg);
 
-            //     }
+                            }
 
-            //     return d.promise();
+                            return response.data.list;
 
-            // }
+                        }
+
+                        return response.data;
+
+                    } else {
+
+                        return [];
+
+                    }
+
+                } else {
+
+                    return [];
+
+                }
+
+                return [];
+
+            }
 
         },
         // columnDefs:

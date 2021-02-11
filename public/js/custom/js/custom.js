@@ -20,7 +20,7 @@ function flashMessage(type, message) {
         position: 'top-right',
         loaderBg: loaderBgVariable,
         icon: iconVariable,
-        hideAfter: 3500,
+        hideAfter: 6000,
         stack: 6
     });
     return false;
