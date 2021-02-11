@@ -115,7 +115,7 @@ class ReportCollection
 
                             $responseFormatData["list"] = $responseFormattedData;
 
-                            $responseFormatData["recordsTotal"] = count($responseFormattedData);
+                            $responseFormatData["result_count"] = count($responseFormattedData);
 
                         }
 
