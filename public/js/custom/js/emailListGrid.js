@@ -3888,9 +3888,102 @@ function showdraftform(type, selector) {
         }
     });
 }
-$(document).ready(function() {
 
-    $("#to").keyup(function() {
+function listFocus(selector, event) {
+
+    var key = event.which;
+
+    if (key == 13) {
+
+        if ($(selector + ' li.active') != undefined && $(selector + ' li.active').length != 0) {
+
+            $(selector + ' li.active').trigger('click');
+
+            return true;
+
+        }
+
+    }
+
+    if (key == 38 || key == 40) {
+
+        var storeTarget = "";
+
+        if (key == 38) {
+
+            if ($(selector + ' li.active').length != 0) {
+
+                storeTarget = $(selector).find('li.active').prev();
+
+                if (storeTarget.length == 0) {
+
+                    storeTarget = $(selector).find('li:last');
+
+                }
+
+                $(selector + ' li.active').removeAttr('tabIndex');
+                $(selector + ' li.active').removeClass('active email-autocomplete-list-style');
+                storeTarget.focus().addClass('active email-autocomplete-list-style');
+                storeTarget.focus().attr('tabIndex', '-1');
+                $(selector).scrollTop(storeTarget.position().top - $(selector + ' li:first').position().top);
+
+            } else {
+
+                $(selector).find('li:first').focus().addClass('active email-autocomplete-list-style');
+                $(selector).find('li:first').focus().attr('tabIndex', '-1');
+
+            }
+
+            return true;
+
+        }
+
+        if (key == 40) {
+
+            if ($(selector + ' li.active').length != 0) {
+
+                storeTarget = $(selector).find('li.active').next();
+
+                if (storeTarget.length == 0) {
+
+                    storeTarget = $(selector).find('li:first');
+
+                }
+
+                $(selector + ' li.active').removeAttr('tabIndex');
+                $(selector + ' li.active').removeClass('active email-autocomplete-list-style');
+
+                storeTarget.focus().addClass('active email-autocomplete-list-style');
+                storeTarget.focus().attr('tabIndex', '-1');
+
+                $(selector).scrollTop(storeTarget.position().top - $(selector + ' li:first').position().top);
+
+
+            } else {
+
+                $(selector).find('li:first').focus().addClass('active email-autocomplete-list-style');
+                $(selector).find('li:first').focus().attr('tabIndex', '-1');
+
+            }
+
+            return true;
+
+        }
+
+    }
+
+}
+
+$(document).ready(function(e) {
+
+    $("#to").keyup(function(e) {
+
+        if (listFocus('.compose_to ul', e)) {
+
+            return;
+
+        }
+
         var search = $(this).val();
 
         var temp = new Array();
@@ -3928,8 +4021,16 @@ $(document).ready(function() {
         } else {
             $(".compose_to ul").empty();
         }
+
     });
-    $("#cc").keyup(function() {
+    $("#cc").keyup(function(e) {
+
+        if (listFocus('.compose_cc ul', e)) {
+
+            return;
+
+        }
+
         var search = $(this).val();
 
         var temp = new Array();
@@ -3966,7 +4067,14 @@ $(document).ready(function() {
             $(".compose_cc ul").empty();
         }
     });
-    $("#bcc").keyup(function() {
+    $("#bcc").keyup(function(e) {
+
+        if (listFocus('.compose_bcc ul', e)) {
+
+            return;
+
+        }
+
         var search = $(this).val();
 
         var temp = new Array();
@@ -4003,7 +4111,14 @@ $(document).ready(function() {
             $(".compose_bcc ul").empty();
         }
     });
-    $("#email-reply-to").keyup(function() {
+    $("#email-reply-to").keyup(function(e) {
+
+        if (listFocus('.reply_to ul', e)) {
+
+            return;
+
+        }
+
         var search = $(this).val();
 
         var temp = new Array();
@@ -4041,7 +4156,14 @@ $(document).ready(function() {
             $(".reply_to ul").empty();
         }
     });
-    $("#email-reply-cc").keyup(function() {
+    $("#email-reply-cc").keyup(function(e) {
+
+        if (listFocus('.reply_cc ul', e)) {
+
+            return;
+
+        }
+
         var search = $(this).val();
 
         var temp = new Array();
@@ -4079,7 +4201,14 @@ $(document).ready(function() {
             $(".reply_cc ul").empty();
         }
     });
-    $("#email-reply-bcc").keyup(function() {
+    $("#email-reply-bcc").keyup(function(e) {
+
+        if (listFocus('.reply_bcc ul', e)) {
+
+            return;
+
+        }
+
         var search = $(this).val();
 
         var temp = new Array();
@@ -4117,7 +4246,14 @@ $(document).ready(function() {
             $(".reply_bcc ul").empty();
         }
     });
-    $("#email-draft-to").keyup(function() {
+    $("#email-draft-to").keyup(function(e) {
+
+        if (listFocus('.draft_to ul', e)) {
+
+            return;
+
+        }
+
         var search = $(this).val();
 
         var temp = new Array();
@@ -4155,7 +4291,14 @@ $(document).ready(function() {
             $(".draft_to ul").empty();
         }
     });
-    $("#email-draft-cc").keyup(function() {
+    $("#email-draft-cc").keyup(function(e) {
+
+        if (listFocus('.draft_cc ul', e)) {
+
+            return;
+
+        }
+
         var search = $(this).val();
 
         var temp = new Array();
@@ -4193,7 +4336,14 @@ $(document).ready(function() {
             $(".draft_cc ul").empty();
         }
     });
-    $("#email-draft-bcc").keyup(function() {
+    $("#email-draft-bcc").keyup(function(e) {
+
+        if (listFocus('.draft_bcc ul', e)) {
+
+            return;
+
+        }
+
         var search = $(this).val();
 
         var temp = new Array();
@@ -4232,6 +4382,7 @@ $(document).ready(function() {
         }
     });
 });
+
 $(document).on('click', '.compose_emaillist', function(e) {
     var value = $(this).attr('value');
     var tovalue = $('#composeto_value').val();
@@ -4240,6 +4391,7 @@ $(document).on('click', '.compose_emaillist', function(e) {
     $('.composeto').val(tovalue + value + ';');
     $(".compose_to ul").empty();
 });
+
 $(document).on('click', '.composecc_emaillist', function(e) {
     var value = $(this).attr('value');
     var ccvalue = $('#composecc_value').val();
