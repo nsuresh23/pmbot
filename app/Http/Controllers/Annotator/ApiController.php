@@ -576,6 +576,8 @@ class ApiController extends Controller
 
                     }
 
+                    $jsonDataTaskNotes["view"] = "0";
+
                     $jsonDataNotesEncoded = json_encode($jsonDataTaskNotes);
 
                     // once taks created create task notes
@@ -705,6 +707,8 @@ class ApiController extends Controller
 
                     }
 
+                    $jsonData["view"] = "0";
+
                     // if ($isGeneric == "true") {
 
                     //     $jsonData["pmbot_type"] = "generic";
@@ -796,6 +800,8 @@ class ApiController extends Controller
                 $jsonData["ip_address"] = request()->ip();
 
             }
+
+            $jsonData["view"] = "0";
 
             $jsonDataEncoded = json_encode($jsonData);
 
@@ -1636,6 +1642,8 @@ class ApiController extends Controller
             $jsonData["start_time"] = $start_time;
             $jsonData["ip_address"] = request()->ip();
         }
+
+        $jsonData["view"] = "0";
 
         $jsonDataEncoded = json_encode($jsonData);
 

@@ -305,6 +305,99 @@ function getEmailTableList(gridSelector) {
         name: "Control",
         editButton: editControlVisible,
         deleteButton: deleteControlVisible,
+        itemTemplate: function(value, item) {
+
+            if (item.view == '1') {
+
+                var icon = '';
+                var title = '';
+
+                if (item.view == '1') {
+
+                    icon = 'fa-envelope-open-o';
+
+                    title = 'Mark as unread';
+
+                }
+
+                if (item.view == '0') {
+
+                    icon = 'fa-envelope-o';
+
+                    title = 'Mark as read';
+
+                }
+
+                var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+
+                var $customUnreadButton = $("<a>").attr({ class: "mark-as-unread-btn fa " + icon + " font-16" }).attr({ title: title })
+                    .click(function(e) {
+
+                        var postData = {};
+
+                        var postUrl = $('.email-read').attr('data-email-read-url');
+
+                        postData.id = item.id;
+                        postData.status = item.status;
+                        postData.type = item.type;
+
+                        if (item.view == '1') {
+
+                            postData.view = '0';
+
+                        }
+
+                        if (item.view == '0') {
+
+                            postData.view = '1';
+
+                        }
+
+                        $.ajax({
+
+                            url: postUrl,
+                            data: postData,
+                            dataType: 'json',
+                            type: 'POST',
+
+                        }).done(function(response) {
+
+                            if (response.success == "true") {
+
+                                type = 'success';
+
+                            } else {
+
+                                type = 'error';
+
+                                d.resolve();
+
+                            }
+
+                            message = response.message;
+
+                            flashMessage(type, message);
+
+                            if (item.status == '0') {
+
+                                $('#myTaskTab').trigger('click');
+
+                            } else {
+
+                                $('.inbox-nav li.active').find('a').trigger('click');
+
+                            }
+
+
+                        });
+
+                    });
+
+                return $("<div>").append($customUnreadButton);
+
+            }
+
+        },
         headerTemplate: function() {
 
             return this._createOnOffSwitchButton("filtering", this.searchModeButtonClass, false);
@@ -2141,6 +2234,8 @@ $(document).on('click', '.email-detail-back-btn', function(e) {
 
     $('.email-list-body').show();
     $('.email-detail-body').hide();
+
+    $('.inbox-nav li.active').find('a').trigger('click');
 
 });
 
