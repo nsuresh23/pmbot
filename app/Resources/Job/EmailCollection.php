@@ -1734,7 +1734,7 @@ class EmailCollection
                             $emailViewUrl = $emailViewUrl . "/empcode/" . $item["empcode"];
                         } */
 
-                         $item['subject_link'] = '<a class="btn-link email-item ' . $emailTypeClass . '" href="' . $emailViewUrl . '" data-email-id="' . $item["id"] . '" data-email-geturl="' . $emailGetUrl . '">' . mb_strimwidth($emailSubject, 0, 75, "...") . '</a>';
+                         $item['subject_link'] = '<a class="email-item ' . $emailTypeClass . '" href="' . $emailViewUrl . '" data-email-id="' . $item["id"] . '" data-email-geturl="' . $emailGetUrl . '">' . mb_strimwidth($emailSubject, 0, 75, "...") . '</a>';
                          $item["subject_min_width"] = mb_strimwidth($emailSubject, 0, 75, "...");
                     }
 
