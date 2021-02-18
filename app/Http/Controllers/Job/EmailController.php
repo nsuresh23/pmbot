@@ -281,6 +281,142 @@ class EmailController extends Controller
     }
 
     /**
+     * Display a email templates.
+     *
+     * @return Response
+     */
+    public function fetchEmailTemplates(Request $request)
+    {
+
+        $returnResponse = [];
+
+        try {
+
+            $method = $_SERVER['REQUEST_METHOD'];
+
+            $paramInfo = $returnData = [];
+
+            $request->merge(['empcode' => auth()->user()->empcode]);
+
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+                }
+            }
+
+            $paramInfo = $request->all();
+
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    // "subject_link" => "subject"
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if (isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+                    }
+                }
+
+
+                if (array_key_exists("status", $filterData)) {
+
+                    if ($filterData["status"] == "false") {
+
+                        $filterData["status"] = "0";
+                    }
+
+                    if ($filterData["status"] == "true") {
+
+                        $filterData["status"] = "1";
+                    }
+                }
+
+            }
+
+            if (is_array($paramInfo) && isset($paramInfo["s_no"])) {
+
+                unset($paramInfo["s_no"]);
+            }
+
+            if ($method == "GET") {
+
+                if (is_array($paramInfo) && isset($paramInfo["creator_empcode"])) {
+
+                    unset($paramInfo["creator_empcode"]);
+                }
+
+                if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                    $paramInfo["filter"] = $filterData;
+                }
+
+                $returnResponse = $this->emailResource->emailTemplates($paramInfo);
+            }
+
+            if ($method == "POST") {
+
+                $returnData = $this->emailResource->emailTemplates($paramInfo);
+
+                if (is_array($returnData) && isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse = $returnData;
+
+                    if (isset($returnResponse["data"]) && is_array($returnResponse["data"]) && count($returnResponse["data"]) > 0) {
+
+                        if (isset($paramInfo["template"]) && $paramInfo["template"] != '') {
+
+
+                            if(isset($returnResponse["data"][$paramInfo["template"]])) {
+
+                                $returnResponse["data"]["body_html"] = $returnResponse["data"][$paramInfo["template"]];
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        return json_encode($returnResponse);
+
+    }
+
+    /**
      * Update email label in email table by email id.
      *
      * @return json returnResponse
@@ -460,6 +596,14 @@ class EmailController extends Controller
 
             //$this->emailValidUserCheck($returnData);
 
+            $returnData["email_template_list"] = [];
+
+            if (is_array(Config::get('constants.email_template_list')) && count(Config::get('constants.email_template_list')) > 0) {
+
+                $returnData["email_template_list"] = Config::get('constants.email_template_list');
+
+            }
+
             $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
 
         }
@@ -519,6 +663,14 @@ class EmailController extends Controller
                 }
             }
 
+            $returnData["email_template_list"] = [];
+
+            if (is_array(Config::get('constants.email_template_list')) && count(Config::get('constants.email_template_list')) > 0) {
+
+                $returnData["email_template_list"] = Config::get('constants.email_template_list');
+
+            }
+
             $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
 
         }
@@ -543,6 +695,14 @@ class EmailController extends Controller
             $returnData = $this->emailGet($request);
 
             //$this->emailValidUserCheck($returnData);
+
+            $returnData["email_template_list"] = [];
+
+            if (is_array(Config::get('constants.email_template_list')) && count(Config::get('constants.email_template_list')) > 0) {
+
+                $returnData["email_template_list"] = Config::get('constants.email_template_list');
+
+            }
 
             $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
 

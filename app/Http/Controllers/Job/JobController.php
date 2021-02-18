@@ -572,6 +572,14 @@ class JobController extends Controller
 
             $responseData["job_category_list"] = Config::get('constants.jobCategory');
 
+            $responseData["email_template_list"] = [];
+
+            if (is_array(Config::get('constants.email_template_list')) && count(Config::get('constants.email_template_list')) > 0) {
+
+                $responseData["email_template_list"] = Config::get('constants.email_template_list');
+
+            }
+
 			// if($responseData['data']['pm_empcode'] != auth()->user()->empcode && $responseData['data']['am_empcode'] != auth()->user()->empcode){
 			if(!in_array(strtolower(auth()->user()->empcode), [strtolower($responseData['data']['pm_empcode']), strtolower($responseData['data']['am_empcode'])])){
 

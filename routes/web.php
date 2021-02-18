@@ -345,6 +345,8 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
 
     Route::any('email-rules', 'Job\EmailController@fetchEmailRules')->name('email-rules');
 
+    Route::any('email-templates', 'Job\EmailController@fetchEmailTemplates')->name('email-templates');
+
 	Route::any('job', 'Job\JobController@index')->name('job');
 
 	// Route::any('task-store', 'Job\TaskController@taskStore')->name('task-store');

@@ -53,7 +53,7 @@
 
         }
 
-        $myEmailsMoveToList = [];
+        $myEmailsMoveToList = $emailTemplateList = [];
 
         $redirectToDashboard = $returnResponse['redirectToDashboard'];
 
@@ -96,6 +96,12 @@
 
         }
 
+        if(isset($returnResponse['email_template_list']) && is_array($returnResponse['email_template_list']) && count($returnResponse['email_template_list']) > 0 ) {
+
+            $emailTemplateList = $returnResponse['email_template_list'];
+
+        }
+
 		$redirectTo = __("dashboard.dashboard_url");
 
         // $redirectToDashboard = isset($returnResponse['redirectToDashboard'])?'true':'false';
@@ -127,6 +133,8 @@
         $emailCategoryMoveToUrl = route(__("job.email_move_to_url"));
 
         $emailRuleListUrl = route(__("dashboard.email_rules_list_url"));
+
+        $emailTemplateListUrl = route(__("job.email_templates_list_url"));
 
         $emailSendUrl      = route(__("job.email_send_url"));
 		$draftemailSendUrl = route(__("job.draftemail_send_url"));

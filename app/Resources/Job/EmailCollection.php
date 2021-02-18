@@ -489,6 +489,185 @@ class EmailCollection
     }
 
     /**
+     * Get the email templates.
+     *
+     * @return array $returnData
+     */
+    public function emailTemplates($params)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // $url = $this->emailTemplatesApiUrl;
+
+            // $responseData = $this->postRequest($url, $params);
+
+            $responseData["data"] = [
+                "template_1" => '<div dir="ltr">
+                        <span id="txt1" style="background:yellow;">Dear &#60;XYZ&#62;</span>,
+                        <p style="padding:10px 0px 10px 0px;">I hope this finds you well.</p>
+                        <p style="padding:10px 0px 10px 0px;">It\'s been <span id="txt2" style="background:#00ffe7;">[ADD length of time]</span> since my last correspondence with you, and I wanted to check in and see how your manuscript is progressing. I note from our last correspondence that:</p>
+                        <ul style="width:88%;">
+                            <li id="txt3" style="background:#00ffe7;">
+                            Summarise any key points here as this will be project specific - this include a reminder to provide sample content, a query about content for a companion website, a request for updated ToC etc.
+                            </li>
+                        </ul>
+                        <p>
+                        <b>Permissions</b><br>
+                        May I also take this opportunity to remind you <span id="txt10" style="background:#00ffe7;">(or your contributors)</span> that you are responsible for clearing all third-party permissions. Our permissions digest can be found here: <span id="txt10" style="background:yellow;"><___></span>
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;"><b>Text design <span id="txt10" style="background:#00ffe7;">[edited as required]</span></b></p>
+                        <p>
+                        <span id="txt6" style="background:#00ffe7;">For books following the global standard design:</span>
+                        <br>
+                        May I take this opportunity to share with you <span id="txt7" style="background:#00ffe7;">(again)</span> the attached text design that will be applied to your book
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                        <span id="txt8" style="background:#00ffe7;">For books in a series:</span><br>
+                        Your book is in a series and therefore will follow the series design.
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                        <span id="txt9" style="background:#00ffe7;">For model books:</span><br>
+                        May I also draw your attention to the text design that will be applied to your book? Please see the attached for samples.
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                        <b>Schedule</b><br>
+                        Your current agreed submission date is <span id="txt10" style="background:#00ffe7;">[Add last agreed date here]</span>. Can you confirm that you are still on track to meet this date?
+                        </p>
+                        I look forward to hearing from you soon,
+                    </div>',
+                "template_2" => '<div dir="ltr">
+                        <span id="txt1" style="background:yellow;">Dear &#60;XYZ&#62;</span>,
+
+                        <p style="padding:10px 0px 10px 0px;">
+                            I hope that this email finds you well. I just wanted to check in to see how things are coming along with the manuscript preparation. Please can you update me on where you are with the project at present?
+                        </p>
+
+                        <p style="padding:10px 0px 10px 0px;">
+                            I look forward to hearing the latest on the project and please do get in touch if you have any questions that I can help with.
+                        </p>
+                        Regards, <br>
+                        <span id="txt2" style="background:yellow;">XXX</span>
+                    </div>',
+                "template_3" => '<div dir="ltr">
+                        <span id="txt1" style="background:yellow;">Dear &#60;XYZ&#62;</span>,
+                        <p style="padding:10px 0px 10px 0px;">
+                            I am <span id="txt2" style="background:yellow;">XXX</span> working with John Wiley & Sons as Project Editor. I have taken over the below project from <span id="txt3" style="background:yellow;">YYY</span>.
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                            Good day! It would be great if you could provide a tentative date as to when we would be receiving the final manuscript. You may also share the manuscript until whatever stage it is ready now so that I can start working on it simultaneously.
+                        </p>
+                        Regards, <br>
+                        <span id="txt10" style="background:yellow;">XXX</span>
+                    </div>',
+                "template_4" => '<div dir="ltr">
+                        <span id="txt1" style="background:yellow;">Dear &#60;XYZ&#62;</span>,
+                        <p style="padding:10px 0px 10px 0px;">
+                            I would like to introduce myself as <span id="txt2" style="background:yellow;">XXX</span>, your new Project Editor. <span id="txt3" style="background:yellow;">YYY</span> has briefed me on your project and I will be your primary contact going forward, providing guidance and support as you progress towards handover to production.
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                            I wanted to take this opportunity to check in with you and see how you are progressing with the manuscript.
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                            As you work on the manuscript, please do not hesitate to get in touch should you have any concerns. I am here to offer all the support you need.
+                        </p>
+                        Regards, <br>
+                        <span id="txt10" style="background:yellow;">XXX</span>
+                    </div>',
+                "template_5" => '<div dir="ltr">
+                        <span id="txt1" style="background:yellow;">Dear &#60;XYZ&#62;</span>,
+                        <p style="padding:10px 0px 10px 0px;">
+                            I\'d like to introduce myself as <span id="txt2" style="background:yellow;">XXX</span>, your new Project Editor.
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                            <span id="txt3" style="background:yellow;">YYY</span> has briefed me on your project and I will be your primary contact going forward, providing guidance and support as you progress towards handover to production.
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                            I am writing today to touch base and check how you are progressing with the manuscript.
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                            Please don\'t hesitate to contact me if you have any queries. I am very much looking forward to working with you and bringing this project to fruition together.
+                        </p>
+                        Regards, <br>
+                        <span id="txt10" style="background:yellow;">XXX</span>
+                    </div>',
+                "template_6" => '<div dir="ltr">
+                        <span id="txt1" style="background:yellow;">Dear &#60;XYZ&#62;</span>,
+                        <p style="padding:10px 0px 10px 0px;">
+                            Hope you are doing well!
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                            I am hoping the manuscript finalisation is in progress. As we have passed the scheduled submission date, could you please let me know a revised date you are working towards?
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                            Please let me know if you have any questions and I will be happy to address them.
+                        </p>
+                        Regards, <br>
+                        <span id="txt2" style="background:yellow;">XXX</span>
+                    </div>',
+                "template_7" => '<div dir="ltr">
+                        <span id="txt1" style="background:yellow;">Dear &#60;XYZ&#62;</span>,
+                        <p style="padding:10px 0px 10px 0px;">
+                            Hope you\'re doing well.
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                            I thought to check with you on the status of the feedback from your co-authors.
+                        </p>
+                        <p style="padding:10px 0px 10px 0px;">
+                            Please let me know if I can be of any help.
+                        </p>
+                        Regards, <br>
+                        <span id="txt2" style="background:yellow;">XXX</span>
+                    </div>'
+                ];
+
+            $responseData["success"] = "true";
+
+            if ($responseData["success"] == "true" && is_array($responseData["data"]) && count($responseData["data"]) && $responseData["data"] != "") {
+
+                $responseFormatData = $this->emailTemplatesFormatData($responseData["data"]);
+
+                if ($responseFormatData) {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["data"] = $responseFormatData;
+
+                    if (isset($responseData["result_count"]) && $responseData["result_count"] != "") {
+
+                        $returnResponse["result_count"] = $responseData["result_count"];
+
+                    } else if (is_array($responseFormatData)) {
+
+                        $returnResponse["result_count"] = count($responseFormatData);
+                    }
+
+                }
+
+            }
+
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+
+    }
+
+    /**
      * Update the email label based on email field array.
      *
      * @return array $returnResponse
@@ -1875,6 +2054,36 @@ class EmailCollection
                 }
             },
             $items
+        );
+
+        return $resource;
+    }
+
+    public function emailTemplatesFormatData($items)
+    {
+        $resource = array_map(
+
+            function ($item) {
+
+                try {
+
+                    return $item;
+
+                } catch (Exception $e) {
+
+                    $this->error(
+                        "app_error_log_" . date('Y-m-d'),
+                        " => FILE => " . __FILE__ . " => " .
+                        " => LINE => " . __LINE__ . " => " .
+                        " => MESSAGE => " . $e->getMessage() . " "
+                    );
+
+                }
+
+            },
+
+            $items
+
         );
 
         return $resource;

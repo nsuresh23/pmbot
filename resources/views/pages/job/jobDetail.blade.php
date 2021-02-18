@@ -29,6 +29,7 @@ $draftemailSendUrl = route(__("job.draftemail_send_url"));
 $emailGetUrl = route(__("job.email_get_url"));
 $emailStatusUpdateUrl = route(__("job.email_status_update_url"));
 $getEmailid = route(__("job.get_email_id"));
+$emailTemplateListUrl = route(__("job.email_templates_list_url"));
 
 $signatureUpdateUrl      = route(__("job.signature_update"));
 $getSignatureUrl         = route(__("job.get_signature"));
@@ -36,7 +37,7 @@ $getSignatureUrl         = route(__("job.get_signature"));
 $redirectTo = __("job.job_detail_url");
 $redirectToJobUrl = __("job.job_detail_url");
 
-
+$emailTemplateList = [];
 
 $jobId = $jobStatus = $selectedDueDate = "";
 
@@ -44,37 +45,43 @@ $selectedJobCategory = $selectedWorkflowVersion = null;
 
 if(isset($responseData["data"]) && $responseData["data"]) {
 
-if(isset($responseData["data"]["job_id"]) && $responseData["data"]["job_id"]) {
+    if(isset($responseData["data"]["job_id"]) && $responseData["data"]["job_id"]) {
 
-$jobId = $responseData["data"]["job_id"];
+        $jobId = $responseData["data"]["job_id"];
 
-$redirectToJobUrl = route(__("job.job_detail_url"), $jobId);
+        $redirectToJobUrl = route(__("job.job_detail_url"), $jobId);
+
+    }
+
+    if(isset($responseData["data"]["status"]) && $responseData["data"]["status"]) {
+
+        $jobStatus = $responseData["data"]["status"];
+
+    }
+
+    if(isset($responseData["data"]["date_due"]) && $responseData["data"]["date_due"]) {
+
+        $selectedDueDate = $responseData["data"]["date_due"];
+
+    }
+
+    if(isset($responseData["data"]["workflow_version"]) && $responseData["data"]["workflow_version"]) {
+
+        $selectedWorkflowVersion = $responseData["data"]["workflow_version"];
+
+    }
+
+    if(isset($responseData["data"]["category"]) && $responseData["data"]["category"]) {
+
+        $selectedJobCategory = $responseData["data"]["category"];
+
+    }
 
 }
 
-if(isset($responseData["data"]["status"]) && $responseData["data"]["status"]) {
+if(isset($responseData['email_template_list']) && is_array($responseData['email_template_list']) && count($responseData['email_template_list']) > 0 ) {
 
-$jobStatus = $responseData["data"]["status"];
-
-}
-
-if(isset($responseData["data"]["date_due"]) && $responseData["data"]["date_due"]) {
-
-$selectedDueDate = $responseData["data"]["date_due"];
-
-}
-
-if(isset($responseData["data"]["workflow_version"]) && $responseData["data"]["workflow_version"]) {
-
-$selectedWorkflowVersion = $responseData["data"]["workflow_version"];
-
-}
-
-if(isset($responseData["data"]["category"]) && $responseData["data"]["category"]) {
-
-$selectedJobCategory = $responseData["data"]["category"];
-
-}
+    $emailTemplateList = $responseData['email_template_list'];
 
 }
 
@@ -82,9 +89,9 @@ $taskCheckListAddOption = $emailCheckListAddOption = "false";
 
 if(in_array(auth()->user()->role, config('constants.jobCheckListAddUserRoles'))) {
 
-$taskCheckListAddOption = "true";
+    $taskCheckListAddOption = "true";
 
-$emailCheckListAddOption = "true";
+    $emailCheckListAddOption = "true";
 
 }
 
@@ -92,7 +99,7 @@ $jobEditReadonly = "readonly";
 
 if(in_array(auth()->user()->role, config('constants.jobEditUserRoles'))) {
 
-$jobEditReadonly = "";
+    $jobEditReadonly = "";
 
 }
 

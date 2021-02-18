@@ -80,13 +80,24 @@
 								</div>
 								<div class="box">
 									<div class="email-label border-none">Attached</div>
-									<input type="file" class="form-control attached draftattachements fileupload" name="attachement"  multiple="multiple">
-									
+                                    <input type="file" class="form-control attached draftattachements fileupload" name="attachement"  multiple="multiple">
+
+                                    <div class="email-template-list" id="email-template-list">
+                                        {!! Form::select('email_template', [ "" =>
+                                        __('job.email_template_placeholder_text') ] +
+                                        $emailTemplateList, null,
+                                        ['class' => 'form-control email-template select2',
+                                        'data-modal' => 'draft',
+                                        'data-email-template-list-url' => $emailTemplateListUrl])
+                                        !!}
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+
 									<select style="width:20% !important;float:left;" class="form-control signature_draft_change" name="signature" data-signature-type = "reply">
 										<option value="new_signature">New Signature</option>
 										<option value="replyforward_signature" selected>Replies/Forwards</option>
 									</select>
-									
+
 									<div class="high_importance">
 										High Importance <input type="checkbox" class="" name="priority" id="priority" style="margin-left: 0px;">
 									</div>
@@ -100,7 +111,7 @@
 										<option value="new_signature">New Signature</option>
 										<option value="replyforward_signature" selected>Replies/Forwards</option>
 									</select>
-									
+
 									<div class="high_importance">
 										High Importance <input type="checkbox" class="" name="priority" id="priority" style="margin-left: 0px;">
 									</div>

@@ -16,11 +16,11 @@
 .note-editor{font-family: Calibri !important;font-size: 11pt !important;}
 </style>
 <!-- Modal -->
-<div aria-hidden="true" role="dialog" tabindex="-1" id="replymailModal" class="email-reply-modal modal fade" style="display: none;"  data-backdrop="static" data-keyboard="false">
+<div aria-hidden="true" role="dialog" id="replymailModal" class="email-reply-modal modal fade" style="display: none;"  data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
 		<div id="loader" class="reply_loader" style="display: none;width: 100%;height: 100%;position: absolute;padding: 2px;z-index: 1;text-align: center;">
 		<img src="{{ asset('public/img/loader2.gif') }}" width="64" height="64" /></div>
-	
+
         <div class="modal-content">
             <div class="modal-header">
                 <button aria-hidden="true" data-dismiss="modal" class="close email-reply-modal-close" type="button">×</button>
@@ -82,29 +82,40 @@
 								</div>
 								<div class="box">
 									<div class="email-label border-none">Attached</div>
-									<input type="file" class="form-control attached replyattachements fileupload" name="attachement"  multiple="multiple">
-									
-									<select style="width:20% !important;float:left;" class="form-control signature_reply_change" name="signature" data-signature-type = "reply">										
+                                    <input type="file" class="form-control attached replyattachements fileupload" name="attachement"  multiple="multiple">
+
+                                    <div class="email-template-list" id="email-template-list">
+                                        {!! Form::select('email_template', [ "" =>
+                                        __('job.email_template_placeholder_text') ] +
+                                        $emailTemplateList, null,
+                                        ['class' => 'form-control email-template select2',
+                                        'data-modal' => 'reply',
+                                        'data-email-template-list-url' => $emailTemplateListUrl])
+                                        !!}
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+
+									<select style="width:20% !important;float:left;" class="form-control signature_reply_change" name="signature" data-signature-type = "reply">
 										<option value="new_signature">New Signature</option>
 										<option value="replyforward_signature" selected>Replies/Forwards</option>
 									</select>
-									
+
 									<div class="high_importance">
 										High Importance <input type="checkbox" class="" name="priority" id="priority" style="margin-left: 0px;">
 									</div>
-									
-									
+
+
 								</div>
 								<div class="box" class="attached_file_box" id="attached_file_box">
 									<div class="attached_file" id="attached_file"></div>
 								</div>
 								<!--<div class="box">
 									<div class="email-label border-none sig_change" data-signature-geturl = "{{ $getSignatureUrl ?? '#'}}"></div>
-									<select style="width:20% !important;float:left;" class="form-control signature_reply_change" name="signature" data-signature-type = "reply">										
+									<select style="width:20% !important;float:left;" class="form-control signature_reply_change" name="signature" data-signature-type = "reply">
 										<option value="new_signature">New Signature</option>
 										<option value="replyforward_signature" selected>Replies/Forwards</option>
 									</select>
-									
+
 									<div style="float:left;width:20%;margin-left:8px;line-height:34px;">
 										High Importance <input type="checkbox" class="" name="priority" id="priority" style="margin-left: 0px;">
 									</div>

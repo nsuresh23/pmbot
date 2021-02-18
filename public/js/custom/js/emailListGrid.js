@@ -3550,6 +3550,7 @@ $(document).on('click', '.email-reply-btn', function(e) {
     $('.email-reply-cc').val('');
     $('.email-reply-bcc').val('');
     $('.email-reply-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
+    $('.email-template').select2().val('').trigger('change');
     showform(type, selector);
 });
 $(document).on('click', '.email-reply-all-btn', function(e) {
@@ -3593,6 +3594,8 @@ $(document).on('click', '.email-draft-btn', function(e) {
     $(".email-draft-cc").val('');
 
     $('.email-draft-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
+
+    $('.email-template').select2().val('').trigger('change');
 
     showdraftform(type, selector);
 });
@@ -4555,6 +4558,7 @@ $(document).on('click', '.email-compose-btn', function(e) {
     $('#to').val('');
     $('#cc').val('');
     $('#subject').val('');
+    $('.email-template').select2().val('').trigger('change');
     attachtedEmailFilesToUpload = [];
     $('.email-send-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
     $('#textarea_editor_email_compose').val('');
@@ -4968,6 +4972,175 @@ function showsignatureform() {
     });
 
 }
+
+$(document).on('change', '.email-template', function(e) {
+
+    var postData = {};
+
+    var modal = '';
+
+    var job_id = '';
+
+    var postUrl = '';
+
+    var email_id = '';
+
+    var template = '';
+
+    var signature = '';
+
+    var emailTemplateListUrl = '';
+
+    template = $(this).val();
+
+    job_id = $('#job_id').val();
+
+    email_id = $('#email_id').val();
+
+    modal = $(this).attr('data-modal');
+
+    emailTemplateListUrl = $(this).attr('data-email-template-list-url');
+
+    signature = $('.signature_change').val();
+
+    if (emailTemplateListUrl != undefined && emailTemplateListUrl != '' && emailTemplateListUrl != null) {
+
+        postUrl = emailTemplateListUrl;
+
+    }
+
+    if (email_id != undefined && email_id != '' && email_id != null) {
+
+        postData.email_id = email_id;
+
+    }
+
+    if (job_id != undefined && job_id != '' && job_id != null) {
+
+        postData.job_id = job_id;
+
+    }
+
+    if (template != undefined && template != '' && template != null) {
+
+        postData.template = template;
+
+    }
+
+    if (signature != undefined && signature != '' && signature != null) {
+
+        postData.signature = signature;
+
+    }
+
+    $.ajax({
+
+        url: postUrl,
+        data: postData,
+        dataType: 'json',
+        type: 'POST',
+        beforeSend: function() {
+            $('.email_detail_loader').show();
+        },
+        complete: function() {
+            $('.email_detail_loader').hide();
+        }
+
+    }).done(function(response) {
+
+        if (response.success == 'true') {
+
+            if (response.data != undefined && response.data != '') {
+
+                if (response.data != undefined && response.data != '') {
+
+                    var email_template_data = '';
+
+                    if (response.data.body_html != undefined && response.data.body_html != '') {
+
+                        email_template_data = response.data.body_html;
+
+                    }
+
+                    var text_editor = '';
+
+                    if (modal == 'compose') {
+
+                        text_editor = 'textarea_editor_email_compose';
+
+                    }
+
+                    if (modal == 'reply') {
+
+                        text_editor = 'textarea_editor_email_reply';
+
+                    }
+
+                    if (modal == 'draft') {
+
+                        text_editor = 'textarea_editor_email_draft';
+
+                    }
+
+                    if (tinymce.get(text_editor) != undefined && tinymce.get(text_editor) != '') {
+
+                        var message = '';
+
+                        // if (text_editor == 'textarea_editor_email_compose') {
+
+                        //     tinymce.get(text_editor).setContent(response.data.body_html);
+
+                        // } else {
+
+                        var email_template_classname = sessionStorage.getItem('email_template_classname');
+
+                        var email_template_class_exists = $('#' + text_editor + '_ifr').contents().find('.' + email_template_classname).text();
+
+                        if (email_template_class_exists != '') {
+
+                            if (email_template_data == '') {
+
+                                $('#' + text_editor + '_ifr').contents().find('.' + email_template_classname).remove();
+
+                            } else {
+
+                                $('#' + text_editor + '_ifr').contents().find('.' + email_template_classname).html(email_template_data);
+
+                            }
+
+                        }
+
+                        if (email_template_class_exists == '' && email_template_data != '') {
+
+                            var random = Math.random().toString(36).substring(7);
+
+                            var email_template_class = 'email_template_block_' + random;
+
+                            sessionStorage.setItem('email_template_classname', email_template_class);
+
+                            var email_template_html = '<div class="' + email_template_class + '">' + email_template_data + '</div>';
+
+                            message = tinymce.get(text_editor).getContent({ format: 'html' });
+
+                            message = email_template_html + message;
+
+                            // tinymce.get(text_editor).execCommand('mceInsertContent', false, message);
+                            tinymce.get(text_editor).setContent(message);
+
+                        }
+
+                        // }
+
+                    }
+
+                }
+            }
+        }
+
+    });
+
+});
+
 $(document).on('change', '.signature_change', function(e) {
     var val = this.value;
     var pagetype = $(this).attr('data-signature-type');

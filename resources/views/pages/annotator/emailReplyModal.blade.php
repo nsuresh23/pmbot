@@ -371,11 +371,20 @@ $emailStatusUpdateUrl = route(__("job.email_status_update_url"));
 $getEmailid   = route(__("job.get_email_id"));
 $signatureUpdateUrl = route(__("job.signature_update"));
 $getSignatureUrl = route(__("job.get_signature"));
+$emailTemplateListUrl = route(__("job.email_templates_list_url"));
 $redirectTo = $emailId = "";
+
+$emailTemplateList = [];
 
 if (isset($returnData["redirectTo"]) && $returnData["redirectTo"] ) {
 
     $redirectTo = $returnData["redirectTo"];
+
+}
+
+if(isset($returnData['email_template_list']) && is_array($returnData['email_template_list']) && count($returnData['email_template_list']) > 0 ) {
+
+    $emailTemplateList = $returnData['email_template_list'];
 
 }
 
@@ -505,6 +514,17 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                             <div class="email-label border-none">Attached</div>
                                             <input type="file" style="width:8.6% !important;" class="form-control attached replyattachements fileupload" name="attachement"
                                                 multiple="multiple">
+
+                                            <div class="email-template-list" id="email-template-list">
+                                                {!! Form::select('email_template', [ "" =>
+                                                __('job.email_template_placeholder_text') ] +
+                                                $emailTemplateList, null,
+                                                ['class' => 'form-control email-template select2',
+                                                'data-modal' => 'reply',
+                                                'data-email-template-list-url' => $emailTemplateListUrl])
+                                                !!}
+                                                <div class="help-block with-errors"></div>
+                                            </div>
 
 											<!--<select style="width:20% !important;float:left;" class="form-control signature_change" id="select_signature" name="signature" data-signature-type = "new">
 												<option value="new_signature" >New Signature</option>

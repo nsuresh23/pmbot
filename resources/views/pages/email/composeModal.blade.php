@@ -8,11 +8,10 @@
 .textarea_editor_email {font-family: Calibri !important;font-size: 11pt !important; }
 .note-editor{font-family: Calibri !important;font-size: 11pt !important;}
 .dropdown-fontsize{font-size: 11pt !important;}
-
 </style>
 <!-- Modal -->
 
-<div aria-hidden="true" role="dialog" tabindex="-1" id="emailSendModal" class="email-compose-modal modal fade" style="display: none;" data-backdrop="static" data-keyboard="false">
+<div aria-hidden="true" role="dialog" id="emailSendModal" class="email-compose-modal modal fade" style="display: none;" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
 	<div id="loader" class="compose_loader" style="display: none;width: 100%;height: 100%;position: absolute;padding: 2px;z-index: 1;text-align: center;">
 	<img src="{{ asset('public/img/loader2.gif') }}" width="64" height="64" /></div>
@@ -62,7 +61,7 @@
 										</div>
 
 									</div>
-									
+
 									<div class="box">
 										<div class="email-label">Bcc...</div>
 										<div class="compose_bcc">
@@ -72,15 +71,27 @@
 										</div>
 
 									</div>
-									
+
 									<div class="box">
 										<div class="email-label border-none" >Subject</div>
 										 <input type="text" placeholder="" id="subject" name="subject" class="form-control subject" >
 									</div>
 									<div class="box">
 										<div class="email-label border-none">Attached</div>
-										
-										<input type="file" class="form-control attached attachements fileupload" name="attachement" multiple="multiple" value="Attached">
+
+                                        <input type="file" class="form-control attached attachements fileupload" name="attachement" multiple="multiple" value="Attached">
+
+                                        <div class="email-template-list" id="email-template-list">
+                                            {!! Form::select('email_template', [ "" =>
+                                            __('job.email_template_placeholder_text') ] +
+                                            $emailTemplateList, null,
+                                            ['class' => 'form-control email-template select2',
+                                            'data-modal' => 'compose',
+                                            'data-email-template-list-url' => $emailTemplateListUrl])
+                                            !!}
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+
 										<select style="width:20% !important;float:left;" class="form-control signature_change" id="select_signature" name="signature" data-signature-type = "new">
 											<option value="new_signature" >New Signature</option>
 											<option value="replyforward_signature">Replies/Forwards</option>
@@ -88,7 +99,7 @@
 										<div class="high_importance">
 											High Importance <input type="checkbox" class="" name="priority" id="priority" style="margin-left: 0px;">
 										</div>
-										
+
 									</div>
 									<div class="box" class="attached_file_box" id="attached_file_box">
 										<div class="attached_file" id="attached_file"></div>

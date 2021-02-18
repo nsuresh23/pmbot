@@ -146,6 +146,14 @@ class DashboardController extends Controller
 
             }
 
+            $returnResponse["email_template_list"] =[];
+
+            if(is_array(Config::get('constants.email_template_list')) && count(Config::get('constants.email_template_list')) > 0) {
+
+                $returnResponse["email_template_list"] = Config::get('constants.email_template_list');
+
+            }
+
         } catch (Exception $e) {
 
             $returnResponse["success"] = "false";
