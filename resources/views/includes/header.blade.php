@@ -117,7 +117,7 @@
                                 @endif
                                 @if (in_array(auth()->user()->role, config('constants.pmUserRoles')))
                                 <li>
-                                    <a href="#signatureModal" class="connection-item" role="menuitem" data-toggle="modal" title="signature" data-signature-geturl="{{ $getSignatureUrl ?? '#'}}" data-type="forward">
+                                    <a href="#signatureModal" class="connection-item signature" role="menuitem" data-toggle="modal" title="signature" data-signature-geturl="{{ $getSignatureUrl ?? '#'}}" data-type="forward">
                                         <i class="fa fa-credit-card txt-info"></i>
                                         <span class="block capitalize-font">Signature</span>
                                     </a>

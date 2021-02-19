@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Job;
 
 use Session;
+use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 use App\Traits\General\Helper;
@@ -11,6 +12,7 @@ use App\Models\Annotation;
 use Illuminate\Support\Facades\Config;
 use App\Traits\General\CustomLogger;
 use Illuminate\Support\Facades;
+use App\Resources\Job\JobCollection as JobResource;
 use App\Resources\Job\EmailCollection as EmailResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
@@ -22,12 +24,16 @@ class EmailController extends Controller
 
     use CustomLogger;
 
+    protected $jobResource = "";
+
     protected $emailResource = "";
 
     public function __construct()
     {
 
+        $this->jobResource = new JobResource();
         $this->emailResource = new EmailResource();
+
     }
 
     /**
@@ -389,10 +395,60 @@ class EmailController extends Controller
 
                         if (isset($paramInfo["template"]) && $paramInfo["template"] != '') {
 
-
                             if(isset($returnResponse["data"][$paramInfo["template"]])) {
 
                                 $returnResponse["data"]["body_html"] = $returnResponse["data"][$paramInfo["template"]];
+
+                            }
+
+                            if (is_array(Config::get('constants.email_template_variables')) && count(Config::get('constants.email_template_variables')) > 0) {
+
+                                $returnResponse["data"]["email_template_variables"] = Config::get('constants.email_template_variables');
+
+                            }
+
+                            $emailTemplateVariables = [];
+
+                            $emailTemplateVariables["pm_name"] = auth()->user()->empname;
+                            $emailTemplateVariables["pm_signature"] = auth()->user()->empname;
+
+                            if(isset($paramInfo["job_id"]) && $paramInfo["job_id"]) {
+
+                                $returnJobResponse = [];
+
+                                $returnJobResponse = $this->jobResource->getJobByParam(["job_id" => $paramInfo["job_id"]]);
+
+                                if(is_array($returnJobResponse) && count($returnJobResponse) > 0) {
+
+                                    if(isset($returnJobResponse["author"]) && $returnJobResponse["author"] != null && $returnJobResponse["author"] != "") {
+
+                                        $emailTemplateVariables["author_name"] = $returnJobResponse["author"];
+
+                                    }
+
+                                    if(isset($returnJobResponse["pe_name"]) && $returnJobResponse["pe_name"] != null && $returnJobResponse["pe_name"] != "") {
+
+                                        $emailTemplateVariables["pe_name"] = $returnJobResponse["pe_name"];
+
+                                    }
+
+                                    if(isset($returnJobResponse["created_date"]) && $returnJobResponse["created_date"] != null && $returnJobResponse["created_date"] != "") {
+
+                                        $date = new DateTime($returnJobResponse["created_date"]);
+
+                                        $projectStartDate =  $date->format('Y/m/d');
+
+                                        $emailTemplateVariables["project_start_date"] = $projectStartDate;
+
+                                    }
+
+                                }
+
+                            }
+
+                            if(is_array($emailTemplateVariables) && count($emailTemplateVariables) > 0) {
+
+                                $returnResponse["data"]["template_variables"] = $emailTemplateVariables;
 
                             }
 

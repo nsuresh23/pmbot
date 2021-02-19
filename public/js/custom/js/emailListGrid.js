@@ -3416,6 +3416,66 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
 
         }
 
+        if (params.get('body_html') != undefined && params.get('body_html') != '') {
+
+            var email_data_html = $('<div/>').html(params.get('body_html')).contents();
+
+            var email_template_variables = $('.email-template').attr('data-email-template-variables');
+
+            if (email_template_variables != undefined && email_template_variables != '') {
+
+                email_template_variables = JSON.parse(email_template_variables);
+
+                if (Object.keys(email_template_variables).length > 0) {
+
+                    for (const variable in email_template_variables) {
+
+                        var validation_element = email_data_html.find('.' + variable);
+
+                        if (validation_element != undefined && validation_element != '') {
+
+                            if (variable in email_template_variables && email_template_variables[variable] != undefined && email_template_variables[variable] != '') {
+
+                                var validation_text = '';
+
+                                validation_text = validation_element.text();
+
+                                if (variable == 'pm_signature') {
+
+                                    validation_text = validation_element.find('span').text();
+
+                                }
+
+                                if (validation_text == email_template_variables[variable]) {
+
+                                    Swal.fire({
+                                        title: '',
+                                        text: 'Invalid ' + email_template_variables[variable] + '!',
+                                        showClass: {
+                                            popup: 'animated fadeIn faster'
+                                        },
+                                        hideClass: {
+                                            popup: 'animated fadeOut faster'
+                                        },
+
+                                    });
+
+                                    return false;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
 
         /* AJAX call to email item info */
 
@@ -3693,7 +3753,12 @@ function showform(type, selector) {
         data: emailPostData,
         dataType: 'json',
         type: 'POST',
-
+        beforeSend: function() {
+            $('.reply_loader').show();
+        },
+        complete: function() {
+            $('.reply_loader').hide();
+        }
     }).done(function(response) {
 
         if (response.success == "true") {
@@ -3803,34 +3868,7 @@ function showform(type, selector) {
 
                     tinymceEditorFocus('textarea_editor_email_reply');
 
-                    // tinymce.get('textarea_editor_email_reply').setContent(message, { format: 'html' });
-
-                    // tinymce.get('textarea_editor_email_reply').setContent(message, { format: 'html' });
-
-                    // $('#textarea_editor_email_reply').append(message);
-
                 }
-
-                // tinymce.get('body_html').setContent(message, { format: 'raw' });
-
-                // tinymce.get('body_html').execCommand('mceInsertRawHTML', false, message);
-                // tinymce.get('body_html').execCommand('mceInsertContent', false, message);
-
-                // $('.email-reply-body_html').summernote('code', message);
-
-                // var activeEditor = tinymce.activeEditor;
-
-                // var content = message;
-
-                // if (activeEditor !== null && content != '') {
-
-                //     activeEditor.setContent(content);
-
-                // } else {
-
-                //     $('.email-reply-body_html').val(content);
-
-                // }
                 if (type == 'forward' && response.data.email_forward_attachment_html != '' && response.data.email_forward_attachment_html != undefined) {
                     $('.attached_file_box').show();
                     $('.attached_file').html(response.data.email_forward_attachment_html);
@@ -3845,8 +3883,6 @@ function showform(type, selector) {
                 show: 'false'
             });
             //$('.email-reply-modal').show();
-
-
         } else {
 
             Swal.fire({
@@ -3890,7 +3926,12 @@ function showdraftform(type, selector) {
         data: emailPostData,
         dataType: 'json',
         type: 'POST',
-
+        beforeSend: function() {
+            $('.draft_loader').show();
+        },
+        complete: function() {
+            $('.draft_loader').hide();
+        }
     }).done(function(response) {
 
         if (response.success == "true") {
@@ -3934,21 +3975,6 @@ function showdraftform(type, selector) {
                     // $('#textarea_editor_email_draft').append(message);
 
                 }
-
-                // $('.email-draft-body_html').summernote('code', message);
-
-                // var activeEditor = tinymce.activeEditor;
-
-                // var content = message;
-
-                // if (activeEditor !== null && content != '') {
-
-                //     activeEditor.setContent(content);
-
-                // } else {
-
-                //     $('.email-draft-body_html').val(content);
-                // }
 
                 if (response.data.email_forward_attachment_html != '' && response.data.email_forward_attachment_html != undefined) {
                     $('.attached_file_box').show();
@@ -4565,29 +4591,11 @@ $(document).on('click', '.email-compose-btn', function(e) {
 
     if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
 
-        // tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, '');
         tinymce.get('textarea_editor_email_compose').setContent('');
 
         tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, emailEditorParaTag);
 
-
     }
-
-
-    // $('.compose_message').summernote('code', '');
-
-    // var activeEditor = tinymce.activeEditor;
-
-    // var content = '';
-
-    // if (activeEditor !== null) {
-
-    //     activeEditor.setContent(content);
-
-    // } else {
-
-    //     $('.compose_message').val(content);
-    // }
 
     filesToUpload = [];
     $('.attached_file').html('');
@@ -4606,7 +4614,12 @@ $(document).on('click', '.email-compose-btn', function(e) {
         data: emailPostData,
         dataType: 'json',
         type: 'POST',
-
+        beforeSend: function() {
+            $('.compose_loader').show();
+        },
+        complete: function() {
+            $('.compose_loader').hide();
+        }
     }).done(function(response) {
 
         if (response.success == "true") {
@@ -4624,29 +4637,10 @@ $(document).on('click', '.email-compose-btn', function(e) {
 
                 if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
 
-                    // tinymce.get('textarea_editor_email_compose').setContent(message, { format: 'html' });
-                    // tinymce.get('textarea_editor_email_compose').setContent('<p style="font-size: 11pt; font-family: Calibri; color: #1f497d; line-height: 8pt;"></p>', { format: 'html' });
-                    tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, emailEditorParaTag + message);
-                    // $('#textarea_editor_email_compose').append(message);
+                    // tinymce.get('textarea_editor_email_compose').execCommand('mceInsertContent', false, emailEditorParaTag + message);
+                    tinymce.get('textarea_editor_email_compose').setContent(emailEditorParaTag + message);
 
                 }
-
-                // $('.compose_message').summernote('code', message);
-
-                // var activeEditor = tinymce.activeEditor;
-
-                // var content = message;
-
-                // if (activeEditor !== null && content != '') {
-
-                //     activeEditor.setContent(content);
-
-                // } else {
-
-                //     $('.compose_message').val(content);
-                // }
-
-                // tinymce.get('my_textarea_id').setContent(my_value_to_set);
 
             }
         } else {
@@ -5056,9 +5050,45 @@ $(document).on('change', '.email-template', function(e) {
 
                     var email_template_data = '';
 
+                    if (response.data.email_template_variables != undefined && response.data.email_template_variables != '') {
+
+                        $('.email-template').attr('data-email-template-variables', JSON.stringify(response.data.email_template_variables));
+
+                    }
+
                     if (response.data.body_html != undefined && response.data.body_html != '') {
 
                         email_template_data = response.data.body_html;
+
+                        var email_template_data_html = $('<div/>').html(email_template_data).contents();
+
+                        if (response.data.template_variables != undefined && response.data.template_variables != '') {
+
+                            if (Object.keys(response.data.template_variables).length > 0) {
+
+                                for (const variable in response.data.template_variables) {
+
+                                    var replace_element = email_template_data_html.find('.' + variable);
+
+                                    if (replace_element != undefined && replace_element != '') {
+
+                                        if (variable in response.data.template_variables && response.data.template_variables[variable] != undefined && response.data.template_variables[variable] != '') {
+
+                                            replace_element.html(response.data.template_variables[variable]);
+
+                                            replace_element.removeAttr('style');
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                        email_template_data = email_template_data_html.html();
 
                     }
 
