@@ -1237,11 +1237,11 @@ function getEmailTableList(gridSelector) {
 
                             }
 
-                            if (gridCategory == 'emailSentCount' || gridCategory == 'qcEmail') {
+                            // if (gridCategory == 'emailSentCount' || gridCategory == 'qcEmail') {
 
-                                $(gridSelector).jsGrid("fieldOption", "Control", "width", 10);
+                            //     $(gridSelector).jsGrid("fieldOption", "Control", "width", 10);
 
-                            }
+                            // }
 
 
                             // } else {
