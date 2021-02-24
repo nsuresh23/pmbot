@@ -66,7 +66,8 @@ function getEmailTableList(gridSelector) {
         { Category: '', Id: '', Name: '' },
         { Category: '<i class="fa fa-circle inline-block txt-a-blue font-16" title="positive"></i>', Id: 'positive', Name: 'Positive' },
         { Category: '<i class="fa fa-circle inline-block txt-danger font-16" title="negative"></i>', Id: 'negative', Name: 'Negative' },
-        { Category: '<i class="fa fa-circle inline-block txt-light font-16" title="neutral"></i>', Id: 'normal', Name: 'Neutral' },
+        { Category: '<i class="fa fa-circle inline-block txt-light font-16" title="neutral"></i>', Id: 'neutral', Name: 'Neutral' },
+        { Category: '<i class="fa fa-circle inline-block txt-light font-16" title="internal"></i>', Id: 'internal', Name: 'Internal' },
         { Category: '<i class="fa fa-circle inline-block txt-grey font-16" title="unknown"></i>', Id: 'error', Name: 'Unknown' },
     ];
 
@@ -199,6 +200,12 @@ function getEmailTableList(gridSelector) {
                 if (item.email_classification_category == null || item.email_classification_category == '' || item.email_classification_category == 'not_set' || item.email_classification_category == 'neutral') {
 
                     return '<i class="fa fa-circle inline-block txt-light font-16" title="neutral"></i>';
+
+                }
+
+                if (item.email_classification_category == 'internal') {
+
+                    return '<i class="fa fa-circle inline-block txt-light font-16" title="internal"></i>';
 
                 }
 
