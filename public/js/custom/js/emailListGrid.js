@@ -1398,16 +1398,16 @@ function getPmsEmailCountTableList(gridSelector) {
         // width: 40,
     });
 
-    /*
+
     field.push({
         title: "ESCALATION EMAILS",
         name: "escalation_count_link",
         type: "text",
         // filtering: false,
         // sorting: false,
-        // width: 40,
+        width: 110,
     });
-    */
+
 
     field.push({
         title: "CRITICAL JOBS",

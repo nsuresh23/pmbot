@@ -18,7 +18,7 @@
 
 <div class="email-detail-body inbox-body pa-0" style="display:none;">
     <div class="heading-inbox">
-        <div class="container-fluid mt-5 pr-0">
+        <div class="container-fluid mt-5 pr-0 pl-0">
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                 <div class="pull-left">
                     <div class="">
