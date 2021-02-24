@@ -1237,6 +1237,13 @@ function getEmailTableList(gridSelector) {
 
                             }
 
+                            if (gridCategory == 'emailSentCount' || gridCategory == 'qcEmail') {
+
+                                $(gridSelector).jsGrid("fieldOption", "Control", "width", 10);
+
+                            }
+
+
                             // } else {
 
                             //     // $(gridSelector).parent().prev().find('.result-count').html('');
