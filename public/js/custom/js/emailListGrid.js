@@ -314,93 +314,97 @@ function getEmailTableList(gridSelector) {
         deleteButton: deleteControlVisible,
         itemTemplate: function(value, item) {
 
-            if (item.view == '1') {
-
-                var icon = '';
-                var title = '';
+            if (gridCategory != 'emailSentCount' && gridCategory != 'qcEmail') {
 
                 if (item.view == '1') {
 
-                    icon = 'fa-envelope-open-o';
+                    var icon = '';
+                    var title = '';
 
-                    title = 'Mark as unread';
+                    if (item.view == '1') {
 
-                }
+                        icon = 'fa-envelope-open-o';
 
-                if (item.view == '0') {
+                        title = 'Mark as unread';
 
-                    icon = 'fa-envelope-o';
+                    }
 
-                    title = 'Mark as read';
+                    if (item.view == '0') {
 
-                }
+                        icon = 'fa-envelope-o';
 
-                var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
+                        title = 'Mark as read';
 
-                var $customUnreadButton = $("<a>").attr({ class: "mark-as-unread-btn fa " + icon + " font-16" }).attr({ title: title })
-                    .click(function(e) {
+                    }
 
-                        var postData = {};
+                    var $result = jsGrid.fields.control.prototype.itemTemplate.apply(this, arguments);
 
-                        var postUrl = $('.email-read').attr('data-email-read-url');
+                    var $customUnreadButton = $("<a>").attr({ class: "mark-as-unread-btn fa " + icon + " font-16" }).attr({ title: title })
+                        .click(function(e) {
 
-                        postData.id = item.id;
-                        postData.status = item.status;
-                        postData.type = item.type;
+                            var postData = {};
 
-                        if (item.view == '1') {
+                            var postUrl = $('.email-read').attr('data-email-read-url');
 
-                            postData.view = '0';
+                            postData.id = item.id;
+                            postData.status = item.status;
+                            postData.type = item.type;
 
-                        }
+                            if (item.view == '1') {
 
-                        if (item.view == '0') {
-
-                            postData.view = '1';
-
-                        }
-
-                        $.ajax({
-
-                            url: postUrl,
-                            data: postData,
-                            dataType: 'json',
-                            type: 'POST',
-
-                        }).done(function(response) {
-
-                            if (response.success == "true") {
-
-                                type = 'success';
-
-                            } else {
-
-                                type = 'error';
-
-                                d.resolve();
+                                postData.view = '0';
 
                             }
 
-                            message = response.message;
+                            if (item.view == '0') {
 
-                            flashMessage(type, message);
-
-                            if (item.status == '0') {
-
-                                $('#myTaskTab').trigger('click');
-
-                            } else {
-
-                                $('.inbox-nav li.active').find('a').trigger('click');
+                                postData.view = '1';
 
                             }
 
+                            $.ajax({
+
+                                url: postUrl,
+                                data: postData,
+                                dataType: 'json',
+                                type: 'POST',
+
+                            }).done(function(response) {
+
+                                if (response.success == "true") {
+
+                                    type = 'success';
+
+                                } else {
+
+                                    type = 'error';
+
+                                    d.resolve();
+
+                                }
+
+                                message = response.message;
+
+                                flashMessage(type, message);
+
+                                if (item.status == '0') {
+
+                                    $('#myTaskTab').trigger('click');
+
+                                } else {
+
+                                    $('.inbox-nav li.active').find('a').trigger('click');
+
+                                }
+
+
+                            });
 
                         });
 
-                    });
+                    return $("<div>").append($customUnreadButton);
 
-                return $("<div>").append($customUnreadButton);
+                }
 
             }
 
