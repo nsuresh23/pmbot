@@ -2166,6 +2166,12 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
                             }
 
+                            if (tinymce.get('qc-email-body') != undefined && tinymce.get('qc-email-body') != '') {
+
+                                tinymce.get('qc-email-body').setContent(response.data.body_html);
+
+                            }
+
                             if ($('.currentUserInfo').attr('data-current-user-role') == 'quality') {
 
                                 if (tinymce.get('qc-email-body') != undefined && tinymce.get('qc-email-body') != '') {
