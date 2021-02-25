@@ -132,7 +132,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_editor_info_label') }}</label>
-                                    <input type="text" name="publisher" name="publisher" class="form-control" value="{{ $responseData["data"]["publisher"] ?? '' }}"
+                                    <input type="text" id="publisher" class="form-control" name="publisher" value="{{ $responseData["data"]["publisher"] ?? '' }}"
                                         placeholder="{{ __('job.book_info_editor_info_placeholder_text') }}"
                                         data-error="{{ __('job.book_info_editor_info_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
                                     <div class="help-block with-errors"></div>
@@ -140,8 +140,11 @@
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                 <div class="form-group">
-                                    <label class="control-label mb-10">{{ __('job.book_info_DOI_label') }}</label>
-                                    <input type="text" id="bookDOI" class="form-control" name="doi" value="{{ $responseData["data"]["doi"] ?? '' }}" placeholder="{{ __('job.book_info_DOI_placeholder_text') }}" data-error="{{ __('job.book_info_DOI_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
+                                    <label class="control-label mb-10">{{ __('job.book_info_pe_info_label') }}</label>
+                                    <input type="text" id="pe-name" class="form-control" name="pe_name"
+                                        value="{{ $responseData["data"]["pe_name"] ?? '' }}"
+                                        placeholder="{{ __('job.book_info_pe_info_placeholder_text') }}"
+                                        data-error="{{ __('job.book_info_pe_info_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -174,13 +177,22 @@
                         <!-- /Row -->
                         <!-- Row -->
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label mb-10">{{ __('job.book_info_DOI_label') }}</label>
+                                    <input type="text" id="bookDOI" class="form-control" name="doi" value="{{ $responseData["data"]["doi"] ?? '' }}"
+                                        placeholder="{{ __('job.book_info_DOI_placeholder_text') }}"
+                                        data-error="{{ __('job.book_info_DOI_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_ISBN_label') }}</label>
                                     <input type="text" id="bookISBN" class="form-control" name="isbn" value="{{ $responseData["data"]["isbn"] ?? '' }}" placeholder="{{ __('job.book_info_ISBN_placeholder_text') }}" data-error="{{ __('job.book_info_ISBN_error_msg') }}" pattern="[\w-]+" title="{{ __('job.job_isbn_match_error_msg') }}" data-match-error="{{ __('job.job_isbn_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_E_ISBN_label') }}</label>
                                     <input type="text" id="bookEISBN" class="form-control" name="e_isbn" value="{{ $responseData["data"]["e_isbn"] ?? '' }}" placeholder="{{ __('job.book_info_E_ISBN_placeholder_text') }}" data-error="{{ __('job.book_info_E_ISBN_error_msg') }}" pattern="[\w-]+" title="{{ __('job.job_isbn_match_error_msg') }}" data-match-error="{{ __('job.job_isbn_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
