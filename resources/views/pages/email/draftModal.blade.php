@@ -82,7 +82,7 @@
 									<div class="email-label border-none">Attached</div>
                                     <input type="file" class="form-control attached draftattachements fileupload" name="attachement"  multiple="multiple">
 
-                                    <div class="email-template-list" id="email-template-list">
+                                    {{-- <div class="email-template-list" id="email-template-list">
                                         {!! Form::select('email_template', [ "" =>
                                         __('job.email_template_placeholder_text') ] +
                                         $emailTemplateList, null,
@@ -91,7 +91,7 @@
                                         'data-email-template-list-url' => $emailTemplateListUrl])
                                         !!}
                                         <div class="help-block with-errors"></div>
-                                    </div>
+                                    </div> --}}
 
 									<select style="width:20% !important;float:left;" class="form-control signature_draft_change" name="signature" data-signature-type = "reply">
 										<option value="new_signature">New Signature</option>
