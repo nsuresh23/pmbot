@@ -137,6 +137,13 @@ class JobCollection
 
                     }
 
+                    if(isset($returnData["message"]) && $returnData["message"] == "Already Created.")
+                    {
+
+                        $returnResponse["message"] = $returnData["message"];
+
+                    }
+
                 }
             }
         } catch (Exception $e) {
