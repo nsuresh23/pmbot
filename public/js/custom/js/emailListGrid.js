@@ -1410,14 +1410,14 @@ function getPmsEmailCountTableList(gridSelector) {
     });
 
 
-    field.push({
-        title: "ESCALATION EMAILS",
-        name: "escalation_count_link",
-        type: "text",
-        // filtering: false,
-        // sorting: false,
-        width: 110,
-    });
+    // field.push({
+    //     title: "ESCALATION EMAILS",
+    //     name: "escalation_count_link",
+    //     type: "text",
+    //     // filtering: false,
+    //     // sorting: false,
+    //     width: 110,
+    // });
 
 
     field.push({

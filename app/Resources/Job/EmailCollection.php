@@ -2001,8 +2001,8 @@ class EmailCollection
 
                     if (isset($item["negative_count"]) && $item["negative_count"] != ""&& $item["negative_count"] != "0") {
 
-                        // $item["negative_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#sentEmailModal" data-toggle="modal" data-grid-selector="emailSentCountGrid" data-grid-title="alarming email" data-count="' . $item["negative_count"]. '" data-email-filter="negative" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["negative_count"] . '</span></a>';
-                        $item["negative_count_link"] = $item["negative_count"];
+                        $item["negative_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#sentEmailModal" data-toggle="modal" data-grid-selector="emailSentCountGrid" data-grid-title="alarming email" data-count="' . $item["negative_count"]. '" data-email-filter="negative" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["negative_count"] . '</span></a>';
+                        // $item["negative_count_link"] = $item["negative_count"];
 
                     }
 
