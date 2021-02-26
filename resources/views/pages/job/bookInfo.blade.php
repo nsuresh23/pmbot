@@ -140,6 +140,15 @@
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                 <div class="form-group">
+                                    <label class="control-label mb-10">{{ __('job.book_info_DOI_label') }}</label>
+                                    <input type="text" id="bookDOI" class="form-control" name="doi" value="{{ $responseData["data"]["doi"] ?? '' }}"
+                                        placeholder="{{ __('job.book_info_DOI_placeholder_text') }}"
+                                        data-error="{{ __('job.book_info_DOI_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            {{-- <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_pe_info_label') }}</label>
                                     <input type="text" id="pe-name" class="form-control" name="pe_name"
                                         value="{{ $responseData["data"]["pe_name"] ?? '' }}"
@@ -147,7 +156,7 @@
                                         data-error="{{ __('job.book_info_pe_info_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
                                     <div class="help-block with-errors"></div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <!-- /Row -->
                         <!-- Row -->
@@ -177,7 +186,7 @@
                         <!-- /Row -->
                         <!-- Row -->
                         <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            {{-- <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_DOI_label') }}</label>
                                     <input type="text" id="bookDOI" class="form-control" name="doi" value="{{ $responseData["data"]["doi"] ?? '' }}"
@@ -185,7 +194,7 @@
                                         data-error="{{ __('job.book_info_DOI_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
                                     <div class="help-block with-errors"></div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_ISBN_label') }}</label>
