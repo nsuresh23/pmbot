@@ -576,7 +576,7 @@ class ApiController extends Controller
 
                     }
 
-                    $jsonDataTaskNotes["view"] = "0";
+                    $jsonDataTaskNotes["view"] = "1";
 
                     $jsonDataNotesEncoded = json_encode($jsonDataTaskNotes);
 
@@ -707,7 +707,7 @@ class ApiController extends Controller
 
                     }
 
-                    $jsonData["view"] = "0";
+                    $jsonData["view"] = "1";
 
                     // if ($isGeneric == "true") {
 
@@ -801,7 +801,7 @@ class ApiController extends Controller
 
             }
 
-            $jsonData["view"] = "0";
+            $jsonData["view"] = "1";
 
             $jsonDataEncoded = json_encode($jsonData);
 
@@ -1643,7 +1643,7 @@ class ApiController extends Controller
             $jsonData["ip_address"] = request()->ip();
         }
 
-        $jsonData["view"] = "0";
+        $jsonData["view"] = "1";
 
         $jsonDataEncoded = json_encode($jsonData);
 
