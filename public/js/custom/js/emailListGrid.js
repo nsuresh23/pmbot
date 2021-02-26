@@ -5200,7 +5200,7 @@ $(document).on('change', '.signature_change', function(e) {
     var pagetype = $(this).attr('data-signature-type');
 
     var emailPostData = {};
-    var selector = '.sig_change';
+    var selector = '.signature';
     var postUrl = $(selector).attr('data-signature-geturl');
 
 
@@ -5412,7 +5412,7 @@ $(document).on('change', '.signature_reply_change', function(e) {
     var pagetype = $(this).attr('data-signature-type');
 
     var emailPostData = {};
-    var selector = '.sig_change';
+    var selector = '.signature';
     var postUrl = $(selector).attr('data-signature-geturl');
 
 
@@ -5621,7 +5621,7 @@ $(document).on('change', '.signature_draft_change', function(e) {
     var pagetype = $(this).attr('data-signature-type');
 
     var emailPostData = {};
-    var selector = '.sig_change';
+    var selector = '.signature';
     var postUrl = $(selector).attr('data-signature-geturl');
 
 
@@ -5782,7 +5782,7 @@ $(document).on('change', '.signature_change_old', function(e) {
     var pagetype = $(this).attr('data-signature-type');
 
     var emailPostData = {};
-    var selector = '.sig_change';
+    var selector = '.signature';
     var postUrl = $(selector).attr('data-signature-geturl');
 
 
