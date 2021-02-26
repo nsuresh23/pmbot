@@ -314,7 +314,7 @@ function getEmailTableList(gridSelector) {
         deleteButton: deleteControlVisible,
         itemTemplate: function(value, item) {
 
-            if (gridCategory != 'emailSentCount' && gridCategory != 'qcEmail') {
+            /* if (gridCategory != 'emailSentCount' && gridCategory != 'qcEmail') {
 
                 if (item.view == '1') {
 
@@ -406,7 +406,7 @@ function getEmailTableList(gridSelector) {
 
                 }
 
-            }
+            } */
 
         },
         headerTemplate: function() {
