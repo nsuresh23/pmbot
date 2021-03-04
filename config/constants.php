@@ -215,6 +215,7 @@ return [
     ],
     "email_template_variables" => [
         "author_name" => "{{author_name}}",
+        "author_email" => "{{author_email}}",
         "pm_name" => "{{pm_name}}",
         "pe_name" => "{{pe_name}}",
         "project_start_date" => "{{project_start_date}}",

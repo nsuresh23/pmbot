@@ -426,6 +426,12 @@ class EmailController extends Controller
 
                                     }
 
+                                    if(isset($returnJobResponse["author_email"]) && $returnJobResponse["author_email"] != null && $returnJobResponse["author_email"] != "") {
+
+                                        $emailTemplateVariables["author_email"] = $returnJobResponse["author_email"];
+
+                                    }
+
                                     if(isset($returnJobResponse["pe_name"]) && $returnJobResponse["pe_name"] != null && $returnJobResponse["pe_name"] != "") {
 
                                         $emailTemplateVariables["pe_name"] = $returnJobResponse["pe_name"];

@@ -58,21 +58,21 @@
                         <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
                         <!-- Row -->
                         <div class="row">
-                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_id_label') }}</label>
                                     <input type="text" id="order_id" class="form-control" name="order_id" value="{{ $responseData["data"]["order_id"] ?? '' }}" placeholder="{{ __('job.book_info_id_placeholder_text') }}" data-error="{{ __('job.book_info_id_error_msg') }}" pattern="[\w-]+" title="{{ __('job.job_isbn_match_error_msg') }}" data-match-error="{{ __('job.job_isbn_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_title_id_label') }}</label>
                                     <input type="text" id="bookTitleId" class="form-control" name="title_id" value="{{ $responseData["data"]["title_id"] ?? '' }}" placeholder="{{ __('job.book_info_title_id_placeholder_text') }}" data-error="{{ __('job.book_info_title_id_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_workflow_version_label') }}</label>
                                     {!! Form::select('workflow_version', [ null =>
@@ -86,13 +86,17 @@
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-
-
-                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        </div>
+                        <!-- /Row -->
+                        <!-- Row -->
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_due_date_label') }}</label>
                                     <div class="input-group date datetimepicker">
-                                        <input type="text" id="due_date" name="date_due" class="due_date form-control" value="{{$selectedDueDate}}" placeholder="{{ __('job.book_info_due_date_placeholder_text') }}" data-error="{{ __('job.book_info_due_date_error_msg') }}">
+                                        <input type="text" id="due_date" name="date_due" class="due_date form-control" value="{{$selectedDueDate}}"
+                                            placeholder="{{ __('job.book_info_due_date_placeholder_text') }}"
+                                            data-error="{{ __('job.book_info_due_date_error_msg') }}">
                                         <span class="input-group-addon">
                                             <span class="fa fa-calendar"></span>
                                         </span>
@@ -100,12 +104,7 @@
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-
-                        </div>
-                        <!-- /Row -->
-                        <!-- Row -->
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_category_label') }}</label>
                                     {!! Form::select('category', [ null =>
@@ -120,34 +119,42 @@
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                <div class="form-group">
-                                    <label class="control-label mb-10">{{ __('job.book_info_author_info_label') }}</label>
-                                    <input type="text" id="author" name="author" class="form-control" value="{{ $responseData["data"]["author"] ?? '' }}"
-                                        placeholder="{{ __('job.book_info_author_info_placeholder_text') }}"
-                                        data-error="{{ __('job.book_info_author_info_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_editor_info_label') }}</label>
-                                    <input type="text" id="publisher" class="form-control" name="publisher" value="{{ $responseData["data"]["publisher"] ?? '' }}"
+                                    <input type="text" id="publisher" class="form-control" name="publisher"
+                                        value="{{ $responseData["data"]["publisher"] ?? '' }}"
                                         placeholder="{{ __('job.book_info_editor_info_placeholder_text') }}"
                                         data-error="{{ __('job.book_info_editor_info_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                        </div>
+                        <!-- /Row -->
+                        <!-- Row -->
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
-                                    <label class="control-label mb-10">{{ __('job.book_info_DOI_label') }}</label>
-                                    <input type="text" id="bookDOI" class="form-control" name="doi" value="{{ $responseData["data"]["doi"] ?? '' }}"
-                                        placeholder="{{ __('job.book_info_DOI_placeholder_text') }}"
-                                        data-error="{{ __('job.book_info_DOI_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
+                                    <label class="control-label mb-10">{{ __('job.book_info_author_info_label') }}</label>
+                                    <input type="text" id="author" name="author" class="form-control"
+                                        value="{{ $responseData["data"]["author"] ?? '' }}"
+                                        placeholder="{{ __('job.book_info_author_info_placeholder_text') }}"
+                                        data-error="{{ __('job.book_info_author_info_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-                            {{-- <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label mb-10">{{ __('job.book_info_author_email_label') }}</label>
+                                    <input type="text" id="author-email" name="author_email" class="form-control"
+                                        value="{{ $responseData["data"]["author_email"] ?? '' }}"
+                                        placeholder="{{ __('job.book_info_author_email_placeholder_text') }}"
+                                        data-error="{{ __('job.book_info_author_email_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_pe_info_label') }}</label>
                                     <input type="text" id="pe-name" class="form-control" name="pe_name"
@@ -156,7 +163,7 @@
                                         data-error="{{ __('job.book_info_pe_info_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
                                     <div class="help-block with-errors"></div>
                                 </div>
-                            </div> --}}
+                            </div>
                         </div>
                         <!-- /Row -->
                         <!-- Row -->
@@ -186,7 +193,7 @@
                         <!-- /Row -->
                         <!-- Row -->
                         <div class="row">
-                            {{-- <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_DOI_label') }}</label>
                                     <input type="text" id="bookDOI" class="form-control" name="doi" value="{{ $responseData["data"]["doi"] ?? '' }}"
@@ -194,7 +201,7 @@
                                         data-error="{{ __('job.book_info_DOI_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
                                     <div class="help-block with-errors"></div>
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_ISBN_label') }}</label>
