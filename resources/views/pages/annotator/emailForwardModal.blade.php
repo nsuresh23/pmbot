@@ -192,7 +192,7 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                             <input type="file" style="width:8.6% !important;" class="form-control attached replyattachements fileupload" name="attachement"
                                                 multiple="multiple">
 
-                                            {{-- <div class="email-template-list" id="email-template-list">
+                                            <div class="email-template-list" id="email-template-list">
                                                 {!! Form::select('email_template', [ "" =>
                                                 __('job.email_template_placeholder_text') ] +
                                                 $emailTemplateList, null,
@@ -201,7 +201,7 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                                                 'data-email-template-list-url' => $emailTemplateListUrl])
                                                 !!}
                                                 <div class="help-block with-errors"></div>
-                                            </div> --}}
+                                            </div>
 
 											<!--<select style="width:20% !important;float:left;" class="form-control signature_change" id="select_signature" name="signature" data-signature-type = "new">
 												<option value="new_signature" >New Signature</option>
