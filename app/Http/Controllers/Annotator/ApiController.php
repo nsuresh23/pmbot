@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Traits\General\CustomLogger;
 use App\Models\Annotation;
 use Illuminate\Support\Facades\Config;
+use App\Resources\Job\EmailCollection as EmailResource;
 //use App\Resources\Annotator\AnnotatorCollection as AnnotatorResource;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
@@ -28,12 +29,16 @@ class ApiController extends Controller
 
     protected $jobResource = "";
 
+    protected $emailResource = "";
+
     protected $AnnotatorResource = "";
 
     public function __construct()
     {
 
         //$this->annotatorResource = new AnnotatorResource();
+
+        $this->emailResource = new EmailResource();
 
     }
 
@@ -385,9 +390,35 @@ class ApiController extends Controller
 
             }
 
+            $emailViewParamInfo = [];
+            $emailViewParamInfo["id"] = $request->id;
+            $emailViewParamInfo["empcode"] = auth()->user()->empcode;
+            $emailViewParamInfo["view"] = '1';
+            $emailViewParamInfo["start_time"] = date('Y-m-d H:i:s');
+            $emailViewParamInfo["ip_address"] = $request->ip();
+
+            if (auth()->check()) {
+
+                $emailViewParamInfo["creator_empcode"] = auth()->user()->empcode;
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $emailViewParamInfo["creator_empcode"] = session()->get("current_empcode");
+                }
+            }
+
+            if(is_array($emailViewParamInfo) && count($emailViewParamInfo)>0) {
+
+                $this->emailResource->emailViewUpdate($emailViewParamInfo);
+
+            }
+
             return response()->json(['msg' => $output,  'status' => $list[$k]->status, 'response_data'=> $response_data]);
+
         } else {
+
             return response()->json(['msg' => '',  'status' => '-1']);
+
         }
 
 

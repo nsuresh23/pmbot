@@ -46,6 +46,7 @@ class EmailCollection
     protected $emailCategoryCountApiUrl;
     protected $classificationEmailListApiUrl;
     protected $qcEmailListApiUrl;
+    protected $emailInfoUpdateApiUrl;
 
     public function __construct()
     {
@@ -74,6 +75,7 @@ class EmailCollection
         $this->emailCategoryCountApiUrl         = env('API_EMAIL_CATEGORY_COUNT_URL');
         $this->classificationEmailListApiUrl    = env('API_EMAIL_CLASSIFICATION_LIST_URL');
         $this->qcEmailListApiUrl                = env('API_EMAIL_QC_LIST_URL');
+        $this->emailInfoUpdateApiUrl            = env('API_EMAIL_INFO_UPDATE_URL');
     }
 
     /**
@@ -714,6 +716,66 @@ class EmailCollection
             }
 
             $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+
+                $returnResponse["error"] = "true";
+                $returnResponse["message"] = "Update failed";
+            } else {
+
+                $returnData = $this->postRequest($url, $paramInfo);
+
+                if (isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["message"] = "Update successfull";
+                } else {
+
+                    $returnResponse["error"] = "true";
+                    $returnResponse["message"] = "Update unsuccessfull";
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+
+    }
+
+    /**
+     * Update the email view based on email field array.
+     *
+     * @return array $returnResponse
+     */
+    public function emailViewUpdate($paramInfo)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // validate
+            // read more on validation at http://laravel.com/docs/validation
+            $rules = [];
+            $url = $this->emailInfoUpdateApiUrl;
+
+            $rules["id"] = "required";
+
+            $validator = Validator::make($paramInfo, $rules);
 
             if ($validator->fails()) {
 
