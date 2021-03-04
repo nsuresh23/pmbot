@@ -456,7 +456,7 @@ function  emailClassificationList(data)
 
         });
 
-        if(data.email_classification_category != undefined && data.email_classification_category != 'internal' && data.am_approved != undefined && data.am_approved == '0') {
+        if(data.email_classification_category != undefined && data.email_classification_category != 'internal' && data.am_approved != undefined && data.am_approved == '0' && data.qc_approved != undefined && data.qc_approved == '0') {
 
             $('.email-classification-category-list').attr('previous_value', data.email_classification_category);
             $('.email-classification-category-list').select2().val(data.email_classification_category);

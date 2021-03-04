@@ -96,7 +96,7 @@ function getEmailTableList(gridSelector) {
 
     }
 
-    if (gridCategory != undefined && gridCategory != '' && gridCategory == 'qcEmail' && $('.currentUserInfo').attr('data-current-user-role') == 'account_manager') {
+    /* if (gridCategory != undefined && gridCategory != '' && gridCategory == 'qcEmail' && $('.currentUserInfo').attr('data-current-user-role') == 'account_manager') {
 
         field.push({
             headerTemplate: function() {
@@ -121,7 +121,7 @@ function getEmailTableList(gridSelector) {
             width: 35
         });
 
-    }
+    } */
 
     if (gridCategory != undefined && gridCategory != '' && gridEmailFilter != 'outbox' && gridEmailFilter != 'draft' && (gridCategory == 'nonBusinessEmail' || gridCategory == 'jobEmail')) {
 
@@ -1362,14 +1362,14 @@ function getPmsEmailCountTableList(gridSelector) {
         filtering: false,
         // sorting: false,
         editing: false,
-        // width: 10,
+        width: '5%',
     });
 
     field.push({
         title: "NAME",
         name: "empname",
         type: "text",
-        // width: 40,
+        width: '10%',
     });
 
     field.push({
@@ -1378,7 +1378,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         // filtering: false,
         // sorting: false,
-        // width: 40,
+        width: '6%',
     });
 
     field.push({
@@ -1387,7 +1387,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         // filtering: false,
         // sorting: false,
-        // width: 40,
+        width: '6%',
     });
 
     field.push({
@@ -1396,11 +1396,12 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         // filtering: false,
         // sorting: false,
-        // width: 40,
+        width: '6%',
     });
 
+    //am=0 && qc=0
     field.push({
-        title: "ALARMING EMAILS",
+        title: "POTENTIALLY ALARMING EMAILS",
         name: "negative_count_link",
         // name: "negative_count",
         type: "text",
@@ -1409,15 +1410,25 @@ function getPmsEmailCountTableList(gridSelector) {
         // width: 40,
     });
 
+    //am=0 && qc=1
+    field.push({
+        title: "ALARMING EMAILS",
+        name: "escalation_count_link",
+        type: "text",
+        // filtering: false,
+        // sorting: false,
+        width: '6%',
+    });
 
-    // field.push({
-    //     title: "ESCALATION EMAILS",
-    //     name: "escalation_count_link",
-    //     type: "text",
-    //     // filtering: false,
-    //     // sorting: false,
-    //     width: 110,
-    // });
+    //am=1
+    field.push({
+        title: "ESCALATION EMAILS",
+        name: "escalation_count_link",
+        type: "text",
+        // filtering: false,
+        // sorting: false,
+        width: '7%',
+    });
 
 
     field.push({
@@ -1426,7 +1437,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         // filtering: false,
         // sorting: false,
-        // width: 40,
+        width: '6%',
     });
 
     field.push({
@@ -1435,7 +1446,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         // filtering: false,
         // sorting: false,
-        // width: 40,
+        width: '6%',
     });
 
     field.push({
@@ -1451,14 +1462,14 @@ function getPmsEmailCountTableList(gridSelector) {
         title: 'LAST ANNOTATED TIME',
         name: 'last_annotated_time',
         type: 'text',
-        width: '10%',
+        width: '12%',
     });
 
     field.push({
         title: 'LAST PROCEESED TIME',
         name: 'last_processed_time',
         type: 'text',
-        width: '10%',
+        width: '12%',
     });
 
     field.push({
@@ -1471,7 +1482,7 @@ function getPmsEmailCountTableList(gridSelector) {
             return this._createOnOffSwitchButton("filtering", this.searchModeButtonClass, false);
 
         },
-        width: 70,
+        width: '4%',
     });
 
     $(gridSelector).jsGrid({
@@ -2338,6 +2349,71 @@ $(document).on('click', '.email-move-to-btn', function(e) {
 
 });
 
+function escalationEmailClasificationMoveTo(postUrl, params) {
+
+    /* AJAX call to email label update info */
+
+    var d = $.Deferred();
+
+    $.ajax({
+        url: postUrl,
+        data: params,
+        dataType: 'json',
+        type: 'POST',
+    }).done(function(response) {
+
+        if (response.success == "true") {
+
+            type = 'success';
+
+        } else {
+
+            type = 'error';
+
+            d.resolve();
+
+        }
+
+        message = response.message;
+
+        flashMessage(type, message);
+
+        $('.email-detail-back-btn').trigger('click');
+
+        var gridSelector = ".myEmailGrid";
+
+        if ($('.currentUserInfo').attr('data-current-user-role') == 'account_manager') {
+
+            // gridSelector = ".emailQCCountGrid";
+
+            gridSelector = ".emailSentCountGrid";
+
+            pmsEmailCountGrid = ".pmsEmailCountGrid";
+
+            var dataUrl = $(pmsEmailCountGrid).attr('data-list-url');
+
+            if (dataUrl != undefined && dataUrl != "") {
+
+                getPmsEmailCountTableList(pmsEmailCountGrid);
+
+            }
+
+        }
+
+        var dataUrl = $(gridSelector).attr('data-list-url');
+
+        if (dataUrl != undefined && dataUrl != "") {
+
+            getEmailTableList(gridSelector);
+
+        }
+
+    });
+
+    return d.promise();
+
+}
+
 $(document).on('click', '.email-classification-move-to-btn', function(e) {
 
     e.preventDefault();
@@ -2345,6 +2421,8 @@ $(document).on('click', '.email-classification-move-to-btn', function(e) {
     var postUrl = '';
 
     var params = '';
+
+    var move_to_confirmation = 'false';
 
     $('.email-classification-move-to-input').select2().val($('.email-classification-move-to-input').select2().val())
 
@@ -2388,89 +2466,205 @@ $(document).on('click', '.email-classification-move-to-btn', function(e) {
         }
 
         Swal.fire({
-
-            title: 'Are you sure?',
-            text: "Do you want to change the email category!",
+            // title: 'Are you sure?',
+            // text: "Do you want to close this job!",
+            // text: "Please enter remarks:",
             // icon: 'warning',
+            // type: "input",
+            // inputPlaceholder: "remarks",
+            html: '<textarea class="job-complete-remarks-field col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-15" placeholder="Enter remarks"/>',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes',
             showClass: {
-                popup: 'animated fadeIn faster'
+                popup: 'animated fadeInDownBig faster'
             },
             hideClass: {
                 popup: 'animated fadeOut faster'
             },
-
         }).then((result) => {
 
             if (result.value != undefined && result.value == true) {
 
-                /* AJAX call to email label update info */
+                var remarksVal = $('.job-complete-remarks-field').val();
 
-                var d = $.Deferred();
+                if (remarksVal == undefined || remarksVal == false || remarksVal == '') {
 
-                $.ajax({
-                    url: postUrl,
-                    data: params,
-                    dataType: 'json',
-                    type: 'POST',
-                }).done(function(response) {
+                    Swal.fire({
 
-                    if (response.success == "true") {
+                        title: '',
+                        text: "Please enter remarks!",
+                        showClass: {
+                            popup: 'animated fadeIn faster'
+                        },
+                        hideClass: {
+                            popup: 'animated fadeOut faster'
+                        },
 
-                        type = 'success';
+                    });
 
-                    } else {
+                    return false
+                }
 
-                        type = 'error';
+                $("#job_status_update_status").val('completed');
+                $("#job_status_update_remarks").val(remarksVal);
 
-                        d.resolve();
+                $(".job-status-update-form").submit();
 
+            }
+        });
+
+        if ($('.currentUserInfo').attr('data-current-user-role') == 'account_manager') {
+
+            Swal.fire({
+
+                html: '<textarea class="escalation-email-complete-remarks-field col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-15" placeholder="Enter remarks"/>',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                showClass: {
+                    popup: 'animated fadeInDownBig faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            }).then((result) => {
+
+                if (result.value != undefined && result.value == true) {
+
+                    $('.escalation-email-remarks').val('');
+
+                    var remarksVal = $('.escalation-email-complete-remarks-field').val();
+
+                    if (remarksVal == undefined || remarksVal == false || remarksVal == '') {
+
+                        Swal.fire({
+
+                            title: '',
+                            text: "Please enter remarks!",
+                            showClass: {
+                                popup: 'animated fadeIn faster'
+                            },
+                            hideClass: {
+                                popup: 'animated fadeOut faster'
+                            },
+
+                        });
+
+                        return false
                     }
 
-                    message = response.message;
+                    $('.escalation-email-remarks').val(remarksVal);
 
-                    flashMessage(type, message);
+                    params = $('.email-classification-move-to-form').serialize();
 
-                    $('.email-detail-back-btn').trigger('click');
+                    escalationEmailClasificationMoveTo(postUrl, params);
 
-                    var gridSelector = ".myEmailGrid";
+                }
 
-                    if ($('.currentUserInfo').attr('data-current-user-role') == 'account_manager') {
+            });
 
-                        // gridSelector = ".emailQCCountGrid";
+        } else {
 
-                        gridSelector = ".emailSentCountGrid";
+            Swal.fire({
 
-                        pmsEmailCountGrid = ".pmsEmailCountGrid";
+                title: 'Are you sure?',
+                text: "Do you want to change the email category!",
+                // icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
 
-                        var dataUrl = $(pmsEmailCountGrid).attr('data-list-url');
+            }).then((result) => {
 
-                        if (dataUrl != undefined && dataUrl != "") {
+                if (result.value != undefined && result.value == true) {
 
-                            getPmsEmailCountTableList(pmsEmailCountGrid);
+                    params = $('.email-classification-move-to-form').serialize();
 
-                        }
+                    escalationEmailClasificationMoveTo(postUrl, params);
 
-                    }
+                }
 
-                    var dataUrl = $(gridSelector).attr('data-list-url');
+            });
+
+        }
+
+        if (move_to_confirmation == 'true') {
+
+            params = $('.email-classification-move-to-form').serialize();
+
+            /* AJAX call to email label update info */
+
+            var d = $.Deferred();
+
+            $.ajax({
+                url: postUrl,
+                data: params,
+                dataType: 'json',
+                type: 'POST',
+            }).done(function(response) {
+
+                if (response.success == "true") {
+
+                    type = 'success';
+
+                } else {
+
+                    type = 'error';
+
+                    d.resolve();
+
+                }
+
+                message = response.message;
+
+                flashMessage(type, message);
+
+                $('.email-detail-back-btn').trigger('click');
+
+                var gridSelector = ".myEmailGrid";
+
+                if ($('.currentUserInfo').attr('data-current-user-role') == 'account_manager') {
+
+                    // gridSelector = ".emailQCCountGrid";
+
+                    gridSelector = ".emailSentCountGrid";
+
+                    pmsEmailCountGrid = ".pmsEmailCountGrid";
+
+                    var dataUrl = $(pmsEmailCountGrid).attr('data-list-url');
 
                     if (dataUrl != undefined && dataUrl != "") {
 
-                        getEmailTableList(gridSelector);
+                        getPmsEmailCountTableList(pmsEmailCountGrid);
 
                     }
 
-                });
+                }
 
-                return d.promise();
+                var dataUrl = $(gridSelector).attr('data-list-url');
 
-            }
+                if (dataUrl != undefined && dataUrl != "") {
 
-        });
+                    getEmailTableList(gridSelector);
+
+                }
+
+            });
+
+            return d.promise();
+
+        }
 
     }
 

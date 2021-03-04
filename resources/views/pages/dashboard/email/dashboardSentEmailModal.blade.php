@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div aria-hidden="true" role="dialog" tabindex="-1" id="sentEmailModal" class="sent-email-modal modal fade"
+<div aria-hidden="true" role="dialog" id="sentEmailModal" class="sent-email-modal modal fade"
     style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

@@ -62,8 +62,8 @@
                             <form class="form-inline email-classification-move-to-form"
                                 action="{{ route(__('job.email_move_to_url')) }}">
                                 <input type="hidden" class="email-classification-move-to-email-id" name="id" value="" />
-                                <input type="hidden" class="email-classification-move-to-am-approved" name="am_approved"
-                                    value="{{$am_email_approved ?? '0'}}" />
+                                <input type="hidden" class="email-classification-move-to-am-approved" name="am_approved" value="{{$am_email_approved ?? '0'}}" />
+                                <input type="hidden" class="escalation-email-remarks" name="escalation_email_remarks" value="" />
                                 <div class="form-group">
                                     <div class="input-group email-classification-move-to-input-group">
                                         <select class="form-control select2 email-classification-move-to-input"
