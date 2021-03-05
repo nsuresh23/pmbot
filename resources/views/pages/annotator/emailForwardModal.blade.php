@@ -44,7 +44,7 @@ $getEmailid   = route(__("job.get_email_id"));
 $signatureUpdateUrl = route(__("job.signature_update"));
 $getSignatureUrl = route(__("job.get_signature"));
 $emailTemplateListUrl = route(__("job.email_templates_list_url"));
-$redirectTo = $emailId = "";
+$redirectTo = $emailId = $jobId = "";
 
 $emailTemplateList = [];
 
@@ -65,6 +65,12 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
     if (isset($returnData["data"]["id"]) && $returnData["data"]["id"] !="" ) {
 
         $emailId = $returnData["data"]["id"];
+
+    }
+
+    if (isset($returnData["data"]["job_id"]) && $returnData["data"]["job_id"] !="" ) {
+
+        $jobId = $returnData["data"]["job_id"];
 
     }
 
@@ -123,21 +129,15 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
                             <form role="form" class="form-horizontal email-reply-form"
                                 action="{{ $emailSendUrl ?? '#'}}">
                                 <input type="hidden" id="page-type" name="page_type" value="page" class="form-control">
-                                <input type="hidden" id="email-status" name="status" value="0"
-                                    class="form-control email-status">
-                                <input type="hidden" id="type" name="type" value="non_pmbot"
-                                    class="form-control type pmbottype" data-pmbottype="non_pmbot">
-                                <input type="hidden" id="email_id" name="email_id" class="form-control email_id"
-                                    value="{{ $emailId ?? ''}}">
-                                <input type="hidden" id="reply_email_type" name="email_type" value="forward"
-                                    class="form-control reply_email_type">
-                                <input type="hidden" id="email-type" name="email-type" value=""
-                                    class="form-control email-type">
+                                <input type="hidden" id="email-status" name="status" value="0" class="form-control email-status">
+                                <input type="hidden" id="type" name="type" value="non_pmbot" class="form-control type pmbottype" data-pmbottype="non_pmbot">
+                                <input type="hidden" id="email_id" name="email_id" class="form-control email_id" value="{{ $emailId ?? ''}}">
+                                <input type="hidden" id="job_id" class="job_id" name="job_id" value="{{ $jobId ?? ''}}">
+                                <input type="hidden" id="reply_email_type" name="email_type" value="forward" class="form-control reply_email_type">
+                                <input type="hidden" id="email-type" name="email-type" value="" class="form-control email-type">
                                 <input type="hidden" id="redirectTo" name="redirectTo" value="{{$redirectTo ?? '#'}}">
-                                <input type="hidden" id="getemailidURL" name="getemailidURL"
-                                    value="{{$getEmailid ?? '#'}}">
-                                <input type="hidden" id="start_time" name="start_time"
-                                    value="{{date('Y-m-d H:i:s')}}" />
+                                <input type="hidden" id="getemailidURL" name="getemailidURL" value="{{$getEmailid ?? '#'}}">
+                                <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
 
                                 <div class="col-sm-12 nopadding">
                                     <div class="email-lt">

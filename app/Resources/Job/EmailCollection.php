@@ -990,6 +990,7 @@ class EmailCollection
      */
     public function emailList($field)
     {
+
         $returnResponse = [
             "success" => "false",
             "error" => "false",
@@ -1009,7 +1010,7 @@ class EmailCollection
 
             }
 
-            if (isset($field["email_type"]) && $field["email_type"] == "qcEmail") {
+            if (isset($field["email_type"]) && $field["email_type"] == "qcEmail" && isset($field["email_filter"]) && $field["email_filter"] != "") {
 
                 // $field["email_type"] = "myEmail";
                 // $field["empcode"] = "raddevelopers@spi-global.com";
@@ -1038,8 +1039,25 @@ class EmailCollection
 
                 if (in_array(auth()->user()->role, config('constants.amUserRoles'))) {
 
-                    $fieldData["am_approved"] = "0";
-                    $fieldData["qc_approved"] = "1";
+
+                    if($field["email_filter"] == "potentially_alarming") {
+
+                        $fieldData["am_approved"] = "0";
+
+                    }
+
+                    if ($field["email_filter"] == "alarming") {
+
+                        $fieldData["am_approved"] = "0";
+                        $fieldData["qc_approved"] = "1";
+
+                    }
+
+                    if ($field["email_filter"] == "escalation") {
+
+                        $fieldData["am_approved"] = "1";
+
+                    }
 
                 }
 
@@ -2048,6 +2066,7 @@ class EmailCollection
                 try {
 
                     $item["negative_count_link"] = "0";
+                    $item["alarming_count_link"] = "0";
                     $item["escalation_count_link"] = "0";
 
                     if(isset($item["last_processed_time"]) && $item["last_processed_time"] != "") {
@@ -2063,14 +2082,20 @@ class EmailCollection
 
                     if (isset($item["negative_count"]) && $item["negative_count"] != ""&& $item["negative_count"] != "0") {
 
-                        $item["negative_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#sentEmailModal" data-toggle="modal" data-grid-selector="emailSentCountGrid" data-grid-title="alarming email" data-count="' . $item["negative_count"]. '" data-email-filter="negative" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["negative_count"] . '</span></a>';
+                        $item["negative_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#QCEmailModal" data-toggle="modal" data-grid-selector="emailQCCountGrid" data-grid-title="Potentially alarming email" data-count="' . $item["negative_count"]. '" data-email-filter="potentially_alarming" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["negative_count"] . '</span></a>';
                         // $item["negative_count_link"] = $item["negative_count"];
+
+                    }
+
+                    if (isset($item["alarming_email_count"]) && $item["alarming_email_count"] != "" && $item["alarming_email_count"] != "0") {
+
+                        $item["alarming_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#QCEmailModal" data-toggle="modal" data-grid-selector="emailQCCountGrid" data-grid-title="Alarming email" data-count="' . $item["alarming_email_count"] . '" data-email-filter="alarming" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["escalation_count"] . '</span></a>';
 
                     }
 
                     if (isset($item["escalation_count"]) && $item["escalation_count"] != "" && $item["escalation_count"] != "0") {
 
-                        $item["escalation_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#QCEmailModal" data-toggle="modal" data-grid-selector="emailQCCountGrid" data-grid-title="Escalation email" data-count="' . $item["escalation_count"] . '" data-email-filter="qcEmail" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["escalation_count"] . '</span></a>';
+                        $item["escalation_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#QCEmailModal" data-toggle="modal" data-grid-selector="emailQCCountGrid" data-grid-title="Escalation email" data-count="' . $item["escalation_count"] . '" data-email-filter="escalation" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["escalation_count"] . '</span></a>';
 
                     }
 

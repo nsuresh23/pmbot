@@ -1413,7 +1413,7 @@ function getPmsEmailCountTableList(gridSelector) {
     //am=0 && qc=1
     field.push({
         title: "ALARMING EMAILS",
-        name: "escalation_count_link",
+        name: "alarming_count_link",
         type: "text",
         // filtering: false,
         // sorting: false,
@@ -3115,6 +3115,7 @@ $(document).on('click', '.dashboard-email-sent-count-btn', function(e) {
         if (modalTitle != undefined && modalTitle != "") {
 
             $('.dashboard-email-sent-count-modal-title').html(modalTitle);
+            $('.dashboard-email-qc-count-modal-title').html(modalTitle);
 
         }
 
@@ -5274,6 +5275,30 @@ $(document).on('change', '.email-template', function(e) {
 
                     }
 
+                    if (response.data.template_variables != undefined && response.data.template_variables != '') {
+
+                        if (Object.keys(response.data.template_variables).length > 0) {
+
+                            if (response.data.template_variables.author_email != undefined && response.data.template_variables.author_email != '') {
+
+                                if ($('#to').attr('class') != undefined && $('#to').attr('class') != '') {
+
+                                    $('#to').val(response.data.template_variables.author_email + ';');
+
+                                }
+
+                                if ($('.email-reply-to').attr('class') != undefined && $('.email-reply-to').attr('class') != '') {
+
+                                    $('.email-reply-to').val(response.data.template_variables.author_email + ';');
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
                     if (response.data.body_html != undefined && response.data.body_html != '') {
 
                         email_template_data = response.data.body_html;
@@ -6488,3 +6513,5 @@ function emailSentCount() {
     }
 
 }
+
+$('.email-template-list').hide();
