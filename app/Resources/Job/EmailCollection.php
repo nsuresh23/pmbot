@@ -2095,7 +2095,8 @@ class EmailCollection
 
                     if (isset($item["escalation_count"]) && $item["escalation_count"] != "" && $item["escalation_count"] != "0") {
 
-                        $item["escalation_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#QCEmailModal" data-toggle="modal" data-grid-selector="emailQCCountGrid" data-grid-title="Escalation email" data-count="' . $item["escalation_count"] . '" data-email-filter="escalation" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["escalation_count"] . '</span></a>';
+                        $item["escalation_count_link"] = $item["escalation_count"];
+                        // $item["escalation_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#QCEmailModal" data-toggle="modal" data-grid-selector="emailQCCountGrid" data-grid-title="Escalation email" data-count="' . $item["escalation_count"] . '" data-email-filter="escalation" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["escalation_count"] . '</span></a>';
 
                     }
 
