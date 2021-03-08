@@ -1401,7 +1401,7 @@ function getPmsEmailCountTableList(gridSelector) {
 
     //am=0 && qc=0
     field.push({
-        title: "POTENTIALLY ALARMING EMAILS",
+        title: "POTENTIAL ALARMING EMAILS",
         name: "negative_count_link",
         // name: "negative_count",
         type: "text",
@@ -1412,7 +1412,7 @@ function getPmsEmailCountTableList(gridSelector) {
 
     //am=0 && qc=1
     field.push({
-        title: "ALARMING EMAILS",
+        title: "VERIFIED ALARMING EMAILS",
         name: "alarming_count_link",
         type: "text",
         // filtering: false,
@@ -1989,6 +1989,7 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
         $('.non-business-unmark-btn-block').hide();
         $('.email-classification-move-to-block').hide();
+        $('.email-escalation-close-block').hide();
 
         $('.job-unmark-btn-block').hide();
         $('.job-unmark-btn').attr('data-job-id', '');
@@ -2227,6 +2228,10 @@ $(document).on('click', '.pmbot-email-item', function(e) {
                         if (response.data.am_approved != undefined && response.data.am_approved != '1') {
 
                             $('.email-classification-move-to-block').show();
+
+                        } else {
+
+                            $('.email-escalation-close-block').show();
 
                         }
 
@@ -2473,54 +2478,50 @@ $(document).on('click', '.email-classification-move-to-btn', function(e) {
         }
 
         Swal.fire({
-            // title: 'Are you sure?',
-            // text: "Do you want to close this job!",
-            // text: "Please enter remarks:",
+
+            title: 'Are you sure?',
+            text: "Do you want to change the email category!",
             // icon: 'warning',
-            // type: "input",
-            // inputPlaceholder: "remarks",
-            html: '<textarea class="job-complete-remarks-field col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-15" placeholder="Enter remarks"/>',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes',
             showClass: {
-                popup: 'animated fadeInDownBig faster'
+                popup: 'animated fadeIn faster'
             },
             hideClass: {
                 popup: 'animated fadeOut faster'
             },
+
         }).then((result) => {
 
             if (result.value != undefined && result.value == true) {
 
-                var remarksVal = $('.job-complete-remarks-field').val();
+                params = $('.email-classification-move-to-form').serialize();
 
-                if (remarksVal == undefined || remarksVal == false || remarksVal == '') {
-
-                    Swal.fire({
-
-                        title: '',
-                        text: "Please enter remarks!",
-                        showClass: {
-                            popup: 'animated fadeIn faster'
-                        },
-                        hideClass: {
-                            popup: 'animated fadeOut faster'
-                        },
-
-                    });
-
-                    return false
-                }
-
-                $("#job_status_update_status").val('completed');
-                $("#job_status_update_remarks").val(remarksVal);
-
-                $(".job-status-update-form").submit();
+                escalationEmailClasificationMoveTo(postUrl, params);
 
             }
+
         });
+
+    }
+
+});
+
+$(document).on('click', '.email-escalation-close-btn', function(e) {
+
+    e.preventDefault();
+
+    var postUrl = '';
+
+    var params = '';
+
+    params = $('.email-escalation-close-form').serialize();
+
+    postUrl = $('.email-escalation-close-form').attr('action');
+
+    if (postUrl != undefined && postUrl != '') {
 
         if ($('.currentUserInfo').attr('data-current-user-role') == 'account_manager') {
 
@@ -2566,37 +2567,7 @@ $(document).on('click', '.email-classification-move-to-btn', function(e) {
 
                     $('.escalation-email-remarks').val(remarksVal);
 
-                    params = $('.email-classification-move-to-form').serialize();
-
-                    escalationEmailClasificationMoveTo(postUrl, params);
-
-                }
-
-            });
-
-        } else {
-
-            Swal.fire({
-
-                title: 'Are you sure?',
-                text: "Do you want to change the email category!",
-                // icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                showClass: {
-                    popup: 'animated fadeIn faster'
-                },
-                hideClass: {
-                    popup: 'animated fadeOut faster'
-                },
-
-            }).then((result) => {
-
-                if (result.value != undefined && result.value == true) {
-
-                    params = $('.email-classification-move-to-form').serialize();
+                    params = $('.email-escalation-close-form').serialize();
 
                     escalationEmailClasificationMoveTo(postUrl, params);
 

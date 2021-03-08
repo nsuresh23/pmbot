@@ -775,6 +775,8 @@ class EmailCollection
 
             $rules["id"] = "required";
 
+            $paramInfo["type"] = "view";
+
             $validator = Validator::make($paramInfo, $rules);
 
             if ($validator->fails()) {

@@ -29,7 +29,7 @@
 
             <?php if(in_array(auth()->user()->role, Config::get('constants.qcUserRoles'))) { ?>
 
-                <div class="email-button-group">
+                {{-- <div class="email-button-group">
                     <div class="email-classification-move-to-block pull-right">
                         <div class="inline-block">
                             <form class="form-inline email-classification-move-to-form" action="{{ route(__('job.email_move_to_url')) }}">
@@ -50,13 +50,13 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
             <?php } ?>
 
             <?php if(in_array(auth()->user()->role, Config::get('constants.amUserRoles'))) { ?>
 
-                <div class="email-button-group">
+                {{-- <div class="email-button-group">
                     <div class="email-classification-move-to-block pull-right">
                         <div class="inline-block">
                             <form class="form-inline email-classification-move-to-form"
@@ -81,7 +81,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
             <?php } ?>
 

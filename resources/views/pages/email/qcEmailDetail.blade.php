@@ -46,7 +46,7 @@
 
                                 <?php if (in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
 
-                                    <input type="hidden" class="email-classification-move-to-qc-approved" name="am_approved" value="1" />
+                                    <input type="hidden" class="email-classification-move-to-am-approved" name="am_approved" value="1" />
 
                                 <?php } ?>
 
@@ -66,6 +66,36 @@
                                         </div>
                                         <div class="help-block with-errors"></div>
                                     </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="email-escalation-close-block pull-right">
+
+                        <div class="inline-block">
+                            <form class="form-inline email-escalation-close-form" action="{{ route(__('job.email_move_to_url')) }}">
+                                <input type="hidden" class="email-classification-move-to-email-id" name="id" value="" />
+                                <input type="hidden" class="escalation-email-remarks" name="escalation_email_remarks" value="" />
+                                <input type="hidden" class="email-classification-category-input" name="email_classification_category" value="negative" />
+
+
+                                <?php if (in_array(auth()->user()->role, config('constants.qcUserRoles'))) { ?>
+
+                                    <input type="hidden" class="email-classification-move-to-qc-approved" name="qc_approved" value="1" />
+
+                                <?php } ?>
+
+                                <?php if (in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
+
+                                    <input type="hidden" class="email-classification-move-to-am-approved" name="am_approved" value="2" />
+
+                                <?php } ?>
+
+                                <div class="form-group">
+                                    <a class="pull-left inline-block btn btn-success email-escalation-close-btn pa-5 pl-10 pr-10" href="javascript:void(0)" title="{{ __('job.email_close_label') }}">
+                                        {{ __('job.email_close_label') }}
+                                    </a>
                                 </div>
                             </form>
                         </div>
