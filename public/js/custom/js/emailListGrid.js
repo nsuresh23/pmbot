@@ -1988,6 +1988,7 @@ $(document).on('click', '.pmbot-email-item', function(e) {
         $('.email-title').attr('data-email-id', '');
 
         $('.non-business-unmark-btn-block').hide();
+        $('.email-classification-move-to-block').hide();
 
         $('.job-unmark-btn-block').hide();
         $('.job-unmark-btn').attr('data-job-id', '');
@@ -2223,6 +2224,12 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
                         }
 
+                        if (response.data.am_approved != undefined && response.data.am_approved != '1') {
+
+                            $('.email-classification-move-to-block').show();
+
+                        }
+
                         if (response.data.email_attachment_count != undefined && response.data.email_attachment_count != '') {
 
                             $('.attachment-count').html(response.data.email_attachment_count);
@@ -2386,7 +2393,7 @@ function escalationEmailClasificationMoveTo(postUrl, params) {
 
             // gridSelector = ".emailQCCountGrid";
 
-            gridSelector = ".emailSentCountGrid";
+            gridSelector = ".emailQCCountGrid";
 
             pmsEmailCountGrid = ".pmsEmailCountGrid";
 
@@ -2596,73 +2603,6 @@ $(document).on('click', '.email-classification-move-to-btn', function(e) {
                 }
 
             });
-
-        }
-
-        if (move_to_confirmation == 'true') {
-
-            params = $('.email-classification-move-to-form').serialize();
-
-            /* AJAX call to email label update info */
-
-            var d = $.Deferred();
-
-            $.ajax({
-                url: postUrl,
-                data: params,
-                dataType: 'json',
-                type: 'POST',
-            }).done(function(response) {
-
-                if (response.success == "true") {
-
-                    type = 'success';
-
-                } else {
-
-                    type = 'error';
-
-                    d.resolve();
-
-                }
-
-                message = response.message;
-
-                flashMessage(type, message);
-
-                $('.email-detail-back-btn').trigger('click');
-
-                var gridSelector = ".myEmailGrid";
-
-                if ($('.currentUserInfo').attr('data-current-user-role') == 'account_manager') {
-
-                    // gridSelector = ".emailQCCountGrid";
-
-                    gridSelector = ".emailSentCountGrid";
-
-                    pmsEmailCountGrid = ".pmsEmailCountGrid";
-
-                    var dataUrl = $(pmsEmailCountGrid).attr('data-list-url');
-
-                    if (dataUrl != undefined && dataUrl != "") {
-
-                        getPmsEmailCountTableList(pmsEmailCountGrid);
-
-                    }
-
-                }
-
-                var dataUrl = $(gridSelector).attr('data-list-url');
-
-                if (dataUrl != undefined && dataUrl != "") {
-
-                    getEmailTableList(gridSelector);
-
-                }
-
-            });
-
-            return d.promise();
 
         }
 
