@@ -2372,6 +2372,12 @@ function escalationEmailClasificationMoveTo(postUrl, params) {
         data: params,
         dataType: 'json',
         type: 'POST',
+        beforeSend: function() {
+            $('.email_detail_loader').show();
+        },
+        complete: function() {
+            $('.email_detail_loader').hide();
+        }
     }).done(function(response) {
 
         if (response.success == "true") {
@@ -2425,6 +2431,8 @@ function escalationEmailClasificationMoveTo(postUrl, params) {
     return d.promise();
 
 }
+
+$('#QCEmailModal').on('shown.bs.modal', function() { $(document).off('focusin.modal') });
 
 $(document).on('click', '.email-classification-move-to-btn', function(e) {
 
