@@ -64,7 +64,7 @@ function getEmailTableList(gridSelector) {
 
     var scoreValue = [
         { Category: '', Id: '', Name: '' },
-        { Category: '<i class="fa fa-circle inline-block txt-a-blue font-16" title="positive"></i>', Id: 'positive', Name: 'Positive' },
+        { Category: '<i class="fa fa-circle inline-block txt-success font-16" title="positive"></i>', Id: 'positive', Name: 'Positive' },
         { Category: '<i class="fa fa-circle inline-block txt-danger font-16" title="negative"></i>', Id: 'negative', Name: 'Negative' },
         { Category: '<i class="fa fa-circle inline-block txt-light font-16" title="neutral"></i>', Id: 'neutral', Name: 'Neutral' },
         { Category: '<i class="fa fa-circle inline-block txt-light font-16" title="internal"></i>', Id: 'internal', Name: 'Internal' },
@@ -211,7 +211,7 @@ function getEmailTableList(gridSelector) {
 
                 if (item.email_classification_category == 'positive') {
 
-                    return '<i class="fa fa-circle inline-block txt-a-blue font-16" title="positive"></i>';
+                    return '<i class="fa fa-circle inline-block txt-success font-16" title="positive"></i>';
 
                 }
 
