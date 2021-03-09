@@ -1107,6 +1107,60 @@ class EmailController extends Controller
     }
 
     /**
+     * Update email view in email table by email id.
+     *
+     * @return json returnResponse
+     */
+    public function emailViewUpdate(Request $request)
+    {
+
+        $returnResponse = [];
+
+        try {
+
+            $emailViewParamInfo = [];
+            $emailViewParamInfo["id"] = $request->id;
+            $emailViewParamInfo["empcode"] = auth()->user()->empcode;
+            $emailViewParamInfo["view"] = $request->view;
+            $emailViewParamInfo["start_time"] = date('Y-m-d H:i:s');
+            $emailViewParamInfo["ip_address"] = $request->ip();
+
+            if (auth()->check()) {
+
+                // $emailViewParamInfo["creator_empcode"] = auth()->user()->empcode;
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $emailViewParamInfo["creator_empcode"] = session()->get("current_empcode");
+
+                }
+
+            }
+
+            if(is_array($emailViewParamInfo) && count($emailViewParamInfo)>0) {
+
+                $returnResponse = $this->emailResource->emailViewUpdate($emailViewParamInfo);
+
+            }
+
+        } catch (Exeception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        // if ($redirectRouteAction) {
+
+        //     // $redirectUrl = redirect()->action($redirectRouteAction);
+        //     $returnResponse["redirectTo"] = route('home');
+        // }
+
+        return json_encode($returnResponse);
+    }
+
+    /**
      * Send email.
      *
      *  @return json response

@@ -347,8 +347,6 @@ function getEmailTableList(gridSelector) {
                             var postUrl = $('.email-read').attr('data-email-read-url');
 
                             postData.id = item.id;
-                            postData.status = item.status;
-                            postData.type = item.type;
 
                             if (item.view == '1') {
 
@@ -362,12 +360,20 @@ function getEmailTableList(gridSelector) {
 
                             }
 
+                            var d = $.Deferred();
+
                             $.ajax({
 
                                 url: postUrl,
                                 data: postData,
                                 dataType: 'json',
                                 type: 'POST',
+                                beforeSend: function() {
+                                    $('.email_detail_loader').show();
+                                },
+                                complete: function() {
+                                    $('.email_detail_loader').hide();
+                                }
 
                             }).done(function(response) {
 
@@ -999,7 +1005,7 @@ function getEmailTableList(gridSelector) {
 
                     if (gridCategory == 'qcEmail') {
 
-                        if (emailFilter == 'qcEmail') {
+                        if (emailFilter == 'potentially_alarming' || emailFilter == 'alarming' || emailFilter == 'escalation') {
 
                             if (empcode != undefined && empcode != '') {
 

@@ -308,6 +308,7 @@ return [
     'email_get_url' => 'email-get',
     'get_email_id'  => 'get-emailid',
     'email_status_update_url' => 'email-status-update',
+    'email_view_update_url' => 'email-view-update',
 	'signature_update' => 'signature-update',
 	'get_signature' => 'get-signature',
     'open_task_list_url' => 'open-task-list',
