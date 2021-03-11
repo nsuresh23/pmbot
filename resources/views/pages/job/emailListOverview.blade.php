@@ -20,19 +20,19 @@
 
                                 <li class="active" role="presentation">
 
-                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="job-all-email-tab" class="inner-tab-bg job-all-email" data-grid-selector="jobEmailGrid" href="#all-email-tab-content">All</a>
+                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="job-all-email-tab" class="inner-tab-bg job-all-email" data-grid-selector="jobEmailGrid" href="#all-email-tab-content">{{ __("job.email_all_label") }}</a>
 
                                 </li>
 
                                 <li role="presentation">
 
-                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="job-pe-email-tab" class="inner-tab-bg job-pe-email" data-grid-selector="jobEmailGrid" href="#pe-email-tab-content">PE</a>
+                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="job-pe-email-tab" class="inner-tab-bg job-pe-email" data-grid-selector="jobEmailGrid" href="#pe-email-tab-content">{{ __("job.email_pe_label") }}</a>
 
                                 </li>
 
                                 <li role="presentation">
 
-                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="job-author-email-tab" class="inner-tab-bg job-author-email" data-grid-selector="jobEmailGrid" href="#author-email-tab-content">Author</a>
+                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="job-author-email-tab" class="inner-tab-bg job-author-email" data-grid-selector="jobEmailGrid" href="#author-email-tab-content">{{ __("job.email_author_label") }}</a>
 
                                 </li>
 
