@@ -43,6 +43,8 @@ function getEmailTableList(gridSelector) {
     var gridEmailLabel = $(gridSelector).attr('data-email-label');
     var currentUserId = $(gridSelector).attr('data-current-user-id');
     var currentJobId = $(gridSelector).attr('data-current-job-id');
+    var jobPEEmail = $(gridSelector).attr('data-pe-email');
+    var jobAuthorEmail = $(gridSelector).attr('data-author-email');
     var listUrl = $(gridSelector).attr('data-list-url');
     var currentRoute = $(gridSelector).attr('data-current-route');
     var empcode = $(gridSelector).attr('data-empcode');
@@ -1089,6 +1091,26 @@ function getEmailTableList(gridSelector) {
                     if (currentJobId != undefined && currentJobId != '') {
 
                         emailListPostData.job_id = currentJobId;
+
+                    }
+
+                    if (emailFilter == 'pe') {
+
+                        if (jobPEEmail != undefined && jobPEEmail != '') {
+
+                            emailListPostData.pe_email = jobPEEmail;
+
+                        }
+
+                    }
+
+                    if (emailFilter == 'author') {
+
+                        if (jobAuthorEmail != undefined && jobAuthorEmail != '') {
+
+                            emailListPostData.author_email = jobAuthorEmail;
+
+                        }
 
                     }
 
@@ -2884,6 +2906,102 @@ $(document).on('click', '.dashboard-nb-email-label', function() {
     $(this).closest('li').addClass('active');
     $('.email-list-body').show();
     $('.email-detail-body').hide();
+
+});
+
+$(document).on('click', '.job-all-email', function(e) {
+
+    e.preventDefault();
+
+    $('.email-detail-back-btn').trigger('click');
+
+    $('.job-email-nav').show();
+
+    $('.job-email-grid-block').removeClass('col-lg-12');
+    $('.job-email-grid-block').addClass('col-lg-10');
+
+    $('.job-email-grid-block').removeClass('col-md-12');
+    $('.job-email-grid-block').addClass('col-md-10');
+
+    $('.job-email-grid-block').removeClass('col-sm-12');
+    $('.job-email-grid-block').addClass('col-sm-10');
+
+    $('.job-email-grid-block').removeClass('col-xs-12');
+    $('.job-email-grid-block').addClass('col-xs-10');
+
+    $('.job-inbox-email').trigger('click');
+
+});
+
+$(document).on('click', '.job-pe-email', function(e) {
+
+    e.preventDefault();
+
+    $('.email-detail-back-btn').trigger('click');
+
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        $('.job-email-nav').hide();
+
+        $('.job-email-grid-block').removeClass('col-lg-10');
+        $('.job-email-grid-block').addClass('col-lg-12');
+
+        $('.job-email-grid-block').removeClass('col-md-10');
+        $('.job-email-grid-block').addClass('col-md-12');
+
+        $('.job-email-grid-block').removeClass('col-sm-10');
+        $('.job-email-grid-block').addClass('col-sm-12');
+
+        $('.job-email-grid-block').removeClass('col-xs-10');
+        $('.job-email-grid-block').addClass('col-xs-12');
+
+        $(gridSelector).attr('data-email-filter', 'pe');
+
+        $(gridSelector).attr('data-email-label', '');
+
+        getEmailTableList(gridSelector);
+
+    }
+
+});
+
+$(document).on('click', '.job-author-email', function(e) {
+
+    e.preventDefault();
+
+    $('.email-detail-back-btn').trigger('click');
+
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        $('.job-email-nav').hide();
+
+        $('.job-email-grid-block').removeClass('col-lg-10');
+        $('.job-email-grid-block').addClass('col-lg-12');
+
+        $('.job-email-grid-block').removeClass('col-md-10');
+        $('.job-email-grid-block').addClass('col-md-12');
+
+        $('.job-email-grid-block').removeClass('col-sm-10');
+        $('.job-email-grid-block').addClass('col-sm-12');
+
+        $('.job-email-grid-block').removeClass('col-xs-10');
+        $('.job-email-grid-block').addClass('col-xs-12');
+
+        $(gridSelector).attr('data-email-filter', 'author');
+
+        $(gridSelector).attr('data-email-label', '');
+
+        getEmailTableList(gridSelector);
+
+    }
 
 });
 

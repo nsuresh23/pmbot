@@ -14,7 +14,53 @@
                     </div>
                     <div id="myEmails" class="panel-collapse collapse in" role="tabpanel">
 
-                        @include('pages.job.email.emailList')
+                        <div class="tab-struct job-email-tab-struct mt-5">
+
+                            <ul role="tablist" class="nav nav-tabs inner-tabs" id="job-email-tab-list">
+
+                                <li class="active" role="presentation">
+
+                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="job-all-email-tab" class="inner-tab-bg job-all-email" data-grid-selector="jobEmailGrid" href="#all-email-tab-content">All</a>
+
+                                </li>
+
+                                <li role="presentation">
+
+                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="job-pe-email-tab" class="inner-tab-bg job-pe-email" data-grid-selector="jobEmailGrid" href="#pe-email-tab-content">PE</a>
+
+                                </li>
+
+                                <li role="presentation">
+
+                                    <a aria-expanded="true" data-toggle="tab" role="tab" id="job-author-email-tab" class="inner-tab-bg job-author-email" data-grid-selector="jobEmailGrid" href="#author-email-tab-content">Author</a>
+
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" id="job-email-tab-content">
+
+                                <div id="all-email-tab-content" class="tab-pane fade active in" role="tabpanel">
+
+                                    @include('pages.job.email.emailList')
+
+                                </div>
+
+                                {{-- <div id="pe-email-tab-content" class="tab-pane fade" role="tabpanel">
+
+                                    @include('pages.job.email.peEmailListWithoutNav')
+
+                                </div>
+
+                                <div id="author-email-tab-content" class="tab-pane fade " role="tabpanel">
+
+                                    @include('pages.job.email.authorEmailListWithoutNav')
+
+                                </div> --}}
+
+                            </div>
+
+                        </div>
 
                     </div>
                 </div>
@@ -35,9 +81,9 @@
                             </a> --}}
                         </div>
                         <div id="email_job_check_list_collapse" class="panel-collapse collapse" role="tabpanel">
-                
+
                             @include('pages.job.email.jobCheckList')
-                
+
                         </div>
                     </div>
                 </div>
@@ -52,9 +98,9 @@
                         </a>
                     </div>
                     <div id="email_global_check_list_collapse" class="panel-collapse collapse" role="tabpanel">
-                
+
                         @include('pages.job.email.globalCheckList')
-                
+
                     </div>
                 </div>
 

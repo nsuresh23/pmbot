@@ -39,7 +39,7 @@ $redirectToJobUrl = __("job.job_detail_url");
 
 $emailTemplateList = [];
 
-$jobId = $jobStatus = $selectedDueDate = "";
+$jobId = $jobStatus = $selectedDueDate = $peEmail = $authorEmail = "";
 
 $selectedJobCategory = $selectedWorkflowVersion = null;
 
@@ -74,6 +74,18 @@ if(isset($responseData["data"]) && $responseData["data"]) {
     if(isset($responseData["data"]["category"]) && $responseData["data"]["category"]) {
 
         $selectedJobCategory = $responseData["data"]["category"];
+
+    }
+
+    if(isset($responseData["data"]["pe_email"]) && $responseData["data"]["pe_email"]) {
+
+        $peEmail = $responseData["data"]["pe_email"];
+
+    }
+
+    if(isset($responseData["data"]["author_email"]) && $responseData["data"]["author_email"]) {
+
+        $authorEmail = $responseData["data"]["author_email"];
 
     }
 

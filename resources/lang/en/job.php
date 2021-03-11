@@ -45,6 +45,8 @@ return [
     'book_info_editor_info_placeholder_text' => 'Enter editor info',
     'book_info_pe_info_label' => 'PE name',
     'book_info_pe_info_placeholder_text' => 'Enter PE name',
+    'book_info_pe_email_label' => 'PE email',
+    'book_info_pe_email_placeholder_text' => 'Enter PE email',
     'book_info_workflow_version_label' => 'Workflow version',
     'book_info_workflow_version_placeholder_text' => 'Select workflow version',
     'book_info_due_date_label' => 'Due date',

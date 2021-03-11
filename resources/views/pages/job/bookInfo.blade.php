@@ -134,7 +134,7 @@
                         <!-- /Row -->
                         <!-- Row -->
                         <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_author_info_label') }}</label>
                                     <input type="text" id="author" name="author" class="form-control"
@@ -144,7 +144,7 @@
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_author_email_label') }}</label>
                                     <input type="text" id="author-email" name="author_email" class="form-control"
@@ -154,13 +154,23 @@
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label class="control-label mb-10">{{ __('job.book_info_pe_info_label') }}</label>
                                     <input type="text" id="pe-name" class="form-control" name="pe_name"
                                         value="{{ $responseData["data"]["pe_name"] ?? '' }}"
                                         placeholder="{{ __('job.book_info_pe_info_placeholder_text') }}"
                                         data-error="{{ __('job.book_info_pe_info_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label mb-10">{{ __('job.book_info_pe_email_label') }}</label>
+                                    <input type="text" id="pe-email" class="form-control" name="pe_email"
+                                        value="{{ $responseData["data"]["pe_email"] ?? '' }}"
+                                        placeholder="{{ __('job.book_info_pe_email_placeholder_text') }}"
+                                        data-error="{{ __('job.book_info_pe_email_error_msg') }}" {{ $jobEditReadonly ?? '' }} />
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>

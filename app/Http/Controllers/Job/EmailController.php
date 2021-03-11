@@ -1000,6 +1000,18 @@ class EmailController extends Controller
 
             }
 
+            if (isset($request->pe_email) && $request->pe_email != "") {
+
+                $field["pe_email"] = $request->pe_email;
+
+            }
+
+            if (isset($request->author_email) && $request->author_email != "") {
+
+                $field["author_email"] = $request->author_email;
+
+            }
+
             $field["empcode"] = auth()->user()->empcode;
 
             if (count($field) > 0) {
