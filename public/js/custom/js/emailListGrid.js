@@ -2911,9 +2911,7 @@ $(document).on('click', '.dashboard-nb-email-label', function() {
 
 $(document).on('click', '.job-all-email', function(e) {
 
-    e.preventDefault();
-
-    $('.email-detail-back-btn').trigger('click');
+    e.stopImmediatePropagation();
 
     $('.job-email-nav').show();
 
@@ -2935,15 +2933,45 @@ $(document).on('click', '.job-all-email', function(e) {
 
 $(document).on('click', '.job-pe-email', function(e) {
 
-    e.preventDefault();
+    e.stopImmediatePropagation();
 
-    $('.email-detail-back-btn').trigger('click');
+    $('.email-list-body').show();
+    $('.email-detail-body').hide();
 
     var gridSelector = '.' + $(this).attr('data-grid-selector');
 
     var dataUrl = $(gridSelector).attr('data-list-url');
 
+    var jobPEEmail = $(gridSelector).attr('data-pe-email');
+
     if (dataUrl != undefined && dataUrl != "") {
+
+        if (jobPEEmail == undefined || jobPEEmail == '') {
+
+            Swal.fire({
+
+                title: '',
+                text: "Please update PE email to the job!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            $(this).addClass('disabled-block');
+
+            $('.job-all-email').trigger('click');
+
+            return false;
+
+        } else {
+
+            $(this).removeClass('disabled-block');
+
+        }
 
         $('.job-email-nav').hide();
 
@@ -2971,15 +2999,45 @@ $(document).on('click', '.job-pe-email', function(e) {
 
 $(document).on('click', '.job-author-email', function(e) {
 
-    e.preventDefault();
+    e.stopImmediatePropagation();
 
-    $('.email-detail-back-btn').trigger('click');
+    $('.email-list-body').show();
+    $('.email-detail-body').hide();
 
     var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var jobAuthorEmail = $(gridSelector).attr('data-author-email');
 
     var dataUrl = $(gridSelector).attr('data-list-url');
 
     if (dataUrl != undefined && dataUrl != "") {
+
+        if (jobAuthorEmail == undefined || jobAuthorEmail == '') {
+
+            Swal.fire({
+
+                title: '',
+                text: "Please update author email to the job!",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+            $(this).addClass('disabled-block');
+
+            $('.job-all-email').trigger('click');
+
+            return false;
+
+        } else {
+
+            $(this).removeClass('disabled-block');
+
+        }
 
         $('.job-email-nav').hide();
 
