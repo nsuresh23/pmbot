@@ -4160,7 +4160,7 @@ function showform(type, selector) {
                     var sig_class = 'emailsig_block_' + random;
                     sessionStorage.setItem('signature_classname', sig_class);
 
-                    var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                    var stamp = '<div class="emailsig_block ' + sig_class + '">' + response.data.replyforward_signature;
                     var msg = '</div>';
                     sinmessage = stamp + msg;
 
@@ -4950,7 +4950,7 @@ $(document).on('click', '.email-compose-btn', function(e) {
                 sessionStorage.setItem('signature_classname', sig_class);
 
                 var message = response.data.new_signature;
-                var stamp = '<div class="' + sig_class + '">';
+                var stamp = '<div class="emailsig_block ' + sig_class + '">';
                 message = stamp.concat(message);
                 var msg = '</div>';
                 message = msg.concat(message);
@@ -5578,7 +5578,7 @@ $(document).on('change', '.signature_change', function(e) {
 
                                 }
 
-                                var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
+                                var stamp = '<div class="emailsig_block ' + sig_class + '">' + response.data.new_signature;
                                 var msg = '</div>';
                                 message = message + stamp + msg;
                                 if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
@@ -5657,7 +5657,7 @@ $(document).on('change', '.signature_change', function(e) {
 
                                 }
 
-                                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                                var stamp = '<div class="emailsig_block ' + sig_class + '">' + response.data.replyforward_signature;
                                 var msg = '</div>';
                                 message = message + stamp + msg;
 
@@ -5790,7 +5790,7 @@ $(document).on('change', '.signature_reply_change', function(e) {
 
                                 }
 
-                                var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
+                                var stamp = '<div class="emailsig_block ' + sig_class + '">' + response.data.new_signature;
                                 var msg = '</div>';
                                 message = message + stamp + msg;
                                 if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
@@ -5869,7 +5869,7 @@ $(document).on('change', '.signature_reply_change', function(e) {
 
                                 }
 
-                                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                                var stamp = '<div class="emailsig_block ' + sig_class + '">' + response.data.replyforward_signature;
                                 var msg = '</div>';
                                 message = message + stamp + msg;
 
@@ -5987,7 +5987,7 @@ $(document).on('change', '.signature_draft_change', function(e) {
                                     tinymce.get('textarea_editor_email_compose').setContent('');
                                 }
 
-                                var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
+                                var stamp = '<div class="emailsig_block ' + sig_class + '">' + response.data.new_signature;
                                 var msg = '</div>';
                                 message = message + stamp + msg;
                                 if (tinymce.get('textarea_editor_email_compose') != undefined && tinymce.get('textarea_editor_email_compose') != null) {
@@ -6042,7 +6042,7 @@ $(document).on('change', '.signature_draft_change', function(e) {
 
                                 }
 
-                                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                                var stamp = '<div class="emailsig_block ' + sig_class + '">' + response.data.replyforward_signature;
                                 var msg = '</div>';
                                 message = message + stamp + msg;
 
@@ -6158,7 +6158,7 @@ $(document).on('change', '.signature_change_old', function(e) {
 
                                 }
 
-                                var stamp = '<div class="' + sig_class + '">' + response.data.new_signature;
+                                var stamp = '<div class="emailsig_block ' + sig_class + '">' + response.data.new_signature;
                                 var msg = '</div>';
                                 message = message + stamp + msg;
 
@@ -6273,7 +6273,7 @@ $(document).on('change', '.signature_change_old', function(e) {
 
                                 }
 
-                                var stamp = '<div class="' + sig_class + '">' + response.data.replyforward_signature;
+                                var stamp = '<div class="emailsig_block ' + sig_class + '">' + response.data.replyforward_signature;
                                 var msg = '</div>';
                                 message = message + stamp + msg;
 
