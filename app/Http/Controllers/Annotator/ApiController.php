@@ -96,7 +96,7 @@ class ApiController extends Controller
 
                         $email_file_path = route('file') . Config::get('constants.emailImageDownloadPathParams');
 
-                        $email_file_path .= $emailData[0]->email_path_primary . $email_filename;
+                        $email_file_path .= $emailData[0]->email_path_primary . urlencode($email_filename);
 
                         $alais_filename = $email_file_base_name . "." . $file_name_split["extension"];
 
@@ -189,7 +189,7 @@ class ApiController extends Controller
 
                                             $item_file = route('file') . Config::get('constants.emailImageDownloadPathParams');
 
-                                            $item_file .= $emailAttachmentPath . $item;
+                                            $item_file .= $emailAttachmentPath . urlencode($item);
                                             $item_name = $item;
 
                                             $emailAttachmentHtml .= '<li class="mb-0">';

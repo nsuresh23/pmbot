@@ -1536,7 +1536,7 @@ class EmailCollection
 
                                 $email_file_path = route('file') . Config::get('constants.emailImageDownloadPathParams');
 
-                                $email_file_path .= $returnResponse["data"]["email_path_primary"] . $email_filename;
+                                $email_file_path .= $returnResponse["data"]["email_path_primary"] . urlencode($email_filename);
 
                                 $alais_filename = $email_file_base_name . "." . $file_name_split["extension"];
 
@@ -1589,7 +1589,7 @@ class EmailCollection
 
                                             // }
 
-                                            $item_file .= $emailAttachmentPath . $item;
+                                            $item_file .= $emailAttachmentPath . urlencode($item);
                                             $item_name = $item;
 
                                             $emailAttachmentHtml .= '<li class="mb-0">';
@@ -2031,7 +2031,7 @@ class EmailCollection
 
                                 $email_file_path = route('file') . Config::get('constants.emailImageDownloadPathParams');
 
-                                $email_file_path .= $item["email_path_primary"] . $email_filename;
+                                $email_file_path .= $item["email_path_primary"] . urlencode($email_filename);
 
                                 $alais_filename = $email_file_base_name . "." . $file_name_split["extension"];
 
