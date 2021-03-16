@@ -4222,6 +4222,9 @@ function showform(type, selector) {
 
         }
     });
+
+    $('.mce-i-restoredraft').closest('div').addClass('disabled-block');
+
 }
 
 function showdraftform(type, selector) {
@@ -4331,6 +4334,9 @@ function showdraftform(type, selector) {
 
         }
     });
+
+    $('.mce-i-restoredraft').closest('div').addClass('disabled-block');
+
 }
 
 function listFocus(selector, event) {
@@ -4904,6 +4910,7 @@ $(document).on('click', '.email-compose-btn', function(e) {
     $('#to').val('');
     $('#cc').val('');
     $('#subject').val('');
+    $('.email_id').val('');
     $('.email-template').select2().val('').trigger('change');
     attachtedEmailFilesToUpload = [];
     $('.email-send-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -4983,6 +4990,7 @@ $(document).on('click', '.email-compose-btn', function(e) {
         }
     });
 
+    $('.mce-i-restoredraft').closest('div').addClass('disabled-block');
 
 });
 

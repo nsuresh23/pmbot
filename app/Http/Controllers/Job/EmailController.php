@@ -1436,6 +1436,12 @@ class EmailController extends Controller
 
             }
 
+            if(isset($request->autosave) && $request->autosave == 'true') {
+
+                $field['autosave'] = 'true';
+
+            }
+
             if (count($field) > 0) {
                 $returnResponse = $this->emailResource->emailSend($field);
             }
@@ -1594,6 +1600,12 @@ class EmailController extends Controller
 
                     $field['creator_empcode'] = session()->get("current_empcode");
                 }
+            }
+
+            if(isset($request->autosave) && $request->autosave == 'true') {
+
+                $field['autosave'] = 'true';
+
             }
 
             if (count($field) > 0) {

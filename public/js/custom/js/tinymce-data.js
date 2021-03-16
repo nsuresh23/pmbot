@@ -67,16 +67,22 @@ $(function() {
             relative_urls: false,
             remove_script_host: false,
             convert_urls: false,
+
+            autosave_ask_before_unload: false,
+            autosave_interval: '30s',
+            autosave_restore_when_empty: false,
+            autosave_retention: '30m',
+
             protect: [
                 /\<\!\[(if !supportLists|endif)\]\>/g, // Protect <![if !supportLists]> & <![endif]>
                 /\&lt;\!\[(if !supportLists|endif)\]\&gt;/g, // Protect &lt;![if !supportLists]&gt; & &lt;![endif]&gt;
             ],
             valid_children: '+body[style]',
-            plugins: 'advlist anchor autolink charmap code codesample colorpicker directionality fullscreen hr image imagetools insertdatetime link lists media nonbreaking pagebreak powerpaste print preview searchreplace table template textcolor textpattern visualblocks visualchars wordcount',
+            plugins: 'advlist anchor autolink autosave charmap code codesample colorpicker directionality fullscreen hr image imagetools insertdatetime link lists media nonbreaking pagebreak powerpaste print preview searchreplace table template textcolor textpattern visualblocks visualchars wordcount',
             fontsize_formats: '8pt 9pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 21pt 22pt 23pt 24pt 25pt 26pt 27pt 28pt 29pt 30pt 31pt 32pt 33pt 34pt 35pt 36pt',
             font_formats: ' Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Calibri=calibri; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats',
             // toolbar: 'formatselect | fontselect | fontsizeselect | forecolor | backcolor | bold italic underline strikethrough superscript subscript | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | link | removeformat | code | help',
-            toolbar: 'formatselect | fontselect | fontsizeselect | forecolor | backcolor | bold italic underline strikethrough superscript subscript | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | link',
+            toolbar: 'restoredraft | formatselect | fontselect | fontsizeselect | forecolor | backcolor | bold italic underline strikethrough superscript subscript | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | link',
 
             // content_style: 'html { height: 100%; cursor: text } body { background-color: #FFFFFF; font-size: 11.0pt; font-family: Calibri; color: #1f497d; scrollbar-3dlight-color: #F0F0EE; scrollbar-arrow-color: #676662; scrollbar-base-color: #F0F0EE; scrollbar-darkshadow-color: #DDDDDD; scrollbar-face-color: #E0E0DD; scrollbar-highlight-color: #F0F0EE; scrollbar-shadow-color: #F0F0EE; scrollbar-track-color: #F5F5F5 } p { margin: 0in; margin-bottom: .0001pt; } td, th { font-size: 11.0pt; font-family: Calibri; } .mce-content-body .mce-reset { margin: 0; padding: 0; border: 0; outline: 0; vertical-align: top; background: transparent; text-decoration: none; font-size: 11.0pt; font-family: Calibri; color: #1f497d; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; /* line-height: normal; */ line-height: 6pt; font-weight: normal; text-align: left; -webkit-tap-highlight-color: transparent; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; direction: ltr; max-width: none } .mce-object { border: 1px dotted #3A3A3A; background: #D5D5D5 url(img/object.gif) no-repeat center } .mce-preview-object { display: inline-block; position: relative; margin: 0 2px 0 2px; line-height: 0; border: 1px solid gray } .mce-preview-object[data-mce-selected="2"] .mce-shim { display: none } .mce-preview-object .mce-shim { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7) } figure.align-left { float: left } figure.align-right { float: right } figure.image.align-center { display: table; margin-left: auto; margin-right: auto } figure.image { display: inline-block; border: 1px solid gray; margin: 0 2px 0 1px; background: #f5f2f0 } figure.image img { margin: 8px 8px 0 8px } figure.image figcaption { margin: 6px 8px 6px 8px; text-align: center } .mce-toc { border: 1px solid gray } .mce-toc h2 { margin: 4px } .mce-toc li { list-style-type: none } .mce-pagebreak { cursor: default; display: block; border: 0; width: 100%; height: 5px; border: 1px dashed #666; margin-top: 15px; page-break-before: always } @media print { .mce-pagebreak { border: 0 } } .mce-item-anchor { cursor: default; display: inline-block; -webkit-user-select: all; -webkit-user-modify: read-only; -moz-user-select: all; -moz-user-modify: read-only; user-select: all; user-modify: read-only; width: 9px !important; height: 9px !important; border: 1px dotted #3A3A3A; background: #D5D5D5 url(img/anchor.gif) no-repeat center } .mce-nbsp, .mce-shy { background: #AAA } .mce-shy::after { content: ' - ' } hr { cursor: default } .mce-match-marker { background: #AAA; color: #fff } .mce-match-marker-selected { background: #3399ff; color: #fff } .mce-spellchecker-word { border-bottom: 2px solid #F00; cursor: default } .mce-spellchecker-grammar { border-bottom: 2px solid #008000; cursor: default } .mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption { border: 1px solid grey; border-spacing: 0px; } td[data-mce-selected], th[data-mce-selected] { background-color: #3399ff !important } .mce-edit-focus { outline: 1px dotted #333 } .mce-content-body *[contentEditable=false] *[contentEditable=true]:focus { outline: 2px solid #2d8ac7 } .mce-content-body *[contentEditable=false] *[contentEditable=true]:hover { outline: 2px solid #7ACAFF } .mce-content-body *[contentEditable=false][data-mce-selected] { outline: 2px solid #2d8ac7 } .mce-resize-bar-dragging { background-color: blue; opacity: .25; filter: alpha(opacity=25); zoom: 1 }',
 
@@ -98,6 +104,39 @@ $(function() {
                         ed.undoManager.add();
                         ed.execCommand('mceSave');
                     }
+                });
+                ed.on('StoreDraft', function(evt) {
+
+                    if (ed.isDirty()) {
+
+                        var settings = ed.settings;
+
+                        if (settings != undefined && typeof settings == 'object' && 'id' in settings) {
+
+                            var editorType = settings.id;
+
+                            if (editorType == 'textarea_editor_email_compose') {
+
+                                autosave('send');
+
+                            }
+
+                            if (editorType == 'textarea_editor_email_reply') {
+
+                                autosave('reply');
+
+                            }
+
+                            if (editorType == 'textarea_editor_email_draft') {
+
+                                autosave('draft');
+
+                            }
+
+                        }
+
+                    }
+
                 });
                 // ed.on('init', function(ed) {
                 //     ed.target.editorCommands.execCommand("fontName", false, "calibri");
@@ -357,5 +396,78 @@ $(function() {
             e.stopImmediatePropagation();
         }
     });
+
+    function autosave(editorType) {
+
+        tinymce.triggerSave(true, true);
+
+        var type = $('.pmbottype').attr('data-pmbottype');
+        $('.type').val(type);
+        $('#email-type').val(type);
+
+        // var subject = $('#email-' + editorType + '-subject').val();
+
+        // if (subject.trim() == '') {
+        //     $("#email-' + editorType + '-subject").focus();
+        //     return false;
+        // }
+
+        $('.email-status').val('4');
+
+        var postUrl = $('.email-' + editorType + '-form').attr('action');
+
+        var params = new FormData($('.email-' + editorType + '-form')[0]);
+
+        if (filesToUpload != undefined && Object.keys(filesToUpload).length > 0) {
+
+            var i = 0;
+
+            for (var index in filesToUpload) {
+
+                params.append('file-' + i, filesToUpload[index]);
+
+                i = i + 1;
+
+            }
+
+        }
+
+        params.delete('attachement');
+
+        params.append('autosave', 'true');
+
+        if (postUrl != undefined && postUrl != '') {
+
+            /* AJAX call to email item info */
+
+            $.ajax({
+                url: postUrl,
+                data: params,
+                dataType: 'json',
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                enctype: "multipart/form-data",
+            }).done(function(response) {
+
+                if (response.success == "true") {
+
+                    if (response.data != undefined && response.data != '') {
+
+                        if (response.data.email_id != undefined && response.data.email_id != '') {
+
+                            $('.email-' + editorType + '-form .email_id').val(response.data.email_id);
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+        }
+
+    }
 
 });

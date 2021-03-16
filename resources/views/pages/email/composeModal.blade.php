@@ -24,6 +24,7 @@
                 <form role="form" class="form-horizontal email-send-form" action="{{ $emailSendUrl ?? '#'}}">
 				<input type="hidden" id="status" name="status" value="0" class="form-control email-status">
 				<input type="hidden" placeholder="" id="type" name="type" value="" class="form-control type">
+				<input type="hidden" placeholder="" name="email_id" value="" class="form-control email_id">
 				<input type="hidden" placeholder="" id="job_id" name="job_id" value="{{$jobId ?? ''}}" class="form-control">
 				<input type="hidden" id="redirectTo" name="redirectTo" value="{{$redirectTo ?? '#'}}">
 				<input type="hidden" id="getemailidURL" name="getemailidURL" value="{{$getEmailid ?? '#'}}">

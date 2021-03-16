@@ -47,6 +47,7 @@ class EmailCollection
     protected $classificationEmailListApiUrl;
     protected $qcEmailListApiUrl;
     protected $emailInfoUpdateApiUrl;
+    protected $emailAutosaveSendApiUrl;
 
     public function __construct()
     {
@@ -76,6 +77,7 @@ class EmailCollection
         $this->classificationEmailListApiUrl    = env('API_EMAIL_CLASSIFICATION_LIST_URL');
         $this->qcEmailListApiUrl                = env('API_EMAIL_QC_LIST_URL');
         $this->emailInfoUpdateApiUrl            = env('API_EMAIL_INFO_UPDATE_URL');
+        $this->emailAutoSaveSendApiUrl          = env('API_EMAIL_AUTOSAVE_SEND_URL');
     }
 
     /**
@@ -1254,6 +1256,13 @@ class EmailCollection
         try {
 
             $url = $this->emailSendApiUrl;
+
+            if (isset($field['autosave']) && $field['autosave'] == "true") {
+
+                $url = $this->emailAutoSaveSendApiUrl;
+
+            }
+
 			if (isset($field['to']) && $field['to'] != "") {
 				$field["to"] = rtrim($field["to"],";");
                 $field["to"] = base64_encode($field['to']);
@@ -1298,7 +1307,21 @@ class EmailCollection
 			if (isset($responseData["success"]) && $responseData["success"] == "true") {
 
 				$returnResponse["success"] = "true";
-				$returnResponse["message"] = "Send successfull";
+                $returnResponse["message"] = "Send successfull";
+
+                if (isset($field['autosave']) && $field['autosave'] == "true") {
+
+                    $responseData["data"] = [];
+                    $responseData["data"]["email_id"] = "200";
+
+                    if (isset($responseData["data"]) && $responseData["data"] != '') {
+
+                        $returnResponse["data"] = $responseData["data"];
+
+                    }
+
+                }
+
 
 			} else {
 
@@ -1746,6 +1769,13 @@ class EmailCollection
         try {
 
             $url = $this->draftemailSendApiUrl;
+
+            if (isset($field['autosave']) && $field['autosave'] == "true") {
+
+                $url = $this->emailAutoSaveSendApiUrl;
+
+            }
+
 			if (isset($field['email_to']) && $field['email_to'] != "") {
 				$field["email_to"] = rtrim($field["email_to"],";");
                 $field["email_to"] = base64_encode($field['email_to']);
@@ -1779,7 +1809,17 @@ class EmailCollection
 			if (isset($responseData["success"]) && $responseData["success"] == "true") {
 
 				$returnResponse["success"] = "true";
-				$returnResponse["message"] = "Send successfull";
+                $returnResponse["message"] = "Send successfull";
+
+                if (isset($field['autosave']) && $field['autosave'] == "true") {
+
+                    if (isset($responseData["data"]) && $responseData["data"] != '') {
+
+                        $returnResponse["data"] = $responseData["data"];
+
+                    }
+
+                }
 
 			} else {
 
