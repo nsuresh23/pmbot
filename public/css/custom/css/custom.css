@@ -788,6 +788,28 @@ content: "\f067";
                 .inner-tabs>li.active>a {
                     background: linear-gradient(to bottom right, #f9e79f, #fef9e7) !important;
                 }
+
+                .border-block {
+                    border: 1px solid #dedede !important;
+                }
+
+                .email-rating-block {
+                    min-height: 674px !important;
+                }
+
+                .border-top {
+                    border-top: 1px solid #dedede !important;
+                }
+
+                .rating-label {
+                    font-style: italic !important;
+                }
+
+                .input-group-button {
+                    vertical-align: middle;
+                    display: table-cell;
+                    width: 60%;
+                }
                 /* #textarea_editor_email_reply p.MsoNormal,
 #textarea_editor_email_reply li.MsoNormal,
 #textarea_editor_email_reply div.MsoNormal,

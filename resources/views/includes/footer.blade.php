@@ -157,6 +157,10 @@
 <!-- Bootstrap Datetimepicker JavaScript -->
 <script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
 
+<!-- Star rating JavaScript -->
+<script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/star-rating/js/star-rating.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/star-rating/krajee-fa/theme.min.js') }}"></script>
+
 <!-- Custom JavaScript -->
 {{-- <script type="text/javascript" src="{{ asset('public/js/custom/js/custom.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('public/js/custom/js/custom.js') }}"></script>

@@ -40,6 +40,15 @@
 
                     <?php } ?>
 
+                    <?php if(isset($hasMembers) && $hasMembers == "1" && !session()->has("current_empcode")) { ?>
+
+                        <li role="presentation" class="">
+                            <a data-toggle="tab" id="emailReviewTab" role="tab" href="#emailReview" aria-expanded="false">
+                                {{ __('dashboard.email_review_tab_label') }}
+                            </a>
+                        </li>
+
+                    <?php } ?>
                 </ul>
 
 			</div>
@@ -139,6 +148,16 @@
                             <div id="reports" class="tab-pane fade pt-0" role="tabpanel">
 
                                 @include('pages.dashboard.reports.dashboardReportsOverview')
+
+                            </div>
+
+                        <?php } ?>
+
+                        <?php if(isset($hasMembers) && $hasMembers == "1" && !session()->has("current_empcode")) { ?>
+
+                            <div id="emailReview" class="tab-pane fade pt-0" role="tabpanel">
+
+                                @include('pages.dashboard.dashboardEmailReview')
 
                             </div>
 

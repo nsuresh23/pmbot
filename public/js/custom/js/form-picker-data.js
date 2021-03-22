@@ -142,4 +142,85 @@ $(document).ready(function() {
         }
     });
 
+    $(".star-block").rating({
+        theme: 'krajee-fa',
+        filledStar: '<i class="fa fa-star star-color"></i>',
+        emptyStar: '<i class="fa fa-star-o"></i>',
+        step: 1,
+        min: 0,
+        max: 3,
+        stars: 3,
+        starCaptionClasses: function(val) {
+            if (val == undefined || val == 0) {
+                return 'badge badge-default';
+            } else if (val == 1) {
+                return 'badge badge-danger';
+            } else if (val == 2) {
+                return 'badge badge-warning';
+            } else if (val > 2) {
+                return 'badge badge-success';
+            } else {
+                return 'badge badge-default';
+            }
+        },
+        // starCaptions: { 1: 'Very Poor', 2: 'Poor', 3: 'Ok', 4: 'Good', 5: 'Very Good' },
+        // starCaptionClasses: { 1: 'text-danger', 2: 'text-warning', 3: 'text-info', 4: 'text-primary', 5: 'text-success' }
+    }).on("rating:clear", function(event, value, caption) {
+        // alert("Your rating is reset " + value)
+    }).on("rating:change", function(event, value, caption) {
+
+        // if (value == undefined || value == 0) {
+
+        //     $('.star-color').addClass('txt-default');
+
+        // }
+
+        // if (value == 1) {
+
+        //     $('.star-color').addClass('txt-danger');
+
+        // }
+
+        // if (value == 2) {
+
+        //     $('.star-color').addClass('txt-warning');
+
+        // }
+
+        // if (value > 2) {
+
+        //     $('.star-color').addClass('txt-success');
+
+        // }
+
+        // alert("You rated: " + value + " = " + $(caption).text());
+    }).on("rating:hover", function(event, value, caption) {
+
+        // if (value == undefined || value == 0) {
+
+        //     $('.star-color').addClass('txt-default');
+
+        // }
+
+        // if (value == 1) {
+
+        //     $('.star-color').addClass('txt-danger');
+
+        // }
+
+        // if (value == 2) {
+
+        //     $('.star-color').addClass('txt-warning');
+
+        // }
+
+        // if (value > 2) {
+
+        //     $('.star-color').addClass('txt-success');
+
+        // }
+
+        // alert("You rated: " + value + " = " + $(caption).text());
+    });
+
 });

@@ -92,3 +92,7 @@
 
 <!-- Bootstrap Wysihtml5 css -->
 <link href="{{ asset('public/js/custom/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css') }}" rel="stylesheet" type="text/css">
+
+<!-- Star rating css -->
+<link href="{{ asset('public/js/custom/vendors/bower_components/star-rating/css/star-rating.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('public/js/custom/vendors/bower_components/star-rating/krajee-fa/theme.min.css') }}" rel="stylesheet" type="text/css">

@@ -48,6 +48,8 @@ class EmailCollection
     protected $qcEmailListApiUrl;
     protected $emailInfoUpdateApiUrl;
     protected $emailAutosaveSendApiUrl;
+    protected $emailReviewListApiUrl;
+    protected $emailUpdateRatingApiUrl;
 
     public function __construct()
     {
@@ -78,6 +80,8 @@ class EmailCollection
         $this->qcEmailListApiUrl                = env('API_EMAIL_QC_LIST_URL');
         $this->emailInfoUpdateApiUrl            = env('API_EMAIL_INFO_UPDATE_URL');
         $this->emailAutoSaveSendApiUrl          = env('API_EMAIL_AUTOSAVE_SEND_URL');
+        $this->emailReviewListApiUrl            = env('API_EMAIL_REVIEW_LIST_URL');
+        $this->emailUpdateRatingApiUrl          = env('API_EMAIL_RATING_SEND_URL');
     }
 
     /**
@@ -681,6 +685,55 @@ class EmailCollection
     }
 
     /**
+     * Update the email rating.
+     *
+     * @return array $returnData
+     */
+    public function emailUpdateRating($params)
+    {
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            $url = $this->emailUpdateRatingApiUrl;
+
+            $responseData = $this->postRequest($url, $params);
+
+            if (isset($responseData["success"]) && $responseData["success"] == "true") {
+
+                $returnResponse["success"] = "true";
+                $returnResponse["message"] = "Update successfull";
+
+                if (isset($responseData["data"]) && $responseData["data"] != "") {
+
+                    $returnResponse["message"] = $responseData["data"];
+                }
+            } else {
+
+                $returnResponse["error"] = "true";
+                $returnResponse["message"] = "Update unsuccessfull";
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    /**
      * Update the email label based on email field array.
      *
      * @return array $returnResponse
@@ -813,6 +866,65 @@ class EmailCollection
 
         return $returnResponse;
 
+    }
+
+    /**
+     * Update the email review based on email field array.
+     *
+     * @return array $returnResponse
+     */
+    public function emailReviewUpdate($paramInfo)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // validate
+            // read more on validation at http://laravel.com/docs/validation
+            $rules = [];
+            $url = $this->emailInfoUpdateApiUrl;
+
+            $rules["id"] = "required";
+
+            $validator = Validator::make($paramInfo, $rules);
+
+            if ($validator->fails()) {
+
+                $returnResponse["error"] = "true";
+                $returnResponse["message"] = "Update failed";
+            } else {
+
+                $returnData = $this->postRequest($url, $paramInfo);
+
+                if (isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["message"] = "Update successfull";
+                } else {
+
+                    $returnResponse["error"] = "true";
+                    $returnResponse["message"] = "Update unsuccessfull";
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
     }
 
     /**
@@ -1013,6 +1125,12 @@ class EmailCollection
                 $url = $this->classificationEmailListApiUrl;
 
             }
+
+            // if (isset($field["email_type"]) && $field["email_type"] == "email-review") {
+
+            //     $url = $this->emailReviewListApiUrl;
+
+            // }
 
             if (isset($field["email_type"]) && $field["email_type"] == "qcEmail" && isset($field["email_filter"]) && $field["email_filter"] != "") {
 
@@ -1850,9 +1968,15 @@ class EmailCollection
 
                 try {
 
-                    $emailTypeClass = "";
+                    $emailTypeClass = $email_category = "";
                     $emailSubject = "no subject";
                     $emailGetUrl = route(__("job.email_get_url"));
+
+                    if (isset($field["email_type"]) && $field["email_type"] != "") {
+
+                        $email_category = $field["email_type"];
+
+                    }
 
                     $item["is_priority"] = "";
 
@@ -2045,7 +2169,7 @@ class EmailCollection
                             $emailViewUrl = $emailViewUrl . "/empcode/" . $item["empcode"];
                         } */
 
-                         $item['subject_link'] = '<a class="email-item ' . $emailTypeClass . '" href="' . $emailViewUrl . '" data-email-id="' . $item["id"] . '" data-email-geturl="' . $emailGetUrl . '">' . mb_strimwidth($emailSubject, 0, 75, "...") . '</a>';
+                         $item['subject_link'] = '<a class="email-item ' . $emailTypeClass . '" href="' . $emailViewUrl . '" data-email-id="' . $item["id"] . '" data-email-category="' . $email_category . '" data-email-geturl="' . $emailGetUrl . '">' . mb_strimwidth($emailSubject, 0, 75, "...") . '</a>';
                          $item["subject_min_width"] = mb_strimwidth($emailSubject, 0, 75, "...");
                     }
 

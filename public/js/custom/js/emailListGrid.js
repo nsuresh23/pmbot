@@ -48,6 +48,9 @@ function getEmailTableList(gridSelector) {
     var listUrl = $(gridSelector).attr('data-list-url');
     var currentRoute = $(gridSelector).attr('data-current-route');
     var empcode = $(gridSelector).attr('data-empcode');
+    var dateRange = $(gridSelector).attr('data-date-range');
+    var sortType = $(gridSelector).attr('data-sort-type');
+    var sortLimit = $(gridSelector).attr('data-sort-limit');
     var readOnlyUser = $('#currentUserInfo').attr('data-read-only-user');
     var pageSize = $('#currentUserInfo').attr('data-page-size');
     var pageButtonCount = $('#currentUserInfo').attr('data-page-button-count');
@@ -172,7 +175,7 @@ function getEmailTableList(gridSelector) {
     //     visible: false,
     // });
 
-    if (gridEmailFilter != undefined && gridEmailFilter != '' && (gridEmailFilter == 'outbox' || gridEmailFilter == 'outboxwip' || gridEmailFilter == 'sent' || gridEmailFilter == 'hold')) {
+    if (gridEmailFilter != undefined && gridEmailFilter != '' && (gridEmailFilter == 'outbox' || gridEmailFilter == 'outboxwip' || gridEmailFilter == 'sent' || gridEmailFilter == 'hold' || gridEmailFilter == 'email_review')) {
         field.push({
             title: "TO",
             name: "email_to",
@@ -316,7 +319,7 @@ function getEmailTableList(gridSelector) {
         deleteButton: deleteControlVisible,
         itemTemplate: function(value, item) {
 
-            if (gridCategory != 'emailSentCount' && gridCategory != 'qcEmail') {
+            if (gridCategory != 'emailSentCount' && gridCategory != 'qcEmail' && gridCategory != 'email-review') {
 
                 if (item.view == '1') {
 
@@ -409,6 +412,21 @@ function getEmailTableList(gridSelector) {
                             });
 
                         });
+
+                    return $("<div>").append($customUnreadButton);
+
+                }
+
+            }
+
+            if (gridCategory == 'email-review') {
+
+                if (item.reviewed != undefined && item.reviewed == '1') {
+
+                    var icon = 'fa-star';
+                    var title = 'Reviewed';
+
+                    var $customUnreadButton = $("<a>").attr({ class: "fa " + icon + " font-16 txt-orange" }).attr({ title: title });
 
                     return $("<div>").append($customUnreadButton);
 
@@ -1019,6 +1037,38 @@ function getEmailTableList(gridSelector) {
 
                     }
 
+                    if (gridCategory == 'email-review') {
+
+                        if (emailFilter == 'email_review') {
+
+                            if (empcode != undefined && empcode != '') {
+
+                                emailListPostData.empcode = empcode;
+
+                            }
+
+                            if (dateRange != undefined && dateRange != '') {
+
+                                emailListPostData.range = dateRange;
+
+                            }
+
+                            if (sortType != undefined && sortType != '') {
+
+                                emailListPostData.sort_type = sortType;
+
+                            }
+
+                            if (sortLimit != undefined && sortLimit != '') {
+
+                                emailListPostData.sort_limit = sortLimit;
+
+                            }
+
+                        }
+
+                    }
+
                     if (gridCategory == 'classificationEmail') {
 
                         emailListPostData.type = '';
@@ -1124,6 +1174,12 @@ function getEmailTableList(gridSelector) {
 
                     delete emailListPostData.email_filter;
                     delete emailListPostData.status;
+
+                }
+
+                if (gridCategory != undefined && gridCategory == 'email-review') {
+
+                    // delete emailListPostData.status;
 
                 }
 
@@ -1262,6 +1318,12 @@ function getEmailTableList(gridSelector) {
                                     $('.email-inbox-unread-count').html(unreadCount);
 
                                 }
+
+                            }
+
+                            if ('reviewed_count' in response && emailFilter == 'email_review') {
+
+                                $('#emailReview .reviewed-email-count').html(response.reviewed_count);
 
                             }
 
@@ -1999,16 +2061,11 @@ $(document).on('click', '.non-business-unmark-btn', function(e) {
 
 });
 
-$(document).on('click', '.pmbot-email-item', function(e) {
-
-    e.preventDefault();
-
-    var emailItemPostData = {};
-
-    var emailId = $(this).attr('data-email-id');
-    var postUrl = $(this).attr('data-email-geturl');
+function emailDetailInfo(emailId, postUrl, emailCategory) {
 
     if (emailId != undefined && emailId != '' && postUrl != undefined && postUrl != '') {
+
+        var emailItemPostData = {};
 
         emailItemPostData.emailid = emailId;
         emailItemPostData.view = '1';
@@ -2059,6 +2116,9 @@ $(document).on('click', '.pmbot-email-item', function(e) {
         $('.attachment-block').hide();
 
         $('.email-button-group').show();
+
+        $('.email-rating-form .star-block').rating('reset');
+        // $('.email-rating-form .star-block').rating('update', 0);
 
         $.ajax({
 
@@ -2201,23 +2261,45 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
                             }
 
-                            if (tinymce.get('sent-email-body') != undefined && tinymce.get('sent-email-body') != '') {
+                            if (emailCategory != undefined && emailCategory == 'emailSentCount') {
 
-                                tinymce.get('sent-email-body').setContent(response.data.body_html);
+                                if (tinymce.get('sent-email-body') != undefined && tinymce.get('sent-email-body') != '') {
+
+                                    tinymce.get('sent-email-body').setContent(response.data.body_html);
+
+                                }
 
                             }
 
-                            if (tinymce.get('qc-email-body') != undefined && tinymce.get('qc-email-body') != '') {
+                            if (emailCategory != undefined && emailCategory == 'qcEmail') {
 
-                                tinymce.get('qc-email-body').setContent(response.data.body_html);
+                                if (tinymce.get('qc-email-body') != undefined && tinymce.get('qc-email-body') != '') {
+
+                                    tinymce.get('qc-email-body').setContent(response.data.body_html);
+
+                                }
 
                             }
 
                             if ($('.currentUserInfo').attr('data-current-user-role') == 'quality') {
 
-                                if (tinymce.get('qc-email-body') != undefined && tinymce.get('qc-email-body') != '') {
+                                if (emailCategory != undefined && emailCategory == 'qcEmail') {
 
-                                    tinymce.get('qc-email-body').setContent(response.data.body_html);
+                                    if (tinymce.get('qc-email-body') != undefined && tinymce.get('qc-email-body') != '') {
+
+                                        tinymce.get('qc-email-body').setContent(response.data.body_html);
+
+                                    }
+
+                                }
+
+                            }
+
+                            if (emailCategory != undefined && emailCategory == 'email-review') {
+
+                                if (tinymce.get('email-review-body') != undefined && tinymce.get('email-review-body') != '') {
+
+                                    tinymce.get('email-review-body').setContent(response.data.body_html);
 
                                 }
 
@@ -2277,6 +2359,46 @@ $(document).on('click', '.pmbot-email-item', function(e) {
 
                         }
 
+                        if (emailCategory != undefined && emailCategory == 'email-review') {
+
+                            $('.email-rating-form .email-rating-sumbit-btn').attr('data-email-get-url', postUrl);
+
+                            if ('ratings' in response.data && response.data.ratings != '') {
+
+                                if ('language' in response.data.ratings && response.data.ratings.language) {
+
+                                    $('.email-rating-form .language').rating('update', parseInt(response.data.ratings.language));
+
+                                }
+
+                                if ('greetings' in response.data.ratings && response.data.ratings.greetings) {
+
+                                    $('.email-rating-form .greetings').rating('update', parseInt(response.data.ratings.greetings));
+
+                                }
+
+                                if ('effectiveness' in response.data.ratings && response.data.ratings.effectiveness) {
+
+                                    $('.email-rating-form .effectiveness').rating('update', parseInt(response.data.ratings.effectiveness));
+
+                                }
+
+                                if ('format' in response.data.ratings && response.data.ratings.format) {
+
+                                    $('.email-rating-form .format').rating('update', parseInt(response.data.ratings.format));
+
+                                }
+
+                                if ('assertiveness' in response.data.ratings && response.data.ratings.assertiveness) {
+
+                                    $('.email-rating-form .assertiveness').rating('update', parseInt(response.data.ratings.assertiveness));
+
+                                }
+
+                            }
+
+                        }
+
                     }
 
 
@@ -2300,6 +2422,18 @@ $(document).on('click', '.pmbot-email-item', function(e) {
         $('.email-detail-body').show();
 
     }
+
+}
+
+$(document).on('click', '.pmbot-email-item', function(e) {
+
+    e.preventDefault();
+
+    var emailId = $(this).attr('data-email-id');
+    var postUrl = $(this).attr('data-email-geturl');
+    var emailCategory = $(this).attr('data-email-category');
+
+    emailDetailInfo(emailId, postUrl, emailCategory);
 
 });
 
@@ -6622,5 +6756,232 @@ function emailSentCount() {
     }
 
 }
+
+function emailReviewList() {
+
+    $('.email-detail-body').hide();
+    $('.email-list-body').show();
+
+    var gridSelector = ".reviewEmailGrid";
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        var sortLimit = $('#emailReview .sort-limit').val();
+        var dateRange = $('#emailReview .date-range-picker').val();
+        var sortType = $('#emailReview .sort-type').select2().val();
+        var userEmpcode = $('#emailReview .user-empcode').select2().val();
+
+        $(gridSelector).attr('data-empcode', '');
+        $(gridSelector).attr('data-date-range', '');
+
+        $(gridSelector).attr('data-sort-type', '');
+        $(gridSelector).attr('data-sort-limit', '');
+
+        $('#emailReview .reviewed-email-count').html('0');
+
+        if (userEmpcode != undefined && userEmpcode != '') {
+
+            $(gridSelector).attr('data-empcode', userEmpcode);
+
+        }
+
+        if (dateRange != undefined && dateRange != '') {
+
+            $(gridSelector).attr('data-date-range', dateRange);
+
+        }
+
+        if (sortType != undefined && sortType != '') {
+
+            $(gridSelector).attr('data-sort-type', sortType);
+
+        }
+
+        if (sortLimit != undefined && sortLimit != '') {
+
+            $(gridSelector).attr('data-sort-limit', sortLimit);
+
+        }
+
+        getEmailTableList(gridSelector);
+
+    }
+
+}
+
+$("#emailReviewTab").on('click', function() {
+
+    emailReviewList();
+
+});
+
+$(".reviewed-email-sumbit-btn").on('click', function() {
+
+    emailReviewList();
+
+});
+
+$(".email-rating-sumbit-btn").on('click', function(e) {
+
+    e.preventDefault();
+
+    var postUrl = '';
+    var emailGetUrl = '';
+    var params = '';
+    var emailCategory = 'email-review';
+    var emailGetUrl = $('.email-rating-form .email-rating-sumbit-btn').attr('data-email-get-url');
+    var email_id = $('.email-title').attr('data-email-id');
+    params = new FormData($('.email-rating-form')[0]);
+
+    if (email_id != undefined && email_id != '') {
+
+        params.append('email_id', email_id);
+
+    }
+
+    postUrl = $('.email-rating-form').attr('action');
+
+    if (postUrl != undefined && postUrl != '') {
+
+        /* AJAX call to email label update info */
+
+        var d = $.Deferred();
+
+        $.ajax({
+            url: postUrl,
+            data: params,
+            dataType: 'json',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            enctype: "multipart/form-data",
+            beforeSend: function() {
+                $('.email_detail_loader').show();
+            },
+            complete: function() {
+                $('.email_detail_loader').hide();
+                emailDetailInfo(email_id, emailGetUrl, emailCategory);
+            }
+        }).done(function(response) {
+
+            if (response.success == "true") {
+
+                type = 'success';
+
+            } else {
+
+                type = 'error';
+
+                d.resolve();
+
+            }
+
+            message = response.message;
+
+            flashMessage(type, message);
+
+        });
+
+        return d.promise();
+
+
+    }
+
+});
+
+function emailUnreviview(postUrl, params) {
+
+    if (postUrl != undefined && postUrl != '') {
+
+        /* AJAX call to email label update info */
+
+        var d = $.Deferred();
+
+        $.ajax({
+            url: postUrl,
+            data: params,
+            dataType: 'json',
+            type: 'POST',
+            beforeSend: function() {
+                $('.email_detail_loader').show();
+            },
+            complete: function() {
+                $('.email_detail_loader').hide();
+                var emailCategory = 'email-review';
+                var email_id = $('.email-title').attr('data-email-id');
+                var emailGetUrl = $('.email-rating-form .email-rating-sumbit-btn').attr('data-email-get-url');
+                emailDetailInfo(email_id, emailGetUrl, emailCategory);
+            }
+        }).done(function(response) {
+
+            if (response.success == "true") {
+
+                type = 'success';
+
+            } else {
+
+                type = 'error';
+
+                d.resolve();
+
+            }
+
+            message = response.message;
+
+            flashMessage(type, message);
+
+        });
+
+        return d.promise();
+
+    }
+
+}
+
+$(document).on('click', '.email-unreview-btn', function(e) {
+
+    e.preventDefault();
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to remove this email!",
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        showClass: {
+            popup: 'animated fadeInDownBig faster'
+        },
+        hideClass: {
+            popup: 'animated fadeOut faster'
+        },
+    }).then((result) => {
+
+        if (result.value != undefined && result.value == true) {
+
+            var params = {};
+            var postUrl = '';
+            var emailGetUrl = '';
+            var emailCategory = 'email-review';
+            var emailGetUrl = $('.email-rating-form .email-rating-sumbit-btn').attr('data-email-get-url');
+            var postUrl = $('.email-unreview-btn').attr('data-email-review-update-url');
+            var email_id = $('.email-title').attr('data-email-id');
+
+            if (email_id != undefined && email_id != '') {
+
+                params.id = email_id;
+                params.unreview = '1';
+
+                emailUnreviview(postUrl, params);
+
+            }
+
+        }
+    });
+
+});
 
 $('.email-template-list').hide();

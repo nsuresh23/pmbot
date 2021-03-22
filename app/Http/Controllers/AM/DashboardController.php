@@ -126,13 +126,37 @@ class DashboardController extends Controller
 
             }
 
-            $returnResponse["user_list"] = $this->userResource->getPMUsers();
+            $returnResponse["user_list"] = $this->userResource->getActiveUserList();
 
             $returnResponse["workflow_list"] = $this->jobResource->getWorkflowList($request);
 
-            $returnResponse["location_list"] = Config::get('constants.locationList');
+            $returnResponse["location_list"] = [];
 
-            $returnResponse["report_type_list"] = Config::get('constants.reportType');
+            if(is_array(Config::get('constants.location_list')) && count(Config::get('constants.location_list')) > 0) {
+
+                $returnResponse["location_list"] = Config::get('constants.location_list');
+
+            }
+
+            $returnResponse["report_type_list"] = [];
+
+            if(is_array(Config::get('constants.report_type_list')) && count(Config::get('constants.report_type_list')) > 0) {
+
+                $returnResponse["report_type_list"] = Config::get('constants.report_type_list');
+
+            }
+
+            $returnResponse["member_select_list"] = [];
+
+            $returnResponse["member_select_list"] = $this->userResource->getPMUsers();
+
+            $returnResponse["sort_type_list"] = [];
+
+            if(is_array(Config::get('constants.sort_type_list')) && count(Config::get('constants.sort_type_list')) > 0) {
+
+                $returnResponse["sort_type_list"] = Config::get('constants.sort_type_list');
+
+            }
 
             // $emailCategoryData = $this->emailResource->emailCategoryCount($request);
 

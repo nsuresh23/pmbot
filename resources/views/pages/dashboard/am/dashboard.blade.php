@@ -80,6 +80,8 @@
         $classifiedEmailReportListUrl = route(__("dashboard.classified_email_report_list_url"));
         $externalEmailReportListUrl = route(__("dashboard.external_email_report_list_url"));
 
+        $emailRatingUrl = route(__("dashboard.email_rating_url"));
+
         $checkListUrl = route(__("job.check_list_url"));
         $checkListAddUrl = route(__("job.check_list_add_url"));
         $checkListEditUrl = route(__("job.check_list_edit_url"), "");

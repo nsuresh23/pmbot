@@ -222,6 +222,11 @@ return [
         "pm_signature" => "{{pm_signature}}",
     ],
     "email_editor_style" => "<style>body {font-size: 11.0pt; font-family: Calibri; color: #1f497d;} p{margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;} div{margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;} table, table td, table th, table caption { border: 1px solid grey; border-spacing: 0px; } td, th { font-size: 11.0pt; font-family: Calibri; border: 1px solid grey; border-spacing: 0px; } .emailsig_block{margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;}</style>",
+    "sort_type_list" => [
+        "newer" => "newer",
+        "older" => "older",
+        "random" => "random",
+    ],
     "custom_urls" => [
         "job_add_url" => "http://localhost:81/pmbot/pmbotcustom/job-add-opm",
     ],

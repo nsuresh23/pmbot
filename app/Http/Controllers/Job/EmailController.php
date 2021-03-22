@@ -479,6 +479,130 @@ class EmailController extends Controller
     }
 
     /**
+     * Display a email ratings.
+     *
+     * @return Response
+     */
+    public function fetchEmailRatings(Request $request)
+    {
+
+        $returnResponse = [];
+
+        try {
+
+            $method = $_SERVER['REQUEST_METHOD'];
+
+            $paramInfo = $returnData = [];
+
+            $request->merge(['empcode' => auth()->user()->empcode]);
+
+            if (auth()->check()) {
+
+                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+                }
+            }
+
+            $paramInfo = $request->all();
+
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                $formatData = [
+
+                    // "subject_link" => "subject"
+
+                ];
+
+                $this->formatFilter($filterData, $formatData);
+            }
+
+            if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                if (isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+                    }
+                }
+
+            }
+
+            if ($method == "GET") {
+
+                if (is_array($paramInfo) && isset($paramInfo["creator_empcode"])) {
+
+                    unset($paramInfo["creator_empcode"]);
+                }
+
+                if (isset($filterData) && is_array($filterData) && count($filterData) > 0) {
+
+                    $paramInfo["filter"] = $filterData;
+                }
+
+                $returnResponse = $this->emailResource->emailRules($paramInfo);
+            }
+
+            if ($method == "POST") {
+
+                echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($paramInfo);echo '<PRE/>';exit;
+
+                $returnResponse = $this->emailResource->emailUpdateRating($paramInfo);
+
+            }
+
+            if ($method == "PUT") {
+
+                $returnResponse = $this->emailResource->emailUpdateRating($paramInfo);
+
+            }
+
+            if ($method == "DELETE") {
+
+                // $returnResponse = $this->emailResource->emailDeleteRating($paramInfo);
+
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        //if ($request->ajax()) {
+
+        return json_encode($returnResponse);
+        //}
+
+        return view("errors.error404");
+
+
+
+        // $returnData["redirectTo"] = "";
+
+        // if ($request->redirectTo) {
+
+        //     $returnData["redirectTo"] = $request->redirectTo;
+        // }
+
+    }
+
+
+    /**
      * Update email label in email table by email id.
      *
      * @return json returnResponse
@@ -1012,6 +1136,40 @@ class EmailController extends Controller
 
             }
 
+            if (isset($request->sort_type) && $request->sort_type != "") {
+
+                $field["sort_type"] = $request->sort_type;
+
+            }
+
+            if (isset($request->sort_limit) && $request->sort_limit != "") {
+
+                $field["sort_limit"] = $request->sort_limit;
+
+            }
+
+            if (isset($request->range) && $request->range != "") {
+
+                $rangeValue = explode(' to ', $request->range);
+
+                if (is_array($rangeValue)) {
+
+                    if (count($rangeValue) > 0) {
+
+                        $field["fromdate"] = $rangeValue[0];
+
+                        if (count($rangeValue) > 1) {
+
+                            $field["todate"] = $rangeValue[1];
+                        }
+                    }
+                }
+
+                // $filterData["range"] = $filterOption["range"];
+
+            }
+
+
             $field["empcode"] = auth()->user()->empcode;
 
             if (count($field) > 0) {
@@ -1152,6 +1310,60 @@ class EmailController extends Controller
             if(is_array($emailViewParamInfo) && count($emailViewParamInfo)>0) {
 
                 $returnResponse = $this->emailResource->emailViewUpdate($emailViewParamInfo);
+
+            }
+
+        } catch (Exeception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        // if ($redirectRouteAction) {
+
+        //     // $redirectUrl = redirect()->action($redirectRouteAction);
+        //     $returnResponse["redirectTo"] = route('home');
+        // }
+
+        return json_encode($returnResponse);
+    }
+
+    /**
+     * Update email review in email table by email id.
+     *
+     * @return json returnResponse
+     */
+    public function emailReviewUpdate(Request $request)
+    {
+
+        $returnResponse = [];
+
+        try {
+
+            $paramInfo = [];
+            $paramInfo["id"] = $request->id;
+            $paramInfo["empcode"] = auth()->user()->empcode;
+            $paramInfo["unreview"] = $request->unreview;
+            $paramInfo["start_time"] = date('Y-m-d H:i:s');
+            $paramInfo["ip_address"] = $request->ip();
+
+            if (auth()->check()) {
+
+                // $paramInfo["creator_empcode"] = auth()->user()->empcode;
+
+                if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                    $paramInfo["creator_empcode"] = session()->get("current_empcode");
+
+                }
+
+            }
+
+            if(is_array($paramInfo) && count($paramInfo)>0) {
+
+                $returnResponse = $this->emailResource->emailReviewUpdate($paramInfo);
 
             }
 

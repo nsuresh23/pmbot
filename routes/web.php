@@ -338,6 +338,7 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
     Route::any('email-forward', 'Job\EmailController@emailForward')->name('email-forward');
     Route::any('dashboard-email-label-update', 'Job\EmailController@dashboardEmailLabelUpdate')->name('dashboard-email-label-update');
 	Route::any('email-view-update', 'Job\EmailController@emailViewUpdate')->name('email-view-update');
+    Route::any('email-review-update', 'Job\EmailController@emailreviewUpdate')->name('email-review-update');
 
 	Route::any('signature-update', 'Job\EmailController@signatureUpdate')->name('signature-update');
     Route::any('get-signature', 'Job\EmailController@getSignature')->name('get-signature');
@@ -347,6 +348,8 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
     Route::any('email-rules', 'Job\EmailController@fetchEmailRules')->name('email-rules');
 
     Route::any('email-templates', 'Job\EmailController@fetchEmailTemplates')->name('email-templates');
+
+    Route::any('email-ratings', 'Job\EmailController@fetchEmailRatings')->name('email-ratings');
 
 	Route::any('job', 'Job\JobController@index')->name('job');
 

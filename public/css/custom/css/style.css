@@ -901,6 +901,10 @@ code {
     text-align: center !important;
 }
 
+.text-bold {
+    font-weight: 600 !important;
+}
+
 .bg-green,
 .bg-success {
     background: #8BC34A !important;

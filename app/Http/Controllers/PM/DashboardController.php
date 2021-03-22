@@ -8,11 +8,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
 use App\Resources\Job\JobCollection as JobResource;
+use App\Resources\User\UserCollection as UserResource;
 use App\Resources\Job\EmailCollection as EmailResource;
 
 class DashboardController extends Controller
 {
     protected $jobResource = "";
+
+    protected $userResource = "";
 
     protected $emailResource = "";
 
@@ -22,6 +25,8 @@ class DashboardController extends Controller
     {
 
         $this->jobResource = new JobResource();
+
+        $this->userResource = new UserResource();
 
         $this->emailResource = new EmailResource();
 
@@ -143,6 +148,18 @@ class DashboardController extends Controller
             if (is_array($emailSentCountData) && isset($emailSentCountData["success"]) && $emailSentCountData["success"] == "true") {
 
                 $returnResponse["email_sent_count"] = $emailSentCountData["data"];
+
+            }
+
+            $returnResponse["member_select_list"] = [];
+
+            $returnResponse["member_select_list"] = $this->userResource->getActiveUserList();
+
+            $returnResponse["sort_type_list"] = [];
+
+            if(is_array(Config::get('constants.sort_type_list')) && count(Config::get('constants.sort_type_list')) > 0) {
+
+                $returnResponse["sort_type_list"] = Config::get('constants.sort_type_list');
 
             }
 
