@@ -153,7 +153,7 @@ class DashboardController extends Controller
 
             $returnResponse["member_select_list"] = [];
 
-            $returnResponse["member_select_list"] = $this->userResource->getActiveUserList();
+            $returnResponse["member_select_list"] = $this->userResource->userMembersSelect();
 
             $returnResponse["sort_type_list"] = [];
 

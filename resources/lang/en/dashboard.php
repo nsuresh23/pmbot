@@ -23,6 +23,7 @@ return [
     'report_range_placeholder_text' => 'select range',
     'report_type_select_placeholder_text' => 'select type',
     'report_user_select_placeholder_text' => 'All PM',
+    'review_user_select_placeholder_text' => 'Select PM',
     'sort_type_select_placeholder_text' => 'select',
     'sort_limit_placeholder_text' => 'Enter limit',
     'reviewed_count_label' => 'Reviewed count',

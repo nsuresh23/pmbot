@@ -6891,7 +6891,7 @@ $(".email-rating-sumbit-btn").on('click', function(e) {
 
 });
 
-function emailUnreviview(postUrl, params) {
+function emailUnreview(postUrl, params) {
 
     if (postUrl != undefined && postUrl != '') {
 
@@ -6964,9 +6964,6 @@ $(document).on('click', '.email-unreview-btn', function(e) {
 
             var params = {};
             var postUrl = '';
-            var emailGetUrl = '';
-            var emailCategory = 'email-review';
-            var emailGetUrl = $('.email-rating-form .email-rating-sumbit-btn').attr('data-email-get-url');
             var postUrl = $('.email-unreview-btn').attr('data-email-review-update-url');
             var email_id = $('.email-title').attr('data-email-id');
 
@@ -6975,7 +6972,7 @@ $(document).on('click', '.email-unreview-btn', function(e) {
                 params.id = email_id;
                 params.unreview = '1';
 
-                emailUnreviview(postUrl, params);
+                emailUnreview(postUrl, params);
 
             }
 

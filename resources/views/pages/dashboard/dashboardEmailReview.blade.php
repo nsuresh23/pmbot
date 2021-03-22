@@ -11,7 +11,7 @@
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pl-0">
                         <div class="form-group mb-0">
                             {!! Form::select('user_empcode', [ "" =>
-                            __('dashboard.report_user_select_placeholder_text') ] +
+                            __('dashboard.review_user_select_placeholder_text') ] +
                             $returnResponse["member_select_list"], null,
                             ['class' => 'select2 user-empcode',
                             ])

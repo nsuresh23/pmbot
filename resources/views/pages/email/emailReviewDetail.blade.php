@@ -29,6 +29,12 @@
                         </div>
                     </div>
                     <div class="pull-right">
+                        <button type="button" class="btn btn-warning bg-warning email-latest-received-btn mr-10 pl-15 pr-15 pt-5 pb-5" data-email-get-url="{{route(__('dashboard.email_review_update_url' ?? ''))}}">
+                            Latest received
+                        </button>
+                        <button type="button" class="btn btn-warning bg-warning email-latest-sent-btn mr-10 pl-15 pr-15 pt-5 pb-5" data-email-get-url="{{route(__('dashboard.email_review_update_url' ?? ''))}}">
+                            Latest sent
+                        </button>
                         <button type="button" class="btn btn-danger bg-danger email-unreview-btn mr-10 pl-15 pr-15 pt-5 pb-5" data-email-review-update-url="{{route(__('dashboard.email_review_update_url' ?? ''))}}">
                             unreview
                         </button>

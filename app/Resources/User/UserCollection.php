@@ -43,6 +43,7 @@ class UserCollection
     protected $userPasswordUpdateApiUrl;
     protected $userDeleteApiUrl;
     protected $userSelectApiUrl;
+    protected $memberSelectApiUrl;
     protected $userListSelectApiUrl;
     protected $memberListApiUrl;
     protected $pmUserSelectApiUrl;
@@ -64,6 +65,7 @@ class UserCollection
         $this->userPasswordUpdateApiUrl = env('API_USER_PASSWORD_UPDATE_URL');
         $this->userDeleteApiUrl = env('API_USER_DELETE_URL');
         $this->userSelectApiUrl = env('API_USER_SELECT_URL');
+        $this->memberSelectApiUrl = env('API_MEMBER_SELECT_URL');
         $this->userListSelectApiUrl = env('API_USER_LIST_SELECT_URL');
         $this->pmUserSelectApiUrl = env('API_PM_USER_SELECT_URL');
         $this->memberListApiUrl = env('API_MEMBER_LIST_URL');
@@ -949,6 +951,44 @@ class UserCollection
             if ($userData["success"] == "true" && count($userData["data"]) > 0 && $userData["data"] != "") {
 
                 $returnData = $userData["data"];
+            }
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnData;
+    }
+
+    /**
+     * Get the active members from the users Table by field array.
+     *
+     * @return array $userData
+     */
+    public function userMembersSelect()
+    {
+        $returnData = [];
+
+        try {
+
+
+            $url = $this->memberSelectApiUrl;
+
+            $params = ["empcode" => auth()->user()->empcode, "role" => auth()->user()->role];
+
+            $userData = $this->postRequest($url,$params);
+
+            if ($userData["success"] == "true" && count($userData["data"]) > 0 && $userData["data"] != "") {
+
+                $returnData = $userData["data"];
+
             }
         } catch (Exception $e) {
 
