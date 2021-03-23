@@ -50,6 +50,7 @@ class EmailCollection
     protected $emailAutosaveSendApiUrl;
     protected $emailReviewListApiUrl;
     protected $emailUpdateRatingApiUrl;
+    protected $latestEmailListApiUrl;
 
     public function __construct()
     {
@@ -82,6 +83,7 @@ class EmailCollection
         $this->emailAutoSaveSendApiUrl          = env('API_EMAIL_AUTOSAVE_SEND_URL');
         $this->emailReviewListApiUrl            = env('API_EMAIL_REVIEW_LIST_URL');
         $this->emailUpdateRatingApiUrl          = env('API_EMAIL_RATING_SEND_URL');
+        $this->latestEmailListApiUrl            = env('API_LATEST_EMAIL_LIST_URL');
     }
 
     /**
@@ -1129,6 +1131,12 @@ class EmailCollection
             if (isset($field["email_type"]) && $field["email_type"] == "email-review") {
 
                 $url = $this->emailReviewListApiUrl;
+
+            }
+
+            if (isset($field["email_type"]) && $field["email_type"] == "email-review-latest") {
+
+                $url = $this->latestEmailListApiUrl;
 
             }
 

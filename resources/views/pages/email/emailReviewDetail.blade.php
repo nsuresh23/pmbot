@@ -15,6 +15,8 @@
     <img src="{{ asset('public/img/loader2.gif') }}" width="64" height="64" />
 </div>
 
+@include('pages.dashboard.email.dashboardEmailReviewModal')
+
 <div class="row email-detail-body inbox-body" style="display:none;">
 
     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">

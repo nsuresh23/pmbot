@@ -47,6 +47,7 @@ function getEmailTableList(gridSelector) {
     var jobAuthorEmail = $(gridSelector).attr('data-author-email');
     var listUrl = $(gridSelector).attr('data-list-url');
     var currentRoute = $(gridSelector).attr('data-current-route');
+    var emailId = $(gridSelector).attr('data-email-id');
     var empcode = $(gridSelector).attr('data-empcode');
     var dateRange = $(gridSelector).attr('data-date-range');
     var sortType = $(gridSelector).attr('data-sort-type');
@@ -175,7 +176,7 @@ function getEmailTableList(gridSelector) {
     //     visible: false,
     // });
 
-    if (gridEmailFilter != undefined && gridEmailFilter != '' && (gridEmailFilter == 'outbox' || gridEmailFilter == 'outboxwip' || gridEmailFilter == 'sent' || gridEmailFilter == 'hold' || gridEmailFilter == 'email_review')) {
+    if (gridEmailFilter != undefined && gridEmailFilter != '' && (gridEmailFilter == 'outbox' || gridEmailFilter == 'outboxwip' || gridEmailFilter == 'sent' || gridEmailFilter == 'hold' || gridEmailFilter == 'email_review' || gridEmailFilter == 'latest-sent')) {
         field.push({
             title: "TO",
             name: "email_to",
@@ -319,7 +320,7 @@ function getEmailTableList(gridSelector) {
         deleteButton: deleteControlVisible,
         itemTemplate: function(value, item) {
 
-            if (gridCategory != 'emailSentCount' && gridCategory != 'qcEmail' && gridCategory != 'email-review') {
+            if (gridCategory != 'emailSentCount' && gridCategory != 'qcEmail' && gridCategory != 'email-review' && gridCategory != 'email-review-latest') {
 
                 if (item.view == '1') {
 
@@ -1179,7 +1180,19 @@ function getEmailTableList(gridSelector) {
 
                 if (gridCategory != undefined && gridCategory == 'email-review') {
 
-                    // delete emailListPostData.status;
+                    delete emailListPostData.status;
+
+                }
+
+                if (gridCategory != undefined && gridCategory == 'email-review-latest') {
+
+                    if (emailId != undefined && emailId != '') {
+
+                        emailListPostData.email_id = emailId;
+
+                    }
+
+                    delete emailListPostData.status;
 
                 }
 
@@ -2065,6 +2078,9 @@ function emailDetailInfo(emailId, postUrl, emailCategory) {
 
     if (emailId != undefined && emailId != '' && postUrl != undefined && postUrl != '') {
 
+        var emailListBlock = 'email-list-body';
+        var emailDetailBlock = 'email-detail-body';
+
         var emailItemPostData = {};
 
         emailItemPostData.emailid = emailId;
@@ -2305,6 +2321,16 @@ function emailDetailInfo(emailId, postUrl, emailCategory) {
 
                             }
 
+                            if (emailCategory != undefined && emailCategory == 'email-review-latest') {
+
+                                if (tinymce.get('review-email-modal-body') != undefined && tinymce.get('review-email-modal-body') != '') {
+
+                                    tinymce.get('review-email-modal-body').setContent(response.data.body_html);
+
+                                }
+
+                            }
+
                             $('.email-body-block').show();
 
                         }
@@ -2406,20 +2432,15 @@ function emailDetailInfo(emailId, postUrl, emailCategory) {
             }
         });
 
-        /* AJAX call to email item info */
-        // $.ajax({
+        if (emailCategory != undefined && emailCategory == 'email-review-latest') {
 
-        //     url: itemUrl,
-        //     data: emailItemPostData,
-        //     dataType: "json"
+            emailListBlock = 'review-email-modal-list-body';
+            emailDetailBlock = 'review-email-modal-detail-body';
 
-        // }).done(function(response) {
+        }
 
-        //     if (response.success == "true") {}
-        // });
-
-        $('.email-list-body').hide();
-        $('.email-detail-body').show();
+        $('.' + emailListBlock).hide();
+        $('.' + emailDetailBlock).show();
 
     }
 
@@ -2445,6 +2466,15 @@ $(document).on('click', '.email-detail-back-btn', function(e) {
     $('.email-detail-body').hide();
 
     $('.inbox-nav li.active').find('a').trigger('click');
+
+});
+
+$(document).on('click', '.review-email-modal-detail-back-btn', function(e) {
+
+    e.preventDefault();
+
+    $('.review-email-modal-list-body').show();
+    $('.review-email-modal-detail-body').hide();
 
 });
 
@@ -6978,6 +7008,77 @@ $(document).on('click', '.email-unreview-btn', function(e) {
 
         }
     });
+
+});
+
+function lastestEmailList(email_id, filter) {
+
+    $('.review-email-modal-detail-body').hide();
+    $('.review-email-modal-list-body').show();
+
+    var gridSelector = ".review-email-modal-grid";
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        if (email_id != undefined && email_id != '') {
+
+            $(gridSelector).attr('data-email-id', email_id);
+
+        }
+
+        $('.dashboard-email-review-modal-title').html('');
+
+        if (filter == 'latest-sent') {
+
+            $('.dashboard-email-review-modal-title').html('Sent Mails');
+
+        }
+
+        if (filter == 'latest-received') {
+
+            $('.dashboard-email-review-modal-title').html('Received Mails');
+
+        }
+
+        $(gridSelector).attr('data-email-filter', filter);
+
+        getEmailTableList(gridSelector);
+
+    }
+
+}
+
+$(document).on('click', '.email-latest-received-btn', function(e) {
+
+    e.preventDefault();
+
+    var email_id = $('.email-title').attr('data-email-id');
+
+    if (email_id != undefined && email_id != '') {
+
+        lastestEmailList(email_id, 'latest-received');
+
+        $('.review-email-modal').modal('show');
+
+    }
+
+});
+
+$(document).on('click', '.email-latest-sent-btn', function(e) {
+
+    e.preventDefault();
+
+    var email_id = $('.email-title').attr('data-email-id');
+
+    if (email_id != undefined && email_id != '') {
+
+        lastestEmailList(email_id, 'latest-sent');
+
+        $('.review-email-modal').modal('show');
+
+    }
 
 });
 

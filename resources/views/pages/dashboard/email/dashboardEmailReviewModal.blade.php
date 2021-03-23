@@ -11,8 +11,8 @@
                 <div class="mail-box">
                     <div class="row">
                         <aside class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
-                            <div class="inbox-body review-email-list-body pa-0">
-                                <div id="email-review-modal-grid" class="email-review-modal-grid emailGrid tab-pane fade pt-0 active in" data-category="email-review" data-type="dashboard" data-email-filter=""
+                            <div class="inbox-body review-email-modal-list-body pa-0">
+                                <div id="review-email-modal-grid" class="review-email-modal-grid emailGrid tab-pane fade pt-0 active in" data-category="email-review-latest" data-type="dashboard" data-email-filter=""
                                     data-list-url="{{ $myEmailListUrl }}" data-email-category-move-to-url="{{ $emailCategoryMoveToUrl }}" data-current-route="{{ $currentRoute }}"
                                     data-current-user-id="{{ Auth::user()->empcode }}"></div>
                             </div>
