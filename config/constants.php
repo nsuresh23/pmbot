@@ -223,8 +223,8 @@ return [
     ],
     "email_editor_style" => "<style>body {font-size: 11.0pt; font-family: Calibri; color: #1f497d;} p{margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;} div{margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;} table, table td, table th, table caption { border: 1px solid grey; border-spacing: 0px; } td, th { font-size: 11.0pt; font-family: Calibri; border: 1px solid grey; border-spacing: 0px; } .emailsig_block{margin: 0in; margin-bottom: .0001pt; font-size: 11.0pt; font-family: Calibri; color: #1F497D;}</style>",
     "sort_type_list" => [
-        "newer" => "newest",
-        "older" => "oldest",
+        "newest" => "newest",
+        "oldest" => "oldest",
         "random" => "random",
     ],
     "custom_urls" => [

@@ -51,6 +51,7 @@ class EmailCollection
     protected $emailReviewListApiUrl;
     protected $emailUpdateRatingApiUrl;
     protected $latestEmailListApiUrl;
+    protected $reviewEmailGetApiUrl;
 
     public function __construct()
     {
@@ -84,6 +85,7 @@ class EmailCollection
         $this->emailReviewListApiUrl            = env('API_EMAIL_REVIEW_LIST_URL');
         $this->emailUpdateRatingApiUrl          = env('API_EMAIL_RATING_SEND_URL');
         $this->latestEmailListApiUrl            = env('API_LATEST_EMAIL_LIST_URL');
+        $this->reviewEmailGetApiUrl             = env('API_REVIEW_EMAIL_GET_URL');
     }
 
     /**
@@ -1230,7 +1232,7 @@ class EmailCollection
                         'email_to' => 'ay5yYWphcmV0aGluYW1Ac3BpLWdsb2JhbC5jb20=',
                         'email_cc' => '',
                         'email_bcc' => '',
-                        'email_received_date' => NULL,
+                        'email_received_date' => '2021-03-16 13:54:00',
                         'email_sent_date' => '2021-03-16 13:54:00',
                         'priority' => '3',
                         'score' => NULL,
@@ -1250,6 +1252,7 @@ class EmailCollection
                         'body_html' => '',
                         'email_classification_category' => NULL,
                         'creator_empname' => '',
+                        'reviewed'=> '1',
                     ],
                     1 => [
                         'latest_modified_date' => '2021-03-12 13:53:21',
@@ -1285,6 +1288,7 @@ class EmailCollection
                         'body_html' => '',
                         'email_classification_category' => NULL,
                         'creator_empname' => '',
+                        'reviewed' => '1',
                     ],
                     2 => [
                         'latest_modified_date' => '2021-02-09 10:15:14',
@@ -1845,6 +1849,7 @@ class EmailCollection
                         'body_html' => '',
                         'email_classification_category' => NULL,
                         'creator_empname' => '',
+                        'reviewed' => '1',
                     ],
                     18 => [
                         'latest_modified_date' => '2020-12-14 17:50:46',
@@ -2117,6 +2122,14 @@ class EmailCollection
 
                         // $returnResponse["success"] = "true";
 
+                        if (is_array($responseData) && count($responseData) > 0 && isset($responseData["reviewed_count"]) && $responseData["reviewed_count"] != "") {
+
+                            $returnResponse["reviewed_count"] = $responseData["reviewed_count"];
+
+                            unset($responseData["reviewed_count"]);
+
+                        }
+
                         $returnResponse["data"] = $responseData;
 
                         if (is_array($responseData)) {
@@ -2124,12 +2137,6 @@ class EmailCollection
                             $returnResponse["last_updated_delay"] = "false";
 
                             $returnResponse["result_count"] = count($responseData);
-
-                            if (isset($responseData["reviewed_count"]) && $responseData["reviewed_count"] != "") {
-
-                                $returnResponse["reviewed_count"] = $responseData["reviewed_count"];
-
-                            }
 
                             if (!isset($returnResponseData["last_updated"]) || $returnResponseData["last_updated"] == "") {
 
@@ -2387,6 +2394,25 @@ class EmailCollection
         try {
 
             $url = $this->emailGetApiUrl;
+
+            if(isset($field["type"]) && $field["type"] != "") {
+
+                if($field["type"] == "email-review") {
+
+                    $url = $this->reviewEmailGetApiUrl;
+
+                    if (isset($field["view"]) ) {
+
+                        unset($field["view"]);
+
+                    }
+
+                }
+
+                unset($field["type"]);
+
+            }
+
             $responseData = $this->postRequest($url, $field);
             if (isset($responseData["success"]) && $responseData["success"] == "true") {
                 $returnResponse["data"] = $responseData["data"];
@@ -2397,8 +2423,8 @@ class EmailCollection
                     if (isset($returnResponse["data"]["id"]) &&  $returnResponse["data"]["id"] != "") {
 
                         $emailViewUrl = $emailViewUrl . "/id/" . $returnResponse["data"]["id"];
-                    }
 
+                    }
 
                   /*   if (isset($returnResponse["data"]["empcode"]) &&  $returnResponse["data"]["empcode"] != "") {
 
@@ -3015,7 +3041,7 @@ class EmailCollection
                     $t1 = strtotime($a['email_sent_date']);
                     $t2 = strtotime($b['email_sent_date']);
 
-                    if(isset($field["sort_type"]) && $field["sort_type"] == "older"){
+                    if(isset($field["sort_type"]) && $field["sort_type"] == "oldest"){
 
                         return $t1 - $t2;
 
@@ -3318,7 +3344,7 @@ class EmailCollection
 
         if($reviewed_count > 0) {
 
-            $resource["review_count"] = $reviewed_count;
+            $resource["reviewed_count"] = $reviewed_count;
 
         }
 

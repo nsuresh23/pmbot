@@ -2084,6 +2084,7 @@ function emailDetailInfo(emailId, postUrl, emailCategory) {
         var emailItemPostData = {};
 
         emailItemPostData.emailid = emailId;
+        emailItemPostData.type = emailCategory;
         emailItemPostData.view = '1';
 
         $('.email-title').attr('data-email-id', '');

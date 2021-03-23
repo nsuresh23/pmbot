@@ -98,15 +98,19 @@ $(document).ready(function() {
 
     function set_picker_start_end(picker, when) {
 
-        let m = (when == 'now') ? moment() : moment(when) //moment
+        if (picker != undefined && picker != '') {
 
-        let week_start = m.startOf('week')
-        let week_end = m.clone().endOf('week')
+            let m = (when == 'now') ? moment() : moment(when) //moment
 
-        picker.setStartDate(week_start);
-        picker.setEndDate(week_end);
+            let week_start = m.startOf('week')
+            let week_end = m.clone().endOf('week')
 
-        $('.review-daterange-datepicker').val(week_start.format('YYYY-MM-DD') + ' to ' + week_end.format('YYYY-MM-DD'));
+            picker.setStartDate(week_start);
+            picker.setEndDate(week_end);
+
+            $('.review-daterange-datepicker').val(week_start.format('YYYY-MM-DD') + ' to ' + week_end.format('YYYY-MM-DD'));
+
+        }
 
     }
 

@@ -3,7 +3,7 @@
 
         {{-- @include('pages.dashboard.email.emailboxnavmenu') --}}
 
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-5 pr-5">
 
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border-block pa-10 mt-10 mb-10">
 
@@ -29,7 +29,7 @@
                                 <div class="input-group-button">
                                     {!! Form::select('sort_type', [ "" =>
                                     __('dashboard.sort_type_select_placeholder_text') ] +
-                                    $returnResponse["sort_type_list"], $returnResponse["sort_type_list"]["newer"],
+                                    $returnResponse["sort_type_list"], $returnResponse["sort_type_list"]["newest"],
                                     ['class' => 'select2 sort-type',
                                     ])
                                     !!}
@@ -59,7 +59,7 @@
 
         </div>
 
-        <aside class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <aside class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-5 pr-5">
             <div class="inbox-body email-list-body pa-0">
                 <div id="email-review" class="reviewEmailGrid emailGrid tab-pane fade pt-0 active in" data-category="email-review"
                     data-type="dashboard" data-email-filter="email_review" data-list-url="{{ $myEmailListUrl }}"

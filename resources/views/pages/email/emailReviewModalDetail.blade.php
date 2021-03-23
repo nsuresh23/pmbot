@@ -15,7 +15,7 @@
     <img src="{{ asset('public/img/loader2.gif') }}" width="64" height="64" />
 </div>
 
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 review-email-modal-detail-body inbox-body" style="display:none;">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0 pr-0 review-email-modal-detail-body" style="display:none;">
     <div class="heading-inbox">
         <div class="container-fluid mt-5 pr-0 pl-0">
             <div class="pull-left">
