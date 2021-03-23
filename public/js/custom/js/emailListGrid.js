@@ -6854,6 +6854,23 @@ function emailSentCount() {
 
 }
 
+function fieldErrorMsg(msg) {
+
+    Swal.fire({
+
+        title: '',
+        text: msg,
+        showClass: {
+            popup: 'animated fadeIn faster'
+        },
+        hideClass: {
+            popup: 'animated fadeOut faster'
+        },
+
+    });
+
+}
+
 function emailReviewList() {
 
     $('.email-detail-body').hide();
@@ -6915,6 +6932,43 @@ $("#emailReviewTab").on('click', function() {
 });
 
 $(".reviewed-email-sumbit-btn").on('click', function() {
+
+    var sortLimit = $('#emailReview .sort-limit').val();
+    var dateRange = $('#emailReview .date-range-picker').val();
+    var sortType = $('#emailReview .sort-type').select2().val();
+    var userEmpcode = $('#emailReview .user-empcode').select2().val();
+
+    if (userEmpcode == undefined || userEmpcode == '') {
+
+        fieldErrorMsg('please select valid PM');
+
+        return false;
+
+    }
+
+    if (dateRange == undefined || dateRange == '') {
+
+        fieldErrorMsg('please select valid date range');
+
+        return false;
+
+    }
+
+    if (sortType == undefined || sortType == '') {
+
+        fieldErrorMsg('please select valid sort type');
+
+        return false;
+
+    }
+
+    if (sortLimit == undefined || sortLimit == '') {
+
+        fieldErrorMsg('please enter valid sort limit');
+
+        return false;
+
+    }
 
     emailReviewList();
 
