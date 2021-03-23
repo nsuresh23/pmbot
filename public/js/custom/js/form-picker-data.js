@@ -88,6 +88,77 @@ $(document).ready(function() {
         applyClass: 'btn-info',
         cancelClass: 'btn-default'
     });
+
+    // $('#weeklyDatePicker').on('dp.change', function (e) {
+    //     var value = $("#weeklyDatePicker").val();
+    //     var firstDate = moment(value, "MM-DD-YYYY").day(0).format("MM-DD-YYYY");
+    //     var lastDate =  moment(value, "MM-DD-YYYY").day(6).format("MM-DD-YYYY");
+    //     $("#weeklyDatePicker").val(firstDate + " - " + lastDate);
+    // });
+
+    function set_picker_start_end(picker, when) {
+
+        let m = (when == 'now') ? moment() : moment(when) //moment
+
+        let week_start = m.startOf('week')
+        let week_end = m.clone().endOf('week')
+
+        picker.setStartDate(week_start);
+        picker.setEndDate(week_end);
+
+        $('.review-daterange-datepicker').val(week_start.format('YYYY-MM-DD') + ' to ' + week_end.format('YYYY-MM-DD'));
+
+    }
+
+    $('.review-daterange-datepicker').daterangepicker({
+            buttonClasses: ['btn', 'btn-sm'],
+            applyClass: 'btn-info',
+            cancelClass: 'btn-default',
+            autoApply: true,
+            showWeekNumbers: true,
+            // showISOWeekNumbers: true,
+            singleDatePicker: true,
+            showCustomRangeLabel: false,
+            // startDate: moment().startOf('week'),
+            // endDate: moment().endOf('week'),
+            // format: 'Y-m-d H:i:s',
+            locale: {
+                format: 'YYYY-MM-DD',
+                separator: ' to ',
+            },
+            // ranges: {
+            //     'Today': [moment(), moment()],
+            //     'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            //     'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            //     'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            //     'This Month': [moment().startOf('month'), moment().endOf('month')],
+            //     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            // }
+        }
+
+    );
+
+    set_picker_start_end($('.review-daterange-datepicker').data('daterangepicker'), 'now') //set current week selected
+
+    $('.review-daterange-datepicker').on('show.daterangepicker', function(ev, picker) {
+
+        let active_cell = picker.container[0].querySelector('td.start-date')
+        active_cell.parentElement.classList.add('active') //tr goes active
+        $('.review-daterange-datepicker').val(moment(picker.startDate).startOf('week').format('YYYY-MM-DD') + ' to ' + moment(picker.startDate).endOf('week').format('YYYY-MM-DD'));
+    });
+
+    $('.review-daterange-datepicker').on('apply.daterangepicker', function(ev, picker) {
+
+        set_picker_start_end(picker, picker.startDate)
+
+    });
+
+    $('.review-daterange-datepicker').on('hide.daterangepicker', function(ev, picker) {
+
+        set_picker_start_end(picker, picker.startDate)
+
+    });
+
     $('.report-daterange-datepicker').daterangepicker({
         buttonClasses: ['btn', 'btn-sm'],
         applyClass: 'btn-info',

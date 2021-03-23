@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pl-0">
                         <div class="form-group mb-0">
-                            <input class="form-control report-daterange-datepicker date-range-picker h-42-px" placeholder="{{ __('dashboard.report_range_placeholder_text') }}" />
+                            <input class="form-control review-daterange-datepicker date-range-picker h-42-px" placeholder="{{ __('dashboard.report_range_placeholder_text') }}" />
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pl-0">
@@ -34,7 +34,7 @@
                                     ])
                                     !!}
                                 </div>
-                                <input type="number" class="form-control sort-limit h-42-px" placeholder="{{ __('dashboard.sort_limit_placeholder_text') }}" name="sort_limit" value="10" />
+                                <input type="number" class="form-control sort-limit h-42-px" placeholder="{{ __('dashboard.sort_limit_placeholder_text') }}" name="sort_limit" value="5" />
                             </div>
                             {{-- <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 pl-0">
                                 <input type="number" class="form-control sort-limit h-42-px" placeholder="{{ __('dashboard.sort_limit_placeholder_text') }}" name="sort_limit" value="10" />

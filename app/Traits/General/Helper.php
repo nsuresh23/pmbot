@@ -1186,6 +1186,37 @@ trait Helper
         }
     }
 
+    public function dateTimeDifferenceInHours($sartDateTime, $endDateTime)
+    {
+
+        $returnHours = "";
+
+        try {
+
+            $fromDateTime = new DateTime($sartDateTime, new DateTimeZone(env('APP_TIME_ZONE')));
+            $toDateTime = new DateTime($endDateTime, new DateTimeZone(env('APP_TIME_ZONE')));
+            $diff = $fromDateTime->diff($toDateTime);
+
+            // $returnHours = $diff->format("%H:%I:%S");
+
+            $returnHours = ($diff->days * 24) + $diff->h;
+
+            // $returnHours = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
+
+        } catch (Exception $e) {
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnHours;
+
+    }
+
     public function dateTimeDifferenceInMinutes($sartDateTime, $endDateTime)
     {
 

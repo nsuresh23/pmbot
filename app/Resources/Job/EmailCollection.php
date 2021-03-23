@@ -2103,7 +2103,15 @@ class EmailCollection
 
                 if (is_array($returnResponseData["data"]) && count($returnResponseData["data"]) > 0 && $returnResponseData["data"] != "") {
 
-                    $responseData = $this->formatData($returnResponseData["data"], $field);
+                    $responseGroupedData = $returnResponseData["data"];
+
+                    if (isset($field["email_type"]) && $field["email_type"] == "email-review") {
+
+                        $responseGroupedData = $this->formatSubjectGroupedData($returnResponseData["data"], $field);
+
+                    }
+
+                    $responseData = $this->formatData($responseGroupedData, $field);
 
                     if ($responseData) {
 
@@ -2116,6 +2124,12 @@ class EmailCollection
                             $returnResponse["last_updated_delay"] = "false";
 
                             $returnResponse["result_count"] = count($responseData);
+
+                            if (isset($responseData["reviewed_count"]) && $responseData["reviewed_count"] != "") {
+
+                                $returnResponse["reviewed_count"] = $responseData["reviewed_count"];
+
+                            }
 
                             if (!isset($returnResponseData["last_updated"]) || $returnResponseData["last_updated"] == "") {
 
@@ -2153,6 +2167,12 @@ class EmailCollection
                             if (isset($returnResponseData["unread_count"]) && $returnResponseData["unread_count"] != "") {
 
                                 $returnResponse["unread_count"] = $returnResponseData["unread_count"];
+
+                            }
+
+                            if (isset($field["email_type"]) && $field["email_type"] == "email-review") {
+
+                                $returnResponse["result_count"] = count($responseData);
 
                             }
 
@@ -2420,9 +2440,62 @@ class EmailCollection
 							}
 						}
 
-					}
+                    }
 
+                    if (isset($returnResponse["data"]["parent_email_received_date"]) && $returnResponse["data"]["parent_email_received_date"] != "" &&isset($returnResponse["data"]["email_sent_date"]) && $returnResponse["data"]["email_sent_date"] != "") {
 
+                        $emailReplySpeedInHours = '';
+
+                        $emailReplySpeedRating = '';
+
+                        $emailReplySpeedInHours = $this->dateTimeDifferenceInHours($returnResponse["data"]["parent_email_received_date"], $returnResponse["data"]["parent_email_received_date"]);
+
+                        if ($emailReplySpeedInHours != "") {
+
+                            if($emailReplySpeedInHours < 24) {
+
+                                $emailReplySpeedRating = '3';
+
+                            }
+
+                            if ($emailReplySpeedInHours <= 24 && $emailReplySpeedInHours <= 48 ) {
+
+                                $emailReplySpeedRating = '2';
+
+                            }
+
+                            if ($emailReplySpeedInHours > 48 ) {
+
+                                $emailReplySpeedRating = '1';
+
+                            }
+
+                            if($emailReplySpeedInHours != '') {
+
+                                if(isset($returnResponse["data"]["ratings"]) && is_array($returnResponse["data"]["ratings"]) && count($returnResponse["data"]["ratings"]) > 0) {
+
+                                    if(isset($returnResponse["data"]["ratings"]['speed']) && $returnResponse["data"]["ratings"]['speed'] != '') {
+
+                                        $returnResponse["data"]["ratings"]['speed'] = $emailReplySpeedRating;
+
+                                    } else {
+
+                                        $returnResponse["data"]["ratings"]['speed'] = $emailReplySpeedRating;
+
+                                    }
+
+                                } else {
+
+                                    $returnResponse["data"]["ratings"] = [];
+                                    $returnResponse["data"]["ratings"]['speed'] = $emailReplySpeedRating;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
 
 
                    // if(isset($returnResponse["data"]["email_received_date"]) && $returnResponse["data"]["email_received_date"] != "") {
@@ -2854,11 +2927,133 @@ class EmailCollection
 
         return $returnResponse;
     }
+
+    public function formatSubjectGroupedData($items, $field)
+    {
+        $resource = $groupedResource = [];
+
+        array_walk($items, function ($item) use (&$groupedResource) {
+
+                try {
+
+
+                    if(isset($item["subject"]) && $item["subject"] != "") {
+
+                        $groupedResource[$item["subject"]][] = $item;
+
+                    }
+
+                } catch (Exception $e) {
+
+                    $this->error(
+                        "app_error_log_" . date('Y-m-d'),
+                        " => FILE => " . __FILE__ . " => " .
+                            " => LINE => " . __LINE__ . " => " .
+                            " => MESSAGE => " . $e->getMessage() . " "
+                    );
+                }
+
+            }
+
+        );
+
+        array_walk($groupedResource, function ($item, $key) use (&$resource) {
+
+                try {
+
+                    if(is_array($item)) {
+
+                        if (count($item) == 1) {
+
+                            array_push($resource, $item[0]);
+
+                        }
+
+                        if (count($item) > 1) {
+
+                            usort($item, function ($a, $b) {
+
+                                if (isset($a['email_sent_date']) && isset($b['email_sent_date'])) {
+
+                                    $t1 = strtotime($a['email_sent_date']);
+                                    $t2 = strtotime($b['email_sent_date']);
+
+                                    // return $t1 - $t2;
+                                    return $t2 - $t1;
+                                }
+
+                            });
+
+                            // $groupedResource[$key] = $item[0];
+
+                            array_push($resource, $item[0]);
+
+                        }
+
+                    }
+
+                } catch (Exception $e) {
+
+                    $this->error(
+                        "app_error_log_" . date('Y-m-d'),
+                        " => FILE => " . __FILE__ . " => " .
+                            " => LINE => " . __LINE__ . " => " .
+                            " => MESSAGE => " . $e->getMessage() . " "
+                    );
+                }
+
+            }
+
+        );
+
+        if(is_array($resource) && count($resource) > 0) {
+
+            usort($resource, function ($a, $b) use($field) {
+
+                if (isset($a['email_sent_date']) && isset($b['email_sent_date'])) {
+
+                    $t1 = strtotime($a['email_sent_date']);
+                    $t2 = strtotime($b['email_sent_date']);
+
+                    if(isset($field["sort_type"]) && $field["sort_type"] == "older"){
+
+                        return $t1 - $t2;
+
+                    } else {
+
+                        return $t2 - $t1;
+
+                    }
+
+                }
+
+            });
+
+            if (isset($field["sort_type"]) && $field["sort_type"] == "random") {
+
+                shuffle($resource);
+
+            }
+
+            if(isset($field["sort_limit"]) && $field["sort_limit"] != '' && count($resource) > (int)$field["sort_limit"]) {
+
+                $resource = array_slice($resource, 0, (int)$field["sort_limit"]);
+
+            }
+
+        }
+
+        return $resource;
+
+    }
+
     public function formatData($items, $field)
     {
+        $reviewed_count = 0;
+
         $resource = array_map(
 
-            function ($item) use ($field) {
+            function ($item) use ($field, &$reviewed_count) {
 
                 try {
 
@@ -2885,6 +3080,12 @@ class EmailCollection
                     if (isset($item["attachments"]) && $item["attachments"] != "") {
 
                         $item["is_attachments"] = '<i class="zmdi zmdi-attachment inline-block font-16"></i>';
+                    }
+
+                    if (isset($item["reviewed"]) && $item["reviewed"] == "1") {
+
+                        $reviewed_count = $reviewed_count + 1;
+
                     }
 
 					$emailDate = "";
@@ -3115,7 +3316,14 @@ class EmailCollection
             $items
         );
 
+        if($reviewed_count > 0) {
+
+            $resource["review_count"] = $reviewed_count;
+
+        }
+
         return $resource;
+
     }
 
     public function pmsEmailCountFormatData($items)
