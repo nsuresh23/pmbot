@@ -2391,33 +2391,33 @@ function emailDetailInfo(emailId, postUrl, emailCategory) {
 
                             if ('ratings' in response.data && response.data.ratings != '') {
 
+                                if ('issue' in response.data.ratings && response.data.ratings.issue) {
+
+                                    $('.email-rating-form .issue').rating('update', parseInt(response.data.ratings.issue));
+
+                                }
+
+                                if ('responded' in response.data.ratings && response.data.ratings.responded) {
+
+                                    $('.email-rating-form .responded').rating('update', parseInt(response.data.ratings.responded));
+
+                                }
+
                                 if ('language' in response.data.ratings && response.data.ratings.language) {
 
                                     $('.email-rating-form .language').rating('update', parseInt(response.data.ratings.language));
 
                                 }
 
-                                if ('greetings' in response.data.ratings && response.data.ratings.greetings) {
+                                if ('satisfaction' in response.data.ratings && response.data.ratings.satisfaction) {
 
-                                    $('.email-rating-form .greetings').rating('update', parseInt(response.data.ratings.greetings));
-
-                                }
-
-                                if ('effectiveness' in response.data.ratings && response.data.ratings.effectiveness) {
-
-                                    $('.email-rating-form .effectiveness').rating('update', parseInt(response.data.ratings.effectiveness));
+                                    $('.email-rating-form .satisfaction').rating('update', parseInt(response.data.ratings.satisfaction));
 
                                 }
 
-                                if ('format' in response.data.ratings && response.data.ratings.format) {
+                                if ('speed' in response.data.ratings && response.data.ratings.speed) {
 
-                                    $('.email-rating-form .format').rating('update', parseInt(response.data.ratings.format));
-
-                                }
-
-                                if ('assertiveness' in response.data.ratings && response.data.ratings.assertiveness) {
-
-                                    $('.email-rating-form .assertiveness').rating('update', parseInt(response.data.ratings.assertiveness));
+                                    $('.email-rating-form .speed').rating('update', parseInt(response.data.ratings.speed));
 
                                 }
 
@@ -3739,6 +3739,8 @@ $(document).on('click', '.email-draft-save-btn', function(e) {
 
 function validateEmail($email) {
 
+    var returnData = {};
+
     var emailMatch = $email.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
 
     if (emailMatch != undefined && emailMatch.length > 0 && emailMatch.length == 1) {
@@ -3755,7 +3757,15 @@ function validateEmail($email) {
 
     var emailReg = /^([\w-\.\_]+@([\w-]+\.)+[\w-]{2,6})?$/;
 
-    return ($email.trim().length > 0 && emailReg.test($email.trim()));
+    var externalEmailReg = /^[\w\.\_]+@(spi\-global\.com)?$/;
+
+    returnData.valid = ($email.trim().length > 0 && emailReg.test($email.trim()));
+
+    returnData.external = ($email.trim().length > 0 && externalEmailReg.test($email.trim()));
+
+    return returnData;
+
+    // return ($email.trim().length > 0 && emailReg.test($email.trim()));
 
 }
 
@@ -3764,6 +3774,8 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
     if (sendUrl != undefined && sendUrl != '') {
 
         var validEmailTo = validEmailCC = validEmailBCC = 'true';
+
+        var externalEmail = 'false';
 
         if (params.get('to') != undefined && params.get('to') != '') {
 
@@ -3775,13 +3787,29 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
 
                 if (value != '' && value.trim().length > 0) {
 
-                    if (!validateEmail(value)) {
+                    var emailValidationData = validateEmail(value);
+
+                    if ('valid' in emailValidationData && emailValidationData.valid != undefined && !emailValidationData.valid) {
 
                         validEmailTo = 'false';
 
                         return false;
 
                     }
+
+                    if (externalEmail == 'false' && 'external' in emailValidationData && emailValidationData.external != undefined && !emailValidationData.external) {
+
+                        externalEmail = 'true';
+
+                    }
+
+                    // if (!validateEmail(value)) {
+
+                    //     validEmailTo = 'false';
+
+                    //     return false;
+
+                    // }
 
                 }
 
@@ -3799,13 +3827,29 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
 
                 if (value != '' && value.trim().length > 0) {
 
-                    if (!validateEmail(value)) {
+                    var emailValidationData = validateEmail(value);
 
-                        validEmailCC = 'false';
+                    if ('valid' in emailValidationData && emailValidationData.valid != undefined && !emailValidationData.valid) {
+
+                        validEmailTo = 'false';
 
                         return false;
 
                     }
+
+                    if (externalEmail == 'false' && 'external' in emailValidationData && emailValidationData.external != undefined && !emailValidationData.external) {
+
+                        externalEmail = 'true';
+
+                    }
+
+                    // if (!validateEmail(value)) {
+
+                    //     validEmailCC = 'false';
+
+                    //     return false;
+
+                    // }
 
                 }
 
@@ -3823,13 +3867,29 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
 
                 if (value != '' && value.trim().length > 0) {
 
-                    if (!validateEmail(value)) {
+                    var emailValidationData = validateEmail(value);
 
-                        validEmailBCC = 'false';
+                    if ('valid' in emailValidationData && emailValidationData.valid != undefined && !emailValidationData.valid) {
+
+                        validEmailTo = 'false';
 
                         return false;
 
                     }
+
+                    if (externalEmail == 'false' && 'external' in emailValidationData && emailValidationData.external != undefined && !emailValidationData.external) {
+
+                        externalEmail = 'true';
+
+                    }
+
+                    // if (!validateEmail(value)) {
+
+                    //     validEmailBCC = 'false';
+
+                    //     return false;
+
+                    // }
 
                 }
 
@@ -3897,6 +3957,12 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
             $('#bcc').focus();
 
             return false;
+
+        }
+
+        if (externalEmail == 'true') {
+
+            params.append('external_email', 'external');
 
         }
 
@@ -6892,7 +6958,8 @@ $(".email-rating-sumbit-btn").on('click', function(e) {
             },
             complete: function() {
                 $('.email_detail_loader').hide();
-                emailDetailInfo(email_id, emailGetUrl, emailCategory);
+                $('.reviewed-email-sumbit-btn').trigger('click');
+                // emailDetailInfo(email_id, emailGetUrl, emailCategory);
             }
         }).done(function(response) {
 
@@ -6939,10 +7006,11 @@ function emailUnreview(postUrl, params) {
             },
             complete: function() {
                 $('.email_detail_loader').hide();
-                var emailCategory = 'email-review';
-                var email_id = $('.email-title').attr('data-email-id');
-                var emailGetUrl = $('.email-rating-form .email-rating-sumbit-btn').attr('data-email-get-url');
-                emailDetailInfo(email_id, emailGetUrl, emailCategory);
+                $('.reviewed-email-sumbit-btn').trigger('click');
+                // var emailCategory = 'email-review';
+                // var email_id = $('.email-title').attr('data-email-id');
+                // var emailGetUrl = $('.email-rating-form .email-rating-sumbit-btn').attr('data-email-get-url');
+                // emailDetailInfo(email_id, emailGetUrl, emailCategory);
             }
         }).done(function(response) {
 

@@ -498,7 +498,7 @@ class EmailController extends Controller
 
             if (auth()->check()) {
 
-                $request->merge(['creator_empcode' => auth()->user()->empcode]);
+                // $request->merge(['creator_empcode' => auth()->user()->empcode]);
 
                 if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
 
@@ -557,8 +557,6 @@ class EmailController extends Controller
             }
 
             if ($method == "POST") {
-
-                echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($paramInfo);echo '<PRE/>';exit;
 
                 $returnResponse = $this->emailResource->emailUpdateRating($paramInfo);
 
@@ -1467,7 +1465,13 @@ class EmailController extends Controller
                 $field["priority"] = '1';
             } else {
 				$field["priority"] = '3';
-			}
+            }
+
+            if (isset($request->external_email) && $request->external_email != "") {
+                $field["email_domain_name"] = $request->external_email;
+            } else {
+                $field["email_domain_name"] = '';
+            }
 
             $field["empcode"]       = auth()->user()->empcode;
             $field["source"]        = 'inbox';
@@ -1731,6 +1735,12 @@ class EmailController extends Controller
                 $field["status"] = $request->status;
             } else {
                 $field["status"] = '';
+            }
+
+            if (isset($request->external_email) && $request->external_email != "") {
+                $field["email_domain_name"] = $request->external_email;
+            } else {
+                $field["email_domain_name"] = '';
             }
 
 			if($request->file())
