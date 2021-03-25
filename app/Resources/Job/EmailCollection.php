@@ -2458,7 +2458,7 @@ class EmailCollection
 							}
 						}
 
-						if( in_array($returnResponse["data"]["status"], ["6"])){
+						if( in_array($returnResponse["data"]["status"], ["6", "8"])){
 
 							if(isset($returnResponse["data"]["email_sent_date"]) && $returnResponse["data"]["email_sent_date"] != ""){
 
@@ -2962,81 +2962,98 @@ class EmailCollection
 
     public function formatSubjectGroupedData($items, $field)
     {
-        $resource = $groupedResource = [];
+        $resource = $groupedResource = $groupedResourceIds = [];
 
-        array_walk($items, function ($item) use (&$groupedResource) {
+        array_walk($items, function ($item) use (&$groupedResource, &$groupedResourceIds) {
 
-                try {
+            try {
 
+                if(isset($item["subject"]) && $item["subject"] != "") {
 
-                    if(isset($item["subject"]) && $item["subject"] != "") {
+                    $groupedResource[$item["subject"]][] = $item;
 
-                        $groupedResource[$item["subject"]][] = $item;
+                    if(isset($groupedResourceIds[$item["subject"]]) && is_array($groupedResourceIds[$item["subject"]])) {
 
-                    }
+                        array_push($groupedResourceIds[$item["subject"]], $item["id"]);
 
-                } catch (Exception $e) {
+                    } else {
 
-                    $this->error(
-                        "app_error_log_" . date('Y-m-d'),
-                        " => FILE => " . __FILE__ . " => " .
-                            " => LINE => " . __LINE__ . " => " .
-                            " => MESSAGE => " . $e->getMessage() . " "
-                    );
-                }
+                        $groupedResourceIds[$item["subject"]] = [];
 
-            }
-
-        );
-
-        array_walk($groupedResource, function ($item, $key) use (&$resource) {
-
-                try {
-
-                    if(is_array($item)) {
-
-                        if (count($item) == 1) {
-
-                            array_push($resource, $item[0]);
-
-                        }
-
-                        if (count($item) > 1) {
-
-                            usort($item, function ($a, $b) {
-
-                                if (isset($a['email_sent_date']) && isset($b['email_sent_date'])) {
-
-                                    $t1 = strtotime($a['email_sent_date']);
-                                    $t2 = strtotime($b['email_sent_date']);
-
-                                    // return $t1 - $t2;
-                                    return $t2 - $t1;
-                                }
-
-                            });
-
-                            // $groupedResource[$key] = $item[0];
-
-                            array_push($resource, $item[0]);
-
-                        }
+                        array_push($groupedResourceIds[$item["subject"]], $item["id"]);
 
                     }
 
-                } catch (Exception $e) {
-
-                    $this->error(
-                        "app_error_log_" . date('Y-m-d'),
-                        " => FILE => " . __FILE__ . " => " .
-                            " => LINE => " . __LINE__ . " => " .
-                            " => MESSAGE => " . $e->getMessage() . " "
-                    );
                 }
 
+            } catch (Exception $e) {
+
+                $this->error(
+                    "app_error_log_" . date('Y-m-d'),
+                    " => FILE => " . __FILE__ . " => " .
+                        " => LINE => " . __LINE__ . " => " .
+                        " => MESSAGE => " . $e->getMessage() . " "
+                );
             }
 
-        );
+        });
+
+        array_walk($groupedResource, function ($item, $key) use (&$resource, $groupedResourceIds) {
+
+            try {
+
+                if(is_array($item)) {
+
+                    if (count($item) == 1) {
+
+                        $resourceItem = $item[0];
+
+                    }
+
+                    if (count($item) > 1) {
+
+                        usort($item, function ($a, $b) {
+
+                            if (isset($a['email_sent_date']) && isset($b['email_sent_date'])) {
+
+                                $t1 = strtotime($a['email_sent_date']);
+                                $t2 = strtotime($b['email_sent_date']);
+
+                                // return $t1 - $t2;
+                                return $t2 - $t1;
+                            }
+
+                        });
+
+                        $resourceItem = $item[0];
+
+                    }
+
+                    if (isset($resourceItem["subject"]) && $resourceItem["subject"] != "") {
+
+                        if (isset($groupedResourceIds[$resourceItem["subject"]]) && $groupedResourceIds[$resourceItem["subject"]] != "") {
+
+                            $resourceItem["group_ids"] = implode(",", $groupedResourceIds[$resourceItem["subject"]]);
+
+                        }
+
+                    }
+
+                    array_push($resource, $resourceItem);
+
+                }
+
+            } catch (Exception $e) {
+
+                $this->error(
+                    "app_error_log_" . date('Y-m-d'),
+                    " => FILE => " . __FILE__ . " => " .
+                        " => LINE => " . __LINE__ . " => " .
+                        " => MESSAGE => " . $e->getMessage() . " "
+                );
+            }
+
+        });
 
         if(is_array($resource) && count($resource) > 0) {
 

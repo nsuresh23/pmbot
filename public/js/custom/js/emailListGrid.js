@@ -2121,6 +2121,8 @@ function emailDetailInfo(emailId, postUrl, emailCategory) {
 
         $('.email-title').attr('data-email-id', '');
 
+        $('.email-unreview-btn').attr('data-group-ids', '');
+
         $('.non-business-unmark-btn-block').hide();
         $('.email-classification-move-to-block').hide();
         $('.email-escalation-close-block').hide();
@@ -2140,6 +2142,8 @@ function emailDetailInfo(emailId, postUrl, emailCategory) {
         $('.email-move-to-input').select2({ data: [] });
 
         $('.email-title').html('');
+        $('.email-title').attr('data-email-empcode', '');
+        $('.email-title').attr('data-subject-raw-text', '');
         $('.email-title-block').hide();
 
         $('.email-from').html('');
@@ -2250,6 +2254,12 @@ function emailDetailInfo(emailId, postUrl, emailCategory) {
 
                             $('.email-download-link').attr('href', response.data.email_download_path);
                             $('.email-download-link-block').show();
+
+                        }
+
+                        if (response.data.group_ids != undefined && response.data.group_ids != '') {
+
+                            $('#emailReview .email-unreview-btn').attr('data-group-ids', response.data.group_ids);
 
                         }
 
@@ -7192,7 +7202,7 @@ $(document).on('click', '.email-unreview-btn', function(e) {
             var params = {};
             var postUrl = '';
             var postUrl = $('#emailReview .email-unreview-btn').attr('data-email-review-update-url');
-            var email_id = $('#emailReview .email-title').attr('data-email-id');
+            var email_id = $('#emailReview .email-unreview-btn').attr('data-group-ids');
 
             if (email_id != undefined && email_id != '') {
 

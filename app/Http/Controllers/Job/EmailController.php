@@ -1063,7 +1063,7 @@ class EmailController extends Controller
                         }
                     }
 
-                    if (in_array($emailStatus, ["6", "99"])) {
+                    if (in_array($emailStatus, ["6", "8", "99"])) {
 
                         if (array_key_exists("created_date", $filterData)) {
 
@@ -1107,6 +1107,12 @@ class EmailController extends Controller
             if (isset($request->type) && $request->type != "") {
 
                 $field["type"] = $request->type;
+
+                if (isset($request->status) && $request->status == "8") {
+
+                    $field["type"] = "pmbot";
+
+                }
 
             }
 

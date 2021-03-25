@@ -98,6 +98,7 @@ return [
 		"5" => "outbox",
 		"6" => "sent",
         "7" => "archived",
+        "8" => "outlook_sent",
         "55" => "outbox_wip",
         "99" => "undelivered",
     ],
