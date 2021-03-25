@@ -3,17 +3,19 @@
         <div class="pull-left">
             <div class="pills-struct">
                 <ul role="tablist" class="nav nav-pills nav-pills-outline dashboard-job-tabs" id="">
-                    <li class="active" role="presentation"><a aria-expanded="true" data-toggle="tab" role="tab"
-                            id="overviewTab" href="#overview">{{ __('dashboard.overview_tab_label') }}</a></li>
-                    <li role="presentation" class=""><a data-toggle="tab" id="stageTab" role="tab" href="#stage"
+                    <?php // if(in_array(auth()->user()->role, Config::get('constants.pmUserRoles'))) { ?>
+                        <li class="active" role="presentation"><a aria-expanded="true" data-toggle="tab" role="tab"
+                                id="overviewTab" href="#overview">{{ __('dashboard.overview_tab_label') }}</a></li>
+                    <?php // } ?>
+                    {{-- <li role="presentation" class=""><a data-toggle="tab" id="stageTab" role="tab" href="#stage"
                             aria-expanded="false">{{ __('dashboard.stage_tab_label') }}</a></li>
                     <li role="presentation" class=""><a data-toggle="tab" id="financialTab" role="tab" href="#financial"
-                            aria-expanded="false">{{ __('dashboard.financial_invoice_tab_label') }}</a></li>
+                            aria-expanded="false">{{ __('dashboard.financial_invoice_tab_label') }}</a></li> --}}
 
                     <?php if(isset($hasMembers) && $hasMembers == "1" && !session()->has("current_empcode")) { ?>
 
                         <li role="presentation" class="">
-                            <a data-toggle="tab" id="membersTab" role="tab" href="#overview" aria-expanded="false">
+                            <a data-toggle="tab" id="membersTab" role="tab" href="#members" aria-expanded="false">
                                 {{ __('dashboard.members_tab_label') }}
                                 <span class="members-count"></span>
                             </a>
@@ -22,7 +24,7 @@
                     <?php } elseif(in_array(auth()->user()->role, Config::get('constants.amUserRoles')) && !session()->has("current_empcode")) { ?>
 
                         <li role="presentation" class="">
-                            <a data-toggle="tab" id="membersTab" role="tab" href="#overview" aria-expanded="false">
+                            <a data-toggle="tab" id="membersTab" role="tab" href="#members" aria-expanded="false">
                                 {{ __('dashboard.members_tab_label') }}
                                 <span class="members-count"></span>
                             </a>
@@ -123,9 +125,17 @@
 
                             @include('pages.dashboard.dashboardOverview')
 
-                            <?php if(in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
+                        </div>
 
-                                @include('pages.dashboard.am.dashboardTaskOverview')
+                        <div id="members" class="tab-pane fade active in pt-10 membersTab" role="tabpanel" data-member-job-count-url="{{ $memberJobCountUrl }}">
+
+                            <?php if(isset($hasMembers) && $hasMembers == "1") { ?>
+
+                                @include('pages.dashboard.members.members')
+
+                            <?php } elseif (in_array(auth()->user()->role, Config::get('constants.amUserRoles'))) { ?>
+
+                                @include('pages.dashboard.members.members')
 
                             <?php } ?>
 
@@ -169,3 +179,9 @@
         </div>
     </div>
 </div>
+
+<?php if(in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
+
+@include('pages.dashboard.am.dashboardTaskOverview')
+
+<?php } ?>

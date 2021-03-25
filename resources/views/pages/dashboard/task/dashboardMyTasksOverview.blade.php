@@ -17,7 +17,7 @@
                         <div class="shadow-oval"></div> --}}
                     </a>
                 </div>
-                <div id="myTaskList" class="panel-collapse collapse in" role="tabpanel">
+                <div id="myTaskList" class="panel-collapse collapse" role="tabpanel">
 
                     @include('pages.dashboard.task.dashboardMyTasks')
 
