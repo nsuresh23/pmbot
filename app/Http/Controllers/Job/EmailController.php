@@ -1108,7 +1108,7 @@ class EmailController extends Controller
 
                 $field["type"] = $request->type;
 
-                if (isset($request->status) && $request->status == "8") {
+                if (isset($field["status"]) && $field["status"] == "8") {
 
                     $field["type"] = "pmbot";
 
