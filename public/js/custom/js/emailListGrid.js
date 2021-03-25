@@ -7277,6 +7277,8 @@ $(document).on('click', '.email-latest-received-btn', function(e) {
 
         var empcode = $('#emailReview .email-title').attr('data-email-empcode');
 
+        var emailSubject = $('#emailReview .email-title').attr('data-subject-raw-text');
+
         lastestEmailList(email_id, empcode, emailSubject, from_date, 'latest-received');
 
         $('.review-email-modal').modal('show');
