@@ -1254,7 +1254,7 @@ class UserCollection
             $rules = array(
 
                 'empcode'       => 'required',
-                'mac_id'       => 'required',
+                'mac_address'       => 'required',
 
             );
 
