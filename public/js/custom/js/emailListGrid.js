@@ -48,6 +48,7 @@ function getEmailTableList(gridSelector) {
     var listUrl = $(gridSelector).attr('data-list-url');
     var currentRoute = $(gridSelector).attr('data-current-route');
     var emailId = $(gridSelector).attr('data-email-id');
+    var emailFromDate = $(gridSelector).attr('data-email-from-date');
     var empcode = $(gridSelector).attr('data-empcode');
     var dateRange = $(gridSelector).attr('data-date-range');
     var sortType = $(gridSelector).attr('data-sort-type');
@@ -1192,6 +1193,18 @@ function getEmailTableList(gridSelector) {
 
                     }
 
+                    if (empcode != undefined && empcode != '') {
+
+                        emailListPostData.empcode = empcode;
+
+                    }
+
+                    if (emailFromDate != undefined && emailFromDate != '') {
+
+                        emailListPostData.fromdate = emailFromDate;
+
+                    }
+
                     delete emailListPostData.status;
 
                 }
@@ -2228,6 +2241,12 @@ function emailDetailInfo(emailId, postUrl, emailCategory) {
                             $('.email-title').html(response.data.subject);
                             //$('.email-title').html("Special Day Wishes");
 
+                            if (response.data.email_id != undefined && response.data.email_id != '') {
+
+                                $('.email-title').attr('data-email-empcode', response.data.empcode);
+
+                            }
+
                             $('.email-title-block').show();
 
                         }
@@ -2263,6 +2282,13 @@ function emailDetailInfo(emailId, postUrl, emailCategory) {
                         if (response.data.create_date_formatted_text != undefined && response.data.create_date_formatted_text != '') {
 
                             $('.email-date').html(response.data.create_date_formatted_text);
+
+                            if (response.data.create_date_text != undefined && response.data.create_date_text != '') {
+
+                                $('.email-date').attr('data-email-date', response.data.create_date_text);
+
+                            }
+
                             $('.email-date-block').show();
 
                         }
@@ -6983,7 +7009,7 @@ $(".email-rating-sumbit-btn").on('click', function(e) {
     var params = '';
     var emailCategory = 'email-review';
     var emailGetUrl = $('.email-rating-form .email-rating-sumbit-btn').attr('data-email-get-url');
-    var email_id = $('.email-title').attr('data-email-id');
+    var email_id = $('#emailReview .email-title').attr('data-email-id');
     params = new FormData($('.email-rating-form')[0]);
 
     if (email_id != undefined && email_id != '') {
@@ -7117,8 +7143,8 @@ $(document).on('click', '.email-unreview-btn', function(e) {
 
             var params = {};
             var postUrl = '';
-            var postUrl = $('.email-unreview-btn').attr('data-email-review-update-url');
-            var email_id = $('.email-title').attr('data-email-id');
+            var postUrl = $('#emailReview .email-unreview-btn').attr('data-email-review-update-url');
+            var email_id = $('#emailReview .email-title').attr('data-email-id');
 
             if (email_id != undefined && email_id != '') {
 
@@ -7134,7 +7160,7 @@ $(document).on('click', '.email-unreview-btn', function(e) {
 
 });
 
-function lastestEmailList(email_id, filter) {
+function lastestEmailList(email_id, empcode, from_date, filter) {
 
     $('.review-email-modal-detail-body').hide();
     $('.review-email-modal-list-body').show();
@@ -7148,6 +7174,18 @@ function lastestEmailList(email_id, filter) {
         if (email_id != undefined && email_id != '') {
 
             $(gridSelector).attr('data-email-id', email_id);
+
+        }
+
+        if (empcode != undefined && empcode != '') {
+
+            $(gridSelector).attr('data-empcode', empcode);
+
+        }
+
+        if (from_date != undefined && from_date != '') {
+
+            $(gridSelector).attr('data-email-from-date', from_date);
 
         }
 
@@ -7177,11 +7215,15 @@ $(document).on('click', '.email-latest-received-btn', function(e) {
 
     e.preventDefault();
 
-    var email_id = $('.email-title').attr('data-email-id');
+    var email_id = $('#emailReview .email-title').attr('data-email-id');
 
     if (email_id != undefined && email_id != '') {
 
-        lastestEmailList(email_id, 'latest-received');
+        var from_date = $('#emailReview .email-date').attr('data-email-date');
+
+        var empcode = $('#emailReview .email-title').attr('data-email-empcode');
+
+        lastestEmailList(email_id, empcode, from_date, 'latest-received');
 
         $('.review-email-modal').modal('show');
 
@@ -7193,11 +7235,15 @@ $(document).on('click', '.email-latest-sent-btn', function(e) {
 
     e.preventDefault();
 
-    var email_id = $('.email-title').attr('data-email-id');
+    var email_id = $('#emailReview .email-title').attr('data-email-id');
 
     if (email_id != undefined && email_id != '') {
 
-        lastestEmailList(email_id, 'latest-sent');
+        var from_date = $('#emailReview .email-date').attr('data-email-date');
+
+        var empcode = $('#emailReview .email-title').attr('data-email-empcode');
+
+        lastestEmailList(email_id, empcode, from_date, 'latest-sent');
 
         $('.review-email-modal').modal('show');
 

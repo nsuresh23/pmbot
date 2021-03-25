@@ -2474,7 +2474,7 @@ class EmailCollection
 
                         $emailReplySpeedRating = '';
 
-                        $emailReplySpeedInHours = $this->dateTimeDifferenceInHours($returnResponse["data"]["parent_email_received_date"], $returnResponse["data"]["parent_email_received_date"]);
+                        $emailReplySpeedInHours = $this->dateTimeDifferenceInHours($returnResponse["data"]["parent_email_received_date"], $returnResponse["data"]["email_sent_date"]);
 
                         if ($emailReplySpeedInHours != "") {
 
@@ -2532,7 +2532,9 @@ class EmailCollection
 
 						if ($emailDate){
 
-							$returnResponse["data"]["create_date_formatted_text"] = date("dS M Y h:i:s a", strtotime($emailDate));
+							$returnResponse["data"]["create_date_text"] = $emailDate;
+                            $returnResponse["data"]["create_date_formatted_text"] = date("dS M Y h:i:s a", strtotime($emailDate));
+
 						}
 
                    // }

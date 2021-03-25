@@ -1170,6 +1170,28 @@ class EmailController extends Controller
 
             $field["empcode"] = auth()->user()->empcode;
 
+            if (isset($request->email_type) && $request->email_type == "email-review-latest") {
+
+                if (isset($request->email_id) && $request->email_id != "") {
+
+                    $field["email_id"] = $request->email_id;
+
+                }
+
+                if (isset($request->fromdate) && $request->fromdate != "") {
+
+                    $field["fromdate"] = $request->fromdate;
+
+                }
+
+                // if (isset($request->empcode) && $request->empcode != "") {
+
+                //     $field["empcode"] = $request->empcode;
+
+                // }
+
+            }
+
             if (count($field) > 0) {
 
                 $returnResponse = $this->emailResource->emailList($field);
