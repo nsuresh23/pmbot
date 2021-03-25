@@ -1184,11 +1184,11 @@ class EmailController extends Controller
 
                 }
 
-                // if (isset($request->empcode) && $request->empcode != "") {
+                if (isset($request->subject) && $request->subject != "") {
 
-                //     $field["empcode"] = $request->empcode;
+                    $field["subject"] = $request->subject;
 
-                // }
+                }
 
             }
 

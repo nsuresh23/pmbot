@@ -2595,7 +2595,11 @@ class EmailCollection
 
                             // $returnResponse["data"]["subject"] = htmlspecialchars(base64_decode($returnResponse["data"]["subject"]));
                             $returnResponse["data"]["subject"] = base64_decode($returnResponse["data"]["subject"]);
+
                         }
+
+                        $returnResponse["data"]["subject_raw_text"] = $returnResponse["data"]["subject"];
+
                     }
 
 
