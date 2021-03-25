@@ -67,7 +67,7 @@
                                                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                                                     <div class="form-group">
                                                                         <label for="mac-id" class="control-label mb-10">{{ __('user.user_mac_id_label') }}</label>
-                                                                        <input type="text" data-minlength="6" class="form-control" id="mac-id" name="mac_address"
+                                                                        <input type="text" data-minlength="6" class="form-control" id="mac-id" name="mac_address" value="{{$userData['data']['mac_address'] ?? ''}}"
                                                                             placeholder="{{ __('user.user_mac_id_placeholder_text') }}"
                                                                             data-error="{{ __('user.user_mac_id_error_msg') }}" required>
                                                                         <div class="help-block with-errors"></div>

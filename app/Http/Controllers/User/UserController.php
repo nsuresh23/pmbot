@@ -852,13 +852,18 @@ class UserController extends Controller
     {
 
         $userData = [];
-        try {
 
-            $userData["data"]["id"] = "";
+        try {
 
             if ($request->id != "") {
 
-                $userData["data"]["id"] = $request->id;
+                $field = [
+
+                    'empcode' => $request->id
+
+                ];
+
+                $userData["data"] = $this->userResource->getUser($field);
 
                 if ($request->isMethod('post')) {
 
