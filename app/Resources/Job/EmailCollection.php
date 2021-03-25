@@ -52,6 +52,7 @@ class EmailCollection
     protected $emailUpdateRatingApiUrl;
     protected $latestEmailListApiUrl;
     protected $reviewEmailGetApiUrl;
+    protected $emailReviewUpdateApiUrl;
 
     public function __construct()
     {
@@ -86,6 +87,7 @@ class EmailCollection
         $this->emailUpdateRatingApiUrl          = env('API_EMAIL_RATING_SEND_URL');
         $this->latestEmailListApiUrl            = env('API_LATEST_EMAIL_LIST_URL');
         $this->reviewEmailGetApiUrl             = env('API_REVIEW_EMAIL_GET_URL');
+        $this->emailReviewUpdateApiUrl          = env('API_EMAIL_REVIEW_UPDATE_URL');
     }
 
     /**
@@ -892,7 +894,7 @@ class EmailCollection
             // validate
             // read more on validation at http://laravel.com/docs/validation
             $rules = [];
-            $url = $this->emailInfoUpdateApiUrl;
+            $url = $this->emailReviewUpdateApiUrl;
 
             $rules["id"] = "required";
 
@@ -2434,7 +2436,7 @@ class EmailCollection
 
                     if ($email_group_ids != "") {
 
-                        $returnResponse["data"]["group_ids"] = $$email_group_ids;
+                        $returnResponse["data"]["group_ids"] = $email_group_ids;
 
                     }
 
