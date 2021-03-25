@@ -2393,6 +2393,8 @@ class EmailCollection
         ];
         try {
 
+            $email_group_ids = "";
+
             $url = $this->emailGetApiUrl;
 
             if(isset($field["type"]) && $field["type"] != "") {
@@ -2413,10 +2415,28 @@ class EmailCollection
 
             }
 
+            if (isset($field["email_group_ids"]) && $field["email_group_ids"] != "") {
+
+                $email_group_ids = $field["email_group_ids"];
+
+                unset($field["email_group_ids"]);
+
+            }
+
             $responseData = $this->postRequest($url, $field);
+
             if (isset($responseData["success"]) && $responseData["success"] == "true") {
+
                 $returnResponse["data"] = $responseData["data"];
+
                 if(isset($returnResponse["data"]) && is_array($returnResponse["data"]) && count($returnResponse["data"]) > 0) {
+
+
+                    if ($email_group_ids != "") {
+
+                        $returnResponse["data"]["group_ids"] = $$email_group_ids;
+
+                    }
 
                     $emailViewUrl = $this->emailAnnotatorBaseUrl;
 
@@ -3106,7 +3126,7 @@ class EmailCollection
 
                 try {
 
-                    $emailTypeClass = $email_category = "";
+                    $emailTypeClass = $email_category = $email_group_ids = "";
                     $emailSubject = "no subject";
                     $emailGetUrl = route(__("job.email_get_url"));
 
@@ -3134,6 +3154,12 @@ class EmailCollection
                     if (isset($item["reviewed"]) && $item["reviewed"] == "1") {
 
                         $reviewed_count = $reviewed_count + 1;
+
+                    }
+
+                    if (isset($item["group_ids"]) && $item["group_ids"] != "") {
+
+                        $email_group_ids = $item["group_ids"];
 
                     }
 
@@ -3313,7 +3339,7 @@ class EmailCollection
                             $emailViewUrl = $emailViewUrl . "/empcode/" . $item["empcode"];
                         } */
 
-                         $item['subject_link'] = '<a class="email-item ' . $emailTypeClass . '" href="' . $emailViewUrl . '" data-email-id="' . $item["id"] . '" data-email-category="' . $email_category . '" data-email-geturl="' . $emailGetUrl . '">' . mb_strimwidth($emailSubject, 0, 75, "...") . '</a>';
+                         $item['subject_link'] = '<a class="email-item ' . $emailTypeClass . '" href="' . $emailViewUrl . '" data-email-id="' . $item["id"] . '" data-email-category="' . $email_category . '" data-email-group-ids="' . $email_group_ids . '" data-email-geturl="' . $emailGetUrl . '">' . mb_strimwidth($emailSubject, 0, 75, "...") . '</a>';
                          $item["subject_min_width"] = mb_strimwidth($emailSubject, 0, 75, "...");
                     }
 

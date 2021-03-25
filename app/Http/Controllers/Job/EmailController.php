@@ -1889,6 +1889,9 @@ class EmailController extends Controller
             if (isset($request->type) && $request->type != "") {
                 $field["type"] = $request->type;
             }
+            if (isset($request->email_group_ids) && $request->email_group_ids != "") {
+                $field["email_group_ids"] = $request->email_group_ids;
+            }
             if (isset($request->view) && $request->view != "") {
                 $field["view"] = $request->view;
             }
