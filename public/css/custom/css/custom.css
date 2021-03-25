@@ -814,6 +814,22 @@ content: "\f067";
                 .txt-blue {
                     color: #02aefdf8 !important;
                 }
+
+                .border-top-none {
+                    border-top: none !important;
+                }
+
+                .border-bottom-none {
+                    border-bottom: none !important;
+                }
+
+                .border-left-none {
+                    border-left: none !important;
+                }
+
+                .border-right-none {
+                    border-right: none !important;
+                }
                 /* #textarea_editor_email_reply p.MsoNormal,
 #textarea_editor_email_reply li.MsoNormal,
 #textarea_editor_email_reply div.MsoNormal,

@@ -33,6 +33,7 @@ return [
     'sent_email_report_tab_label' => 'sent email',
     'classification_email_report_tab_label' => 'classified email',
     'external_email_report_tab_label' => 'Response Time',
+    'reviewed_email_report_tab_label' => 'Reviewed Email',
     'new_job_title' => 'Add job',
     'new_job_btn_label' => 'New job',
     'team_tab_label' => 'Team',
@@ -60,6 +61,7 @@ return [
     'sent_email_report_list_url' => 'sent-email-report',
     'classified_email_report_list_url' => 'classified-email-report',
     'external_email_report_list_url' => 'external-email-report',
+    'reviewed_email_report_list_url' => 'reviewed-email-report',
     'email_rating_url' => 'email-ratings',
     'email_review_update_url' => 'email-review-update',
 

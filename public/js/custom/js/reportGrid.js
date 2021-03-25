@@ -17,7 +17,7 @@ function getSummaryReportTableList(gridSelector) {
         { 'data': 'pmname_link', 'className': 'datatable_border_right' },
     ];
 
-    if (category != undefined && category != 'external_email') {
+    if (category != undefined && category != 'external_email' && category != 'reviewed_email') {
 
         columnFields.push(...[
             { 'data': 'formatted_date', 'className': 'text-center datatable_border_right' },
@@ -88,6 +88,23 @@ function getSummaryReportTableList(gridSelector) {
             { 'data': 'formatted_positive_count', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_neutral_count', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_negative_count', 'className': 'report-user-login-info-bg text-center datatable_border_right' },
+            { 'data': 'formatted_emails_responded_count', 'className': 'report-email-info-bg text-center' },
+            { 'data': 'formatted_average_response_time', 'className': 'report-email-info-bg text-center' },
+        ]);
+
+    }
+
+    if (category != undefined && category == 'reviewed_email') {
+
+        reportBlockId = "reviewed-email-report";
+
+        columnFields.push(...[
+            { 'data': 'formatted_reviewed_count', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'formatted_issue_average', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'formatted_responded_average', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'formatted_language_average', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'formatted_satisfaction_average', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'formatted_overall_average', 'className': 'report-user-login-info-bg text-center datatable_border_right' },
             { 'data': 'formatted_emails_responded_count', 'className': 'report-email-info-bg text-center' },
             { 'data': 'formatted_average_response_time', 'className': 'report-email-info-bg text-center' },
         ]);
@@ -266,7 +283,7 @@ function getSummaryReportTableList(gridSelector) {
 
     });
 
-    if ($('#' + reportBlockId + ' .report-datepicker') != undefined) {
+    /* if ($('#' + reportBlockId + ' .report-datepicker') != undefined) {
 
         // $('.report-datepicker').val('');
 
@@ -303,6 +320,18 @@ function getSummaryReportTableList(gridSelector) {
 
         }
 
+    }); */
+
+    $('#' + reportBlockId + ' .report-filter-sumbit-btn').on('click', function(e) {
+
+        e.preventDefault();
+
+        if (reportTable != undefined && reportTable != null) {
+
+            reportTable.draw();
+
+        }
+
     });
 
 }
@@ -328,6 +357,11 @@ $('.classified-email-report-grid tbody').slimscroll({
 });
 
 $('.external-email-report-grid tbody').slimscroll({
+    height: '520px',
+    alwaysVisible: 'true',
+});
+
+$('.reviewed-email-report-grid tbody').slimscroll({
     height: '520px',
     alwaysVisible: 'true',
 });
@@ -433,6 +467,28 @@ $(document).on('click', '#externalEmailReportTab', function(e) {
         $('.negative_total').html('');
         $('.emails_responded_total').html('');
         $('.average_response_time_total').html('');
+
+        getSummaryReportTableList(gridSelector);
+
+    }
+
+});
+
+$(document).on('click', '#reviewedEmailReportTab', function(e) {
+
+    var gridSelector = "#reviewed-email-report-grid";
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        /* $('.pm_total').html('');
+        $('.noset_total').html('');
+        $('.positive_total').html('');
+        $('.neutral_total').html('');
+        $('.negative_total').html('');
+        $('.emails_responded_total').html('');
+        $('.average_response_time_total').html(''); */
 
         getSummaryReportTableList(gridSelector);
 

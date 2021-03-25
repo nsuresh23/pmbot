@@ -4,9 +4,9 @@
     @include('pages.user.userLoginHistoryModal')
 
     <!-- Pannel -->
-    <div class="panel panel-default card-view mb-0 report-block">
+    <div class="panel panel-default card-view mb-0 pa-0 report-block">
 
-        <div class="panel-heading pa-0">
+        <div class="panel-heading ma-0 pa-0 border-bottom-none">
 
             <div class="pull-left">
 
@@ -35,6 +35,11 @@
                     <li role="presentation" class="">
                         <a data-toggle="tab" id="externalEmailReportTab" role="tab" href="#external-email-report"
                             aria-expanded="false">{{ __('dashboard.external_email_report_tab_label') }}</a>
+                    </li>
+
+                    <li role="presentation" class="">
+                        <a data-toggle="tab" id="reviewedEmailReportTab" role="tab" href="#reviewed-email-report"
+                            aria-expanded="false">{{ __('dashboard.reviewed_email_report_tab_label') }}</a>
                     </li>
 
                 </ul>
@@ -86,6 +91,12 @@
                     <div id="external-email-report" class="tab-pane fade pa-0" role="tabpanel">
 
                         @include('pages.dashboard.reports.externalEmailReport')
+
+                    </div>
+
+                    <div id="reviewed-email-report" class="tab-pane fade pa-0" role="tabpanel">
+
+                        @include('pages.dashboard.reports.reviewedEmailReport')
 
                     </div>
 

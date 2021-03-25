@@ -191,6 +191,7 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
     Route::any('sent-email-report', 'AM\Report\ReportController@sentEmailReport')->name('sent-email-report'); //done
     Route::any('classified-email-report', 'AM\Report\ReportController@classifiedEmailReport')->name('classified-email-report'); //done
     Route::any('external-email-report', 'AM\Report\ReportController@externalEmailReport')->name('external-email-report'); //done
+    Route::any('reviewed-email-report', 'AM\Report\ReportController@reviewedEmailReport')->name('reviewed-email-report'); //done
 
 
 });

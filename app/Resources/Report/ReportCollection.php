@@ -36,6 +36,7 @@ class ReportCollection
     protected $sentEmailReportApiUrl;
     protected $classifiedEmailReportApiUrl;
     protected $externalEmailReportApiUrl;
+    protected $reviewedEmailReportApiUrl;
 
     public function __construct()
     {
@@ -46,6 +47,7 @@ class ReportCollection
         $this->sentEmailReportApiUrl = env('API_SENT_EMAIL_REPORT_LIST_URL');
         $this->classifiedEmailReportApiUrl = env('API_CLASSIFIED_EMAIL_REPORT_LIST_URL');
         $this->externalEmailReportApiUrl = env('API_EXTERNAL_EMAIL_REPORT_LIST_URL');
+        $this->reviewedEmailReportApiUrl = env('API_REVIEWED_EMAIL_REPORT_LIST_URL');
 
     }
 
@@ -97,6 +99,12 @@ class ReportCollection
 
             }
 
+            if (isset($paramInfo["category"]) && $paramInfo["category"] == "reviewed_email") {
+
+                $url = $this->reviewedEmailReportApiUrl;
+
+            }
+
             $responseData = [];
 
             $responseData = $this->postRequest($url, $paramInfo);
@@ -127,7 +135,27 @@ class ReportCollection
 
                     }
 
-                    if ($paramInfo["category"] != "external_email") {
+                    if ($paramInfo["category"] == "reviewed_email") {
+
+                        $responseFormattedData = $this->reviewedEmailReportFormatData($responseData["data"]["list"]);
+
+                        if(is_array($responseFormattedData) && count($responseFormattedData) > 0) {
+
+                            $responseFormatData["list"] = $responseFormattedData;
+
+                            $responseFormatData["result_count"] = count($responseFormattedData);
+
+                        }
+
+                        // if(isset($responseData["data"]["totallist"]) && is_array($responseData["data"]["totallist"]) && count($responseData["data"]["totallist"]) > 0) {
+
+                        //     $responseFormatData["totallist"] = $responseData["data"]["totallist"];
+
+                        // }
+
+                    }
+
+                    if ($paramInfo["category"] != "external_email" && $paramInfo["category"] != "reviewed_email") {
 
                         $responseFormatData = $this->summaryReportFormatData($responseData["data"]);
 
@@ -566,6 +594,133 @@ class ReportCollection
                     if (isset($item["negative_count"]) && $item["negative_count"] != "") {
 
                         $item["formatted_negative_count"] = $item["negative_count"];
+
+                    }
+
+                    if (isset($item["emails_responded_count"]) && $item["emails_responded_count"] != "") {
+
+                        $item["formatted_emails_responded_count"] = $item["emails_responded_count"];
+
+                    }
+
+                    if (isset($item["average_response_time"]) && $item["average_response_time"] != "") {
+
+                        $item["formatted_average_response_time"] = $item["average_response_time"];
+
+                    }
+
+                }
+
+                return $item;
+            },
+
+            $items
+
+        );
+
+        return $resource;
+    }
+
+    public function reviewedEmailReportFormatData($items)
+    {
+
+        $s_no = 0;
+
+        $resource = array_map(
+
+            function ($item) use (&$s_no) {
+
+                if (is_array($item) && count($item)) {
+
+                    $overall_average_sum = 0;
+
+                    $s_no = $s_no + 1;
+
+                    $item["s_no"] = $s_no;
+
+					$item["formatted_date"] = "-";
+
+                    $item["formatted_reviewed_count"] = "0";
+
+                    $item["formatted_issue_average"] = "0";
+
+                    $item["formatted_responded_average"] = "0";
+
+                    $item["formatted_language_average"] = "0";
+
+                    $item["formatted_satisfaction_average"] = "0";
+
+                    $item["formatted_overall_average"] = "0";
+
+                    $item["formatted_emails_responded_count"] = "0";
+
+                    $item["formatted_average_response_time"] = "0";
+
+                    if (isset($item["pmname"]) && $item["pmname"] != "") {
+
+                        $item["pmname_link"] = $item["pmname"];
+
+                    }
+
+					if (isset($item["date"]) && $item["date"] != "") {
+
+                        $item["formatted_date"] = date("Y/m/d", strtotime($item["date"]));
+
+                    }
+
+                    if (isset($item["reviewed_count"]) && $item["reviewed_count"] != "") {
+
+                        $item["formatted_reviewed_count"] = $item["reviewed_count"];
+
+                    }
+
+                    if (isset($item["issue_average"]) && $item["issue_average"] != "") {
+
+                        $overall_average_sum += (int) $item["issue_average"];
+
+                        $item["formatted_issue_average"] = $item["issue_average"];
+
+                    }
+
+                    if (isset($item["responded_average"]) && $item["responded_average"] != "") {
+
+                        $overall_average_sum += (int) $item["responded_average"];
+
+                        $item["formatted_responded_average"] = $item["responded_average"];
+
+                    }
+
+                    if (isset($item["language_average"]) && $item["language_average"] != "") {
+
+                        $overall_average_sum += (int) $item["language_average"];
+
+                        $item["formatted_language_average"] = $item["language_average"];
+
+                    }
+
+                    if (isset($item["satisfaction_average"]) && $item["satisfaction_average"] != "") {
+
+                        $overall_average_sum += (int) $item["satisfaction_average"];
+
+                        $item["formatted_satisfaction_average"] = $item["satisfaction_average"];
+
+                    }
+
+                    if (isset($item["overall_average"]) && $item["overall_average"] != "") {
+
+                        $item["formatted_overall_average"] = $item["overall_average"];
+
+                    } else {
+
+                        $overall_average = $overall_average_sum;
+
+                        if($overall_average_sum > 0) {
+
+                            $overall_average = $overall_average_sum / 4 ;
+
+                        }
+
+                        $item["formatted_overall_average"] = $overall_average;
 
                     }
 

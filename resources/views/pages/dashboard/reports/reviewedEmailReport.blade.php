@@ -10,7 +10,7 @@
 
                     <div class="form-group mb-0">
 
-                        <input class="form-control report-daterange-datepicker report-datepicker h-42-px" placeholder="{{ __('dashboard.report_range_placeholder_text') }}" />
+                        <input class="form-control review-daterange-datepicker report-datepicker h-42-px" placeholder="{{ __('dashboard.report_range_placeholder_text') }}" />
 
                     </div>
 
@@ -70,7 +70,7 @@
 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-5 pr-5">
 
-        <table id="external-email-report-grid" class="external-email-report-grid table table-striped table-bordered nowrap ma-0 wd-100" data-type="dashboard" data-category="external_email" data-list-url="{{ $externalEmailReportListUrl }}" data-current-route="{{ $currentRoute }}">
+        <table id="reviewed-email-report-grid" class="reviewed-email-report-grid table table-striped table-bordered nowrap ma-0 wd-100" data-type="dashboard" data-category="reviewed_email" data-list-url="{{ $reviewedEmailReportListUrl }}" data-current-route="{{ $currentRoute }}">
 
             <thead>
 
@@ -78,17 +78,19 @@
 
                     <th rowspan="2" class="capitalize-font text-center nosort">S.No</th>
                     <th rowspan="2" class="capitalize-font text-center nosort">PM Name</th>
-                    <th colspan="4" class="capitalize-font text-center report-user-login-info-bg nosort datatable_border_right" style="border-bottom: 1px solid #111 !important;">Email Sentiment</th>
-                    <th colspan="2" class="capitalize-font text-center report-email-info-bg nosort" style="border-bottom: 1px solid #111 !important;">Response Time</th>
+                    <th colspan="6" class="capitalize-font text-center report-user-login-info-bg nosort datatable_border_right" style="border-bottom: 1px solid #111 !important;">Quality of Communication</th>
+                    <th colspan="2" class="capitalize-font text-center report-email-info-bg nosort" style="border-bottom: 1px solid #111 !important;">Speed of Communication</th>
 
                 </tr>
 
                 <tr>
 
-                    <th class="capitalize-font text-center nosort">Not Set</th>
-                    <th class="capitalize-font text-center nosort">Positive</th>
-                    <th class="capitalize-font text-center nosort">Neutral</th>
-                    <th class="capitalize-font text-center nosort">Negative</th>
+                    <th class="capitalize-font text-center nosort">Reviewed Count</th>
+                    <th class="capitalize-font text-center nosort">Issue</th>
+                    <th class="capitalize-font text-center nosort">Responded</th>
+                    <th class="capitalize-font text-center nosort">Language</th>
+                    <th class="capitalize-font text-center nosort">Satisfaction</th>
+                    <th class="capitalize-font text-center nosort">Overall Average</th>
                     <th class="capitalize-font text-center nosort"># Of Emails Responded</th>
                     <th class="capitalize-font text-center nosort ">Avg.Response Time Per Email<br><span class="column-note capitalize-font text-center">(In Hours)</span></th>
 
@@ -96,7 +98,7 @@
 
             </thead>
 
-            <tfoot>
+            {{-- <tfoot>
 
                 <tr>
 
@@ -111,7 +113,7 @@
 
                 </tr>
 
-            </tfoot>
+            </tfoot> --}}
 
         </table>
 

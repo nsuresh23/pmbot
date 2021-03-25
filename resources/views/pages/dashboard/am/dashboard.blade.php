@@ -79,6 +79,7 @@
         $sentEmailReportListUrl = route(__("dashboard.sent_email_report_list_url"));
         $classifiedEmailReportListUrl = route(__("dashboard.classified_email_report_list_url"));
         $externalEmailReportListUrl = route(__("dashboard.external_email_report_list_url"));
+        $reviewedEmailReportListUrl = route(__("dashboard.reviewed_email_report_list_url"));
 
         $emailRatingUrl = route(__("dashboard.email_rating_url"));
 
