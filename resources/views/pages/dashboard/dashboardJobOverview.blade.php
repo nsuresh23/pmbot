@@ -127,7 +127,7 @@
 
                         </div>
 
-                        <div id="members" class="tab-pane fade active in pt-10 membersTab" role="tabpanel" data-member-job-count-url="{{ $memberJobCountUrl }}">
+                        <div id="members" class="tab-pane fade active in pt-5 membersTab" role="tabpanel" data-member-job-count-url="{{ $memberJobCountUrl }}">
 
                             <?php if(isset($hasMembers) && $hasMembers == "1") { ?>
 
