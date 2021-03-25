@@ -929,6 +929,12 @@ function getEmailTableList(gridSelector) {
 
                         }
 
+                        if (emailFilter == 'outlook-sent') {
+
+                            status = ['8'];
+
+                        }
+
                         if (emailFilter == 'error') {
 
                             status = ['99'];
@@ -964,6 +970,12 @@ function getEmailTableList(gridSelector) {
                         if (emailFilter == 'archived') {
 
                             status = ['7'];
+
+                        }
+
+                        if (emailFilter == 'outlook-sent') {
+
+                            status = ['8'];
 
                         }
 
@@ -3058,6 +3070,29 @@ $(document).on('click', '.dashboard-archived-email', function() {
     if (dataUrl != undefined && dataUrl != "") {
 
         $(gridSelector).attr('data-email-filter', 'archived');
+
+        $(gridSelector).attr('data-email-label', '');
+
+        getEmailTableList(gridSelector);
+
+    }
+
+    $('.inbox-nav li.active').removeClass('active');
+    $(this).closest('li').addClass('active');
+    $('.email-list-body').show();
+    $('.email-detail-body').hide();
+
+});
+
+$(document).on('click', '.dashboard-outlook-sent-email', function() {
+
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        $(gridSelector).attr('data-email-filter', 'outlook-sent');
 
         $(gridSelector).attr('data-email-label', '');
 

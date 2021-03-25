@@ -55,6 +55,13 @@
                     <span class="email-archived-count email-item-count label label-danger ml-10"></span>
                 </a>
             </li>
+            <li class="">
+                <a class="dashboard-outlook-sent-email" data-grid-selector="nonBusinessEmailGrid" href="javascript:void(0);">
+                    <i class="fa fa-send"></i>
+                    {{ __("job.email_outlook_sent_label") }}
+                    <span class="email-outlook-sent-count email-item-count label label-danger ml-10"></span>
+                </a>
+            </li>
 
             <?php
 

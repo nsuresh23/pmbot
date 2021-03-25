@@ -82,6 +82,7 @@ return [
     'email_outbox_mail_label' => 'Outbox',
     'email_draft_label' => 'Drafts',
     'email_archived_label' => 'Archived',
+    'email_outlook_sent_label' => 'Outlook sent',
     'email_to_label' => 'to',
     'email_cc_label' => 'cc',
     'email_subject_label' => 'Subject',
