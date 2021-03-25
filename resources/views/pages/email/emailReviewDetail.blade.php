@@ -128,25 +128,25 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
                             <div class="form-group mb-0">
                                 <span class="txt-dark rating-label">Issue resolved in fewer rounds:</span>
-                                <input name="issue" value="2" data-size="sm" title="" class="star-block rating-loading issue">
+                                <input name="issue" value="" data-size="sm" title="" class="star-block rating-loading issue">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
                             <div class="form-group mb-0">
                                 <span class="txt-dark rating-label">Responded with factual clarity:</span>
-                                <input name="responded" value="2" data-size="sm" title="" class="star-block rating-loading responded">
+                                <input name="responded" value="" data-size="sm" title="" class="star-block rating-loading responded">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
                             <div class="form-group mb-0">
                                 <span class="txt-dark rating-label">Language used in communication:</span>
-                                <input name="language" value="2" data-size="sm" title="" class="star-block rating-loading language">
+                                <input name="language" value="" data-size="sm" title="" class="star-block rating-loading language">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
                             <div class="form-group mb-0">
                                 <span class="txt-dark rating-label">Satisfaction of the affected stakeholder:</span>
-                                <input name="satisfaction" value="2" data-size="sm" title="" class="star-block rating-loading satisfaction">
+                                <input name="satisfaction" value="" data-size="sm" title="" class="star-block rating-loading satisfaction">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
@@ -157,7 +157,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
                             <div class="form-group mb-0">
                                 {{-- <span class="txt-dark">Assertiveness:</span> --}}
-                                <input name="speed" value="2" data-size="sm" title="" class="star-block rating-loading speed">
+                                <input name="speed" value="" data-size="sm" title="" class="star-block rating-loading speed">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0 pt-15">
