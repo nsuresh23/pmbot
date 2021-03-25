@@ -49,6 +49,7 @@ class UserCollection
     protected $pmUserSelectApiUrl;
     protected $loginHistoryApiUrl;
     protected $userLoginHistoryReportApiUrl;
+    protected $userMacIdUpdateApiUrl;
 
     public function __construct()
     {
@@ -71,6 +72,7 @@ class UserCollection
         $this->memberListApiUrl = env('API_MEMBER_LIST_URL');
         $this->loginHistoryApiUrl = env('API_USER_HISTORY_URL');
         $this->userLoginHistoryReportApiUrl = env('API_USER_LOGIN_HISTORY_URL');
+        $this->userMacIdUpdateApiUrl = env('API_USER_MAC_ID_UPDATE_URL');
 
     }
 
@@ -1228,6 +1230,81 @@ class UserCollection
         }
 
         return $returnData;
+    }
+
+    /**
+     * Update user mac id by user empcode.
+     *
+     * @return array $returnResponse
+     */
+    public function updateMacId($request)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // validate
+            // read more on validation at http://laravel.com/docs/validation
+            $rules = array(
+
+                'empcode'       => 'required',
+                'mac_id'       => 'required',
+
+            );
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+
+                $returnResponse["error"] = "true";
+                $returnResponse["message"] = "Update failed";
+
+            } else {
+
+                $paramInfo = $request->all();
+
+                if(isset($paramInfo["_token"])) {
+
+                    unset($paramInfo["_token"]);
+
+                }
+
+                $url = $this->userMacIdUpdateApiUrl;
+
+                $returnData = $this->postRequest($url, $paramInfo);
+
+                if (isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["message"] = "Update successfull";
+
+                } else {
+
+                    $returnResponse["error"] = "true";
+                    $returnResponse["message"] = "Update unsuccessfull";
+
+                }
+
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
     }
 
     /**

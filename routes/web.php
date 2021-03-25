@@ -217,7 +217,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'roles'], 'roles' => 
 
 	Route::any('/', 'User\UserController@index')->name('user');
 
-	Route::any('user-password-update/{id}', 'User\UserController@userPasswordUpdate')->name('user-password-update');
+    Route::any('user-password-update/{id}', 'User\UserController@userPasswordUpdate')->name('user-password-update');
 
 	Route::any('user-list', 'User\UserController@userList')->name('user-list'); //done
     Route::any('user-login-history', 'User\UserController@userLoginHistory')->name('user-login-history'); //done
@@ -303,6 +303,8 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_manager', 'project_manager']], function () {
 
     Route::any('user-password-update/{id}', 'User\UserController@userPasswordUpdate')->name('user-password-update');
+
+    Route::any('user-mac-id-update/{id}', 'User\UserController@userMacIdUpdate')->name('user-mac-id-update');
 
     Route::any('/job-store', 'Job\JobController@jobStore')->name('job-store');
     Route::any('/user-job-count', 'Job\JobController@userJobCount')->name('user-job-count');

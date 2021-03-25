@@ -123,6 +123,12 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{ route(__('user.user_mac_id_update_url'), auth()->user()->empcode) }}" class="connection-item">
+                                        <i class="fa fa-envelope txt-blue"></i>
+                                        <span class="block capitalize-font">{{ __('general.user_mac_id_label') }}</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{ route(__('user.user_password_update_url'), auth()->user()->empcode) }}" class="connection-item">
                                         <i class="fa fa-retweet txt-navi-blue"></i>
                                         <span class="block capitalize-font">{{ __('general.user_password_reset_label') }}</span>

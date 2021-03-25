@@ -843,6 +843,60 @@ class UserController extends Controller
     }
 
     /**
+     * Show user outlook mac id edit page based on user id.
+     *
+     * @param \Illuminate\Http\Request Request
+     * @return array $userData
+     */
+    public function userMacIdUpdate(Request $request)
+    {
+
+        $userData = [];
+        try {
+
+            $userData["data"]["id"] = "";
+
+            if ($request->id != "") {
+
+                $userData["data"]["id"] = $request->id;
+
+                if ($request->isMethod('post')) {
+
+                    if (auth()->check()) {
+
+                        // $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                        if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                            $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+
+                        }
+
+                    }
+
+                    $returnResponse = $this->userResource->updateMacId($request);
+
+                    $redirecturl = redirect()->action('PM\DashboardController@index');
+
+                    return $redirecturl->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message" => $returnResponse["message"]]);
+
+                }
+            }
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return view('pages.user.userMacId', compact("userData"));
+    }
+
+    /**
      * Change user password.
      *
      * @param \Illuminate\Http\Request Request

@@ -810,6 +810,10 @@ content: "\f067";
                     display: table-cell;
                     width: 60%;
                 }
+
+                .txt-blue {
+                    color: #02aefdf8 !important;
+                }
                 /* #textarea_editor_email_reply p.MsoNormal,
 #textarea_editor_email_reply li.MsoNormal,
 #textarea_editor_email_reply div.MsoNormal,

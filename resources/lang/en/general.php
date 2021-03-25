@@ -16,6 +16,7 @@ return [
     'dashboard_label' => 'dashboard',
     'user_label' => 'users',
     'user_password_reset_label' => 'Reset password',
+    'user_mac_id_label' => 'MAC ID',
     'user_group_label' => 'user groups',
     'user_role_label' => 'user roles',
     'user_location_label' => 'user locations',

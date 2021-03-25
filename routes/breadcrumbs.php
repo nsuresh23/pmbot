@@ -129,6 +129,13 @@ Breadcrumbs::register('user-password-update', function ($breadcrumbs) {
     // $breadcrumbs->push('User', url()->current());
 });
 
+Breadcrumbs::register('user-mac-id-update', function ($breadcrumbs) {
+
+    // $breadcrumbs->push('home', route(__('job.job_detail_home_url')));
+
+    // $breadcrumbs->push('User', url()->current());
+});
+
 Breadcrumbs::register(__("job.job_detail_url"), function ($breadcrumbs) {
 
     $breadcrumbs->push('home', route(__('job.job_detail_home_url')));
