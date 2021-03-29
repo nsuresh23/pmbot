@@ -92,7 +92,8 @@
                     <th class="capitalize-font text-center nosort">Satisfaction</th>
                     <th class="capitalize-font text-center nosort">Overall Average</th>
                     <th class="capitalize-font text-center nosort"># Of Emails Responded</th>
-                    <th class="capitalize-font text-center nosort ">Avg.Response Time Per Email<br><span class="column-note capitalize-font text-center">(In Hours)</span></th>
+                    <th class="capitalize-font text-center nosort ">Average</th>
+                    {{-- <th class="capitalize-font text-center nosort ">Avg.Response Time Per Email<br><span class="column-note capitalize-font text-center">(In Hours)</span></th> --}}
 
                 </tr>
 
