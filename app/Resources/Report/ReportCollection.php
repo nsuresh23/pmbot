@@ -674,53 +674,57 @@ class ReportCollection
 
                     }
 
-                    if (isset($item["issue_average"]) && $item["issue_average"] != "") {
+                    if (isset($item["reviewed_count"]) && $item["reviewed_count"] != "") {
 
-                        $overall_average_sum += (int) $item["issue_average"];
+                        if (isset($item["issue_sum"]) && $item["issue_sum"] != "") {
 
-                        $item["formatted_issue_average"] = $item["issue_average"];
+                            $item["formatted_issue_average"] = (string) round((int)$item["issue_sum"] / (int)$item["reviewed_count"], 2);
 
-                    }
-
-                    if (isset($item["responded_average"]) && $item["responded_average"] != "") {
-
-                        $overall_average_sum += (int) $item["responded_average"];
-
-                        $item["formatted_responded_average"] = $item["responded_average"];
-
-                    }
-
-                    if (isset($item["language_average"]) && $item["language_average"] != "") {
-
-                        $overall_average_sum += (int) $item["language_average"];
-
-                        $item["formatted_language_average"] = $item["language_average"];
-
-                    }
-
-                    if (isset($item["satisfaction_average"]) && $item["satisfaction_average"] != "") {
-
-                        $overall_average_sum += (int) $item["satisfaction_average"];
-
-                        $item["formatted_satisfaction_average"] = $item["satisfaction_average"];
-
-                    }
-
-                    if (isset($item["overall_average"]) && $item["overall_average"] != "") {
-
-                        $item["formatted_overall_average"] = $item["overall_average"];
-
-                    } else {
-
-                        $overall_average = $overall_average_sum;
-
-                        if($overall_average_sum > 0) {
-
-                            $overall_average = $overall_average_sum / 4 ;
+                            $overall_average_sum += (int) $item["formatted_issue_average"];
 
                         }
 
-                        $item["formatted_overall_average"] = $overall_average;
+                        if (isset($item["responded_sum"]) && $item["responded_sum"] != "") {
+
+                            $item["formatted_responded_average"] = (string) round((int)$item["responded_sum"] / (int)$item["reviewed_count"], 2);
+
+                            $overall_average_sum += (int) $item["formatted_responded_average"];
+
+                        }
+
+                        if (isset($item["language_sum"]) && $item["language_sum"] != "") {
+
+                            $item["formatted_language_average"] = (string) round((int)$item["language_sum"] / (int)$item["reviewed_count"], 2);
+
+                            $overall_average_sum += (int) $item["formatted_language_average"];
+
+                        }
+
+                        if (isset($item["satisfaction_sum"]) && $item["satisfaction_sum"] != "") {
+
+                            $item["formatted_satisfaction_average"] = (string) round((int)$item["satisfaction_sum"] / (int)$item["reviewed_count"], 2);
+
+                            $overall_average_sum += (int) $item["formatted_satisfaction_average"];
+
+                        }
+
+                        if (isset($item["overall_average"]) && $item["overall_average"] != "") {
+
+                            $item["formatted_overall_average"] = $item["overall_average"] ;
+
+                        } else {
+
+                            $overall_average = $overall_average_sum;
+
+                            if($overall_average_sum > 0) {
+
+                                $overall_average = $overall_average_sum / 4 ;
+
+                            }
+
+                            $item["formatted_overall_average"] = (string) round($overall_average, 2);
+
+                        }
 
                     }
 
