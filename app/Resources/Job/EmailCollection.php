@@ -2990,6 +2990,15 @@ class EmailCollection
 
             try {
 
+                if (isset($item["subject"]) && $item["subject"] != "") {
+
+                    if (base64_decode($item["subject"], true)) {
+
+                        $item["subject"] = base64_decode($item["subject"]);
+
+                    }
+                }
+
                 if(isset($item["subject"]) && $item["subject"] != "") {
 
                     $groupedResource[$item["subject"]][] = $item;
@@ -3058,6 +3067,8 @@ class EmailCollection
                             $resourceItem["group_ids"] = implode(",", $groupedResourceIds[$resourceItem["subject"]]);
 
                         }
+
+                        $resourceItem["subject"] = base64_encode($resourceItem["subject"]);
 
                     }
 

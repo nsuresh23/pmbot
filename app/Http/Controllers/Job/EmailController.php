@@ -1498,7 +1498,7 @@ class EmailController extends Controller
             if (isset($request->external_email) && $request->external_email != "") {
                 $field["email_domain_name"] = $request->external_email;
             } else {
-                $field["email_domain_name"] = '';
+                $field["email_domain_name"] = 'internal';
             }
 
             $field["empcode"]       = auth()->user()->empcode;
