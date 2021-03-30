@@ -137,15 +137,15 @@ class ReportCollection
 
                     if ($paramInfo["category"] == "reviewed_email") {
 
-                        $responseFormattedData = $this->reviewedEmailReportFormatData($responseData["data"]["list"]);
+                        $responseFormattedData = $this->reviewedEmailReportFormatData($responseData["data"]);
 
-                        if(is_array($responseFormattedData) && count($responseFormattedData) > 0) {
+                        /* if(is_array($responseFormattedData) && count($responseFormattedData) > 0) {
 
                             $responseFormatData["list"] = $responseFormattedData;
 
                             $responseFormatData["result_count"] = count($responseFormattedData);
 
-                        }
+                        } */
 
                         // if(isset($responseData["data"]["totallist"]) && is_array($responseData["data"]["totallist"]) && count($responseData["data"]["totallist"]) > 0) {
 
