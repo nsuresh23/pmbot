@@ -126,7 +126,9 @@ class DashboardController extends Controller
 
             }
 
-            $returnResponse["user_list"] = $this->userResource->getActiveUserList();
+            $returnResponse["user_list"] = [];
+
+            $returnResponse["user_list"] = $this->userResource->userMembersSelect();
 
             $returnResponse["workflow_list"] = $this->jobResource->getWorkflowList($request);
 
