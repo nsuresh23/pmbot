@@ -382,7 +382,6 @@ $('.reviewed-email-report-grid tbody').slimscroll({
 
 $(document).on('click', '#reportsTab', function(e) {
 
-    $('.membersTab').hide();
 
     var gridSelector = "#summary-report-grid";
 
