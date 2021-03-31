@@ -22,7 +22,7 @@ if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) 
 
 <?php // } ?>
 
-<?php // if(!in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
+<?php if(!in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
 
 <!-- Row -->
 <div class="row">
@@ -324,7 +324,7 @@ if(in_array(auth()->user()->role, config('constants.nonStakeHolderUserRoles'))) 
 </div>
 <!-- /Row -->
 
-<?php // } ?>
+<?php } ?>
 
 @php
 

@@ -3,10 +3,10 @@
         <div class="pull-left">
             <div class="pills-struct">
                 <ul role="tablist" class="nav nav-pills nav-pills-outline dashboard-job-tabs" id="">
-                    <?php // if(in_array(auth()->user()->role, Config::get('constants.pmUserRoles'))) { ?>
+                    <?php if(in_array(auth()->user()->role, Config::get('constants.pmUserRoles'))) { ?>
                         <li class="active" role="presentation"><a aria-expanded="true" data-toggle="tab" role="tab"
                                 id="overviewTab" href="#overview">{{ __('dashboard.overview_tab_label') }}</a></li>
-                    <?php // } ?>
+                    <?php } ?>
                     {{-- <li role="presentation" class=""><a data-toggle="tab" id="stageTab" role="tab" href="#stage"
                             aria-expanded="false">{{ __('dashboard.stage_tab_label') }}</a></li>
                     <li role="presentation" class=""><a data-toggle="tab" id="financialTab" role="tab" href="#financial"
