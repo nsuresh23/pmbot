@@ -3461,6 +3461,8 @@ $(document).on('click', '.dashboard-email-sent-count-btn', function(e) {
 
     var emailFilter = $(this).attr('data-email-filter');
 
+    var emailCategory = $(this).attr('data-email-category');
+
     var emailCount = $(this).attr('data-count');
 
     var epmcode = $(this).attr('data-empcode');
@@ -3487,6 +3489,12 @@ $(document).on('click', '.dashboard-email-sent-count-btn', function(e) {
             $(gridSelector).attr('data-email-filter', emailFilter);
 
             $(gridSelector).attr('data-email-label', '');
+
+            if (emailCategory != undefined && emailCategory != "") {
+
+                $(gridSelector).attr('data-category', emailCategory);
+
+            }
 
             getEmailTableList(gridSelector);
 
