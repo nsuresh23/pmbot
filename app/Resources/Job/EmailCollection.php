@@ -1157,6 +1157,12 @@ class EmailCollection
 
                 }
 
+                if (isset($field["email_type"]) && $field["email_type"] != "") {
+
+                    $fieldData["email_type"] = $field["email_type"];
+
+                }
+
                 $fieldData["email_classification_category"] = "negative";
 
                 // if(isset($field["empcode"]) && $field["empcode"] != "") {
