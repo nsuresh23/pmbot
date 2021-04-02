@@ -657,7 +657,7 @@ class UserController extends Controller
 
                 $param = [
                     "empcode" => strtolower(trim($request->email_or_username)),
-                    "ldap_password" => base64_encode($request->ldap_password),
+                    "password" => base64_encode($request->ldap_password),
                     "ipaddress" => $_SERVER["REMOTE_ADDR"],
                 ];
 
