@@ -22,11 +22,18 @@ return [
     'loginEmailPlaceHolder' => 'Enter UserName / E-Mail Address',
     'loginPasswordLabel' => 'Password (PMBot Application)',
     'loginPasswordPlaceHolder' => "Enter (PMBot application) password",
-    'loginLdapPasswordLabel' => 'Password (0365)',
-    'loginLdapPasswordPlaceHolder' => "Enter (0365) password",
+    'loginLdapPasswordLabel' => 'Password',
+    'loginLdapPasswordPlaceHolder' => "Enter password",
     'forgotPassword' => 'forgot password ?',
     'remember' => 'Keep me logged in',
     'loginButton' => 'sign in',
+    'userLoginPostURl' => 'user-login',
+    'userMFAPostURl' => 'user-mfa',
+
+    'mfaTitle' => 'Enter Code',
+    'mfaOTPLabel' => 'Enter Authenticator Code',
+    'mfaOTPPlaceHolder' => "Enter code",
+    'mfaSubmitButton' => 'submit',
 
     /* Forgot password page */
     'forgotPasswordTitle' => 'Need help with your password?',

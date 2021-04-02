@@ -50,6 +50,7 @@ class UserCollection
     protected $loginHistoryApiUrl;
     protected $userLoginHistoryReportApiUrl;
     protected $userMacIdUpdateApiUrl;
+    protected $userMFAApiUrl;
 
     public function __construct()
     {
@@ -73,6 +74,7 @@ class UserCollection
         $this->loginHistoryApiUrl = env('API_USER_HISTORY_URL');
         $this->userLoginHistoryReportApiUrl = env('API_USER_LOGIN_HISTORY_URL');
         $this->userMacIdUpdateApiUrl = env('API_USER_MAC_ID_UPDATE_URL');
+        $this->userMFAApiUrl = env('API_USER_MFA_URL');
 
     }
 
@@ -1201,23 +1203,34 @@ class UserCollection
 
             $returnData = $this->postRequest($url, $field);
 
-            // echo '<PRE/>'; echo 'LINE => '.__LINE__;echo '<PRE/>';echo 'CAPTION => CaptionName';echo '<PRE/>';print_r($returnData);echo '<PRE/>';exit;
-            // $field = [
-            //     ['name', 'test'],
-            //     ['id', '<>', '5']
+            if ($returnData["success"] == "true") {
+
+                if (is_array($returnData["data"]) && count($returnData["data"]) > 0 && $returnData["data"] != "") {
+
+                    if (isset($returnData["data"]["qr_code"]) && $returnData["data"]["qr_code"] != "") {
+
+                        if (base64_decode($returnData["data"]["qr_code"], true)) {
+
+                            $returnData["data"]["qr_code"] = base64_decode($returnData["data"]["qr_code"]);
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            // $returnData= [
+            //     "success" => "true",
+            //     "message" => "",
+            //     "data" => [
+            //         "empcode" => "admin",
+            //         "code" => "5",
+            //         "qr_code" => "https://www.a2zwebhelp.com/images/google_auth_3.png"
+            //     ]
             // ];
 
-            // $returnData = User::where($field)->get();
-
-            // $returnData = $returnData->toArray();
-
-            // if (count($returnData) > 0) {
-
-            //     if (isset($returnData[0])) {
-
-            //         $returnData = $returnData[0];
-            //     }
-            // }
         } catch (Exception $e) {
 
             // return $e->getMessage();
@@ -1230,6 +1243,47 @@ class UserCollection
         }
 
         return $returnData;
+
+    }
+
+    /**
+     * Post user MFA code.
+     *
+     * @param  array $field
+     * @return array $userData
+     */
+    public function mfa($field)
+    {
+        $returnData = "";
+
+        try {
+
+            $url = $this->userMFAApiUrl;
+
+            $returnData = $this->postRequest($url, $field);
+
+            // $returnData = [
+            //     "success" => "true",
+            //     "message" => "",
+            //     "data" => [
+            //         "empcode" => "admin",
+            //         "code" => "1",
+            //     ]
+            // ];
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnData;
+
     }
 
     /**

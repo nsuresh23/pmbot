@@ -23,6 +23,9 @@
                             </div>
                             <?php
 
+                                $userLoginPostUrl = route( __('auth.userLoginPostURl') );
+                                $userMFAPostUrl = route( __('auth.userMFAPostURl') );
+
                                 $login_field = (!empty(old('email'))) ? old('email'):old('username');
 
                                 $error_login = "";
@@ -30,6 +33,11 @@
                                 $password_error = "";
                                 $error_ldap_password = "";
                                 $ldap_password_error = "";
+
+                                $error_mfa = "";
+                                $mfa_error = "";
+
+                                $qrCodeUrl = "";
 
                                 // if(isset($errors)) {
 
@@ -100,6 +108,10 @@
 
                             @endif
 
+                            <div class="alert alert-warning has-error login-error-block hiddenBlock" role="alert">
+                                <span class="login-error-message txt-light"></span>
+                            </div>
+
                             <?php if(isset($errors)) { ?>
                                 @if ($errors->any())
                                 <div class="alert alert-warning has-error" role="alert">
@@ -117,90 +129,128 @@
                             <?php } ?>
 
                             <div class="form-wrap">
-                                <form method="POST" action="{{ route('login') }}">
+                                <div id="loader" class="login_loader" style="display: none;width: 100%;height: 100%;position: absolute;padding: 2px;z-index: 1;text-align: center;">
+                                    <img src="{{ asset('public/img/loader2.gif') }}" width="64" height="64" />
+                                </div>
+                                <form class="login-form" method="POST" action="">
                                     {{ csrf_field() }}
-                                    <div class="form-group">
-                                        <div class="has-feedback">
-                                            <label class="control-label mb-10" for="email">
-                                                {{ __('auth.loginUserNameLabel') }}
-                                            </label>
-                                            <input id="email_or_username" type="text"
-                                                class="form-control @if ($error_login) is-invalid @endif"
-                                                name="email_or_username" value="{{ old('email') }}" required
-                                                autocomplete="email_or_username" autofocus
-                                                placeholder="{{ __('auth.loginEmailPlaceHolder') }}">
 
-                                            @if ($error_login)
-                                            <span class="invalid-feedback help-block">
-                                                <strong>{{ $error_login }}</strong>
-                                            </span>
-                                            @endif
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 login-block pa-0">
 
-                                        </div>
-                                    </div>
-                                    <div class="form-group{{ $password_error ? ' has-error' : '' }}">
-                                        <div class="has-feedback">
-                                            <label class="pull-left control-label mb-10"
-                                                for="{{ __('auth.loginPasswordLabel') }}">
-                                                {{ __('auth.loginPasswordLabel') }}
-                                            </label>
-                                            {{-- @if (Route::has('password.request'))
-                                            <a class="capitalize-font txt-primary block mb-10 pull-right font-12"
-                                                href="{{ route('password.request') }}">
-                                            {{ __('auth.forgotPassword') }}
-                                            </a>
-                                            @endif --}}
+                                        <div class="form-group">
+                                            <div class="has-feedback">
+                                                <label class="control-label mb-10" for="email">
+                                                    {{ __('auth.loginUserNameLabel') }}
+                                                </label>
+                                                <input id="email_or_username" type="text"
+                                                    class="form-control @if ($error_login) is-invalid @endif"
+                                                    name="email_or_username" value="{{ old('email') }}" required
+                                                    autocomplete="email_or_username" autofocus
+                                                    placeholder="{{ __('auth.loginEmailPlaceHolder') }}">
 
-                                            <div class="clearfix"></div>
-                                            <input id="password" type="password"
-                                                class="form-control @if ($password_error) is-invalid @endif"
-                                                name="password" required autocomplete="new-password"
-                                                placeholder="{{ __('auth.loginPasswordPlaceHolder') }}">
-                                            @if ($password_error)
-                                            <span class="invalid-feedback help-block">
-                                                <strong>{{ $error_password }}</strong>
-                                            </span>
-                                            @endif
+                                                @if ($error_login)
+                                                <span class="invalid-feedback help-block">
+                                                    <strong>{{ $error_login }}</strong>
+                                                </span>
+                                                @endif
 
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group{{ $ldap_password_error ? ' has-error' : '' }}">
-                                        <div class="has-feedback">
-                                            <label class="pull-left control-label mb-10" for="{{ __('auth.loginLdapPasswordLabel') }}">
-                                                {{ __('auth.loginLdapPasswordLabel') }}
-                                            </label>
-
-                                            <div class="clearfix"></div>
-
-                                            <input id="ldap-password" type="password" class="form-control @if ($ldap_password_error) is-invalid @endif"
-                                                name="ldap_password" autocomplete="new-password"
-                                                placeholder="{{ __('auth.loginLdapPasswordPlaceHolder') }}" required>
-                                            @if ($ldap_password_error)
-                                            <span class="invalid-feedback help-block">
-                                                <strong>{{ $error_ldap_password }}</strong>
-                                            </span>
-                                            @endif
-
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="has-feedback">
-                                            <div class="checkbox checkbox-primary pr-10 pull-left">
-                                                <input class="form-check-input" type="checkbox" name="remember"
-                                                    id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                                <label for="remember">{{ __('auth.remember') }}</label>
                                             </div>
                                         </div>
-                                        <div class="clearfix"></div>
+                                        {{-- <div class="form-group{{ $password_error ? ' has-error' : '' }}">
+                                            <div class="has-feedback">
+
+                                                <label class="pull-left control-label mb-10"
+                                                    for="{{ __('auth.loginPasswordLabel') }}">
+                                                    {{ __('auth.loginPasswordLabel') }}
+                                                </label>
+                                                <div class="clearfix"></div>
+
+                                                <input id="password" type="password"
+                                                    class="form-control @if ($password_error) is-invalid @endif"
+                                                    name="password" required autocomplete="new-password"
+                                                    placeholder="{{ __('auth.loginPasswordPlaceHolder') }}">
+
+                                                @if ($password_error)
+                                                    <span class="invalid-feedback help-block">
+                                                        <strong>{{ $error_password }}</strong>
+                                                    </span>
+                                                @endif
+
+                                            </div>
+                                        </div> --}}
+
+                                        <div class="form-group{{ $ldap_password_error ? ' has-error' : '' }}">
+                                            <div class="has-feedback">
+                                                <label class="pull-left control-label mb-10" for="{{ __('auth.loginLdapPasswordLabel') }}">
+                                                    {{ __('auth.loginLdapPasswordLabel') }}
+                                                </label>
+
+                                                <div class="clearfix"></div>
+
+                                                <input id="ldap-password" type="password" class="form-control @if ($ldap_password_error) is-invalid @endif"
+                                                    name="ldap_password" autocomplete="new-password"
+                                                    placeholder="{{ __('auth.loginLdapPasswordPlaceHolder') }}" required>
+                                                @if ($ldap_password_error)
+                                                <span class="invalid-feedback help-block">
+                                                    <strong>{{ $error_ldap_password }}</strong>
+                                                </span>
+                                                @endif
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="has-feedback">
+                                                <div class="checkbox checkbox-primary pr-10 pull-left">
+                                                    <input class="form-check-input" type="checkbox" name="remember"
+                                                        id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                                    <label for="remember">{{ __('auth.remember') }}</label>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="form-group text-center">
+                                            <button class="btn btn-primary btn-rounded login-btn" data-post-url={{$userLoginPostUrl ?? ''}}>{{ __('auth.loginButton') }}</button>
+                                        </div>
+
                                     </div>
-                                    <div class="form-group text-center">
-                                        <button type="submit"
-                                            class="btn btn-primary  btn-rounded">{{ __('auth.loginButton') }}</button>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mfa-block hiddenBlock pa-0">
+
+                                        <div class="form-group login-qr-code-block">
+                                            <img class="login-qr-code" src="" width="100%" height="80%" />
+                                        </div>
+
+                                        <div class="form-group{{ $mfa_error ? ' has-error' : '' }}">
+                                            <div class="has-feedback">
+                                                <label class="pull-left control-label mb-10" for="mfa-code-label">
+                                                    {{ __('auth.mfaOTPLabel') }}
+                                                </label>
+
+                                                <div class="clearfix"></div>
+
+                                                <input id="mfa-code" type="text" class="form-control @if ($mfa_error) is-invalid @endif" name="mfa_code" required autocomplete="off" placeholder="{{ __('auth.mfaOTPPlaceHolder') }}">
+
+                                                @if ($mfa_error)
+                                                    <span class="invalid-feedback help-block">
+                                                        <strong>{{ $error_mfa }}</strong>
+                                                    </span>
+                                                @endif
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group text-center">
+
+                                            <button class="btn btn-primary  btn-rounded mfa-submit-btn" data-post-url={{$userMFAPostUrl ?? ''}}>{{ __('auth.mfaSubmitButton') }}</button>
+
+                                        </div>
+
                                     </div>
+
                                 </form>
                             </div>
+
                         </div>
                     </div>
                 </div>

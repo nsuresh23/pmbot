@@ -228,6 +228,15 @@ return [
         "oldest" => "oldest",
         "random" => "random",
     ],
+    "login_error_codes" => [
+        "1" => "Success",
+        "2" => "Inactive account",
+        "3" => "Account has been locaked",
+        "4" => "Invalid credentials",
+        "5" => "App authentication required",
+        "6" => "OTP required",
+        "7" => "Invalid OTP ",
+    ],
     "custom_urls" => [
         "job_add_url" => "http://localhost:81/pmbot/pmbotcustom/job-add-opm",
     ],

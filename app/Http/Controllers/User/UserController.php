@@ -636,6 +636,216 @@ class UserController extends Controller
     }
 
     /**
+     * User login.
+     *
+     * @param \Illuminate\Http\Request Request
+     * @return json response
+     */
+    public function login(Request $request)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => [],
+            "message" => "",
+        ];
+
+        try {
+
+            if (isset($request->email_or_username) && $request->email_or_username != "" && isset($request->ldap_password) && $request->ldap_password != "") {
+
+                $param = [
+                    "empcode" => strtolower(trim($request->email_or_username)),
+                    "ldap_password" => base64_encode($request->ldap_password),
+                    "ipaddress" => $_SERVER["REMOTE_ADDR"],
+                ];
+
+                $this->info("app_data_" . date('Y-m-d'), json_encode($request->all()));
+
+                $responseData = $this->userResource->login($param);
+
+                if(isset($responseData["success"]) && $responseData["success"] == "true") {
+
+                    $returnResponse["success"] = "true";
+
+                    if(isset($responseData["data"]) && $responseData["data"] != "") {
+
+                        $returnResponse["data"] = $responseData["data"];
+
+                        if (isset($responseData["data"]["code"]) && $responseData["data"]["code"] != "") {
+
+                            $loginStatusCodes = Config::get("constants.login_error_codes");
+
+                            if(in_array($responseData["data"]["code"], array_keys($loginStatusCodes))) {
+
+                                if ($responseData["data"]["code"] == "1" && isset($responseData["data"]["empcode"]) && $responseData["data"]["empcode"] != "") {
+
+                                    $conditions = [
+                                        ['empcode', $responseData["data"]["empcode"]],
+                                    ];
+
+                                    $fields = ['id'];
+
+                                    $userData = [];
+
+                                    $userData = $this->userResource->getUserField($conditions, $fields);
+
+                                    if (isset($userData->id) && $userData->id != "") {
+
+                                        $rememberMe = true;
+
+                                        Auth::loginUsingId($userData->id, $rememberMe);
+
+                                    }
+
+                                } else {
+
+                                    $returnResponse["message"] = $loginStatusCodes[$responseData["data"]["code"]];
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                if(isset($responseData["message"]) && $responseData["message"] != "") {
+
+                    $returnResponse["message"] = $responseData["message"];
+
+                }
+
+            }
+
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+
+        }
+
+        return json_encode($returnResponse);
+
+    }
+
+    /**
+     * User multi factor authentication.
+     *
+     * @param \Illuminate\Http\Request Request
+     * @return json response
+     */
+    public function mfa(Request $request)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => [],
+            "message" => "",
+        ];
+
+        try {
+
+            if (isset($request->email_or_username) && $request->email_or_username != "" && isset($request->ldap_password) && $request->ldap_password != "") {
+
+                $param = [
+                    "empcode" => strtolower(trim($request->email_or_username)),
+                    "mfa_code" => $request->mfa_code,
+                    "ipaddress" => $request->ip(),
+                ];
+
+                $responseData = $this->userResource->mfa($param);
+
+                if(isset($responseData["success"]) && $responseData["success"] == "true") {
+
+                    $returnResponse["success"] = "true";
+
+                    if(isset($responseData["data"]) && $responseData["data"] != "") {
+
+                        $returnResponse["data"] = $responseData["data"];
+
+                        if (isset($responseData["data"]["code"]) && $responseData["data"]["code"] != "") {
+
+                            $loginStatusCodes = Config::get("constants.login_error_codes");
+
+                            if(in_array($responseData["data"]["code"], array_keys($loginStatusCodes))) {
+
+                                if ($responseData["data"]["code"] == "1" && isset($responseData["data"]["empcode"]) && $responseData["data"]["empcode"] != "") {
+
+                                    $conditions = [
+                                        ['empcode', $responseData["data"]["empcode"]],
+                                    ];
+
+                                    $fields = ['id'];
+
+                                    $userData = [];
+
+                                    $userData = $this->userResource->getUserField($conditions, $fields);
+
+                                    if (isset($userData->id) && $userData->id != "") {
+
+                                        $rememberMe = true;
+
+                                        Auth::loginUsingId($userData->id, $rememberMe);
+
+                                    }
+
+                                } else {
+
+                                    $returnResponse["message"] = $loginStatusCodes[$responseData["data"]["code"]];
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                if(isset($responseData["message"]) && $responseData["message"] != "") {
+
+                    $returnResponse["message"] = $responseData["message"];
+
+                }
+
+            }
+
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+
+        }
+
+        return json_encode($returnResponse);
+
+    }
+
+    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable

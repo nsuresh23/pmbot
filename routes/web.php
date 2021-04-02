@@ -22,6 +22,10 @@ Route::any('error404', function () {
 	return view('errors.error404');
 })->name('error404');
 
+Route::any('/user-login', 'User\UserController@login')->name('user-login');
+
+Route::any('/user-mfa', 'User\UserController@mfa')->name('user-mfa');
+
 Route::group(['middleware' => ['auth', 'roles']], function () {
 
 	Route::get('/', function (Request $request) {

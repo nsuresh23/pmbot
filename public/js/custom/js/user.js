@@ -726,3 +726,265 @@ $('.user_role_select').on('change', function() {
     checkRole(this);
 
 });
+
+$(".login-btn").on('click', function(e) {
+
+    e.preventDefault();
+
+    $('.login-error-message').html('');
+    $('.login-error-block').hide();
+    $('.mfa-block').hide();
+    $('.login-qr-code-block').attr('src', '');
+    $('.login-qr-code-block').hide();
+
+    var postUrl = '';
+    var params = '';
+
+    params = new FormData($('.login-form')[0]);
+
+    postUrl = $(this).attr('data-post-url');
+
+    var email_or_username = $('#email_or_username').val();
+
+    if (email_or_username == undefined || email_or_username == false || email_or_username == '') {
+
+        Swal.fire({
+
+            title: '',
+            text: "Please enter valid user name!",
+            showClass: {
+                popup: 'animated fadeIn faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+
+        });
+
+        return false
+    }
+
+    var ldap_password = $('#ldap-password').val();
+
+    if (ldap_password == undefined || ldap_password == false || ldap_password == '') {
+
+        Swal.fire({
+
+            title: '',
+            text: "Please enter valid password!",
+            showClass: {
+                popup: 'animated fadeIn faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+
+        });
+
+        return false
+    }
+
+    if (postUrl != undefined && postUrl != '') {
+
+        /* AJAX call to email label update info */
+
+        var d = $.Deferred();
+
+        $.ajax({
+            url: postUrl,
+            data: params,
+            dataType: 'json',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            enctype: "multipart/form-data",
+            beforeSend: function() {
+                $('.login_loader').show();
+            },
+            complete: function() {
+                $('.login_loader').hide();
+            }
+        }).done(function(response) {
+
+            var message = '';
+
+            if ('message' in response) {
+
+                message = response.message;
+
+            }
+
+            if (response.success == "true") {
+
+                type = 'success';
+
+                if ('data' in response && response.data != undefined && response.data != '') {
+
+                    if ('code' in response.data && response.data.code != undefined && response.data.code != '') {
+
+                        if (response.data.code == "5") {
+
+                            if ('qr_code' in response.data && response.data.qr_code != undefined && response.data.qr_code != '') {
+
+                                $('.login-qr-code').attr('src', response.data.qr_code);
+
+                                $('.login-qr-code-block').show();
+
+                            }
+
+                        }
+
+                        if (response.data.code == "5" || response.data.code == "6") {
+
+                            $('.login-block').hide();
+                            $('.mfa-block').show();
+
+                        }
+
+                        if (response.data.code == "1" || response.data.code == "5" || response.data.code == "6") {
+
+                            message = '';
+
+                        }
+
+                    }
+
+                }
+
+            } else {
+
+                type = 'error';
+
+                d.resolve();
+
+            }
+
+            if (message != undefined && message != '') {
+
+                $('.login-error-message').html(message);
+                $('.login-error-block').show();
+
+            }
+
+        });
+
+        return d.promise();
+
+
+    }
+
+});
+
+$(".mfa-submit-btn").on('click', function(e) {
+
+    e.preventDefault();
+
+    $('.login-error-message').html('');
+    $('.login-error-block').hide();
+    $('.login-block').hide();
+
+    var postUrl = '';
+    var params = '';
+
+    params = new FormData($('.login-form')[0]);
+
+    postUrl = $(this).attr('data-post-url');
+
+    var mfa_code = $('#mfa-code').val();
+
+    if (mfa_code == undefined || mfa_code == false || mfa_code == '') {
+
+        Swal.fire({
+
+            title: '',
+            text: "Please enter valid code!",
+            showClass: {
+                popup: 'animated fadeIn faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+
+        });
+
+        return false
+    }
+
+    if (postUrl != undefined && postUrl != '') {
+
+        /* AJAX call to email label update info */
+
+        var d = $.Deferred();
+
+        $.ajax({
+            url: postUrl,
+            data: params,
+            dataType: 'json',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            enctype: "multipart/form-data",
+            beforeSend: function() {
+                $('.login_loader').show();
+            },
+            complete: function() {
+                $('.login_loader').hide();
+            }
+        }).done(function(response) {
+
+            var message = '';
+
+            if ('message' in response) {
+
+                message = response.message;
+
+            }
+
+            if (response.success == "true") {
+
+                type = 'success';
+
+                if ('data' in response && response.data != undefined && response.data != '') {
+
+                    if ('code' in response.data && response.data.code != undefined && response.data.code != '') {
+
+                        if (response.data.code == "1") {
+
+                            window.location.reload();
+
+                        }
+
+                        if (response.data.code == "1" || response.data.code == "5" || response.data.code == "6") {
+
+                            message = '';
+
+                        }
+
+                    }
+
+                }
+
+
+            } else {
+
+                type = 'error';
+
+                d.resolve();
+
+            }
+
+            if (message != undefined && message != '') {
+
+                $('.login-error-message').html(message);
+                $('.login-error-block').show();
+
+            }
+
+        });
+
+        return d.promise();
+
+
+    }
+
+});
