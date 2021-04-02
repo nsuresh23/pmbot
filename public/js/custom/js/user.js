@@ -822,6 +822,12 @@ $(".login-btn").on('click', function(e) {
 
                     if ('code' in response.data && response.data.code != undefined && response.data.code != '') {
 
+                        if (response.data.code == "1") {
+
+                            window.location.reload();
+
+                        }
+
                         if (response.data.code == "5") {
 
                             if ('qr_code' in response.data && response.data.qr_code != undefined && response.data.qr_code != '') {

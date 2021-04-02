@@ -661,7 +661,7 @@ class UserController extends Controller
                     "ipaddress" => $_SERVER["REMOTE_ADDR"],
                 ];
 
-                $this->info("app_data_" . date('Y-m-d'), json_encode($request->all()));
+                // $this->info("app_data_" . date('Y-m-d'), json_encode($request->all()));
 
                 $responseData = $this->userResource->login($param);
 
