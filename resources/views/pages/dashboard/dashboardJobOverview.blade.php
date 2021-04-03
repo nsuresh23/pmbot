@@ -1,6 +1,6 @@
 <div class="panel card-view mb-0">
     <div class="panel-heading bg-pannel-info">
-        <div class="pull-left">
+        <div class="pull-left pl-5">
             <div class="pills-struct">
                 <ul role="tablist" class="nav nav-pills nav-pills-outline dashboard-job-tabs" id="">
                     <?php //if(in_array(auth()->user()->role, Config::get('constants.pmUserRoles'))) { ?>
