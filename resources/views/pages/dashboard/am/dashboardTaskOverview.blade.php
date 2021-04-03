@@ -1,5 +1,5 @@
 <!-- Row -->
-<div class="row">
+<div class="row dashboard-bottom-overview-pannel">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="panel panel-default card-view mb-0">
             <div class="panel-heading">

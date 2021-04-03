@@ -3,10 +3,10 @@
         <div class="pull-left">
             <div class="pills-struct">
                 <ul role="tablist" class="nav nav-pills nav-pills-outline dashboard-job-tabs" id="">
-                    <?php if(in_array(auth()->user()->role, Config::get('constants.pmUserRoles'))) { ?>
+                    <?php //if(in_array(auth()->user()->role, Config::get('constants.pmUserRoles'))) { ?>
                         <li class="active" role="presentation"><a aria-expanded="true" data-toggle="tab" role="tab"
                                 id="overviewTab" href="#overview">{{ __('dashboard.overview_tab_label') }}</a></li>
-                    <?php } ?>
+                    <?php //} ?>
                     {{-- <li role="presentation" class=""><a data-toggle="tab" id="stageTab" role="tab" href="#stage"
                             aria-expanded="false">{{ __('dashboard.stage_tab_label') }}</a></li>
                     <li role="presentation" class=""><a data-toggle="tab" id="financialTab" role="tab" href="#financial"
@@ -123,7 +123,17 @@
                     <div class="tab-content" id="">
                         <div id="overview" class="tab-pane fade active in pt-10 jobOverviewTab" role="tabpanel" data-member-job-count-url="{{ $memberJobCountUrl }}">
 
-                            @include('pages.dashboard.dashboardOverview')
+                            <?php if(in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
+
+                                @include('pages.dashboard.am.dashboardTaskOverview')
+
+                            <?php } ?>
+
+                            <?php if(in_array(auth()->user()->role, config('constants.pmUserRoles'))) { ?>
+
+                                @include('pages.dashboard.dashboardOverview')
+
+                            <?php } ?>
 
                         </div>
 
@@ -179,9 +189,3 @@
         </div>
     </div>
 </div>
-
-<?php if(in_array(auth()->user()->role, config('constants.amUserRoles'))) { ?>
-
-@include('pages.dashboard.am.dashboardTaskOverview')
-
-<?php } ?>
