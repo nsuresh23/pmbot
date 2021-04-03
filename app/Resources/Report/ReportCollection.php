@@ -109,6 +109,27 @@ class ReportCollection
 
             $responseData = $this->postRequest($url, $paramInfo);
 
+            /* $responseData = [
+                "success" => "true",
+                "error_msg" => "",
+                "data" => [
+                    [
+                    "empcode" => "d.gopinath2@spi-global.com",
+                    "pmname" => "Gopinath, Durai",
+                    "spi_empcode" => "304207",
+                    "reviewed_count" => "5",
+                    "issue_sum" => "9",
+                    "responded_sum" => "7",
+                    "language_sum" => "10",
+                    "satisfaction_sum" => "11",
+                    "emails_responded_count" => 56,
+                    "average_response_time" => "16056:05:50"
+                    ]
+                ],
+                "last_updated" => "",
+                "result_count" => ""
+                ]; */
+
             if ($responseData["success"] == "true" && is_array($responseData["data"]) && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
                 $responseFormatData = [];
@@ -137,7 +158,7 @@ class ReportCollection
 
                     if ($paramInfo["category"] == "reviewed_email") {
 
-                        $responseFormattedData = $this->reviewedEmailReportFormatData($responseData["data"]);
+                        $responseFormatData = $this->reviewedEmailReportFormatData($responseData["data"]);
 
                         /* if(is_array($responseFormattedData) && count($responseFormattedData) > 0) {
 
