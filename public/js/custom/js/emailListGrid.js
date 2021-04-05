@@ -4136,7 +4136,6 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
         /* AJAX call to email item info */
 
         var d = $.Deferred();
-        $(loader).show();
         $.ajax({
             url: sendUrl,
             data: params,
@@ -4145,6 +4144,18 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
             processData: false,
             contentType: false,
             enctype: "multipart/form-data",
+            beforeSend: function() {
+                $(loader).show();
+            },
+            complete: function() {
+
+                emailSentCount();
+
+                $('.sent-email-modal').modal('hide');
+
+                $(loader).hide();
+
+            }
         }).done(function(response) {
 
             if (response.success == "true") {
@@ -4192,7 +4203,7 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
 
                 d.resolve();
 
-                if (closeBtnSelector == '#emailSendModal') {
+                /* if (closeBtnSelector == '#emailSendModal') {
                     $('#to').val('');
                     $('#cc').val('');
                     $('#subject').val('');
@@ -4201,8 +4212,8 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
                     tinymce.get('textarea_editor_email_reply').setContent('');
                     $('.textarea_editor_email').html('');
                 }
-                $(loader).hide();
-                $(closeBtnSelector).modal('hide');
+                $(loader).hide(); */
+                // $(closeBtnSelector).modal('hide');
 
             }
 
@@ -4245,9 +4256,6 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
 
         }
 
-        emailSentCount();
-
-        $('.sent-email-modal').modal('hide');
         //$(closeBtnSelector).trigger('click');
         return d.promise();
 
