@@ -178,7 +178,7 @@ function getEmailTableList(gridSelector) {
     //     visible: false,
     // });
 
-    if (gridEmailFilter != undefined && gridEmailFilter != '' && (gridEmailFilter == 'outbox' || gridEmailFilter == 'outboxwip' || gridEmailFilter == 'sent' || gridEmailFilter == 'hold' || gridEmailFilter == 'email_review' || gridEmailFilter == 'latest-sent')) {
+    if (gridEmailFilter != undefined && gridEmailFilter != '' && (gridEmailFilter == 'draft' || gridEmailFilter == 'outbox' || gridEmailFilter == 'outboxwip' || gridEmailFilter == 'sent' || gridEmailFilter == 'hold' || gridEmailFilter == 'email_review' || gridEmailFilter == 'latest-sent')) {
         field.push({
             title: "TO",
             name: "email_to",
