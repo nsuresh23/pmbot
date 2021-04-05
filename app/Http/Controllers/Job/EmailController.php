@@ -1686,6 +1686,12 @@ class EmailController extends Controller
 
                 $field['view'] = '1';
 
+                if (isset($request->id) && $request->id != "") {
+
+                    $field['id'] = $request->id;
+
+                }
+
             }
 
             if (count($field) > 0) {
