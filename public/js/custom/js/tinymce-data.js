@@ -421,6 +421,10 @@ $(function() {
 
             }
 
+        } else {
+
+            $('.email-status').val('4');
+
         }
 
 
@@ -431,8 +435,6 @@ $(function() {
         //     $("#email-' + editorType + '-subject").focus();
         //     return false;
         // }
-
-        $('.email-status').val('4');
 
         var postUrl = $('.email-' + editorType + '-form').attr('action');
 
