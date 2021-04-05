@@ -3761,6 +3761,23 @@ $(document).on('click', '.email-draft-send-btn', function(e) {
 
     tinymce.triggerSave(true, true);
 
+    e.preventDefault();
+
+    if ($('#email-draft-to').val() == '') {
+        $("#email-draft-to").focus();
+        return false;
+    }
+
+    if ($('#email-draft-subject').val() == '') {
+        $("#email-draft-subject").focus();
+        return false;
+    }
+
+    if ($('#email-draft-body_html').val() == '') {
+        $("#email-draft-body_html").focus();
+        return false;
+    }
+
     var type = $('.pmbottype').attr('data-pmbottype');
     $('.type').val(type);
     $('#email-type').val(type);
