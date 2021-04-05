@@ -2565,7 +2565,13 @@ class EmailCollection
 
 						}
 
-                   // }
+                    // }
+
+                    if (isset($returnResponse["data"]["email_from"]) && $returnResponse["data"]["email_from"] == "NULL") {
+
+                        $returnResponse["data"]["email_from"] = "";
+
+                    }
 
                     if (isset($returnResponse["data"]["email_from"]) && $returnResponse["data"]["email_from"] != "") {
 
@@ -2576,6 +2582,12 @@ class EmailCollection
                         }
 
                         $returnResponse["data"]["email_from"] = htmlspecialchars($returnResponse["data"]["email_from"]);
+                    }
+
+                    if (isset($returnResponse["data"]["email_to"]) && $returnResponse["data"]["email_to"] == "NULL") {
+
+                        $returnResponse["data"]["email_to"] = "";
+
                     }
 
                     if (isset($returnResponse["data"]["email_to"]) && $returnResponse["data"]["email_to"] != "") {
@@ -2589,7 +2601,13 @@ class EmailCollection
                         $returnResponse["data"]["email_to"] = htmlspecialchars($returnResponse["data"]["email_to"]);
                     }
 
-                    if (isset($returnResponse["data"]["email_cc"]) && $returnResponse["data"]["email_cc"] != "") {
+                    if (isset($returnResponse["data"]["email_cc"]) && $returnResponse["data"]["email_cc"] == "NULL") {
+
+                        $returnResponse["data"]["email_cc"] = "" ;
+
+                    }
+
+                    if (isset($returnResponse["data"]["email_cc"]) && $returnResponse["data"]["email_cc"] !="") {
 
                         if (base64_decode($returnResponse["data"]["email_cc"], true)) {
 
@@ -2598,6 +2616,12 @@ class EmailCollection
                         }
 
                         $returnResponse["data"]["email_cc"] = htmlspecialchars($returnResponse["data"]["email_cc"]);
+                    }
+
+                    if (isset($returnResponse["data"]["email_bcc"]) && $returnResponse["data"]["email_bcc"] == "NULL") {
+
+                        $returnResponse["data"]["email_bcc"] = "";
+
                     }
 
                     if (isset($returnResponse["data"]["email_bcc"]) && $returnResponse["data"]["email_bcc"] != "") {
@@ -2615,6 +2639,12 @@ class EmailCollection
                         $returnResponse["data"]["body_html"] = base64_decode($returnResponse["data"]["body_html"]);
                     }*/
 
+                    if (isset($returnResponse["data"]["subject"]) && $returnResponse["data"]["subject"] == "NULL") {
+
+                        $returnResponse["data"]["subject"] = "";
+
+                    }
+
                     if (isset($returnResponse["data"]["subject"]) && $returnResponse["data"]["subject"] != "") {
 
                        // $returnResponse["data"]["subject"] = base64_decode($returnResponse["data"]["subject"]);
@@ -2630,6 +2660,11 @@ class EmailCollection
 
                     }
 
+                    if (isset($returnResponse["data"]["body_html"])  && $returnResponse["data"]["body_html"] == "NULL") {
+
+                        $returnResponse["data"]["body_html"] = "";
+
+                    }
 
                     if (isset($returnResponse["data"]["body_html"]) && $returnResponse["data"]["body_html"] != "") {
 
@@ -2640,6 +2675,13 @@ class EmailCollection
                             $returnResponse["data"]["body_html"] = base64_decode($returnResponse["data"]["body_html"]);
                         }
                     }
+
+                    if (isset($returnResponse["data"]["email_reply_all"]) && $returnResponse["data"]["email_reply_all"] == "NULL") {
+
+                        $returnResponse["data"]["email_reply_all"] = "";
+
+                    }
+
 					if (isset($returnResponse["data"]["email_reply_all"]) && $returnResponse["data"]["email_reply_all"] != "") {
 
                         if (base64_decode($returnResponse["data"]["email_reply_all"], true)) {
@@ -2650,6 +2692,13 @@ class EmailCollection
 
                         $returnResponse["data"]["email_reply_all"] = htmlspecialchars($returnResponse["data"]["email_reply_all"]);
                     }
+
+                    if (isset($returnResponse["data"]["email_reply_cc"]) && $returnResponse["data"]["email_reply_cc"] == "NULL") {
+
+                        $returnResponse["data"]["email_reply_cc"] = "";
+
+                    }
+
 					if (isset($returnResponse["data"]["email_reply_cc"]) && $returnResponse["data"]["email_reply_cc"] != "") {
 
                         if (base64_decode($returnResponse["data"]["email_reply_cc"], true)) {
@@ -2660,14 +2709,34 @@ class EmailCollection
 
                         $returnResponse["data"]["email_reply_cc"] = htmlspecialchars($returnResponse["data"]["email_reply_cc"]);
                     }
-					if (isset($returnResponse["data"]["new_signature"]) && $returnResponse["data"]["new_signature"] != "") {
+
+                    if (isset($returnResponse["data"]["new_signature"]) && $returnResponse["data"]["new_signature"] == "NULL") {
+
+                        $returnResponse["data"]["new_signature"] = "";
+
+                    }
+
+					if (isset($returnResponse["data"]["new_signature"]) && $returnResponse["data"]["new_signature"] !="") {
+
                         if (base64_decode($returnResponse["data"]["new_signature"], true)) {
+
                             $returnResponse["data"]["new_signature"] = base64_decode($returnResponse["data"]["new_signature"]);
+
                         }
                    }
+
+                    if (isset($returnResponse["data"]["replyforward_signature"]) && $returnResponse["data"]["replyforward_signature"] == "NULL") {
+
+                        $returnResponse["data"]["replyforward_signature"] = "";
+
+                    }
+
 				   if (isset($returnResponse["data"]["replyforward_signature"]) && $returnResponse["data"]["replyforward_signature"] != "") {
+
                         if (base64_decode($returnResponse["data"]["replyforward_signature"], true)) {
+
                             $returnResponse["data"]["replyforward_signature"] = base64_decode($returnResponse["data"]["replyforward_signature"]);
+
                         }
                    }
 
@@ -2717,6 +2786,13 @@ class EmailCollection
                         }
 
                     }
+
+                    if (isset($returnResponse["data"]["attachments"]) && $returnResponse["data"]["attachments"] =="NULL") {
+
+                        $returnResponse["data"]["attachments"] = "";
+
+                    }
+
 
                     if (isset($returnResponse["data"]["attachments"]) && $returnResponse["data"]["attachments"] && isset($returnResponse["data"]["email_path"]) && $returnResponse["data"]["email_path"]) {
 
@@ -2996,6 +3072,12 @@ class EmailCollection
 
             try {
 
+                if (isset($item["subject"]) && $item["subject"] == "NULL") {
+
+                    $item["subject"] = "";
+
+                }
+
                 if (isset($item["subject"]) && $item["subject"] != "") {
 
                     if (base64_decode($item["subject"], true)) {
@@ -3218,7 +3300,7 @@ class EmailCollection
 							}
 						}
 
-					}
+                    }
 
 					if ($emailDate){
 
@@ -3235,6 +3317,12 @@ class EmailCollection
 						$item["created_date"] = date("Y/m/d H:i:s", strtotime($item["created_date"]));
                     } */
 
+                    if (isset($item["email_from"]) && $item["email_from"] == "NULL") {
+
+                        $item["email_from"] = "";
+
+                    }
+
                     if (isset($item["email_from"]) && $item["email_from"] != "") {
 
                         if (base64_decode($item["email_from"], true)) {
@@ -3242,6 +3330,12 @@ class EmailCollection
                             $item["email_from"] = base64_decode($item["email_from"]);
 
                         }
+
+                    }
+
+                    if (isset($item["email_to"]) && $item["email_to"] == "NULL") {
+
+                        $item["email_to"] = "";
 
                     }
 
@@ -3255,6 +3349,12 @@ class EmailCollection
 
                     }
 
+                    if (isset($item["email_cc"]) && $item["email_cc"] == "NULL") {
+
+                        $item["email_cc"] = "";
+
+                    }
+
                     if (isset($item["email_cc"]) && $item["email_cc"] != "") {
 
                         if (base64_decode($item["email_cc"], true)) {
@@ -3265,6 +3365,12 @@ class EmailCollection
 
                     }
 
+                    if (isset($item["email_bcc"]) && $item["email_bcc"] == "NULL") {
+
+                        $item["email_bcc"] = "";
+
+                    }
+
                     if (isset($item["email_bcc"]) && $item["email_bcc"] != "") {
 
                         if (base64_decode($item["email_bcc"], true)) {
@@ -3272,6 +3378,12 @@ class EmailCollection
                             $item["email_bcc"] = base64_decode($item["email_bcc"]);
 
                         }
+
+                    }
+
+                    if (isset($item["message_start"]) && $item["message_start"] == "NULL") {
+
+                        $item["message_start"] = "";
 
                     }
 
@@ -3287,16 +3399,29 @@ class EmailCollection
 
                     }
 
-                    if (isset($item["body_html"]) && $item["body_html"] != "") {
+                    if (isset($item["body_html"]) && $item["body_html"] == "NULL") {
+
+                        $item["body_html"] = "";
+
+                    }
+
+                    if (isset($item["body_html"]) && $item["body_html"] !="") {
 
                         if (base64_decode($item["body_html"], true)) {
 
                             $item["body_html"] = base64_decode($item["body_html"]);
+
                         }
 
                         // $item["message"] = mb_strimwidth( $item["body_html"], 0, 100, "...");
                         // $item["message"] = mb_strimwidth(htmlentities($item["body_html"]), 0, 100, "...");
                         $item["message"] = mb_strimwidth(trim(strip_tags($item["body_html"])), 0, 100, "...");
+                    }
+
+                    if (isset($item["subject"]) && $item["subject"] == "NULL") {
+
+                        $item["subject"] = "";
+
                     }
 
                     if (isset($item["subject"]) && $item["subject"] != "") {
@@ -3673,18 +3798,40 @@ class EmailCollection
 
 			 if (isset($responseData["success"]) && $responseData["success"] == "true") {
 
-				  if (isset($responseData["data"]["new_signature"]) && $responseData["data"]["new_signature"] != "") {
-                        if (base64_decode($responseData["data"]["new_signature"], true)) {
-                            $responseData["data"]["new_signature"] = base64_decode($responseData["data"]["new_signature"]);
-                        }
-                  }
-				  if (isset($responseData["data"]["replyforward_signature"]) && $responseData["data"]["replyforward_signature"] != "") {
-                        if (base64_decode($responseData["data"]["replyforward_signature"], true)) {
-                            $responseData["data"]["replyforward_signature"] = base64_decode($responseData["data"]["replyforward_signature"]);
-                        }
-                  }
-				  $returnResponse["data"] = $responseData["data"];
-				  $returnResponse["success"] = "true";
+                if (isset($responseData["data"]["new_signature"]) && $responseData["data"]["new_signature"] == "NULL") {
+
+                    $responseData["data"]["new_signature"] = "";
+
+                }
+
+                if (isset($responseData["data"]["new_signature"]) && $responseData["data"]["new_signature"] !="") {
+
+                    if (base64_decode($responseData["data"]["new_signature"], true)) {
+
+                        $responseData["data"]["new_signature"] = base64_decode($responseData["data"]["new_signature"]);
+
+                    }
+
+                }
+
+                if (isset($responseData["data"]["replyforward_signature"]) && $responseData["data"]["replyforward_signature"] == "NULL") {
+
+                    $responseData["data"]["replyforward_signature"] = "";
+
+                }
+
+                if (isset($responseData["data"]["replyforward_signature"]) && $responseData["data"]["replyforward_signature"] !="") {
+
+                    if (base64_decode($responseData["data"]["replyforward_signature"], true)) {
+
+                        $responseData["data"]["replyforward_signature"] = base64_decode($responseData["data"]["replyforward_signature"]);
+
+                    }
+
+                }
+
+                $returnResponse["data"] = $responseData["data"];
+                $returnResponse["success"] = "true";
 			 }
 
         } catch (Exception $e) {

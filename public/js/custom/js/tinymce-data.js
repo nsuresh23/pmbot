@@ -71,7 +71,7 @@ $(function() {
             convert_urls: false,
 
             autosave_ask_before_unload: false,
-            autosave_interval: '30s',
+            autosave_interval: '15s',
             autosave_restore_when_empty: false,
             autosave_retention: '30m',
 
@@ -110,6 +110,8 @@ $(function() {
                 ed.on('StoreDraft', function(evt) {
 
                     if (ed.isDirty()) {
+
+                        $('.mce-i-restoredraft').closest('div').addClass('disabled-block');
 
                         var settings = ed.settings;
 
@@ -407,6 +409,22 @@ $(function() {
         $('.type').val(type);
         $('#email-type').val(type);
 
+        if (editorType == 'draft') {
+
+            var draftIdElement = $('.email-' + editorType + '-form .email_id').attr('class');
+
+            if (draftIdElement == undefined || draftIdElement == "") {
+
+                var draftIdElementValue = $('.email-' + editorType + '-form .email_id').val();
+
+                $('.email-' + editorType + '-form').append('<input type="hidden" name="id" class="auto-save-id" value="' + draftIdElementValue + '" />');
+
+            }
+
+        }
+
+
+
         // var subject = $('#email-' + editorType + '-subject').val();
 
         // if (subject.trim() == '') {
@@ -458,7 +476,17 @@ $(function() {
 
                         if (response.data.email_id != undefined && response.data.email_id != '') {
 
-                            $('.email-' + editorType + '-form .email_id').val(response.data.email_id);
+                            var idElement = $('.email-' + editorType + '-form .auto-save-id').attr('class');
+
+                            if (idElement == undefined || idElement == "") {
+
+                                $('.email-' + editorType + '-form').append('<input type="hidden" name="id" class="auto-save-id" value="' + response.data.email_id + '" />');
+
+                            } else {
+
+                                $('.email-' + editorType + '-form .auto-save-id').val(response.data.email_id);
+
+                            }
 
                         }
 

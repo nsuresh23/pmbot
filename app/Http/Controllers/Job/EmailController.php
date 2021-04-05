@@ -1684,6 +1684,8 @@ class EmailController extends Controller
 
                 $field['autosave'] = 'true';
 
+                $field['view'] = '1';
+
             }
 
             if (count($field) > 0) {
