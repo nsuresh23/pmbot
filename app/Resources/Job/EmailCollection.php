@@ -2358,8 +2358,8 @@ class EmailCollection
 
                 if (isset($field['autosave']) && $field['autosave'] == "true") {
 
-                    $responseData["data"] = [];
-                    $responseData["data"]["email_id"] = "200";
+                    /* $responseData["data"] = [];
+                    $responseData["data"]["email_id"] = "200"; */
 
                     if (isset($responseData["data"]) && $responseData["data"] != '') {
 
