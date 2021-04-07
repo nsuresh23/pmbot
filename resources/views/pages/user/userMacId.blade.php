@@ -13,6 +13,10 @@
 
         @php
 
+            $accessCode = "";
+
+            $macAddress = "";
+
             $postUrl = "#";
 
             $redirectTo = "home";
@@ -26,6 +30,19 @@
                     $postUrl = route(__("user.user_mac_id_update_url"), $userData["data"]["id"]);
 
                 }
+
+                if(isset($userData["data"]["mac_address"]) && $userData["data"]["mac_address"]) {
+
+                    $macAddress = $userData["data"]["mac_address"];
+
+                }
+
+                if(isset($userData["data"]["access_code"]) && $userData["data"]["access_code"]) {
+
+                    $accessCode = $userData["data"]["access_code"];
+
+                }
+
             }
 
         @endphp
@@ -63,11 +80,25 @@
                                                     <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-md-offset-3">
                                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                                            <?php if($accessCode !="") { ?>
+
+                                                                <div class="row">
+                                                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                                                        <div class="form-group">
+                                                                            <label for="access-code" class="control-label mr-5">{{ __('user.user_access_code_label') }}:</label>
+                                                                            <span class="access-code mac-id-access-code">{{$accessCode ?? 'M5P4ASF46NUA4YKR'}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            <?php } ?>
+
                                                             <div class="row">
                                                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                                                     <div class="form-group">
                                                                         <label for="mac-id" class="control-label mb-10">{{ __('user.user_mac_id_label') }}</label>
-                                                                        <input type="text" data-minlength="6" class="form-control" id="mac-id" name="mac_address" value="{{$userData['data']['mac_address'] ?? ''}}"
+                                                                        <input type="text" data-minlength="6" class="form-control" id="mac-id" name="mac_address" value="{{$macAddress ?? ''}}"
                                                                             placeholder="{{ __('user.user_mac_id_placeholder_text') }}"
                                                                             data-error="{{ __('user.user_mac_id_error_msg') }}" required>
                                                                         <div class="help-block with-errors"></div>

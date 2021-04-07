@@ -830,6 +830,10 @@ content: "\f067";
                 .border-right-none {
                     border-right: none !important;
                 }
+
+                .mac-id-access-code {
+                    overflow-wrap: break-word;
+                }
                 /* #textarea_editor_email_reply p.MsoNormal,
 #textarea_editor_email_reply li.MsoNormal,
 #textarea_editor_email_reply div.MsoNormal,

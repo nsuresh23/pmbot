@@ -35,6 +35,7 @@ return [
     'user_email_placeholder_text' => 'user email',
     'user_password_label' => 'password',
     'user_password_placeholder_text' => 'password',
+    'user_access_code_label' => 'Access code',
     'user_mac_id_label' => 'MAC ID',
     'user_mac_id_placeholder_text' => 'Enter MAC ID',
     'user_password_help_text' => 'Password must be at least 6 characters',
