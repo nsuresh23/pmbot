@@ -401,7 +401,39 @@ $(function() {
         }
     });
 
-    function autosave(editorType) {
+});
+
+function autosave(editorType) {
+
+    var isModified = false;
+
+    var tinymceEditorClass = '';
+
+    if (editorType != undefined && editorType != '') {
+
+        tinymceEditorClass = 'textarea_editor_email_';
+
+        if (editorType == 'send') {
+
+            tinymceEditorClass = tinymceEditorClass + 'compose';
+
+        } else {
+
+            tinymceEditorClass = tinymceEditorClass + editorType;
+
+        }
+
+    }
+
+
+
+    if (tinymce.get(tinymceEditorClass) != undefined && tinymce.get(tinymceEditorClass) != null) {
+
+        isModified = tinymce.get(tinymceEditorClass).isDirty();
+
+    }
+
+    if (isModified) {
 
         tinymce.triggerSave(true, true);
 
@@ -421,13 +453,21 @@ $(function() {
 
             }
 
+            var draftStatusElement = $('.email-' + editorType + '-form .email-status').attr('class');
+
+            if (draftStatusElement == undefined || draftStatusElement == "") {
+
+                var draftStatusElementValue = $('.email-' + editorType + '-form .email-status').val();
+
+                $('.email-' + editorType + '-form').append('<input type="hidden" name="id" class="auto-save-id" value="' + draftStatusElementValue + '" />');
+
+            }
+
         } else {
 
             $('.email-status').val('4');
 
         }
-
-
 
         // var subject = $('#email-' + editorType + '-subject').val();
 
@@ -502,4 +542,4 @@ $(function() {
 
     }
 
-});
+}

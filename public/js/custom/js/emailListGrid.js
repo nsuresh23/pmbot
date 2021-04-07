@@ -4668,6 +4668,12 @@ function showdraftform(type, selector) {
                     $('.attached_file_box').hide();
                 }
 
+                if (response.data.job_id != '' && response.data.job_id != null) {
+
+                    $('.email-draft-modal-close').attr('data-modal-type', 'job');
+
+                }
+
                 $('.email_id').val(response.data.id);
 
             }
@@ -7366,3 +7372,47 @@ $(document).on('click', '.email-latest-sent-btn', function(e) {
 });
 
 $('.email-template-list').hide();
+
+$('.email-compose-modal-close').on('click', function(e) {
+
+    e.preventDefault();
+
+    autosave('send');
+
+    $('.email-compose-modal').modal('hide');
+
+});
+
+$('.email-reply-modal-close').on('click', function(e) {
+
+    e.preventDefault();
+
+    autosave('reply');
+
+    $('.email-reply-modal').modal('hide');
+
+});
+
+$('.email-draft-modal-close').on('click', function(e) {
+
+    e.preventDefault();
+
+    autosave('draft');
+
+    $('.email-draft-modal').modal('hide');
+
+    var modalType = '';
+
+    modalType = $(this).attr('data-modal-type');
+
+    if (modalType != undefined && modalType == 'job') {
+
+        $('.job-draft-email').trigger('click');
+
+    } else {
+
+        $('.dashboard-draft-email').trigger('click');
+
+    }
+
+});
