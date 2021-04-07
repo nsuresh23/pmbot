@@ -231,7 +231,7 @@ return [
     "login_error_codes" => [
         "1" => "Success",
         "2" => "Inactive account",
-        "3" => "Account has been locaked",
+        "3" => "Account has been locked",
         "4" => "Invalid credentials",
         "5" => "App authentication required",
         "6" => "OTP required",
