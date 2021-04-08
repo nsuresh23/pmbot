@@ -899,4 +899,4 @@ $(document).on('click', '.event-calendar-save-btn', function() {
 
 });
 
-$('#emailReviewTab').hide();
+// $('#emailReviewTab').hide();
