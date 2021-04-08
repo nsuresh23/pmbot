@@ -1459,6 +1459,13 @@ class EmailController extends Controller
             } else {
                 $field["email_id"] = '';
             }
+
+            $field["id"] = '';
+
+            if (isset($request->id) && $request->id != "") {
+                $field["id"] = $request->id;
+            }
+
             if (isset($request->body_html) && $request->body_html != "") {
 
                 // $field["body_html"] = $request->body_html;
@@ -1757,11 +1764,16 @@ class EmailController extends Controller
                 $field["subject"] = '';
             }
 
+            $field["id"] = '';
+
 			if (isset($request->email_id) && $request->email_id != "") {
                 $field["id"] = $request->email_id;
-            } else {
-                $field["id"] = '';
             }
+
+            if (isset($request->id) && $request->id != "") {
+                $field["id"] = $request->id;
+            }
+
             if (isset($request->body_html) && $request->body_html != "") {
                 $field["body_html"] = $request->body_html;
             } else {
