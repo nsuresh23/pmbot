@@ -662,11 +662,57 @@ function getEmailTableList(gridSelector) {
 
     var selectForwardItem = function(item) {
 
+        if (item.email_file_folder_path != undefined && item.email_file_folder_path != '') {
+
+            var file_size = '0';
+
+            var fileSizeGetUrl = $('.get-file-size').attr('data-get-file-size-url');
+
+            if (fileSizeGetUrl != undefined && fileSizeGetUrl != '') {
+
+                /* AJAX call to get file size */
+                $.ajax({
+
+                    url: fileSizeGetUrl,
+                    data: { 'img_path': item.email_file_folder_path },
+                    dataType: "json",
+                    async: false,
+                    beforeSend: function() {
+                        $('.email_nonbusiness_grid_loader').show();
+                    },
+                    complete: function() {
+                        $('.email_nonbusiness_grid_loader').hide();
+                    }
+
+                }).done(function(response) {
+
+                    if (response.success == "true") {
+
+                        if ('data' in response && response.data != undefined && response.data != '') {
+
+                            if ('file_size' in response.data && response.data.file_size != undefined && response.data.file_size != '') {
+
+                                file_size = response.data.file_size;
+
+                            }
+
+                        }
+
+                    }
+
+                });
+
+            }
+
+        }
+
         selectedForwardItems.push(...[{
             'id': item.id,
             'subject': item.subject,
             'subject_min_width': item.subject_min_width,
             'email_filename': item.subject + '.eml',
+            'email_file_folder_path': item.email_file_folder_path,
+            'email_file_size': file_size,
             'email_download_path': item.email_download_path,
         }]);
 
@@ -744,9 +790,24 @@ function getEmailTableList(gridSelector) {
             show: 'true'
         });
 
+        var UploadedFileSize = 0;
+
         for (i = 0; i < selectedForwardItems.length; i++) {
 
             var filename = selectedForwardItems[i].email_filename;
+            var filesize = 0;
+
+            filesize = selectedForwardItems[i].email_file_size;
+
+            UploadedFileSize = UploadedFileSize + Math.round((parseInt(filesize) / 1024));
+
+            if (UploadedFileSize > 30720) {
+
+                fieldErrorMsg('Attached file size larger than 30MB');
+
+                return false;
+
+            }
 
             var currentTimestamp = '';
 
@@ -765,7 +826,10 @@ function getEmailTableList(gridSelector) {
             htmlFile += getFileType(filename);
             htmlFile += '-o"></i>';
             htmlFile += '</span>';
-            htmlFile += '<span class="email-attachment-item-name ">';
+            htmlFile += '<span class="email-attachment-item-name "';
+            htmlFile += 'data-item-size="';
+            htmlFile += filesize;
+            htmlFile += '">';
             htmlFile += mb_strimwidth(filename, 0, 25, '...');
             htmlFile += '<i class="fa fa-times text-danger ml-5" onclick="removeAttachedEmailFile($(this))" type="button" value="Remove" data-remove-id="new_attachements_' + i + '" data-remove-filename="' + filename + '" data-src="' + currentTimestamp + '"></i></a>';
             htmlFile += '</span>';
@@ -6371,8 +6435,6 @@ $(document).on('change', '.signature_draft_change', function(e) {
 
                                 }
 
-
-
                             } else if (pagetype == 'reply') {
                                 var message = '';
 
@@ -6770,6 +6832,46 @@ function filesPreview(input, placeToInsertFilePreview) {
 
             var filename = input.files[i].name;
 
+            var filesize = Math.round((input.files[i].size / 1024));
+            filesize = Math.round((filesize / 1024));
+
+            var UploadedFileSize = 0;
+
+            UploadedFileSize = Math.round((input.files[i].size / 1024));
+
+            $(input).closest('form').find('.attached_file .email-attachment-item-name').each(function() {
+
+                var fileSizeInBytes = $('.attached_file .email-attachment-item-name').attr('data-item-size');
+
+                if (fileSizeInBytes != undefined && fileSizeInBytes != '') {
+
+                    fileSizeInBytes = parseInt(fileSizeInBytes);
+
+                    UploadedFileSize = UploadedFileSize + Math.round((fileSizeInBytes / 1024));
+
+                }
+
+            });
+
+            /* if (filesToUpload != undefined && Object.keys(filesToUpload).length > 0) {
+
+                for (var index in filesToUpload) {
+
+                    UploadedFileSize = UploadedFileSize + Math.round((filesToUpload[index].size / 1024));
+
+
+                }
+
+            } */
+
+            if (UploadedFileSize > 30720) {
+
+                fieldErrorMsg('Attached file size larger than 30MB');
+
+                return false;
+
+            }
+
             var currentTimestamp = '';
 
             currentTimestamp = moment.utc().format('YYYYMMDDHHmmssSSS') + '_' + Math.floor(Math.random() * 101);
@@ -6787,11 +6889,42 @@ function filesPreview(input, placeToInsertFilePreview) {
             htmlFile += getFileType(filename);
             htmlFile += '-o"></i>';
             htmlFile += '</span>';
-            htmlFile += '<span class="email-attachment-item-name ">';
+            htmlFile += '<span class="email-attachment-item-name "';
+            htmlFile += 'data-item-size="';
+            htmlFile += input.files[i].size;
+            htmlFile += '">';
             htmlFile += mb_strimwidth(filename, 0, 25, '...');
             htmlFile += '<i class="fa fa-times text-danger ml-5" onclick="removeFile($(this))" type="button" value="Remove" data-remove-id="new_attachements_' + i + '" data-remove-filename="' + filename + '" data-src="' + currentTimestamp + '"></i></a>';
             htmlFile += '</span>';
             htmlFile += '</div></li>';
+
+            /* var htmlFile = '';
+            htmlFile += '<li class="pb-5" id="new_attachements_' + currentTimestamp + '">';
+            htmlFile += '<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 email-attachment-item-block">';
+            htmlFile += '<a href="javascript:void(0);" title="';
+            htmlFile += filename;
+            htmlFile += '" class="atch-thumb" style="text-decoration:none;">';
+            htmlFile += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pa-0">';
+            htmlFile += '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 pa-0">';
+            htmlFile += '<i class="font-30 fa fa-';
+            htmlFile += getFileType(filename);
+            htmlFile += '-o"></i>';
+            htmlFile += '</div>';
+            htmlFile += '<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 pr-0 pl-10">';
+            htmlFile += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pa-0 email-attachment-item-name">';
+            htmlFile += mb_strimwidth(filename, 0, 25, '...');
+            htmlFile += '<i class="fa fa-times text-danger ml-5" onclick="removeFile($(this))" type="button" value="Remove" data-remove-id="new_attachements_' + i + '" data-remove-filename="' + filename + '" data-src="' + currentTimestamp + '"></i>';
+            htmlFile += '</div>';
+            htmlFile += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pa-0 font-11 email-attachment-item-size-block">';
+            htmlFile += '<span class="">';
+            htmlFile += 'size: ' + filesize + ' MB';
+            htmlFile += '</span>';
+            htmlFile += '</div>';
+            htmlFile += '</div>';
+            htmlFile += '</div>';
+            htmlFile += '</a>';
+            htmlFile += '</div>';
+            htmlFile += '</li>'; */
 
             $($.parseHTML(htmlFile)).appendTo(placeToInsertFilePreview);
 

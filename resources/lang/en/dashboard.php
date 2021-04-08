@@ -64,6 +64,7 @@ return [
     'reviewed_email_report_list_url' => 'reviewed-email-report',
     'email_rating_url' => 'email-ratings',
     'email_review_update_url' => 'email-review-update',
+    'file_size_url' => 'file-size',
 
     'task_list_url' => 'task-list',
     'task_add_url' => 'task-add',

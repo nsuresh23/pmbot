@@ -834,6 +834,10 @@ content: "\f067";
                 .mac-id-access-code {
                     overflow-wrap: break-word;
                 }
+
+                .email-attachment-item-size-block {
+                    vertical-align: top;
+                }
                 /* #textarea_editor_email_reply p.MsoNormal,
 #textarea_editor_email_reply li.MsoNormal,
 #textarea_editor_email_reply div.MsoNormal,

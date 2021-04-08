@@ -175,4 +175,59 @@ class FileController extends Controller
 
     }
 
+    /**
+     * Get file size.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getFileSize(Request $request)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        $fileSize = "";
+        $imageFolderPath = "";
+
+        try {
+
+            if (isset($request->img_path) && $request->img_path != "") {
+
+                $imageFolderPath = str_replace("\\", "/", $request->img_path);
+
+                if(Storage::disk('s3')->exists($imageFolderPath)){
+
+                    $returnResponse["success"] = "true";
+
+                    $returnResponse["data"] = [];
+
+                    $fileSize = Storage::disk('s3')->size($imageFolderPath);
+
+                    $returnResponse["data"]["file_size"] = $fileSize;
+
+                }
+
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return json_encode($returnResponse);
+
+    }
+
 }

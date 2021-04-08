@@ -2836,6 +2836,8 @@ class EmailCollection
                                             $item_file .= $emailAttachmentPath . urlencode($item);
                                             $item_name = $item;
 
+                                            $item_file_path = $emailAttachmentPath . urlencode($item);
+
                                             $emailAttachmentHtml .= '<li class="mb-0">';
                                                 $emailAttachmentHtml .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email-attachment-item-block">';
                                                     $emailAttachmentHtml .= '<a href="';
@@ -2848,7 +2850,10 @@ class EmailCollection
                                                             $emailAttachmentHtml .= $this->getFileType($item_name);
                                                             $emailAttachmentHtml .= '-o"></i>';
                                                         $emailAttachmentHtml .= '</span>';
-                                                    $emailAttachmentHtml .= '<span class="email-attachment-item-name ">';
+                                                    $emailAttachmentHtml .= '<span class="email-attachment-item-name" ';
+                                                    $emailAttachmentHtml .= 'data-item-size="';
+                                                    $emailAttachmentHtml .= $this->getFileSize($item_file_path);
+                                                    $emailAttachmentHtml .= '">';
                                                         $emailAttachmentHtml .= mb_strimwidth($item, 0, 25, "...");
                                                     $emailAttachmentHtml .= '</span>';
                                                     $emailAttachmentHtml .= '</a>';
@@ -2869,7 +2874,10 @@ class EmailCollection
                                                             $emailForwardAttachmentList .= $this->getFileType($item_name);
                                                             $emailForwardAttachmentList .= '-o"></i>';
                                                         $emailForwardAttachmentList .= '</span>';
-                                                    $emailForwardAttachmentList .= '<span class="email-attachment-item-name ">';
+                                                    $emailForwardAttachmentList .= '<span class="email-attachment-item-name" ';
+                                                    $emailForwardAttachmentList .= 'data-item-size="';
+                                                    $emailForwardAttachmentList .= $this->getFileSize($item_file_path);
+                                                    $emailForwardAttachmentList .= '">';
                                                         $emailForwardAttachmentList .= mb_strimwidth($item, 0, 25, "...");
                                                         $emailForwardAttachmentList .= '<i class="fa fa-times text-danger ml-5 fw-attachements" data-user-empcode="pmbot_spi-global_com_desc" data-attachement-id = "attachements_'.$key.'"></i>';
                                                     $emailForwardAttachmentList .= '</span>';
@@ -3511,11 +3519,17 @@ class EmailCollection
 
                                 $email_file_path .= $item["email_path_primary"] . urlencode($email_filename);
 
+                                $email_file_folder_path = $item["email_path_primary"] . urlencode($email_filename);
+
                                 $alais_filename = $email_file_base_name . "." . $file_name_split["extension"];
 
                                 $email_file_path .= "&alais_name=" . $alais_filename;
 
                                 $item["email_download_path"] = $email_file_path;
+
+                                $item["email_file_folder_path"] = $email_file_folder_path;
+
+                                // $item["email_file_size"] = $this->getFileSize($email_file_folder_path);
 
                             }
                         }

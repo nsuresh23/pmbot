@@ -112,6 +112,7 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
 
 
 	Route::any('file', 'File\FileController@getFile')->name('file');
+    Route::any('file-size', 'File\FileController@getFileSize')->name('file-size');
 	Route::any('file-upload', 'File\FileController@fileUpload')->name('file-upload');
 
     // Route::any('/pm/dashboard', 'PM\DashboardController@index');

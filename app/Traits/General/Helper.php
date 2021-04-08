@@ -7,6 +7,7 @@ use DateTime;
 use DateTimeZone;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 trait Helper
 {
@@ -1278,27 +1279,42 @@ trait Helper
 
     }
 
-    public function getClientIPaddress($request) {
+    /**
+     * Get file size.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getFileSize($img_path)
+    {
 
-        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
-            $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-            $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-        }
-        $client  = @$_SERVER['HTTP_CLIENT_IP'];
-        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-        $remote  = $_SERVER['REMOTE_ADDR'];
+        $fileSize = "";
+        $imageFolderPath = "";
 
-        if(filter_var($client, FILTER_VALIDATE_IP)){
-            $clientIp = $client;
-        }
-        elseif(filter_var($forward, FILTER_VALIDATE_IP)){
-            $clientIp = $forward;
-        }
-        else{
-            $clientIp = $remote;
+        try {
+
+            if (isset($img_path) && $img_path != "") {
+
+                $imageFolderPath = str_replace("\\", "/", $img_path);
+
+                if(Storage::disk('s3')->exists($imageFolderPath)){
+
+                    $fileSize = Storage::disk('s3')->size($imageFolderPath);
+
+                }
+
+            }
+        } catch (Exception $e) {
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
         }
 
-        return $clientIp;
+        return $fileSize;
 
     }
 

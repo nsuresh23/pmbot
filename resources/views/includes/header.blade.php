@@ -47,6 +47,7 @@
     $notificationReadUrl = route(__("job.notification_read_url"), '');
     $notificationReadAllUrl = route(__("job.notification_read_all_url"));
     $emailViewUpdateUrl = route(__("job.email_view_update_url"));
+    $fileSizeUrl = route(__("dashboard.file_size_url"));
 
 	$signatureUpdateUrl      = route(__("job.signature_update"));
 	$getSignatureUrl         = route(__("job.get_signature"));
@@ -72,6 +73,7 @@
 <div id="flashMessage" class="d-none" data-type="{{ $type }}" data-message="{{ $message }}">
 <div id="notificationRead" class="d-none" data-notification-read-url="{{ $notificationItemReadUrl }}">
 <div id="email-read" class="d-none email-read" data-email-read-url="{{ $emailViewUpdateUrl }}">
+<div id="get-file-size" class="d-none get-file-size" data-get-file-size-url="{{ $fileSizeUrl }}">
 <div id="currentUserInfo" class="currentUserInfo" data-page-size="{{config('constants.pageSize')}}" data-page-button-count="{{config('constants.pageButtonCount')}}" data-current-user-role="{{ auth()->user()->role }}" data-read-only-user="{{ $readOnlyUser }}" data-file-upload-url="{{route(__('job.file_upload_url')) ?? ''}}">
 
 <!-- Top Menu Items -->
