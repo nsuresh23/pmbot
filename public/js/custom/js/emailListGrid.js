@@ -4343,6 +4343,13 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
 
     }
 }
+
+$('.email-reply-modal').on('shown.bs.modal', function(e) {
+
+    $('.auto-save-id').val('');
+
+});
+
 $(document).on('click', '.email-reply-btn', function(e) {
     e.preventDefault();
     $('.attachements').val('');
@@ -4386,6 +4393,13 @@ $(document).on('click', '.email-forward-btn', function(e) {
     $('.email-reply-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
     showform(type, selector);
 });
+
+$('.email-draft-modal').on('shown.bs.modal', function(e) {
+
+    $('.auto-save-id').val('');
+
+});
+
 $(document).on('click', '.email-draft-btn', function(e) {
     e.preventDefault();
     $('.draftattachements').val('');
@@ -4600,7 +4614,18 @@ function showform(type, selector) {
                     sentdate = response.data.created_date;
                 }
 
-                var stamp = sinmessage + '<div style="font-family:calibri;font-size:11pt;"><hr><b>From:</b> ' + response.data.email_from + '<br><b>Sent:</b> ' + sentdate + '<br><b>To:</b> ' + response.data.email_to + '<br><b>Subject:</b> ' + response.data.subject + '<br><br></div>';
+                sinmessage = sinmessage + '<div style="font-family:calibri;font-size:11pt;"><hr><b>From:</b> ' + response.data.email_from + '<br><b>Sent:</b> ' + sentdate + '<br><b>To:</b> ' + response.data.email_to + '<br>';
+
+                if (response.data.email_cc != undefined && response.data.email_cc != '' && response.data.email_cc != null) {
+
+                    sinmessage = sinmessage + '<b>CC:</b> ' + response.data.email_cc + '<br>';
+
+                }
+
+                sinmessage = sinmessage + '<b>Subject:</b> ' + response.data.subject + '<br><br></div>';
+
+                var stamp = sinmessage;
+
                 message = stamp.concat(message);
 
                 $('.email-reply-subject').val(subject);
@@ -5337,6 +5362,13 @@ $(document).on('click', '.draftbcc_emaillist', function(e) {
     $('.email-draft-bcc').val(rebccvalue + value + ';');
     $(".draft_bcc ul").empty();
 });
+
+$('.email-compose-modal').on('shown.bs.modal', function(e) {
+
+    $('.auto-save-id').val('');
+
+});
+
 $(document).on('click', '.email-compose-btn', function(e) {
     $('#to').val('');
     $('#cc').val('');
