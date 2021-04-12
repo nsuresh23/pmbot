@@ -1318,4 +1318,81 @@ trait Helper
 
     }
 
+    public function getStarByValue($value, $type)
+    {
+
+        $returnData = "";
+
+        if($value != null && $value != "") {
+
+
+            if($type == "star" ) {
+
+                $colorClass = "txt-success";
+
+                if($value < 1.5) {
+
+                    $colorClass = "txt-danger";
+
+                }
+
+                if($value >= 1.5 && $value < 2.5) {
+
+                    $colorClass = "txt-warning";
+
+                }
+
+                if($value >= 2.5) {
+
+                    $colorClass = "txt-success";
+
+                }
+
+                $returnData = '<i class="fa fa-star font-20 ' . $colorClass . '" title="' . $value . '"></i>';
+
+            }
+
+            if($type == "time" ) {
+
+                $timeArray = [];
+
+                $timeArray = explode(":", $value);
+
+
+                if(is_array($timeArray) && count($timeArray) > 0) {
+
+                    $hour = (int) $timeArray[0];
+
+                    $colorClass = "badge-success";
+
+                    if($hour > 48) {
+
+                        $colorClass = "badge-danger";
+
+                    }
+
+                    if($hour > 24 && $hour <= 48) {
+
+                        $colorClass = "badge-warning";
+
+                    }
+
+                    if($hour <= 24) {
+
+                        $colorClass = "badge-success";
+
+                    }
+
+                    $returnData = '<span class="badge ' . $colorClass . '">' . $value . '</span>';
+
+                }
+
+            }
+
+        }
+
+        return $returnData;
+
+    }
+
 }

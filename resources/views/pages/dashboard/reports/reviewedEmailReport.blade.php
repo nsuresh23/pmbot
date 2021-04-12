@@ -86,13 +86,13 @@
                 <tr>
 
                     <th class="capitalize-font text-center nosort">Reviewed Count</th>
-                    <th class="capitalize-font text-center nosort">Issue</th>
-                    <th class="capitalize-font text-center nosort">Responded</th>
-                    <th class="capitalize-font text-center nosort">Language</th>
-                    <th class="capitalize-font text-center nosort">Satisfaction</th>
-                    <th class="capitalize-font text-center nosort">Overall Average</th>
+                    <th class="capitalize-font text-center nosort">Responded With<br>Factual Clarity</th>
+                    <th class="capitalize-font text-center nosort">Language Used<br>In Communication</th>
+                    <th class="capitalize-font text-center nosort">Issue Resolved<br>In Fewer Rounds</th>
+                    <th class="capitalize-font text-center nosort">Satisfaction Of The<br>Affected Stakeholder</th>
+                    <th class="capitalize-font text-center nosort">Weighted Score</th>
                     <th class="capitalize-font text-center nosort"># Of Emails Responded</th>
-                    <th class="capitalize-font text-center nosort ">Average</th>
+                    <th class="capitalize-font text-center nosort ">Avg.Response Time Per Email<br><span class="column-note capitalize-font text-center">(In Hours)</span></th>
                     {{-- <th class="capitalize-font text-center nosort ">Avg.Response Time Per Email<br><span class="column-note capitalize-font text-center">(In Hours)</span></th> --}}
 
                 </tr>

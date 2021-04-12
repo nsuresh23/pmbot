@@ -228,6 +228,12 @@ return [
         "oldest" => "oldest",
         "random" => "random",
     ],
+    "reviewed_email_field_%" => [
+        "responded" => "0.4",
+        "language" => "0.4",
+        "issue" => "0.1",
+        "satisfaction" => "0.1",
+    ],
     "login_error_codes" => [
         "1" => "Success",
         "2" => "Inactive account",

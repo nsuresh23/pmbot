@@ -16,9 +16,12 @@ use App\Traits\General\ApiClient;
 
 use App\Traits\General\CustomLogger;
 
+use Illuminate\Support\Facades\Config;
+
 use League\Fractal\Resource\Collection;
 
 use Illuminate\Support\Facades\Validator;
+
 use phpDocumentor\Reflection\Types\Boolean;
 
 class ReportCollection
@@ -107,9 +110,9 @@ class ReportCollection
 
             $responseData = [];
 
-            $responseData = $this->postRequest($url, $paramInfo);
+            // $responseData = $this->postRequest($url, $paramInfo);
 
-            /* $responseData = [
+            $responseData = [
                 "success" => "true",
                 "error_msg" => "",
                 "data" => [
@@ -128,7 +131,7 @@ class ReportCollection
                 ],
                 "last_updated" => "",
                 "result_count" => ""
-                ]; */
+                ];
 
             if ($responseData["success"] == "true" && is_array($responseData["data"]) && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
@@ -545,23 +548,23 @@ class ReportCollection
 
 					$item["formatted_date"] = "-";
 
-                    $item["formatted_total_count"] = "0";
+                    $item["formatted_total_count"] = "";
 
-                    $item["formatted_internal_count"] = "0";
+                    $item["formatted_internal_count"] = "";
 
-                    $item["formatted_external_count"] = "0";
+                    $item["formatted_external_count"] = "";
 
-                    $item["formatted_not_set_count"] = "0";
+                    $item["formatted_not_set_count"] = "";
 
-                    $item["formatted_positive_count"] = "0";
+                    $item["formatted_positive_count"] = "";
 
-                    $item["formatted_neutral_count"] = "0";
+                    $item["formatted_neutral_count"] = "";
 
-                    $item["formatted_negative_count"] = "0";
+                    $item["formatted_negative_count"] = "";
 
-                    $item["formatted_emails_responded_count"] = "0";
+                    $item["formatted_emails_responded_count"] = "";
 
-                    $item["formatted_average_response_time"] = "0";
+                    $item["formatted_average_response_time"] = "";
 
                     if (isset($item["pmname"]) && $item["pmname"] != "") {
 
@@ -661,21 +664,21 @@ class ReportCollection
 
 					$item["formatted_date"] = "-";
 
-                    $item["formatted_reviewed_count"] = "0";
+                    $item["formatted_reviewed_count"] = "";
 
-                    $item["formatted_issue_average"] = "0";
+                    $item["formatted_issue_average"] = "";
 
-                    $item["formatted_responded_average"] = "0";
+                    $item["formatted_responded_average"] = "";
 
-                    $item["formatted_language_average"] = "0";
+                    $item["formatted_language_average"] = "";
 
-                    $item["formatted_satisfaction_average"] = "0";
+                    $item["formatted_satisfaction_average"] = "";
 
-                    $item["formatted_overall_average"] = "0";
+                    $item["formatted_overall_average"] = "";
 
-                    $item["formatted_emails_responded_count"] = "0";
+                    $item["formatted_emails_responded_count"] = "";
 
-                    $item["formatted_average_response_time"] = "0";
+                    $item["formatted_average_response_time"] = "";
 
                     if (isset($item["pmname"]) && $item["pmname"] != "") {
 
@@ -699,51 +702,101 @@ class ReportCollection
 
                         if (isset($item["issue_sum"]) && $item["issue_sum"] != "") {
 
-                            $item["formatted_issue_average"] = (string) round((int)$item["issue_sum"] / (int)$item["reviewed_count"], 2);
+                            // $item["formatted_issue_average"] = (string) round((int)$item["issue_sum"] / (int)$item["reviewed_count"], 2);
 
-                            $overall_average_sum += (int) $item["formatted_issue_average"];
+                            $item["formatted_issue_average"] = $this->getStarByValue(round((int)$item["issue_sum"] / (int)$item["reviewed_count"], 2), "star");
+
+                            if (is_array(Config::get('constants.reviewed_email_field_%')) && count(Config::get('constants.reviewed_email_field_%')) > 0) {
+
+                                $reviewedEmailFieldPercentage = Config::get('constants.reviewed_email_field_%');
+
+                                if(isset($reviewedEmailFieldPercentage["issue"]) && $reviewedEmailFieldPercentage["issue"] != "") {
+
+                                    $overall_average_sum += (int) $item["issue_sum"] * (float) $reviewedEmailFieldPercentage["issue"];
+
+                                }
+
+                            }
 
                         }
 
                         if (isset($item["responded_sum"]) && $item["responded_sum"] != "") {
 
-                            $item["formatted_responded_average"] = (string) round((int)$item["responded_sum"] / (int)$item["reviewed_count"], 2);
+                            // $item["formatted_responded_average"] = (string) round((int)$item["responded_sum"] / (int)$item["reviewed_count"], 2);
 
-                            $overall_average_sum += (int) $item["formatted_responded_average"];
+                            $item["formatted_responded_average"] = $this->getStarByValue(round((int)$item["responded_sum"] / (int)$item["reviewed_count"], 2), "star");
+
+                            if (is_array(Config::get('constants.reviewed_email_field_%')) && count(Config::get('constants.reviewed_email_field_%')) > 0) {
+
+                                $reviewedEmailFieldPercentage = Config::get('constants.reviewed_email_field_%');
+
+                                if(isset($reviewedEmailFieldPercentage["responded"]) && $reviewedEmailFieldPercentage["responded"] != "") {
+
+                                    $overall_average_sum += (int) $item["responded_sum"] * (float) $reviewedEmailFieldPercentage["responded"];
+
+                                }
+
+                            }
 
                         }
 
                         if (isset($item["language_sum"]) && $item["language_sum"] != "") {
 
-                            $item["formatted_language_average"] = (string) round((int)$item["language_sum"] / (int)$item["reviewed_count"], 2);
+                            // $item["formatted_language_average"] = (string) round((int)$item["language_sum"] / (int)$item["reviewed_count"], 2);
 
-                            $overall_average_sum += (int) $item["formatted_language_average"];
+                            $item["formatted_language_average"] = $this->getStarByValue(round((int)$item["language_sum"] / (int)$item["reviewed_count"], 2), "star");
+
+                            if (is_array(Config::get('constants.reviewed_email_field_%')) && count(Config::get('constants.reviewed_email_field_%')) > 0) {
+
+                                $reviewedEmailFieldPercentage = Config::get('constants.reviewed_email_field_%');
+
+                                if(isset($reviewedEmailFieldPercentage["language"]) && $reviewedEmailFieldPercentage["language"] != "") {
+
+                                    $overall_average_sum += (int) $item["language_sum"] * (float) $reviewedEmailFieldPercentage["language"];
+
+                                }
+
+                            }
 
                         }
 
                         if (isset($item["satisfaction_sum"]) && $item["satisfaction_sum"] != "") {
 
-                            $item["formatted_satisfaction_average"] = (string) round((int)$item["satisfaction_sum"] / (int)$item["reviewed_count"], 2);
+                            // $item["formatted_satisfaction_average"] = (string) round((int)$item["satisfaction_sum"] / (int)$item["reviewed_count"], 2);
 
-                            $overall_average_sum += (int) $item["formatted_satisfaction_average"];
+                            $item["formatted_satisfaction_average"] = $this->getStarByValue(round((int)$item["satisfaction_sum"] / (int)$item["reviewed_count"], 2), "star");
+
+                            if (is_array(Config::get('constants.reviewed_email_field_%')) && count(Config::get('constants.reviewed_email_field_%')) > 0) {
+
+                                $reviewedEmailFieldPercentage = Config::get('constants.reviewed_email_field_%');
+
+                                if(isset($reviewedEmailFieldPercentage["satisfaction"]) && $reviewedEmailFieldPercentage["satisfaction"] != "") {
+
+                                    $overall_average_sum += (int) $item["satisfaction_sum"] * (float) $reviewedEmailFieldPercentage["satisfaction"];
+
+                                }
+
+                            }
 
                         }
 
                         if (isset($item["overall_average"]) && $item["overall_average"] != "") {
 
-                            $item["formatted_overall_average"] = $item["overall_average"] ;
+                            $item["formatted_overall_average"] = $this->getStarByValue((float)$item["overall_average"], "star");
 
                         } else {
 
-                            $overall_average = $overall_average_sum;
-
                             if($overall_average_sum > 0) {
 
-                                $overall_average = $overall_average_sum / 4 ;
+                                $overall_average = $overall_average_sum;
+
+                                $overall_average = $overall_average_sum / (int) $item["reviewed_count"] ;
+
+                                // $item["formatted_overall_average"] = (string) round($overall_average, 2);
+
+                                $item["formatted_overall_average"] = $this->getStarByValue(round($overall_average, 2), "star");
 
                             }
-
-                            $item["formatted_overall_average"] = (string) round($overall_average, 2);
 
                         }
 
@@ -757,7 +810,8 @@ class ReportCollection
 
                     if (isset($item["average_response_time"]) && $item["average_response_time"] != "") {
 
-                        $item["formatted_average_response_time"] = $item["average_response_time"];
+                        // $item["formatted_average_response_time"] = $item["average_response_time"];
+                        $item["formatted_average_response_time"] = $this->getStarByValue($item["average_response_time"], "time");
 
                     }
 
