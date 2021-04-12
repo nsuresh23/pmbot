@@ -692,13 +692,13 @@ class ReportCollection
 
                     }
 
-                    if (isset($item["reviewed_count"]) && $item["reviewed_count"] != "") {
+                    if (isset($item["reviewed_count"]) && $item["reviewed_count"] != "" && $item["reviewed_count"] != "0") {
 
                         $item["formatted_reviewed_count"] = $item["reviewed_count"];
 
                     }
 
-                    if (isset($item["reviewed_count"]) && $item["reviewed_count"] != "") {
+                    if (isset($item["reviewed_count"]) && $item["reviewed_count"] != "" && $item["reviewed_count"] != "0") {
 
                         if (isset($item["issue_sum"]) && $item["issue_sum"] != "") {
 
