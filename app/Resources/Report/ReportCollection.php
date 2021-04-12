@@ -110,9 +110,9 @@ class ReportCollection
 
             $responseData = [];
 
-            // $responseData = $this->postRequest($url, $paramInfo);
+            $responseData = $this->postRequest($url, $paramInfo);
 
-            $responseData = [
+            /* $responseData = [
                 "success" => "true",
                 "error_msg" => "",
                 "data" => [
@@ -131,7 +131,7 @@ class ReportCollection
                 ],
                 "last_updated" => "",
                 "result_count" => ""
-                ];
+                ]; */
 
             if ($responseData["success"] == "true" && is_array($responseData["data"]) && count($responseData["data"]) > 0 && $responseData["data"] != "") {
 
