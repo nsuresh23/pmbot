@@ -131,6 +131,37 @@ function getSummaryReportTableList(gridSelector) {
 
     $.fn.dataTable.ext.errMode = 'none';
 
+    var buttonCommon = {
+        exportOptions: {
+            format: {
+                body: function(data, row, column, node) {
+
+                    return data;
+
+                    /* return column === 5 ?
+                        data.replace(/[$,]/g, '') :
+                        data; */
+                    /* if (data.indexOf('<i class="fa fa-star font-20')) {
+
+                        data.replace('<i class="fa fa-star font-20', '');
+                        data.replace('"></i>"', '');
+                        data.split('=')[1];
+
+                    }
+
+                    if (data.indexOf('<span class="badge')) {
+
+                        data.replace('<span class="badge', '');
+                        data.replace('</span>', '');
+                        data.split('>')[1];
+
+                    } */
+
+                }
+            }
+        }
+    };
+
     var reportTable = $(gridSelector).DataTable({
         // dom: 'Bfrtip',
         dom: 'lBrtip',
@@ -164,9 +195,23 @@ function getSummaryReportTableList(gridSelector) {
         // buttons: [
         //     'copy', 'csv', 'excel', 'pdf', 'print'
         // ],
+
         buttons: [
-            { extend: 'csv', text: 'Download' }
+            /* $.extend(true, {}, buttonCommon, {
+                extend: 'copyHtml5'
+            }), */
+            $.extend(true, {}, buttonCommon, {
+                extend: 'excelHtml5',
+                text: 'Download'
+            }),
+            /* $.extend(true, {}, buttonCommon, {
+                extend: 'pdfHtml5'
+            }) */
         ],
+        /* buttons: [
+            { extend: 'excel', text: 'Download' }
+        ], */
+
         /* AJAX call to get list */
         ajax: {
             url: listUrl,

@@ -3074,6 +3074,9 @@ class EmailCollection
 
     public function formatSubjectGroupedData($items, $field)
     {
+
+        $multiGroup = $singleGroup = [];
+
         $resource = $groupedResource = $groupedResourceIds = [];
 
         array_walk($items, function ($item) use (&$groupedResource, &$groupedResourceIds) {
@@ -3125,7 +3128,7 @@ class EmailCollection
 
         });
 
-        array_walk($groupedResource, function ($item, $key) use (&$resource, $groupedResourceIds) {
+        array_walk($groupedResource, function ($item, $key) use (&$multiGroup, &$singleGroup, $groupedResourceIds) {
 
             try {
 
@@ -3168,7 +3171,17 @@ class EmailCollection
 
                     }
 
-                    array_push($resource, $resourceItem);
+                    if (count($item) > 1) {
+
+                        array_push($multiGroup, $resourceItem);
+
+                    }
+
+                    if (count($item) == 1) {
+
+                        array_push($singleGroup, $resourceItem);
+
+                    }
 
                 }
 
@@ -3184,16 +3197,57 @@ class EmailCollection
 
         });
 
-        if(is_array($resource) && count($resource) > 0) {
+        if (is_array($multiGroup) && count($multiGroup) > 0) {
 
-            usort($resource, function ($a, $b) use($field) {
+            if (isset($field["sort_limit"]) && $field["sort_limit"] != '' && count($multiGroup) < (int)$field["sort_limit"]) {
+
+                $singleGroupCount = (int)$field["sort_limit"] - count($multiGroup);
+
+                if (is_array($singleGroup) && count($singleGroup) > 0) {
+
+                    usort($singleGroup, function ($a, $b) use ($field) {
+
+                        if (isset($a['email_sent_date']) && isset($b['email_sent_date'])) {
+
+                            $t1 = strtotime($a['email_sent_date']);
+                            $t2 = strtotime($b['email_sent_date']);
+
+                            if (isset($field["sort_type"]) && $field["sort_type"] == "oldest") {
+
+                                return $t1 - $t2;
+
+                            } else {
+
+                                return $t2 - $t1;
+
+                            }
+
+                        }
+
+                    });
+
+                    if (isset($field["sort_type"]) && $field["sort_type"] == "random") {
+
+                        shuffle($singleGroup);
+
+                    }
+
+                    $singleGroup = array_slice($singleGroup, 0, $singleGroupCount);
+
+                    array_push($multiGroup , ...$singleGroup);
+
+                }
+
+            }
+
+            usort($multiGroup, function ($a, $b) use ($field) {
 
                 if (isset($a['email_sent_date']) && isset($b['email_sent_date'])) {
 
                     $t1 = strtotime($a['email_sent_date']);
                     $t2 = strtotime($b['email_sent_date']);
 
-                    if(isset($field["sort_type"]) && $field["sort_type"] == "oldest"){
+                    if (isset($field["sort_type"]) && $field["sort_type"] == "oldest") {
 
                         return $t1 - $t2;
 
@@ -3209,13 +3263,17 @@ class EmailCollection
 
             if (isset($field["sort_type"]) && $field["sort_type"] == "random") {
 
-                shuffle($resource);
+                shuffle($multiGroup);
 
             }
 
-            if(isset($field["sort_limit"]) && $field["sort_limit"] != '' && count($resource) > (int)$field["sort_limit"]) {
+            if(isset($field["sort_limit"]) && $field["sort_limit"] != '' && count($multiGroup) > (int)$field["sort_limit"]) {
 
-                $resource = array_slice($resource, 0, (int)$field["sort_limit"]);
+                $resource = array_slice($multiGroup, 0, (int)$field["sort_limit"]);
+
+            } else {
+
+                $resource = $multiGroup;
 
             }
 

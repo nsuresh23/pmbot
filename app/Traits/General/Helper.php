@@ -1348,7 +1348,7 @@ trait Helper
 
                 }
 
-                $returnData = '<i class="fa fa-star font-20 ' . $colorClass . '" title="' . $value . '"></i>';
+                $returnData = "<i class='fa fa-star font-20 " . $colorClass . "' title='" . $value . "'></i>";
 
             }
 
@@ -1383,7 +1383,7 @@ trait Helper
 
                     }
 
-                    $returnData = '<span class="badge ' . $colorClass . '">' . $value . '</span>';
+                    $returnData = "<span class='badge " . $colorClass . "'>" . $value . "</span>";
 
                 }
 
