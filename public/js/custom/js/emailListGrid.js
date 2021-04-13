@@ -1940,7 +1940,9 @@ setInterval(function() {
 
         // $(".dashboard-inbox-email").trigger('click');
 
-        getEmailTableList(gridSelector);
+        // getEmailTableList(gridSelector);
+
+        $(gridSelector).jsGrid("loadData");
 
     }
 
