@@ -3197,7 +3197,7 @@ class EmailCollection
 
         });
 
-        if (is_array($multiGroup) && count($multiGroup) > 0) {
+        if (is_array($multiGroup)) {
 
             if (isset($field["sort_limit"]) && $field["sort_limit"] != '' && count($multiGroup) < (int)$field["sort_limit"]) {
 
@@ -3240,40 +3240,44 @@ class EmailCollection
 
             }
 
-            usort($multiGroup, function ($a, $b) use ($field) {
+            if (count($multiGroup) > 0) {
 
-                if (isset($a['email_sent_date']) && isset($b['email_sent_date'])) {
+                usort($multiGroup, function ($a, $b) use ($field) {
 
-                    $t1 = strtotime($a['email_sent_date']);
-                    $t2 = strtotime($b['email_sent_date']);
+                    if (isset($a['email_sent_date']) && isset($b['email_sent_date'])) {
 
-                    if (isset($field["sort_type"]) && $field["sort_type"] == "oldest") {
+                        $t1 = strtotime($a['email_sent_date']);
+                        $t2 = strtotime($b['email_sent_date']);
 
-                        return $t1 - $t2;
+                        if (isset($field["sort_type"]) && $field["sort_type"] == "oldest") {
 
-                    } else {
+                            return $t1 - $t2;
 
-                        return $t2 - $t1;
+                        } else {
+
+                            return $t2 - $t1;
+
+                        }
 
                     }
 
+                });
+
+                if (isset($field["sort_type"]) && $field["sort_type"] == "random") {
+
+                    shuffle($multiGroup);
+
                 }
 
-            });
+                if(isset($field["sort_limit"]) && $field["sort_limit"] != '' && count($multiGroup) > (int)$field["sort_limit"]) {
 
-            if (isset($field["sort_type"]) && $field["sort_type"] == "random") {
+                    $resource = array_slice($multiGroup, 0, (int)$field["sort_limit"]);
 
-                shuffle($multiGroup);
+                } else {
 
-            }
+                    $resource = $multiGroup;
 
-            if(isset($field["sort_limit"]) && $field["sort_limit"] != '' && count($multiGroup) > (int)$field["sort_limit"]) {
-
-                $resource = array_slice($multiGroup, 0, (int)$field["sort_limit"]);
-
-            } else {
-
-                $resource = $multiGroup;
+                }
 
             }
 
