@@ -2248,6 +2248,8 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailgroupIds) {
 
         $('.email-button-group').show();
 
+        $('.parent-email-received-date').val('');
+        $('.emp-email').val('');
         $('.email-rating-form .star-block').rating('reset');
         // $('.email-rating-form .star-block').rating('update', 0);
 
@@ -2351,6 +2353,7 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailgroupIds) {
                             if (response.data.email_id != undefined && response.data.email_id != '') {
 
                                 $('.email-title').attr('data-email-empcode', response.data.empcode);
+                                $('.emp-email').val(response.data.empcode);
 
                             }
 
@@ -2399,6 +2402,8 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailgroupIds) {
                             if (response.data.create_date_text != undefined && response.data.create_date_text != '') {
 
                                 $('.email-date').attr('data-email-date', response.data.create_date_text);
+
+                                $('.parent-email-received-date').val(response.data.create_date_text);
 
                             }
 
@@ -2567,9 +2572,9 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailgroupIds) {
 
                     }
 
-
                 }
             }
+
         });
 
         if (emailCategory != undefined && emailCategory == 'email-review-latest') {
