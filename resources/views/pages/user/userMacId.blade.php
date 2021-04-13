@@ -27,7 +27,7 @@
 
                 if(isset($userData["data"]["empcode"]) && $userData["data"]["empcode"]) {
 
-                    $postUrl = route(__("user.user_mac_id_update_url"), $userData["data"]["empcode"]);
+                    $postUrl = route(__("user.user_mac_id_update_url"));
 
                 }
 

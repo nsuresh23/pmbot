@@ -310,7 +310,8 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
 
     Route::any('user-password-update/{id}', 'User\UserController@userPasswordUpdate')->name('user-password-update');
 
-    Route::any('user-mac-id-update/{id}', 'User\UserController@userMacIdUpdate')->name('user-mac-id-update');
+    Route::any('user-mac-id/{id}', 'User\UserController@userMacId')->name('user-mac-id');
+    Route::any('user-mac-id-update', 'User\UserController@userMacIdUpdate')->name('user-mac-id-update');
 
     Route::any('/job-store', 'Job\JobController@jobStore')->name('job-store');
     Route::any('/user-job-count', 'Job\JobController@userJobCount')->name('user-job-count');

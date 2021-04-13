@@ -1058,7 +1058,7 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request Request
      * @return array $userData
      */
-    public function userMacIdUpdate(Request $request)
+    public function userMacId(Request $request)
     {
 
         $userData = [];
@@ -1075,32 +1075,6 @@ class UserController extends Controller
 
                 $userData["data"] = $this->userResource->getUser($field);
 
-                if ($request->isMethod('post')) {
-
-                    if (auth()->check()) {
-
-                        // $request->merge(['creator_empcode' => auth()->user()->empcode]);
-
-                        if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
-
-                            $request->merge(['creator_empcode' => session()->get("current_empcode")]);
-
-                        }
-
-                    }
-
-                    $returnResponse = $this->userResource->updateMacId($request);
-
-                    session()->flash("success", $returnResponse["success"]);
-                    session()->flash("error", $returnResponse["error"]);
-                    session()->flash("message", $returnResponse["message"]);
-
-                    /* $redirecturl = redirect()->action('PM\DashboardController@index');
-
-                    return $redirecturl->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message" => $returnResponse["message"]]); */
-
-                }
-
             }
         } catch (Exception $e) {
 
@@ -1114,6 +1088,61 @@ class UserController extends Controller
         }
 
         return view('pages.user.userMacId', compact("userData"));
+    }
+
+    /**
+     * Update user outlook mac id based on user id.
+     *
+     * @param \Illuminate\Http\Request Request
+     * @return array $userData
+     */
+    public function userMacIdUpdate(Request $request)
+    {
+
+        $userData = [];
+
+        try {
+
+            if ($request->isMethod('post')) {
+
+                if (auth()->check()) {
+
+                    // $request->merge(['creator_empcode' => auth()->user()->empcode]);
+
+                    if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
+
+                        $request->merge(['creator_empcode' => session()->get("current_empcode")]);
+                    }
+                }
+
+                $returnResponse = $this->userResource->updateMacId($request);
+
+                /* session()->flash("success", $returnResponse["success"]);
+                session()->flash("error", $returnResponse["error"]);
+                session()->flash("message", $returnResponse["message"]); */
+
+                // $redirecturl = redirect()->action('PM\DashboardController@index');
+                // $redirecturl = redirect()->action('User\UserController@userMacId');
+
+                $redirecturl = redirect()->route(__("user.user_mac_id_url"), $request->empcode);
+
+                return $redirecturl->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message" => $returnResponse["message"]]);
+
+            }
+
+        } catch (Exception $e) {
+
+            // return $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return view('pages.user.userMacId', compact("userData"));
+
     }
 
     /**

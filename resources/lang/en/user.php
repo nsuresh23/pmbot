@@ -26,6 +26,7 @@ return [
     'user_edit_url' => 'user-edit',
     'user_delete_url' => 'user-delete',
     'user_password_update_url' => 'user-password-update',
+    'user_mac_id_url' => 'user-mac-id',
     'user_mac_id_update_url' => 'user-mac-id-update',
     'user_name_label' => 'name',
     'user_name_placeholder_text' => 'user name',
