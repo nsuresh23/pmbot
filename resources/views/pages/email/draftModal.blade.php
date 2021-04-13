@@ -34,9 +34,7 @@
 					<input type="hidden" id="redirectTo" name="redirectTo" value="{{$redirectTo ?? '#'}}">
                     <input type="hidden" id="getemailidURL" name="getemailidURL" value="{{$getEmailid ?? '#'}}">
                     <input type="hidden" id="start_time" name="start_time" value="{{date('Y-m-d H:i:s')}}" />
-
-
-
+                    <input type="hidden" class="parent-email-received-date" value="" name="parent_email_received_date" />
 						<div class="col-sm-12 nopadding">
 							<div class="email-lt">
 								<div class="email-draft-send-btn">

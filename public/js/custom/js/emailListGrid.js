@@ -4494,6 +4494,8 @@ function showform(type, selector) {
 
     var editor_type = 'reply';
 
+    $('.parent-email-received-date').val('');
+
     $('.email-reply-body_html').attr('id', 'textarea_editor_email_reply');
 
     if (tinymce.get('textarea_editor_email_reply') != undefined && tinymce.get('textarea_editor_email_reply') != null) {
@@ -4631,6 +4633,8 @@ function showform(type, selector) {
 
                 if (sentdate != undefined && sentdate != '' && sentdate != null) {
 
+                    $('.parent-email-received-date').val(sentdate);
+
                     var formatedsentdate = moment(new Date(sentdate)).format('DD MMMM YYYY HH:mm');
 
                     sinmessage = sinmessage + '<b>Sent:</b> ' + formatedsentdate + '<br>';
@@ -4708,6 +4712,7 @@ function showdraftform(type, selector) {
     var emailPostData = {};
     filesToUpload = [];
     $('.attached_file').html('');
+    $('.parent-email-received-date').val('');
     var emailid = $('.email-title').attr('data-email-id');
     var postUrl = $(selector).attr('data-email-geturl');
 
@@ -4787,6 +4792,12 @@ function showdraftform(type, selector) {
                 if (response.data.job_id != '' && response.data.job_id != null) {
 
                     $('.email-draft-modal-close').attr('data-modal-type', 'job');
+
+                }
+
+                if (response.data.parent_email_received_date != undefined && response.data.parent_email_received_date != '' && response.data.parent_email_received_date != null) {
+
+                    $('.parent-email-received-date').val(response.data.parent_email_received_date);
 
                 }
 

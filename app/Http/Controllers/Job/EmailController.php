@@ -1508,6 +1508,12 @@ class EmailController extends Controller
                 $field["email_domain_name"] = 'internal';
             }
 
+            if (isset($request->parent_email_received_date) && $request->parent_email_received_date != "") {
+                $field["parent_email_received_date"] = $request->parent_email_received_date;
+            } else {
+                $field["parent_email_received_date"] = '';
+            }
+
             $field["empcode"]       = auth()->user()->empcode;
             $field["source"]        = 'inbox';
             $field['email_guid']    = '';
@@ -1789,6 +1795,12 @@ class EmailController extends Controller
                 $field["email_domain_name"] = $request->external_email;
             } else {
                 $field["email_domain_name"] = 'internal';
+            }
+
+            if (isset($request->parent_email_received_date) && $request->parent_email_received_date != "") {
+                $field["parent_email_received_date"] = $request->parent_email_received_date;
+            } else {
+                $field["parent_email_received_date"] = '';
             }
 
 			if($request->file())

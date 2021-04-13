@@ -74,6 +74,7 @@
 <div id="notificationRead" class="d-none" data-notification-read-url="{{ $notificationItemReadUrl }}">
 <div id="email-read" class="d-none email-read" data-email-read-url="{{ $emailViewUpdateUrl }}">
 <div id="get-file-size" class="d-none get-file-size" data-get-file-size-url="{{ $fileSizeUrl }}">
+<div id="app-time-zone" class="d-none app-time-zone" data-app-time-zone="{{ env("APP_TIME_ZONE") }}">
 <div id="currentUserInfo" class="currentUserInfo" data-page-size="{{config('constants.pageSize')}}" data-page-button-count="{{config('constants.pageButtonCount')}}" data-current-user-role="{{ auth()->user()->role }}" data-read-only-user="{{ $readOnlyUser }}" data-file-upload-url="{{route(__('job.file_upload_url')) ?? ''}}">
 
 <!-- Top Menu Items -->

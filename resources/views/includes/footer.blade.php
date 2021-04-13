@@ -135,6 +135,7 @@
 
 <!-- Moment JavaScript -->
 <script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/moment/min/moment-with-locales.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/moment-timezone/moment-timezone.js') }}"></script>
 
 <!-- Bootstrap Colorpicker JavaScript -->
 <script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>

@@ -1,3 +1,11 @@
+var appTimeZone = $('.app-time-zone').attr('data-app-time-zone');
+
+if (appTimeZone != undefined && appTimeZone != '') {
+
+    moment.tz.setDefault(appTimeZone);
+
+}
+
 function flashMessage(type, message) {
 
     var headingVariable = 'Success';
