@@ -58,6 +58,7 @@ return [
     'user_lead_pm_placeholder_text' => 'lead pm',
     'user_submit_button_label' => 'save',
     'user_cancel_button_label' => 'cancel',
+    'user_back_button_label' => 'back',
 
     /* error messages */
 

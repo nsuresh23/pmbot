@@ -25,9 +25,9 @@
 
             if(isset($userData["data"]) && $userData["data"]) {
 
-                if(isset($userData["data"]["id"]) && $userData["data"]["id"]) {
+                if(isset($userData["data"]["empcode"]) && $userData["data"]["empcode"]) {
 
-                    $postUrl = route(__("user.user_mac_id_update_url"), $userData["data"]["id"]);
+                    $postUrl = route(__("user.user_mac_id_update_url"), $userData["data"]["empcode"]);
 
                 }
 
@@ -117,7 +117,9 @@
 
                                                     <?php
 
-                                                        $referer = "";
+                                                        $redirectToUrl = route("home");
+
+                                                        /* $referer = "";
 
                                                         $redirectToUrl = "#";
 
@@ -135,12 +137,12 @@
 
                                                     		$redirectToUrl = "javascript:history.go(-1)";
 
-                                                    	}
+                                                    	} */
                                                     ?>
 
                                                     <a href="{{ $redirectToUrl }}" class="btn btn-danger btn-anim">
                                                         <i class="fa fa-times font-20"></i>
-                                                        <span class="btn-text font-20">{{ __('user.user_cancel_button_label') }}</span>
+                                                        <span class="btn-text font-20">{{ __('user.user_back_button_label') }}</span>
                                                     </a>
 
                                                 </div>

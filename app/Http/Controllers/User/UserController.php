@@ -1091,11 +1091,16 @@ class UserController extends Controller
 
                     $returnResponse = $this->userResource->updateMacId($request);
 
-                    $redirecturl = redirect()->action('PM\DashboardController@index');
+                    session()->flash("success", $returnResponse["success"]);
+                    session()->flash("error", $returnResponse["error"]);
+                    session()->flash("message", $returnResponse["message"]);
 
-                    return $redirecturl->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message" => $returnResponse["message"]]);
+                    /* $redirecturl = redirect()->action('PM\DashboardController@index');
+
+                    return $redirecturl->with(["success" => $returnResponse["success"], "error" => $returnResponse["error"], "message" => $returnResponse["message"]]); */
 
                 }
+
             }
         } catch (Exception $e) {
 
