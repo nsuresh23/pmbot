@@ -3358,11 +3358,12 @@ class EmailCollection
 
 						}
 
-						if( in_array($item["status"], ["6", "99"])){
+						if( in_array($item["status"], ["6", "8", "99"])){
 
 							if(isset($item["email_sent_date"]) && $item["email_sent_date"] != ""){
 
-								$emailDate = $item["email_sent_date"];
+                                $emailDate = $item["email_sent_date"];
+
 							}
 						}
 
