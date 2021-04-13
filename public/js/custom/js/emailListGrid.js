@@ -4621,7 +4621,27 @@ function showform(type, selector) {
                     sentdate = response.data.created_date;
                 }
 
-                sinmessage = sinmessage + '<div style="font-family:calibri;font-size:11pt;"><hr><b>From:</b> ' + response.data.email_from + '<br><b>Sent:</b> ' + sentdate + '<br><b>To:</b> ' + response.data.email_to + '<br>';
+                sinmessage = sinmessage + '<div style="font-family:calibri;font-size:11pt;"><hr>';
+
+                if (response.data.email_from != undefined && response.data.email_from != '' && response.data.email_from != null) {
+
+                    sinmessage = sinmessage + '<b>From:</b> ' + response.data.email_from + '<br>';
+
+                }
+
+                if (sentdate != undefined && sentdate != '' && sentdate != null) {
+
+                    var formatedsentdate = moment(new Date(sentdate)).format('DD MMMM YYYY HH:mm');
+
+                    sinmessage = sinmessage + '<b>Sent:</b> ' + formatedsentdate + '<br>';
+
+                }
+
+                if (response.data.email_to != undefined && response.data.email_to != '' && response.data.email_to != null) {
+
+                    sinmessage = sinmessage + '<b>To:</b> ' + response.data.email_to + '<br>';
+
+                }
 
                 if (response.data.email_cc != undefined && response.data.email_cc != '' && response.data.email_cc != null) {
 
