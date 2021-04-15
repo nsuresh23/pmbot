@@ -1510,8 +1510,6 @@ class EmailController extends Controller
 
             if (isset($request->parent_email_received_date) && $request->parent_email_received_date != "") {
                 $field["parent_email_received_date"] = $request->parent_email_received_date;
-            } else {
-                $field["parent_email_received_date"] = '';
             }
 
             $field["empcode"]       = auth()->user()->empcode;
@@ -1799,8 +1797,6 @@ class EmailController extends Controller
 
             if (isset($request->parent_email_received_date) && $request->parent_email_received_date != "") {
                 $field["parent_email_received_date"] = $request->parent_email_received_date;
-            } else {
-                $field["parent_email_received_date"] = '';
             }
 
 			if($request->file())
