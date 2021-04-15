@@ -7596,7 +7596,13 @@ $('.email-compose-modal-close').on('click', function(e) {
 
     e.preventDefault();
 
-    autosave('send');
+    var autosave_email_id = $('.email-compose-modal .email-send-form .auto-save-id').val();
+
+    if (autosave_email_id != undefined && autosave_email_id != '') {
+
+        autosave('send');
+
+    }
 
     $('.email-compose-modal').modal('hide');
 
