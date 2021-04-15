@@ -4623,11 +4623,17 @@ function showform(type, selector) {
                 //var sig = response.data.replyforward_signature;
                 var sentdate = '';
 
-                if (response.data.email_received_date != null) {
+                if (response.data.create_date_text != undefined && response.data.create_date_text != '' && response.data.create_date_text != null) {
+
+                    sentdate = response.data.create_date_text;
+
+                }
+
+                /* if (response.data.email_received_date != null) {
                     sentdate = response.data.email_received_date;
                 } else {
                     sentdate = response.data.created_date;
-                }
+                } */
 
                 sinmessage = sinmessage + '<div style="font-family:calibri;font-size:11pt;"><hr>';
 
