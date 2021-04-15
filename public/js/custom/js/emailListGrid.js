@@ -4365,6 +4365,8 @@ $(document).on('click', '.email-reply-btn', function(e) {
     $('.reply_email_type').val('reply');
     $('.signature_change').val('');
     $(".reply_to ul").empty();
+    $(".reply_cc ul").empty();
+    $(".reply_bcc ul").empty();
     $('.email-reply-to').val('');
     $('.email-reply-cc').val('');
     $('.email-reply-bcc').val('');
@@ -4380,6 +4382,8 @@ $(document).on('click', '.email-reply-all-btn', function(e) {
     $('.reply_email_type').val('reply');
     $('.signature_change').val('');
     $(".reply_to ul").empty();
+    $(".reply_cc ul").empty();
+    $(".reply_bcc ul").empty();
     $('.email-reply-to').val('');
     $('.email-reply-cc').val('');
     $('.email-reply-bcc').val('');
@@ -4394,6 +4398,8 @@ $(document).on('click', '.email-forward-btn', function(e) {
     $('.reply_email_type').val('forward');
     $('.signature_change').val('');
     $(".reply_to ul").empty();
+    $(".reply_cc ul").empty();
+    $(".reply_bcc ul").empty();
     $('.email-reply-to').val('');
     $('.email-reply-cc').val('');
     $('.email-reply-bcc').val('');
@@ -4415,10 +4421,10 @@ $(document).on('click', '.email-draft-btn', function(e) {
     $('.draft_email_type').val('draft');
     $(".draft_to ul").empty();
     $(".draft_cc ul").empty();
-
+    $(".draft_bcc ul").empty();
     $(".email-draft-to").val('');
     $(".email-draft-cc").val('');
-
+    $(".email-draft-bcc").val('');
     $('.email-draft-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
 
     $('.email-template').select2().val('').trigger('change');
@@ -5410,8 +5416,12 @@ $('.email-compose-modal').on('shown.bs.modal', function(e) {
 $(document).on('click', '.email-compose-btn', function(e) {
     $('#to').val('');
     $('#cc').val('');
+    $('#bcc').val('');
     $('#subject').val('');
     $('.email_id').val('');
+    $(".compose_to ul").empty();
+    $(".compose_cc ul").empty();
+    $(".compose_bcc ul").empty();
     $('.email-template').select2().val('').trigger('change');
     attachtedEmailFilesToUpload = [];
     $('.email-send-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
