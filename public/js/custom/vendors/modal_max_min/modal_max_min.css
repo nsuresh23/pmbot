@@ -1,0 +1,76 @@
+.modal-header .btnGrp {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+}
+
+.min {
+    width: 20%;
+    height: 35px;
+    overflow: hidden !important;
+    padding: 0px !important;
+    margin: 0px;
+    float: right;
+    position: static !important;
+}
+
+.min .modal-dialog,
+.min .modal-content {
+    height: 100%;
+    width: 100%;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.min .modal-header {
+    height: 100%;
+    width: 100%;
+    margin: 0px !important;
+    padding: 3px 5px !important;
+}
+
+.display-none {
+    display: none;
+}
+
+button .fa {
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.min .fa {
+    font-size: 14px;
+}
+
+.min .menuTab {
+    display: none;
+}
+
+.min .modal-header button {
+    margin-top: 0px;
+    -webkit-appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 1;
+}
+
+button:focus {
+    outline: none;
+}
+
+.minmaxCon {
+    height: 35px;
+    bottom: 1px;
+    left: 1px;
+    position: fixed;
+    right: 1px;
+    z-index: 9999;
+}

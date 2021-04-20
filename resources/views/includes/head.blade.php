@@ -96,3 +96,6 @@
 <!-- Star rating css -->
 <link href="{{ asset('public/js/custom/vendors/bower_components/star-rating/css/star-rating.min.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('public/js/custom/vendors/bower_components/star-rating/krajee-fa/theme.min.css') }}" rel="stylesheet" type="text/css">
+
+<!-- Modal Max & Min css -->
+<link href="{{ asset('public/js/custom/vendors/modal_max_min/modal_max_min.css') }}" rel="stylesheet" type="text/css">

@@ -786,6 +786,8 @@ function getEmailTableList(gridSelector) {
 
         $('.attached_file').html('');
 
+        $('.email-compose-modal .modal-title').attr('data-email-modal-type', 'forward-new-email');
+
         $('.email-compose-modal').modal({
             show: 'true'
         });
@@ -847,7 +849,55 @@ function getEmailTableList(gridSelector) {
 
         e.preventDefault();
 
-        forwardSelectedItems();
+        var modalExistsType = minimizedModalDockMax('forward-new-email');
+
+        if (modalExistsType == 'yes') {
+
+            return false;
+
+        }
+
+        if (modalExistsType == 'no') {
+
+            forwardSelectedItems();
+
+            return false;
+
+        }
+
+        if (modalExistsType == 'confirm') {
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you wish to close the current composing email window!",
+                // icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes',
+                showClass: {
+                    popup: 'animated fadeInDownBig faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+            }).then((result) => {
+
+                if (result.value != undefined && result.value == true) {
+
+                    minimizedModalDockReset();
+
+                    $('.minimized-modal-dock').hide();
+
+                    forwardSelectedItems();
+
+                    return false;
+
+                }
+
+            });
+
+        }
 
     });
 
@@ -4357,11 +4407,11 @@ $('.email-reply-modal').on('shown.bs.modal', function(e) {
 
 });
 
-$(document).on('click', '.email-reply-btn', function(e) {
-    e.preventDefault();
+function showReplyModal(element) {
+
     $('.attachements').val('');
-    var type = $(this).attr('data-type');
-    var selector = $(this);
+    var type = $(element).attr('data-type');
+    var selector = $(element);
     $('.reply_email_type').val('reply');
     $('.signature_change').val('');
     $(".reply_to ul").empty();
@@ -4373,12 +4423,70 @@ $(document).on('click', '.email-reply-btn', function(e) {
     $('.email-reply-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
     $('.email-template').select2().val('').trigger('change');
     showform(type, selector);
-});
-$(document).on('click', '.email-reply-all-btn', function(e) {
+
+    $('.email-reply-modal .modal-title').attr('data-email-modal-type', 'reply-email');
+
+    $('.email-reply-modal').modal('show');
+
+}
+
+$(document).on('click', '.email-reply-btn', function(e) {
+
     e.preventDefault();
+
+    var modalExistsType = minimizedModalDockMax('reply-email');
+
+    if (modalExistsType == 'yes') {
+
+        return false;
+
+    }
+
+    if (modalExistsType == 'no') {
+
+        showReplyModal(this);
+
+    }
+
+    if (modalExistsType == 'confirm') {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you wish to close the current composing email window!",
+            // icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            showClass: {
+                popup: 'animated fadeInDownBig faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+        }).then((result) => {
+
+            if (result.value != undefined && result.value == true) {
+
+                minimizedModalDockReset();
+
+                $('.minimized-modal-dock').hide();
+
+                showReplyModal(this);
+
+            }
+
+        });
+
+    }
+
+});
+
+function showReplyAllModal(element) {
+
     $('.attachements').val('');
-    var type = $(this).attr('data-type');
-    var selector = $(this);
+    var type = $(element).attr('data-type');
+    var selector = $(element);
     $('.reply_email_type').val('reply');
     $('.signature_change').val('');
     $(".reply_to ul").empty();
@@ -4389,12 +4497,70 @@ $(document).on('click', '.email-reply-all-btn', function(e) {
     $('.email-reply-bcc').val('');
     $('.email-reply-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
     showform(type, selector);
-});
-$(document).on('click', '.email-forward-btn', function(e) {
+
+    $('.email-reply-modal .modal-title').attr('data-email-modal-type', 'reply-all-email');
+
+    $('.email-reply-modal').modal('show');
+
+}
+
+$(document).on('click', '.email-reply-all-btn', function(e) {
+
     e.preventDefault();
+
+    var modalExistsType = minimizedModalDockMax('reply-all-email');
+
+    if (modalExistsType == 'yes') {
+
+        return false;
+
+    }
+
+    if (modalExistsType == 'no') {
+
+        showReplyAllModal(this);
+
+    }
+
+    if (modalExistsType == 'confirm') {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you wish to close the current composing email window!",
+            // icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            showClass: {
+                popup: 'animated fadeInDownBig faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+        }).then((result) => {
+
+            if (result.value != undefined && result.value == true) {
+
+                minimizedModalDockReset();
+
+                $('.minimized-modal-dock').hide();
+
+                showReplyAllModal(this);
+
+            }
+
+        });
+
+    }
+
+});
+
+function showForwardModal(element) {
+
     $('.attachements').val('');
-    var type = $(this).attr('data-type');
-    var selector = $(this);
+    var type = $(element).attr('data-type');
+    var selector = $(element);
     $('.reply_email_type').val('forward');
     $('.signature_change').val('');
     $(".reply_to ul").empty();
@@ -4405,6 +4571,63 @@ $(document).on('click', '.email-forward-btn', function(e) {
     $('.email-reply-bcc').val('');
     $('.email-reply-form #start_time').val(moment().format('YYYY-MM-DD HH:mm:ss'));
     showform(type, selector);
+
+    $('.email-reply-modal .modal-title').attr('data-email-modal-type', 'forward-email');
+
+    $('.email-reply-modal').modal('show');
+
+}
+
+$(document).on('click', '.email-forward-btn', function(e) {
+
+    e.preventDefault();
+
+    var modalExistsType = minimizedModalDockMax('forward-email');
+
+    if (modalExistsType == 'yes') {
+
+        return false;
+
+    }
+
+    if (modalExistsType == 'no') {
+
+        showForwardModal(this);
+
+    }
+
+    if (modalExistsType == 'confirm') {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you wish to close the current composing email window!",
+            // icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            showClass: {
+                popup: 'animated fadeInDownBig faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+        }).then((result) => {
+
+            if (result.value != undefined && result.value == true) {
+
+                minimizedModalDockReset();
+
+                $('.minimized-modal-dock').hide();
+
+                showForwardModal(this);
+
+            }
+
+        });
+
+    }
+
 });
 
 $('.email-draft-modal').on('shown.bs.modal', function(e) {
@@ -4413,11 +4636,11 @@ $('.email-draft-modal').on('shown.bs.modal', function(e) {
 
 });
 
-$(document).on('click', '.email-draft-btn', function(e) {
-    e.preventDefault();
+function showDraftModal(element) {
+
     $('.draftattachements').val('');
-    var type = $(this).attr('data-type');
-    var selector = $(this);
+    var type = $(element).attr('data-type');
+    var selector = $(element);
     $('.draft_email_type').val('draft');
     $(".draft_to ul").empty();
     $(".draft_cc ul").empty();
@@ -4430,6 +4653,63 @@ $(document).on('click', '.email-draft-btn', function(e) {
     $('.email-template').select2().val('').trigger('change');
 
     showdraftform(type, selector);
+
+    $('.email-draft-modal .modal-title').attr('data-email-modal-type', 'draft-email');
+
+    $('.email-draft-modal').modal('show');
+
+}
+
+$(document).on('click', '.email-draft-btn', function(e) {
+
+    e.preventDefault();
+
+    var modalExistsType = minimizedModalDockMax('draft-email');
+
+    if (modalExistsType == 'yes') {
+
+        return false;
+
+    }
+
+    if (modalExistsType == 'no') {
+
+        showDraftModal(this);
+
+    }
+
+    if (modalExistsType == 'confirm') {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you wish to close the current composing email window!",
+            // icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            showClass: {
+                popup: 'animated fadeInDownBig faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+        }).then((result) => {
+
+            if (result.value != undefined && result.value == true) {
+
+                minimizedModalDockReset();
+
+                $('.minimized-modal-dock').hide();
+
+                showDraftModal(this);
+
+            }
+
+        });
+
+    }
+
 });
 /*
 function showform(type, selector) {
@@ -5419,7 +5699,8 @@ $('.email-compose-modal').on('shown.bs.modal', function(e) {
 
 });
 
-$(document).on('click', '.email-compose-btn', function(e) {
+function showComposeModal(element) {
+
     $('#to').val('');
     $('#cc').val('');
     $('#bcc').val('');
@@ -5508,6 +5789,62 @@ $(document).on('click', '.email-compose-btn', function(e) {
     });
 
     $('.mce-i-restoredraft').closest('div').addClass('disabled-block');
+
+    $('.email-compose-modal .modal-title').attr('data-email-modal-type', 'new-email');
+
+    $('.email-compose-modal').modal('show');
+
+}
+
+$(document).on('click', '.email-compose-btn', function(e) {
+
+    e.preventDefault();
+
+    var modalExistsType = minimizedModalDockMax('new-email');
+
+    if (modalExistsType == 'yes') {
+
+        return false;
+
+    }
+
+    if (modalExistsType == 'no') {
+
+        showComposeModal(this);
+
+    }
+
+    if (modalExistsType == 'confirm') {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you wish to close the current composing email window!",
+            // icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            showClass: {
+                popup: 'animated fadeInDownBig faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+        }).then((result) => {
+
+            if (result.value != undefined && result.value == true) {
+
+                minimizedModalDockReset();
+
+                $('.minimized-modal-dock').hide();
+
+                showComposeModal(this);
+
+            }
+
+        });
+
+    }
 
 });
 
@@ -7604,6 +7941,8 @@ $('.email-compose-modal-close').on('click', function(e) {
 
     }
 
+    minimizedModalDockClose('email-compose-modal');
+
     $('.email-compose-modal').modal('hide');
 
 });
@@ -7614,6 +7953,8 @@ $('.email-reply-modal-close').on('click', function(e) {
 
     autosave('reply');
 
+    minimizedModalDockClose('email-reply-modal');
+
     $('.email-reply-modal').modal('hide');
 
 });
@@ -7623,6 +7964,8 @@ $('.email-draft-modal-close').on('click', function(e) {
     e.preventDefault();
 
     autosave('draft');
+
+    minimizedModalDockClose('email-draft-modal');
 
     $('.email-draft-modal').modal('hide');
 

@@ -21,7 +21,11 @@
 	<img src="{{ asset('public/img/loader2.gif') }}" width="64" height="64" /></div>
         <div class="modal-content">
             <div class="modal-header">
-                <button aria-hidden="true" data-dismiss="modal" class="close email-draft-modal-close" type="button">×</button>
+                {{-- <button aria-hidden="true" data-dismiss="modal" class="close email-draft-modal-close" type="button">×</button> --}}
+
+                <button type="button" class="close email-draft-modal-close" id="email-draft-modal-close" data-dismiss="modal" data-modal-type='email-draft-modal'> <i class='fa fa-times'></i> </button>
+                <button class="close modal-minimize" data-modal-type='email-draft-modal'> <i class='fa fa-minus'></i> </button>
+
             <h4 class="modal-title modeltitle">Reply</h4>
             </div>
             <div class="modal-body">

@@ -602,6 +602,10 @@ code {
     margin-top: 5px !important;
 }
 
+.mt-8 {
+    margin-top: 8px !important;
+}
+
 .mt-10 {
     margin-top: 10px !important;
 }
@@ -680,6 +684,10 @@ code {
 
 .mb-5 {
     margin-bottom: 5px !important;
+}
+
+.mb-8 {
+    margin-bottom: 8px !important;
 }
 
 .mb-10 {

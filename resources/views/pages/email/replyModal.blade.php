@@ -23,7 +23,11 @@
 
         <div class="modal-content">
             <div class="modal-header">
-                <button aria-hidden="true" data-dismiss="modal" class="close email-reply-modal-close" type="button">×</button>
+                {{-- <button aria-hidden="true" data-dismiss="modal" class="close email-reply-modal-close" type="button">×</button> --}}
+
+                <button type="button" class="close email-reply-modal-close" id="email-reply-modal-close" data-dismiss="modal" data-modal-type='email-reply-modal'> <i class='fa fa-times'></i> </button>
+                <button class="close modal-minimize" data-modal-type='email-reply-modal'> <i class='fa fa-minus'></i> </button>
+
             <h4 class="modal-title modeltitle">Reply</h4>
             </div>
             <div class="modal-body">

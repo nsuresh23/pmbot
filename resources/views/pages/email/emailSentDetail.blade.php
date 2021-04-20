@@ -119,7 +119,7 @@
                     </div>
 
                     <div style="float:right;margin-right:5px;">
-                        <a href="#replymailModal" role="menuitem" data-toggle="modal" title="reply"
+                        <a href="javascript:void(0)" role="menuitem" data-toggle="modal" title="reply"
                             class="btn btn-success btn-block email-forward-btn" data-email-geturl="{{ $emailGetUrl }}"
                             data-type="forward">
                             Forward
@@ -127,14 +127,14 @@
                     </div>
 
                     <div style="float:right;margin-right:5px;">
-                        <a href="#replymailModal" role="menuitem" data-toggle="modal" title="reply"
+                        <a href="javascript:void(0)" role="menuitem" data-toggle="modal" title="reply"
                             class="btn btn-success btn-block email-reply-all-btn" data-email-geturl="{{ $emailGetUrl }}"
                             data-type="replyall">
                             Reply All
                         </a>
                     </div>
                     <div style="float:right;margin-right:5px;">
-                        <a href="#" role="menuitem" data-toggle="modal" title="Reply" class="btn btn-success btn-block email-reply-btn"
+                        <a href="javascript:void(0)" role="menuitem" data-toggle="modal" title="Reply" class="btn btn-success btn-block email-reply-btn"
                             data-email-geturl="{{ $emailGetUrl }}" data-type="reply">
                             Reply
                         </a>
@@ -161,7 +161,7 @@
                 </div>
                 <div class="email-draftbutton-group" style="float:right;margin-right:5px;display:none;">
                     <div style="float:right;">
-                        <a href="#draftmailModal" role="menuitem" data-toggle="modal" title="Edit/Send"
+                        <a href="javascript:void(0)" role="menuitem" data-toggle="modal" title="Edit/Send"
                             class="btn btn-success btn-block email-draft-btn" data-email-geturl="{{ $emailGetUrl }}" data-type="draft">
                             Edit/Send
                         </a>

@@ -17,10 +17,10 @@
 	<img src="{{ asset('public/img/loader2.gif') }}" width="64" height="64" /></div>
         <div class="modal-content">
             <div class="modal-header">
-                <button aria-hidden="true" data-dismiss="modal" class="close email-compose-modal-close" id="email-compose-modal-close" type="button">×</button>
+                {{-- <button aria-hidden="true" data-dismiss="modal" class="close email-compose-modal-close" id="email-compose-modal-close" type="button">×</button> --}}
 
-                {{-- <button type="button" class="close email-compose-modal-close" id="email-compose-modal-close" data-dismiss="modal" data-modal-type='email-compose-modal'> <i class='fa fa-times'></i> </button>
-                <button class="close modal-minimize" data-modal-type='email-compose-modal'> <i class='fa fa-minus'></i> </button> --}}
+                <button type="button" class="close email-compose-modal-close" id="email-compose-modal-close" data-dismiss="modal" data-modal-type='email-compose-modal'> <i class='fa fa-times'></i> </button>
+                <button class="close modal-minimize" data-modal-type='email-compose-modal'> <i class='fa fa-minus'></i> </button>
 
             <h4 class="modal-title">{{__("job.email_compose_label") }}</h4>
             </div>

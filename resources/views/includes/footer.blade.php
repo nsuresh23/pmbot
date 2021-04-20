@@ -162,6 +162,10 @@
 <script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/star-rating/js/star-rating.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/star-rating/krajee-fa/theme.min.js') }}"></script>
 
+<!-- Modal Max & Min JavaScript -->
+<script type="text/javascript" src="{{ asset('public/js/custom/vendors/modal_max_min/modal_max_min.js') }}"></script>
+
+
 <!-- Custom JavaScript -->
 {{-- <script type="text/javascript" src="{{ asset('public/js/custom/js/custom.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('public/js/custom/js/custom.js') }}"></script>

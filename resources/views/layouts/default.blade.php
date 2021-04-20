@@ -32,6 +32,25 @@
             <footer class="row">
                 @include('includes.footer')
             </footer> --}}
+            <div class="minmaxCon">
+                <div id="minimized-modal-dock" class="modal minimized-modal-dock in min" style="display: none;">
+                    <div class="">
+                        <div class="modal-content txt-light border-none">
+                            <div class="modal-header bg-success">
+
+                                <button type="button" class="minimized-modal-dock-close minimized-modal-dock-btn txt-light" data-modal-type=""> <i
+                                        class="fa fa-times"></i> </button>
+                                <button class="minimized-modal-dock-max minimized-modal-dock-btn txt-light" data-modal-type=""> <i
+                                        class="fa fa-clone"></i> </button>
+
+                                <h5 class="minimized-modal-dock-title mt-8"></h5>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </div>
         </div>
     </div>
     @stack('js')
