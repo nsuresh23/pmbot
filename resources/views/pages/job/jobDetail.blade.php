@@ -120,6 +120,9 @@ if(in_array(auth()->user()->role, config('constants.jobEditUserRoles'))) {
 @section('content')
 <!-- Main Content -->
 <div class="container-fluid pt-25">
+    @include('pages.email.composeModal')
+    @include('pages.email.replyModal')
+    @include('pages.email.draftModal')
     <?php // print_r($responseData["jsonData"]); exit; ?>
     <!-- Row -->
     <div class="row">

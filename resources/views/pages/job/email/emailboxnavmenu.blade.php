@@ -1,7 +1,3 @@
-@include('pages.email.composeModal')
-@include('pages.email.replyModal')
-@include('pages.email.draftModal')
-
 <aside class="col-lg-2 col-md-2 col-sm-2 col-xs-2 pr-0 job-email-nav">
     <div class="mt-20 mb-20 ml-15 mr-15 pmbottype" data-pmbottype="pmbot">
 
