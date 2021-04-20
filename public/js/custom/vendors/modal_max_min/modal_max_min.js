@@ -95,6 +95,8 @@ $(document).ready(function(e) {
 
             $('.minimized-modal-dock').hide();
 
+            $('.modal-backdrop').addClass('display-none');
+
             $($modal).modal('show');
 
         }
