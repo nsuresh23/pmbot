@@ -3995,7 +3995,17 @@ function validateEmail($email) {
 
     if (emailMatch != undefined && emailMatch.length > 1) {
 
-        return false;
+        if ($email == emailMatch[1] + ' <' + emailMatch[1] + '>') {
+
+            $email = emailMatch[1];
+
+        } else {
+
+            returnData.valid = false;
+
+            return returnData;
+
+        }
 
     }
 
@@ -4075,7 +4085,7 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
 
                     if ('valid' in emailValidationData && emailValidationData.valid != undefined && !emailValidationData.valid) {
 
-                        validEmailTo = 'false';
+                        validEmailCC = 'false';
 
                         return false;
 
@@ -4115,7 +4125,7 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
 
                     if ('valid' in emailValidationData && emailValidationData.valid != undefined && !emailValidationData.valid) {
 
-                        validEmailTo = 'false';
+                        validEmailBCC = 'false';
 
                         return false;
 
