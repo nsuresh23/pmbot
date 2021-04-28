@@ -291,6 +291,22 @@ function getEmailTableList(gridSelector) {
         width: 60,
     });
 
+    if (gridCategory != undefined && gridCategory != '' && gridCategory == 'email-review' && gridEmailFilter != undefined && gridEmailFilter == 'email_reviewed') {
+
+        field.push({
+            title: "REVIEWED BY",
+            name: "reviewed_by",
+            type: "text",
+        });
+
+        field.push({
+            title: "REVIEWED ON",
+            name: "reviewed_on",
+            type: "text",
+        });
+
+    }
+
     // field.push({
     //     title: "TO",
     //     name: "email_to",
