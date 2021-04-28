@@ -178,7 +178,7 @@ function getEmailTableList(gridSelector) {
     //     visible: false,
     // });
 
-    if (gridEmailFilter != undefined && gridEmailFilter != '' && (gridEmailFilter == 'draft' || gridEmailFilter == 'outbox' || gridEmailFilter == 'outboxwip' || gridEmailFilter == 'sent' || gridEmailFilter == 'hold' || gridEmailFilter == 'error' || gridEmailFilter == 'email_review' || gridEmailFilter == 'latest-sent')) {
+    if (gridEmailFilter != undefined && gridEmailFilter != '' && (gridEmailFilter == 'draft' || gridEmailFilter == 'outbox' || gridEmailFilter == 'outboxwip' || gridEmailFilter == 'sent' || gridEmailFilter == 'hold' || gridEmailFilter == 'error' || gridEmailFilter == 'email_review' || gridEmailFilter == 'email_reviewed' || gridEmailFilter == 'latest-sent')) {
         field.push({
             title: "TO",
             name: "email_to",
@@ -1168,7 +1168,7 @@ function getEmailTableList(gridSelector) {
 
                     if (gridCategory == 'email-review') {
 
-                        if (emailFilter == 'email_review') {
+                        if (emailFilter == 'email_review' || emailFilter == 'email_reviewed') {
 
                             if (empcode != undefined && empcode != '') {
 
@@ -1193,6 +1193,12 @@ function getEmailTableList(gridSelector) {
                                 emailListPostData.sort_limit = sortLimit;
 
                             }
+
+                        }
+
+                        if (emailFilter == 'email_reviewed') {
+
+                            emailListPostData.reviewed = '1';
 
                         }
 
@@ -1359,7 +1365,7 @@ function getEmailTableList(gridSelector) {
 
                     url: listUrl,
                     data: emailListPostData,
-                    dataType: "json"
+                    dataType: "json",
 
                 }).done(function(response) {
 
@@ -2222,7 +2228,7 @@ $(document).on('click', '.non-business-unmark-btn', function(e) {
 
 });
 
-function emailDetailInfo(emailId, postUrl, emailCategory, emailgroupIds) {
+function emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailgroupIds) {
 
     if (emailId != undefined && emailId != '' && postUrl != undefined && postUrl != '') {
 
@@ -2301,6 +2307,14 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailgroupIds) {
         $('.parent-email-received-date').val('');
         $('.emp-email').val('');
         $('.email-rating-form .star-block').rating('reset');
+
+        $('.email-rating-form .reviewed-by-block').hide();
+        $('.email-rating-form .reviewed-comments-block').hide();
+
+        $('.email-unreview-btn').show();
+        $('.email-rating-form .review-comments-block').show();
+        $('.email-rating-form .email-rating-sumbit-btn').show();
+        $('.email-rating-form .rating-container').removeClass('disabled-star-rating-block');
         // $('.email-rating-form .star-block').rating('update', 0);
 
         $.ajax({
@@ -2508,9 +2522,21 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailgroupIds) {
 
                             if (emailCategory != undefined && emailCategory == 'email-review') {
 
-                                if (tinymce.get('email-review-body') != undefined && tinymce.get('email-review-body') != '') {
+                                if (emailFilter != undefined && emailFilter == 'email_reviewed') {
 
-                                    tinymce.get('email-review-body').setContent(response.data.body_html);
+                                    if (tinymce.get('email-reviewed-body') != undefined && tinymce.get('email-reviewed-body') != '') {
+
+                                        tinymce.get('email-reviewed-body').setContent(response.data.body_html);
+
+                                    }
+
+                                } else {
+
+                                    if (tinymce.get('email-review-body') != undefined && tinymce.get('email-review-body') != '') {
+
+                                        tinymce.get('email-review-body').setContent(response.data.body_html);
+
+                                    }
 
                                 }
 
@@ -2518,9 +2544,21 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailgroupIds) {
 
                             if (emailCategory != undefined && emailCategory == 'email-review-latest') {
 
-                                if (tinymce.get('review-email-modal-body') != undefined && tinymce.get('review-email-modal-body') != '') {
+                                if (emailFilter != undefined && emailFilter == 'email_reviewed') {
 
-                                    tinymce.get('review-email-modal-body').setContent(response.data.body_html);
+                                    if (tinymce.get('reviewed-latest-email-modal-body') != undefined && tinymce.get('reviewed-latest-email-modal-body') != '') {
+
+                                        tinymce.get('reviewed-latest-email-modal-body').setContent(response.data.body_html);
+
+                                    }
+
+                                } else {
+
+                                    if (tinymce.get('review-email-modal-body') != undefined && tinymce.get('review-email-modal-body') != '') {
+
+                                        tinymce.get('review-email-modal-body').setContent(response.data.body_html);
+
+                                    }
 
                                 }
 
@@ -2616,6 +2654,31 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailgroupIds) {
 
                                 }
 
+                                if ('comments' in response.data.ratings && response.data.ratings.comments) {
+
+                                    $('.email-rating-form .reviewed-comments').val(response.data.ratings.comments);
+
+                                }
+
+                                if ('empcode' in response.data.ratings && response.data.ratings.empcode) {
+
+                                    $('.email-rating-form .reviewer-name').html(response.data.ratings.empcode);
+
+                                }
+
+                                if ('created_date' in response.data.ratings && response.data.ratings.created_date) {
+
+                                    $('.email-rating-form .reviewed-date').html(moment(new Date(response.data.ratings.created_date)).format('Do MMM YYYY, hh:mm:ss a'));
+
+                                }
+
+                                $('.email-unreview-btn').hide();
+                                $('.email-rating-form .reviewed-by-block').show();
+                                $('.email-rating-form .review-comments-block').hide();
+                                $('.email-rating-form .reviewed-comments-block').show();
+                                $('.email-rating-form .email-rating-sumbit-btn').hide();
+                                $('.email-rating-form .rating-container').addClass('disabled-star-rating-block');
+
                             }
 
                         }
@@ -2648,9 +2711,10 @@ $(document).on('click', '.pmbot-email-item', function(e) {
     var emailId = $(this).attr('data-email-id');
     var postUrl = $(this).attr('data-email-geturl');
     var emailCategory = $(this).attr('data-email-category');
+    var emailFilter = $(this).attr('data-email-filter');
     var emailGroupIds = $(this).attr('data-email-group-ids');
 
-    emailDetailInfo(emailId, postUrl, emailCategory, emailGroupIds);
+    emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailGroupIds);
 
 });
 
@@ -7684,13 +7748,32 @@ $(".email-rating-sumbit-btn").on('click', function(e) {
     var emailGetUrl = '';
     var params = '';
     var emailCategory = 'email-review';
-    var emailGetUrl = $('.email-rating-form .email-rating-sumbit-btn').attr('data-email-get-url');
+    emailGetUrl = $('.email-rating-form .email-rating-sumbit-btn').attr('data-email-get-url');
     var email_id = $('#emailReview .email-title').attr('data-email-id');
     params = new FormData($('.email-rating-form')[0]);
 
     if (email_id != undefined && email_id != '') {
 
         params.append('email_id', email_id);
+
+    }
+
+    if (params.get('comments') != undefined && params.get('comments') == '') {
+
+        Swal.fire({
+
+            title: '',
+            text: "Please enter your comments!",
+            showClass: {
+                popup: 'animated fadeIn faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+
+        });
+
+        return false;
 
     }
 
@@ -7897,19 +7980,27 @@ $(document).on('click', '.email-latest-received-btn', function(e) {
 
     e.preventDefault();
 
-    var email_id = $('#emailReview .email-title').attr('data-email-id');
+    var modalId = $(this).attr('data-modal-id');
 
-    if (email_id != undefined && email_id != '') {
+    if (modalId != undefined && modalId != '') {
 
-        var from_date = $('#emailReview .email-date').attr('data-email-date');
+        modalId = '#' + modalId;
 
-        var empcode = $('#emailReview .email-title').attr('data-email-empcode');
+        var email_id = $(modalId + ' .email-title').attr('data-email-id');
 
-        var emailSubject = $('#emailReview .email-title').attr('data-subject-raw-text');
+        if (email_id != undefined && email_id != '') {
 
-        lastestEmailList(email_id, empcode, emailSubject, from_date, 'latest-received');
+            var from_date = $(modalId + ' .email-date').attr('data-email-date');
 
-        $('.review-email-modal').modal('show');
+            var empcode = $(modalId + ' .email-title').attr('data-email-empcode');
+
+            var emailSubject = $(modalId + ' .email-title').attr('data-subject-raw-text');
+
+            lastestEmailList(email_id, empcode, emailSubject, from_date, 'latest-received');
+
+            $('.review-email-modal').modal('show');
+
+        }
 
     }
 
@@ -7919,19 +8010,27 @@ $(document).on('click', '.email-latest-sent-btn', function(e) {
 
     e.preventDefault();
 
-    var email_id = $('#emailReview .email-title').attr('data-email-id');
+    var modalId = $(this).attr('data-modal-id');
 
-    if (email_id != undefined && email_id != '') {
+    if (modalId != undefined && modalId != '') {
 
-        var from_date = $('#emailReview .email-date').attr('data-email-date');
+        modalId = '#' + modalId;
 
-        var empcode = $('#emailReview .email-title').attr('data-email-empcode');
+        var email_id = $(modalId + ' .email-title').attr('data-email-id');
 
-        var emailSubject = $('#emailReview .email-title').attr('data-subject-raw-text');
+        if (email_id != undefined && email_id != '') {
 
-        lastestEmailList(email_id, empcode, emailSubject, from_date, 'latest-sent');
+            var from_date = $(modalId + ' .email-date').attr('data-email-date');
 
-        $('.review-email-modal').modal('show');
+            var empcode = $(modalId + ' .email-title').attr('data-email-empcode');
+
+            var emailSubject = $(modalId + ' .email-title').attr('data-subject-raw-text');
+
+            lastestEmailList(email_id, empcode, emailSubject, from_date, 'latest-sent');
+
+            $('.review-email-modal').modal('show');
+
+        }
 
     }
 

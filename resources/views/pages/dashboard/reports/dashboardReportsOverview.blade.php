@@ -1,8 +1,5 @@
 <!-- Row -->
 <div class="row pl-10 pr-10" >
-
-    @include('pages.user.userLoginHistoryModal')
-
     <!-- Pannel -->
     <div class="panel panel-default card-view mb-0 pa-0 report-block">
 

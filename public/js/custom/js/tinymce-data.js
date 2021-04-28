@@ -46,6 +46,7 @@ $(function() {
     emailViewEditor('#qc-email-body');
     emailViewEditor('#sent-email-body');
     emailViewEditor('#email-review-body');
+    emailViewEditor('#email-reviewed-body');
     emailViewEditor('#review-email-modal-body');
 
     emailEditorInitialize('#textarea_editor_email_compose');

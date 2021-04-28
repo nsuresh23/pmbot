@@ -831,3 +831,41 @@ $('.user-login-history-grid .jsgrid-grid-body').slimscroll({
     height: '520px',
     alwaysVisible: 'true',
 });
+
+$(document).on('click', '.reviewed-report-mail-list', function(e) {
+
+    $('.email-detail-body').hide();
+    $('.email-list-body').show();
+
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        var dateRange = $(this).attr('data-range');
+
+        var userEmpcode = $(this).attr('data-empcode');
+
+        $(gridSelector).attr('data-empcode', '');
+        $(gridSelector).attr('data-date-range', '');
+
+        if (userEmpcode != undefined && userEmpcode != '') {
+
+            $(gridSelector).attr('data-empcode', userEmpcode);
+
+        }
+
+        if (dateRange != undefined && dateRange != '') {
+
+            $(gridSelector).attr('data-date-range', dateRange);
+
+        }
+
+        getEmailTableList(gridSelector);
+
+        $('.reviewed-email-list-modal').modal('show');
+
+    }
+
+});

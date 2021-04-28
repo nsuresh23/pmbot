@@ -161,7 +161,7 @@ class ReportCollection
 
                     if ($paramInfo["category"] == "reviewed_email") {
 
-                        $responseFormatData = $this->reviewedEmailReportFormatData($responseData["data"]);
+                        $responseFormatData = $this->reviewedEmailReportFormatData($responseData["data"], $paramInfo);
 
                         /* if(is_array($responseFormattedData) && count($responseFormattedData) > 0) {
 
@@ -645,14 +645,14 @@ class ReportCollection
         return $resource;
     }
 
-    public function reviewedEmailReportFormatData($items)
+    public function reviewedEmailReportFormatData($items, $paramInfo)
     {
 
         $s_no = 0;
 
         $resource = array_map(
 
-            function ($item) use (&$s_no) {
+            function ($item) use (&$s_no, $paramInfo) {
 
                 if (is_array($item) && count($item)) {
 
@@ -694,7 +694,63 @@ class ReportCollection
 
                     if (isset($item["reviewed_count"]) && $item["reviewed_count"] != "" && $item["reviewed_count"] != "0") {
 
-                        $item["formatted_reviewed_count"] = $item["reviewed_count"];
+                        $review_count_tag = '<a class="reviewed-report-mail-list" href="#reviewedEmailModal" data-toggle="modal" data-grid-selector="reviewed-email-grid" data-grid-title="Reviewed Email"';
+
+                        if (isset($item["empcode"]) && $item["empcode"] != "") {
+
+                            $review_count_tag .= ' data-empcode="' . $item["empcode"] . '"';
+
+                        }
+
+                        if (isset($paramInfo["filter"]) && is_array($paramInfo["filter"]) && count($paramInfo["filter"]) > 0) {
+
+                            $dateRange = "";
+
+                            if (isset($paramInfo["filter"]["fromdate"]) && $paramInfo["filter"]["fromdate"] != "") {
+
+                                $fromDateSplitArray = explode(" ", $paramInfo["filter"]["fromdate"]);
+
+                                if(is_array($fromDateSplitArray) && count($fromDateSplitArray) > 0) {
+
+                                    $dateRange .= $fromDateSplitArray[0];
+
+                                }
+
+                                // $review_count_tag .= ' data-fromdate="' . $paramInfo["filter"]["fromdate"] . '"';
+
+                            }
+
+                            if (isset($paramInfo["filter"]["todate"]) && $paramInfo["filter"]["todate"] != "") {
+
+                                $toDateSplitArray = explode(" ", $paramInfo["filter"]["todate"]);
+
+                                if(is_array($toDateSplitArray) && count($toDateSplitArray) > 0) {
+
+                                    $dateRange .= " to " . $toDateSplitArray[0];
+
+                                }
+
+                                // $review_count_tag .= ' data-todate="' . $paramInfo["filter"]["todate"] . '"';
+
+                            }
+
+                            if($dateRange != "") {
+
+                                $review_count_tag .= ' data-range="' . $dateRange . '"';
+
+                            }
+
+                        }
+
+                        $review_count_tag .= '>';
+                        $review_count_tag .= '<span class="txt-a-blue underlined">';
+                        $review_count_tag .= $item["reviewed_count"];
+                        $review_count_tag .= '</span>';
+
+                        $review_count_tag .= '</a>';
+
+
+                        $item["formatted_reviewed_count"] = $review_count_tag;
 
                     }
 

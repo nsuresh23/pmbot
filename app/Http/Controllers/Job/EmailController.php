@@ -1152,6 +1152,12 @@ class EmailController extends Controller
 
             }
 
+            if (isset($request->reviewed) && $request->reviewed != "") {
+
+                $field["reviewed"] = $request->reviewed;
+
+            }
+
             if (isset($request->range) && $request->range != "") {
 
                 $rangeValue = explode(' to ', $request->range);

@@ -29,15 +29,15 @@
                         </div>
                     </div>
                     <div class="pull-right">
-                        <button type="button" class="btn btn-warning bg-warning email-latest-received-btn mr-10 pl-15 pr-15 pt-5 pb-5" data-modal-id="emailReview" data-email-get-url="{{route(__('dashboard.email_review_update_url' ?? ''))}}">
+                        <button type="button" class="btn btn-warning bg-warning email-latest-received-btn mr-10 pl-15 pr-15 pt-5 pb-5" data-modal-id="reviewedEmailListModal" data-email-get-url="{{route(__('dashboard.email_review_update_url' ?? ''))}}">
                             Latest received
                         </button>
-                        <button type="button" class="btn btn-warning bg-warning email-latest-sent-btn mr-10 pl-15 pr-15 pt-5 pb-5" data-modal-id="emailReview" data-email-get-url="{{route(__('dashboard.email_review_update_url' ?? ''))}}">
+                        <button type="button" class="btn btn-warning bg-warning email-latest-sent-btn mr-10 pl-15 pr-15 pt-5 pb-5" data-modal-id="reviewedEmailListModal" data-email-get-url="{{route(__('dashboard.email_review_update_url' ?? ''))}}">
                             Latest sent
                         </button>
-                        <button type="button" class="btn btn-danger bg-danger email-unreview-btn mr-10 pl-15 pr-15 pt-5 pb-5" data-modal-id="emailReview" data-email-review-update-url="{{route(__('dashboard.email_review_update_url' ?? ''))}}">
+                        {{-- <button type="button" class="btn btn-danger bg-danger email-unreview-btn mr-10 pl-15 pr-15 pt-5 pb-5" data-modal-id="reviewedEmailListModal" data-email-review-update-url="{{route(__('dashboard.email_review_update_url' ?? ''))}}">
                             unreview
-                        </button>
+                        </button> --}}
                     </div>
                 </div>
 
@@ -100,7 +100,7 @@
             <hr class="light-grey-hr mt-5 mb-5" />
 
             <div class="view-mail email-body-block hiddenBlock">
-                <textarea id="email-review-body" class="form-control email-body border-none" name="email-body"
+                <textarea id="email-reviewed-body" class="form-control email-body border-none" name="email-body"
                     rows="15"></textarea>
             </div>
 
@@ -154,9 +154,6 @@
                             <label class="txt-dark">Comments:</label>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
-                            <div class="form-group mb-0 review-comments-block">
-                                <textarea name="comments" value="" class="review-comments" rows="4" cols="35" required></textarea>
-                            </div>
                             <div class="form-group mb-0 reviewed-comments-block display-none">
                                 <teaxtarea class="reviewed-comments" readonly></teaxtarea>
                             </div>
@@ -171,15 +168,15 @@
                                 <input name="speed" value="" data-size="sm" title="" class="star-block rating-loading speed">
                             </div>
                         </div> --}}
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0 pt-15">
+                        {{-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0 pt-15">
                             <div class="form-group mb-0">
                                 <button type="button" class="btn btn-success btn-anim email-rating-sumbit-btn pull-right" data-email-get-url=""><i class="fa fa-check"></i><span class="btn-text">{{ __('dashboard.filter_submit_label')}}</span></button>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0 reviewed-by-block display-none">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
-                                <label class="txt-dark">Reviewd by:</label>
                                 <hr class="light-grey-hr mt-5 mb-5">
+                                <label class="txt-dark">Reviewd by:</label>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
                                 <div class="form-group mb-0">
