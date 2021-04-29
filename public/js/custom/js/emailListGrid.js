@@ -71,7 +71,7 @@ function getEmailTableList(gridSelector) {
 
     if (gridEmailFilter == 'email_reviewed') {
 
-        dateFieldWidth = 50;
+        dateFieldWidth = 100;
         controlFieldWidth = 25;
 
     }
