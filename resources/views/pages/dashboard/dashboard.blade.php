@@ -115,6 +115,7 @@
         $memberJobCountUrl = route(__("dashboard.user_job_count_url"));
 
         $membersListUrl = route(__("dashboard.member_list_url"));
+        $userLoginHistoryListUrl = route(__("dashboard.user_login_history_list_url"));
 
         $emailRatingUrl = route(__("dashboard.email_rating_url"));
 
