@@ -847,8 +847,15 @@ $(document).on('click', '.reviewed-report-mail-list', function(e) {
 
         var userEmpcode = $(this).attr('data-empcode');
 
+        var sortType = $(this).attr('data-sort-type');
+
+        var sortLimit = $(this).attr('data-sort-limit');
+
         $(gridSelector).attr('data-empcode', '');
         $(gridSelector).attr('data-date-range', '');
+
+        $(gridSelector).attr('data-sort-type', '');
+        $(gridSelector).attr('data-sort-limit', '');
 
         if (userEmpcode != undefined && userEmpcode != '') {
 
@@ -859,6 +866,18 @@ $(document).on('click', '.reviewed-report-mail-list', function(e) {
         if (dateRange != undefined && dateRange != '') {
 
             $(gridSelector).attr('data-date-range', dateRange);
+
+        }
+
+        if (sortType != undefined && sortType != '') {
+
+            $(gridSelector).attr('data-sort-type', sortType);
+
+        }
+
+        if (sortLimit != undefined && sortLimit != '') {
+
+            $(gridSelector).attr('data-sort-limit', sortLimit);
 
         }
 

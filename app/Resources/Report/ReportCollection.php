@@ -694,7 +694,7 @@ class ReportCollection
 
                     if (isset($item["reviewed_count"]) && $item["reviewed_count"] != "" && $item["reviewed_count"] != "0") {
 
-                        $review_count_tag = '<a class="reviewed-report-mail-list" href="#reviewedEmailModal" data-toggle="modal" data-grid-selector="reviewed-email-grid" data-grid-title="Reviewed Email"';
+                        $review_count_tag = '<a class="reviewed-report-mail-list" href="#reviewedEmailModal" data-toggle="modal" data-grid-selector="reviewed-email-grid" data-grid-title="Reviewed Email" data-sort-type="newest" data-sort-limit="100"';
 
                         if (isset($item["empcode"]) && $item["empcode"] != "") {
 
