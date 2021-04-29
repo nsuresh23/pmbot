@@ -118,7 +118,7 @@
             </div> --}}
             <div class="panel-wrapper collapse in">
                 <div class="panel-body pt-0">
-                    <form class="email-rating-form" action="{{ $emailRatingUrl ?? '#' }}">
+                    {{-- <form class="email-rating-form" action="{{ $emailRatingUrl ?? '#' }}"> --}}
                         <input type="hidden" class="emp-email" value="" name="emp_email" />
                         <input type="hidden" class="parent-email-received-date" value="" name="email_sent_date" />
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
@@ -155,7 +155,7 @@
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
                             <div class="form-group mb-0 reviewed-comments-block display-none">
-                                <teaxtarea class="reviewed-comments" readonly></teaxtarea>
+                                <span class="reviewed-comments"></span>
                             </div>
                         </div>
                         {{-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
@@ -189,7 +189,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    {{-- </form> --}}
                 </div>
             </div>
         </div>

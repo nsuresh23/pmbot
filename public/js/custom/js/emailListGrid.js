@@ -2322,16 +2322,16 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailgrou
 
         $('.parent-email-received-date').val('');
         $('.emp-email').val('');
-        $('.email-rating-form .star-block').rating('reset');
+        $('.email-rating-block .star-block').rating('reset');
 
-        $('.email-rating-form .reviewed-by-block').hide();
-        $('.email-rating-form .reviewed-comments-block').hide();
+        $('.email-rating-block .reviewed-by-block').hide();
+        $('.email-rating-block .reviewed-comments-block').hide();
 
         $('.email-unreview-btn').show();
-        $('.email-rating-form .review-comments-block').show();
-        $('.email-rating-form .email-rating-sumbit-btn').show();
-        $('.email-rating-form .rating-container').removeClass('disabled-star-rating-block');
-        // $('.email-rating-form .star-block').rating('update', 0);
+        $('.email-rating-block .review-comments-block').show();
+        $('.email-rating-block .email-rating-sumbit-btn').show();
+        $('.email-rating-block .rating-container').removeClass('disabled-star-rating-block');
+        // $('.email-rating-block .star-block').rating('update', 0);
 
         $.ajax({
 
@@ -2636,64 +2636,64 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailgrou
 
                         if (emailCategory != undefined && emailCategory == 'email-review') {
 
-                            $('.email-rating-form .email-rating-sumbit-btn').attr('data-email-get-url', postUrl);
+                            $('.email-rating-block .email-rating-sumbit-btn').attr('data-email-get-url', postUrl);
 
                             if ('ratings' in response.data && response.data.ratings != '') {
 
                                 if ('issue' in response.data.ratings && response.data.ratings.issue) {
 
-                                    $('.email-rating-form .issue').rating('update', parseInt(response.data.ratings.issue));
+                                    $('.email-rating-block .issue').rating('update', parseInt(response.data.ratings.issue));
 
                                 }
 
                                 if ('responded' in response.data.ratings && response.data.ratings.responded) {
 
-                                    $('.email-rating-form .responded').rating('update', parseInt(response.data.ratings.responded));
+                                    $('.email-rating-block .responded').rating('update', parseInt(response.data.ratings.responded));
 
                                 }
 
                                 if ('language' in response.data.ratings && response.data.ratings.language) {
 
-                                    $('.email-rating-form .language').rating('update', parseInt(response.data.ratings.language));
+                                    $('.email-rating-block .language').rating('update', parseInt(response.data.ratings.language));
 
                                 }
 
                                 if ('satisfaction' in response.data.ratings && response.data.ratings.satisfaction) {
 
-                                    $('.email-rating-form .satisfaction').rating('update', parseInt(response.data.ratings.satisfaction));
+                                    $('.email-rating-block .satisfaction').rating('update', parseInt(response.data.ratings.satisfaction));
 
                                 }
 
                                 if ('speed' in response.data.ratings && response.data.ratings.speed) {
 
-                                    $('.email-rating-form .speed').rating('update', parseInt(response.data.ratings.speed));
+                                    $('.email-rating-block .speed').rating('update', parseInt(response.data.ratings.speed));
 
                                 }
 
                                 if ('comments' in response.data.ratings && response.data.ratings.comments) {
 
-                                    $('.email-rating-form .reviewed-comments').val(response.data.ratings.comments);
+                                    $('.email-rating-block .reviewed-comments').html(response.data.ratings.comments);
 
                                 }
 
                                 if ('empcode' in response.data.ratings && response.data.ratings.empcode) {
 
-                                    $('.email-rating-form .reviewer-name').html(response.data.ratings.empcode);
+                                    $('.email-rating-block .reviewer-name').html(response.data.ratings.empcode);
 
                                 }
 
                                 if ('created_date' in response.data.ratings && response.data.ratings.created_date) {
 
-                                    $('.email-rating-form .reviewed-date').html(moment(new Date(response.data.ratings.created_date)).format('Do MMM YYYY, hh:mm:ss a'));
+                                    $('.email-rating-block .reviewed-date').html(moment(new Date(response.data.ratings.created_date)).format('Do MMM YYYY, hh:mm:ss a'));
 
                                 }
 
                                 $('.email-unreview-btn').hide();
-                                $('.email-rating-form .reviewed-by-block').show();
-                                $('.email-rating-form .review-comments-block').hide();
-                                $('.email-rating-form .reviewed-comments-block').show();
-                                $('.email-rating-form .email-rating-sumbit-btn').hide();
-                                $('.email-rating-form .rating-container').addClass('disabled-star-rating-block');
+                                $('.email-rating-block .reviewed-by-block').show();
+                                $('.email-rating-block .review-comments-block').hide();
+                                $('.email-rating-block .reviewed-comments-block').show();
+                                $('.email-rating-block .email-rating-sumbit-btn').hide();
+                                $('.email-rating-block .rating-container').addClass('disabled-star-rating-block');
 
                             }
 
@@ -7771,6 +7771,82 @@ $(".email-rating-sumbit-btn").on('click', function(e) {
     if (email_id != undefined && email_id != '') {
 
         params.append('email_id', email_id);
+
+    }
+
+    if (params.get('responded') != undefined && params.get('responded') == '') {
+
+        Swal.fire({
+
+            title: '',
+            text: "Please provide valid ratings!",
+            showClass: {
+                popup: 'animated fadeIn faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+
+        });
+
+        return false;
+
+    }
+
+    if (params.get('language') != undefined && params.get('language') == '') {
+
+        Swal.fire({
+
+            title: '',
+            text: "Please provide valid ratings!",
+            showClass: {
+                popup: 'animated fadeIn faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+
+        });
+
+        return false;
+
+    }
+
+    if (params.get('issue') != undefined && params.get('issue') == '') {
+
+        Swal.fire({
+
+            title: '',
+            text: "Please provide valid ratings!",
+            showClass: {
+                popup: 'animated fadeIn faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+
+        });
+
+        return false;
+
+    }
+
+    if (params.get('satisfaction') != undefined && params.get('satisfaction') == '') {
+
+        Swal.fire({
+
+            title: '',
+            text: "Please provide valid ratings!",
+            showClass: {
+                popup: 'animated fadeIn faster'
+            },
+            hideClass: {
+                popup: 'animated fadeOut faster'
+            },
+
+        });
+
+        return false;
 
     }
 
