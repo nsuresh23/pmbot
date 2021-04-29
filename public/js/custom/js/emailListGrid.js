@@ -2348,6 +2348,7 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailgrou
         $('.email-unreview-btn').show();
         $('.email-rating-block .review-comments-block').show();
         $('.email-rating-block .email-rating-sumbit-btn').show();
+        $('.email-rating-block .rating-container .clear-rating').show();
         $('.email-rating-block .rating-container').removeClass('disabled-star-rating-block');
         // $('.email-rating-block .star-block').rating('update', 0);
 
@@ -2711,6 +2712,7 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailgrou
                                 $('.email-rating-block .review-comments-block').hide();
                                 $('.email-rating-block .reviewed-comments-block').show();
                                 $('.email-rating-block .email-rating-sumbit-btn').hide();
+                                $('.email-rating-block .rating-container .clear-rating').hide();
                                 $('.email-rating-block .rating-container').addClass('disabled-star-rating-block');
 
                             }
