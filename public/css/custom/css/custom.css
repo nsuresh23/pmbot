@@ -723,6 +723,10 @@ content: "\f067";
                         border-bottom: 1px solid #111 !important;
                     }
 
+                    .dataTables_scrollHeadInner {
+                        width: 100% !important;
+                    }
+
                     .dataTables_scrollHeadInner .dataTable>thead>tr>th {
                         border-bottom: none !important;
                     }
