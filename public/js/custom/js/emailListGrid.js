@@ -66,6 +66,16 @@ function getEmailTableList(gridSelector) {
 
     var emailResultClass = '';
 
+    var dateFieldWidth = 60;
+    var controlFieldWidth = 18;
+
+    if (gridEmailFilter == 'email_reviewed') {
+
+        dateFieldWidth = 50;
+        controlFieldWidth = 25;
+
+    }
+
     // if ($(gridSelector + ' .jsgrid-grid-header').attr('class') == undefined) {
 
     var field = [];
@@ -243,13 +253,17 @@ function getEmailTableList(gridSelector) {
 
     }
 
-    field.push({
-        title: '<i class="fa fa-exclamation inline-block txt-danger font-16"></i>',
-        name: "is_priority",
-        type: "text",
-        filtering: false,
-        width: 10,
-    });
+    if (gridEmailFilter != 'email_reviewed') {
+
+        field.push({
+            title: '<i class="fa fa-exclamation inline-block txt-danger font-16"></i>',
+            name: "is_priority",
+            type: "text",
+            filtering: false,
+            width: 10,
+        });
+
+    }
 
     field.push({
         title: "SUBJECT",
@@ -276,19 +290,23 @@ function getEmailTableList(gridSelector) {
     //     type: "text",
     // });
 
-    field.push({
-        title: '<i class="zmdi zmdi-attachment inline-block font-16"></i>',
-        name: "is_attachments",
-        type: "text",
-        filtering: false,
-        width: 10,
-    });
+    if (gridEmailFilter != 'email_reviewed') {
+
+        field.push({
+            title: '<i class="zmdi zmdi-attachment inline-block font-16"></i>',
+            name: "is_attachments",
+            type: "text",
+            filtering: false,
+            width: 10,
+        });
+
+    }
 
     field.push({
         title: "DATE",
         name: "created_date",
         type: "text",
-        width: 60,
+        width: dateFieldWidth,
     });
 
     if (gridCategory != undefined && gridCategory != '' && gridCategory == 'email-review' && gridEmailFilter != undefined && gridEmailFilter == 'email_reviewed') {
@@ -459,7 +477,7 @@ function getEmailTableList(gridSelector) {
             return this._createOnOffSwitchButton("filtering", this.searchModeButtonClass, false);
 
         },
-        width: 18,
+        width: controlFieldWidth,
     });
 
 
