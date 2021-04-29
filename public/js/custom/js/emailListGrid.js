@@ -315,12 +315,16 @@ function getEmailTableList(gridSelector) {
             title: "REVIEWED BY",
             name: "reviewed_by",
             type: "text",
+            filtering: false,
+            sorting: false,
         });
 
         field.push({
             title: "REVIEWED ON",
             name: "reviewed_on",
             type: "text",
+            filtering: false,
+            sorting: false,
         });
 
     }
