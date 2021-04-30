@@ -2515,9 +2515,13 @@ class EmailCollection
 
                     $emailViewUrl = $this->emailAnnotatorBaseUrl;
 
+                    $emailComposeUrl = "";
+
                     if (isset($returnResponse["data"]["id"]) &&  $returnResponse["data"]["id"] != "") {
 
                         $emailViewUrl = $emailViewUrl . "/id/" . $returnResponse["data"]["id"];
+
+                        $emailComposeUrl = route('email-compose') . '?redirectTo=' . $returnResponse["data"]["id"];
 
                     }
 
@@ -2530,6 +2534,18 @@ class EmailCollection
                     if (isset($returnResponse["data"]["job_id"]) &&  $returnResponse["data"]["job_id"] && isset($returnResponse["data"]["status"]) &&  $returnResponse["data"]["status"] == "2") {
 
                         $returnResponse["data"]["email_annotator_link"] = $emailViewUrl;
+
+                        if($emailComposeUrl != "") {
+
+                            $emailComposeUrl .= "&job_id=" . $returnResponse["data"]["job_id"];
+
+                        }
+
+                    }
+
+                    if($emailComposeUrl != "") {
+
+                        $returnResponse["data"]["email_compose_url"]  = $emailComposeUrl;
 
                     }
 

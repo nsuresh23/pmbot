@@ -2266,6 +2266,44 @@ $(document).on('click', '.non-business-unmark-btn', function(e) {
 
 });
 
+/* $('.compose-mailto').on('click', function(e) {
+
+    e.stopPropagation();
+
+    var link = $(this).text();
+
+    if (link != undefined && link != '') {
+
+        showComposeModal($('.email-compose-btn'));
+
+        $('.email-send-form .composeto').val(link + ';');
+
+        var composeEmailUrl = $('.email-compose-button').attr('href');
+
+        if (composeEmailUrl != undefined && composeEmailUrl != '#' && composeEmailUrl != '') {
+
+            composeEmailUrl = composeEmailUrl + '&mailto=' + encodeURIComponent(link);
+
+            var jobId = $('#associatejobid').val();
+
+            if (jobId != undefined && jobId != '') {
+
+                composeEmailUrl = composeEmailUrl + '&job_id=' + encodeURIComponent(jobId);
+
+            }
+
+            $('.email-compose-button').attr('href', composeEmailUrl);
+
+            var composeButton = $('.email-compose-button');
+
+            composeButton[0].click();
+
+        }
+
+    }
+
+}); */
+
 function emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailgroupIds) {
 
     if (emailId != undefined && emailId != '' && postUrl != undefined && postUrl != '') {
@@ -2516,6 +2554,23 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailgrou
 
                         if (response.data.body_html != undefined && response.data.body_html != '') {
 
+                            var contentHtml = $('<div class="email-body-html">').html(response.data.body_html);
+
+                            $(contentHtml.find("a[href^='mailto']")).each(function() {
+
+                                if (response.data.email_compose_url != undefined && response.data.email_compose_url != '') {
+
+                                    var emailAddress = $(this).text();
+                                    var emailComposeUrl = response.data.email_compose_url + '&mailto=' + encodeURIComponent(emailAddress) + '&type=home'
+                                    $(this).attr('href', emailComposeUrl);
+                                    $(this).addClass('compose-mailto');
+
+                                }
+
+                            });
+
+                            response.data.body_html = contentHtml.html();
+
                             // $('.email-body').html(atob(response.data.body_html));
                             // $('.email-body').html(response.data.body_html);
 
@@ -2743,6 +2798,16 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailgrou
     }
 
 }
+
+/* $("a[href^='mailto']").on('click', function(e) {
+
+    e.stopPropagation();
+
+    var emailAddress = $(this).text();
+    $(this).attr('href', 'javascript:void(0)');
+    $(this).addClass('compose-mailto');
+
+}); */
 
 $(document).on('click', '.pmbot-email-item', function(e) {
 
@@ -4414,6 +4479,12 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
 
                 type = 'success';
 
+                if (closeBtnSelector == '#replymailModal') {
+
+                    tinymce.get('textarea_editor_email_reply').setContent('');
+
+                }
+
                 if (closeBtnSelector == '#emailSendModal') {
                     $('#to').val('');
                     $('#cc').val('');
@@ -4424,11 +4495,10 @@ function emailSend(sendUrl, params, closeBtnSelector, loader) {
                     // tinymce.get('textarea_editor_email_reply').execCommand('mceInsertContent', false, '');
 
                     tinymce.get('textarea_editor_email_compose').setContent('');
-                    tinymce.get('textarea_editor_email_reply').setContent('');
 
                     // $('#textarea_editor_email_compose').html('');
                     // $('#textarea_editor_email_reply').html('');
-                    $('.textarea_editor_email').html('');
+                    // $('.textarea_editor_email').html('');
 
                     // $('.compose_message').summernote('code', '');
 

@@ -731,11 +731,32 @@ class EmailController extends Controller
 
         $returnData = [];
 
+        $returnData["to"] = "";
+        $returnData["job_id"] = "";
         $returnData["redirectTo"] = "";
 
         if ($request->redirectTo) {
 
-            $returnData["redirectTo"] = $request->redirectTo;
+            $returnData["redirectTo"] = route(__("job.email_view_url"), $request->redirectTo);
+
+        }
+
+        if ($request->type && $request->type == "home") {
+
+            $returnData["redirectTo"] = route("home");
+
+        }
+
+        if ($request->mailto) {
+
+            $returnData["to"] = $request->mailto;
+
+        }
+
+        if ($request->job_id) {
+
+            $returnData["job_id"] = $request->job_id;
+
         }
 
         return view('pages.annotator.emailComposeModal', compact("returnData"));
@@ -1724,7 +1745,16 @@ class EmailController extends Controller
 
         if ($request->page_type && $request->page_type == "page") {
 
-            $returnResponse["redirectUrl"] = route(__("job.email_view_url"), $request->email_id);
+            if($request->email_type && $request->email_type == "new") {
+
+                $returnResponse["redirectUrl"] = $request->redirectTo;
+
+            } else {
+
+                $returnResponse["redirectUrl"] = route(__("job.email_view_url"), $request->email_id);
+
+            }
+
 
         }
 

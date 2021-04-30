@@ -103,7 +103,6 @@
 <script src="{{ asset('public/assets/src/jquery.toggleinput.js') }} "></script>
 <script src="{{ asset('public/assets/src/bootstrap-filestyle.min.js') }} "></script>
 <script src="{{ asset('public/assets/select2/select2.full.min.js') }} "></script>
-
 <!-- Main Content -->
 <div class="header_top"></div>
 <?php  date_default_timezone_set("Asia/Calcutta");  ?>
@@ -142,6 +141,7 @@
         <a href="{{route('email-reply') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply" class="btn btn-sm btn-success email-reply-button email-button-group">
             Reply
         </a>
+        <a href="{{route('email-compose'). '?redirectTo=' . $returnData['id'] ?? "#"}}" target="_blank" title="new email" class="btn btn-sm btn-success email-compose-button" style="display: none;">New Email</a>
 
 	<a id="btnhome" class="btn btn-primary btn-sm" href="{{route('home')}}">Back to home</a>
         <button id="btnnonbusiness" class="btn btn-warning btn-sm">Non Business</button>
@@ -719,7 +719,54 @@ function getresult(url) {
                     {}
                 });
 
-				setInterval(function() {$("#overlay").hide(); },500);
+                setInterval(function() {
+
+                    $("#overlay").hide();
+
+                },500);
+
+                $("a[href^='mailto']").each(function(){
+
+                    var emailAddress = $(this).text();
+                    $(this).attr('href', 'javascript:void(0)');
+                    $(this).addClass('compose-mailto');
+
+                });
+
+                $('.compose-mailto').on('click', function(e){
+
+                    e.stopPropagation();
+
+                    var link = $(this).text();
+
+                    if(link != undefined && link != '') {
+
+                        var composeEmailUrl = $('.email-compose-button').attr('href');
+
+                        if (composeEmailUrl != undefined && composeEmailUrl != '#' && composeEmailUrl != '' ) {
+
+                            composeEmailUrl = composeEmailUrl + '&mailto=' + encodeURIComponent(link);
+
+                            var jobId = $('#associatejobid').val();
+
+                            if(jobId != undefined && jobId != '') {
+
+                                composeEmailUrl = composeEmailUrl + '&job_id=' + encodeURIComponent(jobId);
+
+                            }
+
+                            $('.email-compose-button').attr('href', composeEmailUrl);
+
+                            var composeButton = $('.email-compose-button');
+
+                            composeButton[0].click();
+
+                        }
+
+                    }
+
+                });
+
 			}
 
 
