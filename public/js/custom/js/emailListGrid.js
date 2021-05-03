@@ -7798,6 +7798,14 @@ function emailReviewList() {
         $('#emailReview .reviewed-email-count').html('0');
         $('#emailReview .reviewed-email-count').attr('data-review-email-list-ids', '');
 
+        var review_email_list_ids = $(gridSelector).attr('data-review-email-list-ids');
+
+        if (review_email_list_ids != undefined && review_email_list_ids != '') {
+
+            $(gridSelector).attr('data-review-email-list-ids', '');
+
+        }
+
         if (userEmpcode != undefined && userEmpcode != '') {
 
             $(gridSelector).attr('data-empcode', userEmpcode);
