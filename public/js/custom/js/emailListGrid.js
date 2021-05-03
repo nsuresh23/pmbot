@@ -279,11 +279,15 @@ function getEmailTableList(gridSelector) {
     //     width: 20,
     // });
 
-    field.push({
-        title: "MESSAGE PREVIEW",
-        name: "message_start",
-        type: "text",
-    });
+    if (gridEmailFilter != 'email_reviewed') {
+
+        field.push({
+            title: "MESSAGE PREVIEW",
+            name: "message_start",
+            type: "text",
+        });
+
+    }
 
     // field.push({
     //     title: "MESSAGE",
@@ -323,6 +327,14 @@ function getEmailTableList(gridSelector) {
         field.push({
             title: "REVIEWED ON",
             name: "reviewed_on",
+            type: "text",
+            filtering: false,
+            sorting: false,
+        });
+
+        field.push({
+            title: "COMMENTS",
+            name: "comments",
             type: "text",
             filtering: false,
             sorting: false,
@@ -2402,6 +2414,7 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailgrou
 
         $('.email-unreview-btn').show();
         $('.email-rating-block .review-comments-block').show();
+        $('.email-rating-block .review-comments-field').val('');
         $('.email-rating-block .email-rating-sumbit-btn').show();
         $('.email-rating-block .rating-container .clear-rating').show();
         $('.email-rating-block .rating-container').removeClass('disabled-star-rating-block');

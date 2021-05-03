@@ -155,7 +155,7 @@
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
                             <div class="form-group mb-0 review-comments-block">
-                                <textarea name="comments" value="" class="review-comments" rows="4" cols="35" required></textarea>
+                                <textarea name="comments" value="" class="review-comments review-comments-field" rows="4" cols="35" required></textarea>
                             </div>
                             <div class="form-group mb-0 reviewed-comments-block display-none">
                                 <teaxtarea class="reviewed-comments" readonly></teaxtarea>
