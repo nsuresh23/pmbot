@@ -54,6 +54,7 @@ function getEmailTableList(gridSelector) {
     var dateRange = $(gridSelector).attr('data-date-range');
     var sortType = $(gridSelector).attr('data-sort-type');
     var sortLimit = $(gridSelector).attr('data-sort-limit');
+    var reviewEmailListIds = $(gridSelector).attr('data-review-email-list-ids');
     var readOnlyUser = $('#currentUserInfo').attr('data-read-only-user');
     var pageSize = $('#currentUserInfo').attr('data-page-size');
     var pageButtonCount = $('#currentUserInfo').attr('data-page-button-count');
@@ -1232,6 +1233,12 @@ function getEmailTableList(gridSelector) {
 
                             }
 
+                            if (reviewEmailListIds != undefined && reviewEmailListIds != '') {
+
+                                emailListPostData.review_email_list_ids = reviewEmailListIds;
+
+                            }
+
                         }
 
                         if (emailFilter == 'email_reviewed') {
@@ -1527,6 +1534,12 @@ function getEmailTableList(gridSelector) {
                             if ('reviewed_count' in response && emailFilter == 'email_review') {
 
                                 $('#emailReview .reviewed-email-count').html(response.reviewed_count);
+
+                            }
+
+                            if ('review_email_list_ids' in response && emailFilter == 'email_review') {
+
+                                $('#emailReview .reviewed-email-count').attr('data-review-email-list-ids', response.review_email_list_ids);
 
                             }
 
@@ -7770,6 +7783,7 @@ function emailReviewList() {
         $(gridSelector).attr('data-sort-limit', '');
 
         $('#emailReview .reviewed-email-count').html('0');
+        $('#emailReview .reviewed-email-count').attr('data-review-email-list-ids', '');
 
         if (userEmpcode != undefined && userEmpcode != '') {
 
@@ -7984,7 +7998,27 @@ $(".email-rating-sumbit-btn").on('click', function(e) {
             },
             complete: function() {
                 $('.email_detail_loader').hide();
-                $('.reviewed-email-sumbit-btn').trigger('click');
+                $('.email-detail-body').hide();
+                $('.email-list-body').show();
+
+                var gridSelector = ".reviewEmailGrid";
+
+                var dataUrl = $(gridSelector).attr('data-list-url');
+
+                if (dataUrl != undefined && dataUrl != "") {
+
+                    var reviewListIds = $('#emailReview .reviewed-email-count').attr('data-review-email-list-ids');
+
+                    if (reviewListIds != undefined && reviewListIds != '') {
+
+                        $(gridSelector).attr('data-review-email-list-ids', reviewListIds);
+
+                    }
+
+                    getEmailTableList(gridSelector);
+
+                }
+                //$('.reviewed-email-sumbit-btn').trigger('click');
                 // emailDetailInfo(email_id, emailGetUrl, emailCategory);
             }
         }).done(function(response) {

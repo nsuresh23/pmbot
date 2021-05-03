@@ -1173,6 +1173,12 @@ class EmailController extends Controller
 
             }
 
+            if (isset($request->review_email_list_ids) && $request->review_email_list_ids != "") {
+
+                $field["review_email_list_ids"] = $request->review_email_list_ids;
+
+            }
+
             if (isset($request->reviewed) && $request->reviewed != "") {
 
                 $field["reviewed"] = $request->reviewed;

@@ -2118,9 +2118,17 @@ class EmailCollection
 
                     $responseGroupedData = $returnResponseData["data"];
 
-                    if (isset($field["email_type"]) && $field["email_type"] == "email-review") {
+                    $reviewListIds = [];
+
+                    if (isset($field["email_type"]) && $field["email_type"] == "email-review" && !isset($field["review_email_ids"])) {
 
                         $responseGroupedData = $this->formatSubjectGroupedData($returnResponseData["data"], $field);
+
+                        if(is_array($responseGroupedData) && count($responseGroupedData) > 0) {
+
+                            $reviewListIds = array_column($responseGroupedData, 'id');
+
+                        }
 
                     }
 
@@ -2135,6 +2143,12 @@ class EmailCollection
                             $returnResponse["reviewed_count"] = $responseData["reviewed_count"];
 
                             unset($responseData["reviewed_count"]);
+
+                        }
+
+                        if (is_array($reviewListIds) && count($reviewListIds) > 0) {
+
+                            $returnResponse["review_email_list_ids"] = implode(",", $reviewListIds);
 
                         }
 
