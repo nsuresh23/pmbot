@@ -41,7 +41,7 @@
                     <input type="hidden" class="parent-email-received-date" value="" name="parent_email_received_date" />
 						<div class="col-sm-12 nopadding">
 							<div class="email-lt">
-								<div class="email-draft-send-btn">
+								<div class="email-draft-send-btn email-enter-btn" data-email-enter="email-draft-send-btn">
 									<img src="{{ asset('public/img/send_mail.png') }}" alt="" />
 									Send
 								</div>

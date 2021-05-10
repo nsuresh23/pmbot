@@ -38,7 +38,7 @@
 
 					<div class="col-sm-12 nopadding">
 								<div class="email-lt">
-									<div class="email-send-btn">
+									<div class="email-send-btn email-enter-btn" data-email-enter="email-send-btn">
 										<img src="{{ asset('public/img/send_mail.png') }}" alt="" />
 										Send
 									</div>

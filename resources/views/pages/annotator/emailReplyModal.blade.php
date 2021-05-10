@@ -213,7 +213,7 @@ if (isset($returnData["data"]) && is_array($returnData["data"]) && count($return
 
                                 <div class="col-sm-12 nopadding">
                                     <div class="email-lt">
-                                        <div class="email-reply-send-btn pl-5">
+                                        <div class="email-reply-send-btn email-enter-btn pl-5" data-email-enter="email-reply-send-btn">
                                             <img src="{{ asset('public/img/send_mail.png') }}" alt="" />
                                             Send
                                         </div>
