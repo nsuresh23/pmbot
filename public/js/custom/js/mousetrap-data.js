@@ -7,14 +7,11 @@ $(document).ready(function() {
         'ctrl+alt+r': replyEmail,
         'ctrl+alt+a': replyAllEmail,
         'ctrl+alt+f': forwardEmail,
-        'ctrl+alt+enter': emailEnter,
+        'tab+enter': emailEnter,
         // ['command+f', 'ctrl+f'], search
         //   '?': function modal() { $('#help').modal('show'); },
     });
 
-    /* Mousetrap.bind('enter', function() {
-        console.log('konami code');
-    }); */
 
     function newEmail() {
 
