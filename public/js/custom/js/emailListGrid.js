@@ -2855,6 +2855,7 @@ $(document).on('click', '.email-detail-back-btn', function(e) {
 
     $('.email-list-body').show();
     $('.email-detail-body').hide();
+    $('.email-title').attr('data-email-id', '');
 
     $('.inbox-nav li.active').find('a').trigger('click');
 
@@ -2866,6 +2867,7 @@ $(document).on('click', '.review-email-modal-detail-back-btn', function(e) {
 
     $('.review-email-modal-list-body').show();
     $('.review-email-modal-detail-body').hide();
+    $('.email-title').attr('data-email-id', '');
 
 });
 
@@ -4985,6 +4987,7 @@ function showform(type, selector) {
     var emailPostData = {};
     filesToUpload = [];
     $('.attached_file').html('');
+    $('input[name="subject"]').val('');
     var emailid = $('.email-title').attr('data-email-id');
     var postUrl = $(selector).attr('data-email-geturl');
 
@@ -5214,6 +5217,7 @@ function showdraftform(type, selector) {
     var emailPostData = {};
     filesToUpload = [];
     $('.attached_file').html('');
+    $('input[name="subject"]').val('');
     $('.parent-email-received-date').val('');
     var emailid = $('.email-title').attr('data-email-id');
     var postUrl = $(selector).attr('data-email-geturl');

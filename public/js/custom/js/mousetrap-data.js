@@ -27,11 +27,17 @@ $(document).ready(function() {
 
     function replyEmail() {
 
-        var replyEmailBtn = $('.email-reply-btn').attr('class');
+        var emailId = $('.email-title').attr('data-email-id');
 
-        if (replyEmailBtn != undefined && replyEmailBtn != '') {
+        if (emailId != undefined && emailId != '') {
 
-            $('.email-reply-btn').trigger('click');
+            var replyEmailBtn = $('.email-reply-btn').attr('class');
+
+            if (replyEmailBtn != undefined && replyEmailBtn != '') {
+
+                $('.email-reply-btn').trigger('click');
+
+            }
 
         }
 
@@ -39,11 +45,17 @@ $(document).ready(function() {
 
     function replyAllEmail() {
 
-        var replyAllEmailBtn = $('.email-reply-btn').attr('class');
+        var emailId = $('.email-title').attr('data-email-id');
 
-        if (replyAllEmailBtn != undefined && replyAllEmailBtn != '') {
+        if (emailId != undefined && emailId != '') {
 
-            $('.email-reply-all-btn').trigger('click');
+            var replyAllEmailBtn = $('.email-reply-btn').attr('class');
+
+            if (replyAllEmailBtn != undefined && replyAllEmailBtn != '') {
+
+                $('.email-reply-all-btn').trigger('click');
+
+            }
 
         }
 
@@ -51,11 +63,17 @@ $(document).ready(function() {
 
     function forwardEmail() {
 
-        var forwardEmailBtn = $('.email-compose-btn').attr('class');
+        var emailId = $('.email-title').attr('data-email-id');
 
-        if (forwardEmailBtn != undefined && forwardEmailBtn != '') {
+        if (emailId != undefined && emailId != '') {
 
-            $('.email-forward-btn').trigger('click');
+            var forwardEmailBtn = $('.email-compose-btn').attr('class');
+
+            if (forwardEmailBtn != undefined && forwardEmailBtn != '') {
+
+                $('.email-forward-btn').trigger('click');
+
+            }
 
         }
 
