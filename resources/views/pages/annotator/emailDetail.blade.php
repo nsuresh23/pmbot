@@ -10,6 +10,11 @@
 <link href="{{ asset('public/assets/lib/css/annotator.touch.css') }}" rel="stylesheet"/>
 <link href="{{ asset('public/assets/select2/select2.min.css') }}" rel="stylesheet"/>
 <link href="{{ asset('public/assets/src/css/jquery.toggleinput.css') }}" rel="stylesheet"/>
+
+<!--Sweet alerts CSS -->
+<link href="{{ asset('public/js/custom/vendors/bower_components/sweetalert/dist/sweetalert.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('public/css/custom/css/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
+
 <style>
 
     .attachment-block {
@@ -103,6 +108,12 @@
 <script src="{{ asset('public/assets/src/jquery.toggleinput.js') }} "></script>
 <script src="{{ asset('public/assets/src/bootstrap-filestyle.min.js') }} "></script>
 <script src="{{ asset('public/assets/select2/select2.full.min.js') }} "></script>
+
+<!-- Sweet-Alert  -->
+<script type="text/javascript" src="{{ asset('public/js/custom/vendors/bower_components/sweetalert/dist/sweetalert.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('public/js/custom/js/sweetalert-data.js') }}"></script>
+<script type="text/javascript" src="{{ asset('public/js/custom/js/sweetalert2.min.js') }}"></script>
+
 <!-- Main Content -->
 <div class="header_top"></div>
 <?php  date_default_timezone_set("Asia/Calcutta");  ?>
@@ -132,16 +143,16 @@
 
         <?php } ?>
 
-        <a href="{{route('email-forward') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="forward" class="btn btn-sm btn-success email-forward-button email-button-group">
+        <a href="{{route('email-forward') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="forward" class="btn btn-sm btn-success email-forward-button email-button-group open-email-window">
             Forward
         </a>
-        <a href="{{route('email-reply-all') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply all" class="btn btn-sm btn-success email-reply-all-button email-button-group">
+        <a href="{{route('email-reply-all') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply all" class="btn btn-sm btn-success email-reply-all-button email-button-group open-email-window">
             Reply all
         </a>
-        <a href="{{route('email-reply') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply" class="btn btn-sm btn-success email-reply-button email-button-group">
+        <a href="{{route('email-reply') . '?redirectTo=' . $returnData['id'] ?? "#"}}" title="reply" class="btn btn-sm btn-success email-reply-button email-button-group open-email-window">
             Reply
         </a>
-        <a href="{{route('email-compose'). '?redirectTo=' . $returnData['id'] ?? "#"}}" target="_blank" title="new email" class="btn btn-sm btn-success email-compose-button" style="display: none;">New Email</a>
+        <a href="{{route('email-compose'). '?redirectTo=' . $returnData['id'] ?? "#"}}" target="_blank" title="new email" class="btn btn-sm btn-success email-compose-button open-email-window" style="display: none;">New Email</a>
 
 	<a id="btnhome" class="btn btn-primary btn-sm" href="{{route('home')}}">Back to home</a>
         <button id="btnnonbusiness" class="btn btn-warning btn-sm">Non Business</button>
@@ -984,6 +995,43 @@ $('#browseButton2').on('click', function () {
 
 $('#fileUploader2').change(function () {
 	$('#fileName2').val($(this).val());
+});
+
+$('.open-email-window').on('click', function (e) {
+
+    e.preventDefault();
+
+    var windowUrl = $(this).attr('href');
+    var windowName = $(this).attr('title');
+
+    if(windowUrl != undefined && windowUrl != '') {
+
+        var popup = window.open(windowUrl, windowName, 'window settings');
+
+        if (popup == null) {
+
+            Swal.fire({
+
+                title: '',
+                    text: "Please change your popup settings",
+                showClass: {
+                    popup: 'animated fadeIn faster'
+                },
+                hideClass: {
+                    popup: 'animated fadeOut faster'
+                },
+
+            });
+
+        }else {
+
+            popup.moveTo(0, 0);
+            popup.resizeTo(screen.width, screen.height);
+
+        }
+
+    }
+
 });
 
 </script>
