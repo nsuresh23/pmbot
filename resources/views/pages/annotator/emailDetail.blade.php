@@ -997,7 +997,7 @@ $('#fileUploader2').change(function () {
 	$('#fileName2').val($(this).val());
 });
 
-$('.open-email-window').on('click', function (e) {
+/* $('.open-email-window').on('click', function (e) {
 
     e.preventDefault();
 
@@ -1032,7 +1032,7 @@ $('.open-email-window').on('click', function (e) {
 
     }
 
-});
+}); */
 
 </script>
 @endpush
