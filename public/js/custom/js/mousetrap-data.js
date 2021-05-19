@@ -27,6 +27,16 @@ $(document).ready(function() {
 
     function replyEmail() {
 
+        /* var annotatorEmailReplyButtonElement = $('.email-reply-button');
+
+        if (annotatorEmailReplyButtonElement != undefined && annotatorEmailReplyButtonElement.length > 0 && annotatorEmailReplyButtonElement != '') {
+
+            $('.email-reply-button').trigger('click');
+
+            return false;
+
+        } */
+
         var emailId = $('.email-title').attr('data-email-id');
 
         if (emailId != undefined && emailId != '') {
