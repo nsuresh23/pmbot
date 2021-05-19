@@ -14,6 +14,7 @@ use App\Traits\General\CustomLogger;
 use Illuminate\Support\Facades;
 use App\Resources\Job\JobCollection as JobResource;
 use App\Resources\Job\EmailCollection as EmailResource;
+use App\Resources\Notification\NotificationCollection as NotificationResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
 
@@ -28,11 +29,14 @@ class EmailController extends Controller
 
     protected $emailResource = "";
 
+    protected $notificationResource = "";
+
     public function __construct()
     {
 
         $this->jobResource = new JobResource();
         $this->emailResource = new EmailResource();
+        $this->notificationResource = new notificationResource();
 
     }
 
@@ -2023,6 +2027,32 @@ class EmailController extends Controller
 
                         $returnResponse["label_list"] = $returnData["data"];
                     }
+
+                    $notificationViewParamInfo = [];
+                    $notificationViewParamInfo["reference_id"] = $request->emailid;
+                    $notificationViewParamInfo["empcode"] = auth()->user()->empcode;
+                    $notificationViewParamInfo["type"] = "email";
+                    $notificationViewParamInfo["category"] = "create";
+
+                    if (is_array($notificationViewParamInfo) && count($notificationViewParamInfo) > 0) {
+
+                        try {
+
+                            $this->notificationResource->notificationReadUpdate($notificationViewParamInfo);
+
+                        } catch (Exception $e) {
+
+                            $this->error(
+                                "app_error_log_" . date('Y-m-d'),
+                                " => FILE => " . __FILE__ . " => " .
+                                " => LINE => " . __LINE__ . " => " .
+                                " => MESSAGE => " . $e->getMessage() . " "
+                            );
+
+                        }
+
+                    }
+
                 }
 
             }

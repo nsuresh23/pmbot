@@ -287,7 +287,7 @@
 
 				</div>
 			</li> --}}
-            <li class="dropdown alert-drp">
+            <li class="dropdown alert-drp notification-block">
                 <a href="javascript:void(0)" class="dropdown-toggle notification-count-button"
                     data-notification-count-url="{{$notificationCountUrl ?? ''}}"
                     data-notification-list-url="{{$notificationListUrl ?? ''}}" data-toggle="dropdown"><i
@@ -296,7 +296,7 @@
                         {{-- <span class="top-nav-icon-badge">0</span> --}}
                     </span>
                 </a>
-                <ul class="dropdown-menu alert-dropdown" data-dropdown-in="slideInRight" data-dropdown-out="flipOutX">
+                <ul class="dropdown-menu alert-dropdown notification-modal-block" data-dropdown-in="slideInRight" data-dropdown-out="flipOutX">
                     <li>
                         <div class="notification-box-head-wrap">
                             <span class="notification-box-head pull-left inline-block">{{__('job.notification_title_label')}}</span>
@@ -313,7 +313,7 @@
                     <li>
                         <div class="notification-box-bottom-wrap">
                             <hr class="light-grey-hr ma-0" />
-                            <a class="block text-center notification-read-all capitalize-font" href="javascript:void(0)"
+                            <a class="block btn btn-success text-center notification-read-all capitalize-font" href="javascript:void(0)"
                                 data-notification-read-all-url="{{$notificationReadAllUrl ?? ''}}">{{__('job.notification_read_all_label')}}</a>
                             <div class="clearfix"></div>
                         </div>

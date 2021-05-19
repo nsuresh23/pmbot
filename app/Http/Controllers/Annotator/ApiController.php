@@ -11,6 +11,7 @@ use App\Traits\General\CustomLogger;
 use App\Models\Annotation;
 use Illuminate\Support\Facades\Config;
 use App\Resources\Job\EmailCollection as EmailResource;
+use App\Resources\Notification\NotificationCollection as NotificationResource;
 //use App\Resources\Annotator\AnnotatorCollection as AnnotatorResource;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
@@ -33,12 +34,16 @@ class ApiController extends Controller
 
     protected $AnnotatorResource = "";
 
+    protected $notificationResource = "";
+
     public function __construct()
     {
 
         //$this->annotatorResource = new AnnotatorResource();
 
         $this->emailResource = new EmailResource();
+
+        $this->notificationResource = new NotificationResource();
 
     }
 
@@ -390,6 +395,8 @@ class ApiController extends Controller
 
             }
 
+            $notificationViewParamInfo = [];
+
             $emailViewParamInfo = [];
             $emailViewParamInfo["id"] = $request->id;
             $emailViewParamInfo["empcode"] = auth()->user()->empcode;
@@ -401,15 +408,56 @@ class ApiController extends Controller
 
                 $emailViewParamInfo["creator_empcode"] = auth()->user()->empcode;
 
+                $notificationViewParamInfo["creator_empcode"] = auth()->user()->empcode;
+
                 if (session()->has("current_empcode") && session()->get("current_empcode") != "") {
 
                     $emailViewParamInfo["creator_empcode"] = session()->get("current_empcode");
+
+                    $notificationViewParamInfo["creator_empcode"] = session()->get("current_empcode");
+
                 }
             }
 
             if(is_array($emailViewParamInfo) && count($emailViewParamInfo)>0) {
 
-                $this->emailResource->emailViewUpdate($emailViewParamInfo);
+                try {
+
+                    $this->emailResource->emailViewUpdate($emailViewParamInfo);
+
+                } catch (Exception $e) {
+
+                    $this->error(
+                        "app_error_log_" . date('Y-m-d'),
+                        " => FILE => " . __FILE__ . " => " .
+                            " => LINE => " . __LINE__ . " => " .
+                            " => MESSAGE => " . $e->getMessage() . " "
+                    );
+                }
+
+            }
+
+            $notificationViewParamInfo = [];
+            $notificationViewParamInfo["reference_id"] = $request->id;
+            $notificationViewParamInfo["empcode"] = auth()->user()->empcode;
+            $notificationViewParamInfo["type"] = "email";
+            $notificationViewParamInfo["category"] = "create";
+
+            if(is_array($notificationViewParamInfo) && count($notificationViewParamInfo)>0) {
+
+                try {
+
+                    $this->notificationResource->notificationReadUpdate($notificationViewParamInfo);
+
+                } catch (Exception $e) {
+
+                    $this->error(
+                        "app_error_log_" . date('Y-m-d'),
+                        " => FILE => " . __FILE__ . " => " .
+                            " => LINE => " . __LINE__ . " => " .
+                            " => MESSAGE => " . $e->getMessage() . " "
+                    );
+                }
 
             }
 

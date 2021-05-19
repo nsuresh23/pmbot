@@ -221,7 +221,12 @@ class NotificationController extends Controller
 
                             if (isset($returnData["success"]) && $returnData["success"] == "true") {
 
-                                $returnResponse["data"]["items"] = $returnData["data"];
+                                $itemsArray = [];
+                                $itemsArray["items"] = $returnData["data"];
+
+                                $returnResponse["data"] = $itemsArray;
+
+                                //$returnResponse["data"]["items"] = $returnData["data"];
 
                             }
 
@@ -230,6 +235,8 @@ class NotificationController extends Controller
                     }
 
                     if(isset($returnResponse["data"]) && $returnResponse["data"] != "") {
+
+                        $returnResponse["data"]["count"] = "";
 
                         $returnResponse["data"]["count"] = $notificationCount;
 
@@ -275,7 +282,7 @@ class NotificationController extends Controller
                         $request->merge(['creator_empcode' => session()->get("current_empcode")]);
 
                     }
-                    
+
                 }
 
                 $returnResponse = $this->notificationResource->notificationReadAll($request);

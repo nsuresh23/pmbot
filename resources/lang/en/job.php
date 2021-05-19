@@ -437,7 +437,7 @@ return [
 
     'notification_title_label' => 'notifications',
     'notification_view_all_label' => 'view all',
-    'notification_read_all_label' => 'read all',
+    'notification_read_all_label' => 'OK',
 
     /*notification list url */
 

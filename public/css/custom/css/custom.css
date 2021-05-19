@@ -850,6 +850,15 @@ content: "\f067";
                     .filled-stars i {
                         color: #ff6300 !important;
                     }
+
+                    .notification-modal-block {
+                        left: -15px !important;
+                        padding-bottom: 0px;
+                    }
+
+                    .notification-read-all {
+                        border-radius: 0%;
+                    }
                     /* #textarea_editor_email_reply p.MsoNormal,
 #textarea_editor_email_reply li.MsoNormal,
 #textarea_editor_email_reply div.MsoNormal,

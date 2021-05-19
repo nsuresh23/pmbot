@@ -166,6 +166,71 @@ class NotificationCollection
         return $returnResponse;
     }
 
+        /**
+     * Read the notification based on notification id.
+     *
+     * @return array $returnResponse
+     */
+    public function notificationReadUpdate($params)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            // validate
+            // read more on validation at http://laravel.com/docs/validation
+            $rules = array(
+                'reference_id'       => 'required',
+                // 'title'       => 'required'
+                'empcode'       => 'required'
+            );
+
+            $validator = Validator::make($params, $rules);
+
+            if ($validator->fails()) {
+
+                $returnResponse["error"] = "true";
+                $returnResponse["message"] = "Read failed";
+            } else {
+
+                $paramInfo = $params;
+
+                $url = $this->notificationReadApiUrl;
+
+                $returnData = $this->postRequest($url, $paramInfo);
+
+                if (isset($returnData["success"]) && $returnData["success"] == "true") {
+
+                    $returnResponse["success"] = "true";
+                    $returnResponse["message"] = "Read successfull";
+                } else {
+
+                    $returnResponse["error"] = "true";
+                    $returnResponse["message"] = "Read unsuccessfull";
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+
+    }
+
     /**
      * Read the notification based on notification id.
      *
