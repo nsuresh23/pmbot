@@ -852,7 +852,7 @@ content: "\f067";
                     }
 
                     .notification-modal-block {
-                        left: -15px !important;
+                        /* left: -15px !important; */
                         padding-bottom: 0px;
                     }
 

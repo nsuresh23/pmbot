@@ -122,7 +122,7 @@ function notificationRead(read_url) {
 
 }
 
-$(document).on('click', '.notification-item', function(e) {
+/* $(document).on('click', '.notification-item', function(e) {
 
     e.stopPropagation();
 
@@ -134,7 +134,7 @@ $(document).on('click', '.notification-item', function(e) {
 
     // if (read_url != undefined && read_url != '') {
 
-    //     /* AJAX call to get list */
+    //     // AJAX call to get list //
     //     $.ajax({
 
     //         url: read_url,
@@ -179,7 +179,7 @@ $(document).on('click', '.notification-item', function(e) {
 
     // }
 
-});
+}); */
 
 $(document).on('click', '.notification-read-all', function(e) {
 
