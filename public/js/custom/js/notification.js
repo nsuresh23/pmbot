@@ -219,8 +219,10 @@ $(document).on('click', '.notification-read-all', function(e) {
                         $('.notification-count').removeClass('top-nav-icon-badge');
                         $('.notification-count-button').attr('data-notification-count', '0');
                         $('.notification-list-block').html('no data');
-                        $('.notification-count-button').removeAttr('data-toggle');
-                        $('.dropdown-menu').hide();
+                        // $('.notification-count-button').removeAttr('data-toggle');
+                        // $('.notification-modal-block').hide();
+                        // $('.notification-count-button').dropdown('toggle');
+                        $('.notification-block').removeClass("open");
 
                     }
 
@@ -259,6 +261,8 @@ $(document).on('click', '.notification-count-button', function(e) {
                     if (response.data.length > 0) {
 
                         $('.notification-list-block').html(response.data);
+
+                        $('.notification-block').addClass('open');
 
                     }
 
