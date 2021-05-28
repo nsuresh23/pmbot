@@ -4212,7 +4212,7 @@ function validateEmail($email) {
 
     returnData.valid = ($email.trim().length > 0 && emailReg.test($email.trim()));
 
-    returnData.external = ($email.trim().length > 0 && externalEmailReg.test($email.trim()));
+    returnData.external = ($email.trim().length > 0 && externalEmailReg.test($email.trim().toLowerCase()));
 
     return returnData;
 
