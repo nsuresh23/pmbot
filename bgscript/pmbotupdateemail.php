@@ -19,6 +19,7 @@ try {
 	// $dbname			= $config[$mode]['Db_Name'];
 	$dbConnection 		= new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
 	$dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$dbConnection->setAttribute(PDO:: MYSQL_ATTR_FOUND_ROWS, TRUE);
 
 } catch (PDOException $e) {
 
@@ -43,9 +44,9 @@ $databases = [
 	"pmbot_spilabs",
 ];
 
-/* $databases = [
-	"pmbot_v1_oup",
-]; */
+/*$databases = [
+	"pmbot_pdy_oup_books",
+];*/
 
 if(is_array($databases) && count($databases) > 0) {
 
@@ -75,9 +76,15 @@ if(is_array($databases) && count($databases) > 0) {
 			$logMsg .=  count($emailList);
 
 			update_log($logMsg, $LogFileName);
+			
+			$txt = '';
+			$createdtime = date('Y-m-d H:i:s');
+			$txt.= 'Created Date & Time: ';
+			$txt.= $createdtime;
+			$txt.= "\n";
 
-			print "<br>---------------------------<br>".$emailListQuery."<br>---------------------------<br>";
-			print "Total Record Count : ".count($emailList)."<br>*********************************<br>";
+			print "\n---------------------------\n". $txt . $emailListQuery . "\n---------------------------\n";
+			print "Total Record Count : ".count($emailList)."\n---------------------------------------";
 
 			if (is_array($emailList) && COUNT($emailList) > 0) {
 
@@ -336,7 +343,7 @@ function update_log($log_msg,$logname) {
 	$logname 		= $logname.'_'.date('H', time());
 	$config[$mode]['Create_Log'] = '1';
 	if($config[$mode]['Create_Log'] == '1'){
-		$directory = date('d-m-Y');
+		$directory = date('Y-m-d');
 		$createdtime = date('Y-m-d H:i:s');
 		$txt= "\n\n";
 		$txt.= 'Created Date & Time: ';
