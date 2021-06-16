@@ -1687,7 +1687,7 @@ function getPmsEmailCountTableList(gridSelector) {
         title: "NAME",
         name: "empname",
         type: "text",
-        width: '10%',
+        width: '16%',
     });
 
     field.push({
@@ -1801,7 +1801,7 @@ function getPmsEmailCountTableList(gridSelector) {
         title: 'VERSION',
         name: 'version',
         type: 'text',
-        width: '12%',
+        width: '7%',
     });
 
     field.push({
