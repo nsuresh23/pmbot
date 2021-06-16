@@ -141,11 +141,12 @@ if(is_array($databases) && count($databases) > 0) {
 
 							}
 
-							if($email_type == 'external') {
+							//if($email_type == 'external') {
 
 								// TO DO: update email as external based on email id;
 
-								$emailDomainNameUpdateQuery = "UPDATE " .$dbname.".email_box SET email_domain_name = 'external' WHERE id = " . $emailID;
+								// $emailDomainNameUpdateQuery = "UPDATE " .$dbname.".email_box SET email_domain_name = 'external' WHERE id = " . $emailID;
+								$emailDomainNameUpdateQuery = "UPDATE " .$dbname.".email_box SET email_domain_name = '" . $email_type . "' WHERE id = " . $emailID;
 
 								$logMsg = '';
 								$logMsg = 'Email Domain Name Update Query:';
@@ -165,7 +166,7 @@ if(is_array($databases) && count($databases) > 0) {
 
 								update_log($logMsg, $LogFileName);
 
-							}
+							//}
 
 							if($empcodeIsStraive) {
 
