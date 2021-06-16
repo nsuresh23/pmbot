@@ -1791,14 +1791,14 @@ function getPmsEmailCountTableList(gridSelector) {
     });
 
     field.push({
-        title: 'LAST-SYNC (EMAIL SENT / PLUGIN)',
+        title: 'LAST OUTLOOK SYNC DATE',
         name: 'token_created_date',
         type: 'text',
         width: '9%',
     });
 
     field.push({
-        title: 'VERSION',
+        title: 'PLUGIN VERSION',
         name: 'version',
         type: 'text',
         width: '7%',
