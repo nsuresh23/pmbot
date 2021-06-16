@@ -7,6 +7,7 @@ use Throwable;
 
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Auth\AuthenticationException;
+use Facade\Ignition\Exceptions\ViewException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -100,6 +101,12 @@ class Handler extends ExceptionHandler
 
             // return redirect()->back()->withInput($request->except('_token'))->withFlashDanger('You page session expired. Please try again');
             return response()->view('errors.errorTryAgain');
+        }
+
+        if ($exception instanceof ViewException) {
+
+            return response()->view('errors.errorTryAgain');
+
         }
 
 

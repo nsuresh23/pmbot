@@ -1680,7 +1680,7 @@ function getPmsEmailCountTableList(gridSelector) {
         filtering: false,
         // sorting: false,
         editing: false,
-        width: '5%',
+        width: '4%',
     });
 
     field.push({
@@ -1705,7 +1705,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         // filtering: false,
         // sorting: false,
-        width: '6%',
+        width: '7%',
     });
 
     field.push({
@@ -1714,7 +1714,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         // filtering: false,
         // sorting: false,
-        width: '6%',
+        width: '7%',
     });
 
     //am=0 && qc=0
@@ -1735,7 +1735,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         // filtering: false,
         // sorting: false,
-        width: '6%',
+        width: '8%',
     });
 
     //am=1
@@ -1745,7 +1745,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         // filtering: false,
         // sorting: false,
-        width: '7%',
+        width: '9%',
     });
 
 
@@ -1755,7 +1755,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         // filtering: false,
         // sorting: false,
-        width: '6%',
+        width: '7%',
     });
 
     field.push({
@@ -1780,12 +1780,26 @@ function getPmsEmailCountTableList(gridSelector) {
         title: 'LAST ANNOTATED TIME',
         name: 'last_annotated_time',
         type: 'text',
-        width: '12%',
+        width: '9%',
     });
 
     field.push({
         title: 'LAST PROCEESED TIME',
         name: 'last_processed_time',
+        type: 'text',
+        width: '9%',
+    });
+
+    field.push({
+        title: 'LAST-SYNC (EMAIL SENT / PLUGIN)',
+        name: 'token_created_date',
+        type: 'text',
+        width: '9%',
+    });
+
+    field.push({
+        title: 'VERSION',
+        name: 'version',
         type: 'text',
         width: '12%',
     });
@@ -4208,7 +4222,7 @@ function validateEmail($email) {
 
     var emailReg = /^([\w-\.\_]+@([\w-]+\.)+[\w-]{2,6})?$/;
 
-    var externalEmailReg = /^[\w\.\_]+@(spi\-global\.com)?$/;
+    var externalEmailReg = /^[\w\.\_]+@((spi\-global|straive)\.com)?$/;
 
     returnData.valid = ($email.trim().length > 0 && emailReg.test($email.trim()));
 

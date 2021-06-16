@@ -3748,6 +3748,12 @@ class EmailCollection
                         $item["last_annotated_time"] = date("Y/m/d H:i:s", strtotime($item["last_annotated_time"]));
                     }
 
+                    if(isset($item["token_created_date"]) && $item["token_created_date"] != "") {
+
+                        $item["token_created_date"] = date("Y/m/d H:i:s", strtotime($item["token_created_date"]));
+
+                    }
+
                     if (isset($item["negative_count"]) && $item["negative_count"] != ""&& $item["negative_count"] != "0") {
 
                         $item["negative_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#QCEmailModal" data-toggle="modal" data-grid-selector="emailQCCountGrid" data-grid-title="Potentially alarming email" data-count="' . $item["negative_count"]. '" data-email-filter="potentially_alarming" data-email-category="qcEmail" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["negative_count"] . '</span></a>';
