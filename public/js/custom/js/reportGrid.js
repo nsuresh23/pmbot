@@ -100,9 +100,9 @@ function getSummaryReportTableList(gridSelector) {
 
         columnFields.push(...[
             { 'data': 'formatted_reviewed_count', 'className': 'report-user-login-info-bg text-center' },
-            { 'data': 'formatted_issue_average', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_responded_average', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_language_average', 'className': 'report-user-login-info-bg text-center' },
+            { 'data': 'formatted_issue_average', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_satisfaction_average', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_overall_average', 'className': 'report-user-login-info-bg text-center datatable_border_right' },
             { 'data': 'formatted_emails_responded_count', 'className': 'report-email-info-bg text-center' },
