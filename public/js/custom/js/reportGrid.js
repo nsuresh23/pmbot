@@ -379,6 +379,18 @@ function getSummaryReportTableList(gridSelector) {
 
     });
 
+    /*if (reportTable != undefined && reportTable != null) {
+
+    	reportTable.columns.adjust();
+
+    }*/
+
+    if ($.fn.DataTable.isDataTable(gridSelector)) {
+
+        $(gridSelector).DataTable().columns.adjust();
+
+    }
+
 }
 
 $('.summary-report-grid tbody').slimscroll({
