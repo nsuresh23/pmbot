@@ -92,7 +92,7 @@
                     <th class="capitalize-font text-center nosort">Satisfaction Of The<br>Affected Stakeholder</th>
                     <th class="capitalize-font text-center nosort">Weighted Score</th>
                     <th class="capitalize-font text-center nosort"># Of Emails Responded</th>
-                    <th class="capitalize-font text-center nosort ">Avg.Response Time Per Email<br><span class="column-note capitalize-font text-center">(In Hours)</span></th>
+                    <th class="capitalize-font text-center nosort ">Median Response Time Per Email<br><span class="column-note capitalize-font text-center">(H:M:S)</span></th>
                     {{-- <th class="capitalize-font text-center nosort ">Avg.Response Time Per Email<br><span class="column-note capitalize-font text-center">(In Hours)</span></th> --}}
 
                 </tr>
