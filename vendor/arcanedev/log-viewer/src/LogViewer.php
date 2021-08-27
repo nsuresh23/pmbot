@@ -8,6 +8,7 @@ use Arcanedev\LogViewer\Contracts\Utilities\Filesystem as FilesystemContract;
 use Arcanedev\LogViewer\Contracts\Utilities\Factory as FactoryContract;
 use Arcanedev\LogViewer\Contracts\Utilities\LogLevels as LogLevelsContract;
 use Arcanedev\LogViewer\Contracts\LogViewer as LogViewerContract;
+use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 
 /**
  * Class     LogViewer
@@ -211,12 +212,43 @@ class LogViewer implements LogViewerContract
     public function download($date, $filename = null, $headers = [])
     {
         if (is_null($filename)) {
-            $filename = "laravel-{$date}.log";
+            $filename = "pmbot-webservices-{$date}.log";
         }
 
         $path = $this->filesystem->path($date);
 
+        /* $filesystemReadObj = new IlluminateFilesystem();
+
+        $prefixPattern = FilesystemContract::PATTERN_PREFIX;
+        $extension = FilesystemContract::PATTERN_EXTENSION;
+
+        $files = $filesystemReadObj->glob(
+            storage_path('logs') . DIRECTORY_SEPARATOR . $prefixPattern . $date . $extension,
+            defined('GLOB_BRACE') ? GLOB_BRACE : 0
+        );
+
+        $downloadFileArray = [];
+
+        if (is_array($files) && count($files)) {
+
+            foreach ($files as $file) {
+
+                $file_url = realpath($file);
+
+                // array_push($downloadFileArray, $file);
+
+                header('Content-Type: application/octet-stream');
+                header("Content-Transfer-Encoding: Binary");
+                header("Content-disposition: attachment; filename=\"" . basename($file_url) . "\"");
+                echo readfile($file_url);
+
+            }
+
+        }
+
+        return true; */
         return response()->download($path, $filename, $headers);
+
     }
 
     /**

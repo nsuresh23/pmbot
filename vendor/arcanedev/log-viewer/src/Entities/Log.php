@@ -8,6 +8,7 @@ use Illuminate\Contracts\Support\{Arrayable, Jsonable};
 use Illuminate\Support\Carbon;
 use JsonSerializable;
 use SplFileInfo;
+use Illuminate\Filesystem\Filesystem;
 
 /**
  * Class     Log
@@ -34,6 +35,12 @@ class Log implements Arrayable, Jsonable, JsonSerializable
     /** @var \SplFileInfo */
     private $file;
 
+    private $prefixPattern;
+
+    private $extension;
+
+    private $filesystem;
+
     /* -----------------------------------------------------------------
      |  Constructor
      | -----------------------------------------------------------------
@@ -51,7 +58,33 @@ class Log implements Arrayable, Jsonable, JsonSerializable
         $this->date    = $date;
         $this->path    = $path;
         $this->file    = new SplFileInfo($path);
+
+        $this->filesystem = new Filesystem();
+
+        $this->prefixPattern = 'webservices' . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*';;
+
+        $this->extension = '*.log';
+
+        $files = $this->filesystem->glob(
+            storage_path('logs').DIRECTORY_SEPARATOR.$this->prefixPattern.$date.$this->extension, defined('GLOB_BRACE') ? GLOB_BRACE : 0
+        );
+
+        if(is_array($files) && count($files)) {
+
+            foreach ($files as $file) {
+
+                if ($path != realpath($file)) {
+
+                    $raw .= file_get_contents($file);
+
+                }
+
+            }
+
+        }
+
         $this->entries = LogEntryCollection::load($raw);
+
     }
 
     /* -----------------------------------------------------------------

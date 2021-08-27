@@ -19,9 +19,12 @@ interface Filesystem extends Patternable
      | -----------------------------------------------------------------
      */
 
-    const PATTERN_PREFIX    = 'laravel-';
+    // const PATTERN_PREFIX    = 'laravel-';
+    // const PATTERN_DATE      = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';
+    // const PATTERN_EXTENSION = '.log';
+    const PATTERN_PREFIX    = 'webservices' . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*';
     const PATTERN_DATE      = '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]';
-    const PATTERN_EXTENSION = '.log';
+    const PATTERN_EXTENSION = '*.log';
 
     /* -----------------------------------------------------------------
      |  Getters & Setters

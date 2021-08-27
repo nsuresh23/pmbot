@@ -8,6 +8,7 @@ use Arcanedev\LogViewer\Contracts\Utilities\Filesystem as FilesystemContract;
 use Arcanedev\LogViewer\Exceptions\FilesystemException;
 use Arcanedev\LogViewer\Helpers\LogParser;
 use Exception;
+use SplFileInfo;
 use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 
 /**
@@ -256,13 +257,38 @@ class Filesystem implements FilesystemContract
      */
     public function delete($date)
     {
+
         $path = $this->getLogPath($date);
 
-        // @codeCoverageIgnoreStart
-        if ( ! $this->filesystem->delete($path)) {
-            throw new FilesystemException('There was an error deleting the log.');
+        $info = new SplFileInfo($path);
+        $parent_info = $info->getPathInfo();
+        $parent_info = $parent_info->getRealPath();
+
+        $files = $this->filesystem->glob(
+            storage_path('logs') . DIRECTORY_SEPARATOR . $this->prefixPattern . $date . $this->extension,
+            defined('GLOB_BRACE') ? GLOB_BRACE : 0
+        );
+
+        if (is_array($files) && count($files)) {
+
+            foreach ($files as $file) {
+
+                $file = realpath($file);
+                unlink($file);
+
+                /*
+                // @codeCoverageIgnoreStart
+                if (!$this->filesystem->delete($file)) {
+                    throw new FilesystemException('There was an error deleting the log.');
+                }
+                // @codeCoverageIgnoreEnd
+                */
+
+            }
+
+            rmdir($parent_info);
+
         }
-        // @codeCoverageIgnoreEnd
 
         return true;
     }
@@ -324,6 +350,16 @@ class Filesystem implements FilesystemContract
     private function getLogPath(string $date)
     {
         $path = $this->storagePath.DIRECTORY_SEPARATOR.$this->prefixPattern.$date.$this->extension;
+
+        $files = $this->filesystem->glob(
+            $this->storagePath.DIRECTORY_SEPARATOR.$this->prefixPattern.$date.$this->extension, defined('GLOB_BRACE') ? GLOB_BRACE : 0
+        );
+
+        if(is_array($files) && count($files)) {
+
+            $path = $files[0];
+
+        }
 
         if ( ! $this->filesystem->exists($path)) {
             throw new FilesystemException("The log(s) could not be located at : $path");
