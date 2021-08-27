@@ -1141,6 +1141,12 @@ class EmailCollection
             if (isset($field["email_type"]) && $field["email_type"] == "email-review-latest") {
 
                 $url = $this->latestEmailListApiUrl;
+				
+				if (isset($field["subject"]) && $field["subject"] != "") {
+					
+					$field["subject"] = base64_encode($field["subject"]);
+					
+				}
 
             }
 

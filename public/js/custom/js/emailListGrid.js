@@ -1689,7 +1689,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         width: '16%',
     });
-
+/*
     field.push({
         title: "EMAIL COUNT",
         name: "email_count",
@@ -1716,7 +1716,7 @@ function getPmsEmailCountTableList(gridSelector) {
         // sorting: false,
         width: '7%',
     });
-
+*/
     //am=0 && qc=0
     field.push({
         title: "POTENTIAL ALARMING EMAILS",
