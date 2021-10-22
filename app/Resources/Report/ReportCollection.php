@@ -40,6 +40,7 @@ class ReportCollection
     protected $classifiedEmailReportApiUrl;
     protected $externalEmailReportApiUrl;
     protected $reviewedEmailReportApiUrl;
+    protected $emailAnnotatorBaseUrl;
 
     public function __construct()
     {
@@ -51,6 +52,8 @@ class ReportCollection
         $this->classifiedEmailReportApiUrl = env('API_CLASSIFIED_EMAIL_REPORT_LIST_URL');
         $this->externalEmailReportApiUrl = env('API_EXTERNAL_EMAIL_REPORT_LIST_URL');
         $this->reviewedEmailReportApiUrl = env('API_REVIEWED_EMAIL_REPORT_LIST_URL');
+        $this->emailRespondedListApiUrl  = env('API_EMAIL_RESPONDED_LIST_URL');
+        $this->emailAnnotatorBaseUrl = env("EMAIL_ANNOTATOR_BASE_URL");
 
     }
 
@@ -141,7 +144,7 @@ class ReportCollection
 
                     if ($paramInfo["category"] == "external_email") {
 
-                        $responseFormattedData = $this->externalEmailReportFormatData($responseData["data"]["list"]);
+                        $responseFormattedData = $this->externalEmailReportFormatData($responseData["data"]["list"], $paramInfo);
 
                         if(is_array($responseFormattedData) && count($responseFormattedData) > 0) {
 
@@ -208,6 +211,7 @@ class ReportCollection
                     $returnResponse["success"] = "true";
 
                     $returnResponse["data"] = $responseFormatData;
+
                 }
             }
 
@@ -531,14 +535,14 @@ class ReportCollection
 
     }
 
-    public function externalEmailReportFormatData($items)
+    public function externalEmailReportFormatData($items, $paramInfo)
     {
 
         $s_no = 0;
 
         $resource = array_map(
 
-            function ($item) use (&$s_no) {
+            function ($item) use (&$s_no, $paramInfo) {
 
                 if (is_array($item) && count($item)) {
 
@@ -561,6 +565,8 @@ class ReportCollection
                     $item["formatted_neutral_count"] = "";
 
                     $item["formatted_negative_count"] = "";
+
+                    $item["formatted_emails_unresponded_count"] = "";
 
                     $item["formatted_emails_responded_count"] = "";
 
@@ -621,15 +627,75 @@ class ReportCollection
 
                     }
 
+                    if (isset($item["unresponded_count"]) && $item["unresponded_count"] != "") {
+
+                        $item["formatted_emails_unresponded_count"] = $item["unresponded_count"];
+
+                    }
+
                     if (isset($item["emails_responded_count"]) && $item["emails_responded_count"] != "") {
 
-                        $item["formatted_emails_responded_count"] = $item["emails_responded_count"];
+                        $responded_count_tag = '<a class="responded-email-list" href="#respondedEmailListModal" data-toggle="modal" data-grid-selector="responded-email-grid" data-grid-title="Responded Emails"';
+
+                        if (isset($item["empcode"]) && $item["empcode"] != "") {
+
+                            $responded_count_tag .= ' data-empcode="' . $item["empcode"] . '"';
+                        }
+
+                        if (isset($paramInfo["filter"]) && is_array($paramInfo["filter"]) && count($paramInfo["filter"]) > 0) {
+
+                            $dateRange = "";
+
+                            if (isset($paramInfo["filter"]["fromdate"]) && $paramInfo["filter"]["fromdate"] != "") {
+
+                                /* $fromDateSplitArray = explode(" ", $paramInfo["filter"]["fromdate"]);
+
+                                if (is_array($fromDateSplitArray) && count($fromDateSplitArray) > 0) {
+
+                                    $dateRange .= $fromDateSplitArray[0];
+                                } */
+
+                                $dateRange .= $paramInfo["filter"]["fromdate"];
+
+                            }
+
+                            if (isset($paramInfo["filter"]["todate"]) && $paramInfo["filter"]["todate"] != "") {
+
+                                /* $toDateSplitArray = explode(" ", $paramInfo["filter"]["todate"]);
+
+                                if (is_array($toDateSplitArray) && count($toDateSplitArray) > 0) {
+
+                                    $dateRange .= " to " . $toDateSplitArray[0];
+                                } */
+
+                                $dateRange .= " to " . $paramInfo["filter"]["todate"];
+
+                            }
+
+                            if ($dateRange != "") {
+
+                                $responded_count_tag .= ' data-range="' . $dateRange . '"';
+                            }
+                        }
+
+                        $responded_count_tag .= '>';
+                        $responded_count_tag .= '<span class="txt-a-blue underlined">';
+                        $responded_count_tag .= $item["emails_responded_count"];
+                        $responded_count_tag .= '</span>';
+
+                        $responded_count_tag .= '</a>';
+
+                        // $item["formatted_emails_responded_count"] = $item["emails_responded_count"];
+
+                        $item["formatted_emails_responded_count"] = $responded_count_tag;
 
                     }
 
                     if (isset($item["average_response_time"]) && $item["average_response_time"] != "") {
 
-                        $item["formatted_average_response_time"] = $item["average_response_time"];
+                        // $item["formatted_average_response_time"] = $item["average_response_time"];
+                        $item["formatted_average_response_time"] = $this->getStarByValue($item["average_response_time"], "time");
+
 
                     }
 
@@ -868,6 +934,247 @@ class ReportCollection
 
                         // $item["formatted_average_response_time"] = $item["average_response_time"];
                         $item["formatted_average_response_time"] = $this->getStarByValue($item["average_response_time"], "time");
+
+                    }
+
+                }
+
+                return $item;
+            },
+
+            $items
+
+        );
+
+        return $resource;
+    }
+
+    public function respondedEmailList($field)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        try {
+
+            $responseData = [];
+
+            $url = $this->emailRespondedListApiUrl;
+
+            $returnResponseData = $this->postRequest($url, $field);
+
+            if ($returnResponseData["success"] == "true") {
+
+                $returnResponse["success"] = "true";
+
+                if (is_array($returnResponseData["data"]) && count($returnResponseData["data"]) > 0 && $returnResponseData["data"] != "") {
+
+                    $responseGroupedData = $returnResponseData["data"];
+
+
+                    $responseData = $this->respondedEmailReportFormatData($responseGroupedData, $field);
+
+                    if ($responseData) {
+
+                        $returnResponse["data"] = $responseData;
+
+                        if (is_array($responseData)) {
+
+                            $returnResponse["last_updated_delay"] = "false";
+
+                            $returnResponse["result_count"] = count($responseData);
+
+                            if (!isset($returnResponseData["last_updated"]) || $returnResponseData["last_updated"] == "") {
+
+                                $date = new DateTime('now', new DateTimeZone(env('APP_TIME_ZONE')));
+                                $lastUpdated =  $date->format('Y/m/d h:i:s A');
+
+                                $returnResponse["last_updated"] = $lastUpdated;
+
+                            }
+
+                            if (isset($returnResponseData["result_count"]) && $returnResponseData["result_count"] != "") {
+
+                                $returnResponse["result_count"] = $returnResponseData["result_count"];
+
+                            }
+
+                            if (isset($returnResponseData["last_updated"]) && $returnResponseData["last_updated"] != "") {
+
+                                $lastUpdated = new DateTime($returnResponseData["last_updated"], new DateTimeZone(env('APP_TIME_ZONE')));
+                                $currentTime = new DateTime('now', new DateTimeZone(env('APP_TIME_ZONE')));
+                                $diff = $lastUpdated->diff($currentTime);
+
+                                $minutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
+
+                                if($minutes > 5) {
+
+                                    $returnResponse["last_updated_delay"] = "true";
+
+                                }
+
+                                $returnResponse["last_updated"] = $returnResponseData["last_updated"];
+
+                            }
+
+                        }
+                    }
+                }
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                " => LINE => " . __LINE__ . " => " .
+                " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return $returnResponse;
+    }
+
+    public function respondedEmailReportFormatData($items, $paramInfo)
+    {
+
+        $s_no = 0;
+
+	    usort($items, function($a, $b){
+
+            if(isset($b["response_time"]) && isset($a["response_time"])) {
+
+                return strcmp($b["response_time"], $a["response_time"]);}
+
+            }
+
+        );
+
+        $resource = array_map(
+
+            function ($item) use (&$s_no, $paramInfo) {
+
+                if (is_array($item) && count($item)) {
+
+                    $s_no = $s_no + 1;
+
+                    $item["s_no"] = $s_no;
+
+					$item["pmname_link"] = "-";
+
+                    $item["formatted_email_to"] = "";
+
+                    $item["subject_link"] = "";
+
+                    $item["formatted_message_start"] = "";
+
+                    $item["formatted_email_sent_date"] = "";
+
+                    $item["formatted_parent_email_received_date"] = "";
+
+                    $item["formatted_response_time"] = "";
+
+                    $emailTypeClass = $email_id = $email_category = $email_filter = "";
+
+                    $emailSubject = "no subject";
+
+                    $emailGetUrl = route(__("job.email_get_url"));
+
+                    if (isset($paramInfo["email_category"]) && $paramInfo["email_category"] != "") {
+
+                        $email_category = $paramInfo["email_category"];
+
+                    }
+
+                    if (isset($paramInfo["email_filter"]) && $paramInfo["email_filter"] != "") {
+
+                        $email_filter = $paramInfo["email_filter"];
+
+                    }
+
+                    if (isset($item["pmname"]) && $item["pmname"] != "") {
+
+                        $item["pmname_link"] = $item["pmname"];
+                        // $item["pmname_link"] = '<a class="user-login-history-btn" href="#userLoginHistorModal" data-toggle="modal" data-grid-selector="user-login-history-grid" data-grid-title="Login history" data-date="' . $item["date"] . '" data-empcode="' . $item["empcode"] . '"><span class="txt-a-blue underlined">' . $item["pmname"] . '</span></a>';
+
+                    }
+
+					if (isset($item["email_to"]) && $item["email_to"] != "NULL" && $item["email_to"] != "") {
+
+                        if (base64_decode($item["email_to"], true)) {
+
+                            $item["email_to"] = base64_decode($item["email_to"]);
+
+                        }
+
+                        $item["formatted_email_to"] = $item["email_to"];
+
+                    }
+
+                    if (isset($item["subject"]) && $item["subject"] != "NULL"  && $item["subject"] != "") {
+
+                        if (base64_decode($item["subject"], true)) {
+
+                            $item["subject"] = base64_decode($item["subject"]);
+
+							$emailSubject = $item["subject"];
+
+                        }
+
+                        if (strtolower($item["empcode"]) != strtolower(auth()->user()->empcode)) {
+
+                            $emailTypeClass = "pmbot-email-item";
+
+                        }
+
+                        $emailViewUrl = $this->emailAnnotatorBaseUrl;
+
+                        if (isset($item["email_sent_id"]) &&  $item["email_sent_id"] != "") {
+
+                            $email_id = $item["email_sent_id"];
+
+                            $emailViewUrl = $emailViewUrl . "/id/" . $email_id;
+
+                        }
+
+                        $item['subject_link'] = '<a class="email-item ' . $emailTypeClass . '" href="' . $emailViewUrl . '" data-email-id="' . $email_id . '" data-email-category="' . $email_category . '" data-email-filter="' . $email_filter . '" data-email-geturl="' . $emailGetUrl . '">' . mb_strimwidth($emailSubject, 0, 75, "...") . '</a>';
+                        $item["subject_min_width"] = mb_strimwidth($emailSubject, 0, 75, "...");
+
+                    }
+
+                    if (isset($item["message_start"]) && $item["message_start"] != "NULL" && $item["message_start"] != "") {
+
+                        if (base64_decode($item["message_start"], true)) {
+
+                            $item["message_start"] = base64_decode($item["message_start"]);
+
+                        }
+
+                        $item["formatted_message_start"] = $item["message_start"];
+
+                    }
+
+                    if (isset($item["email_sent_date"]) && $item["email_sent_date"] != "NULL" && $item["email_sent_date"] != "") {
+
+                        $item["formatted_email_sent_date"] = date("Y/m/d H:i:s", strtotime($item["email_sent_date"]));
+
+                    }
+
+                    if (isset($item["parent_email_received_date"]) && $item["parent_email_received_date"] != "NULL" && $item["parent_email_received_date"] != "") {
+
+                        $item["formatted_parent_email_received_date"] = date("Y/m/d H:i:s", strtotime($item["parent_email_received_date"]));
+
+                    }
+
+                    if (isset($item["response_time"]) && $item["response_time"] != "") {
+
+                        $item["formatted_response_time"] = $this->getStarByValue($item["response_time"], "time");
+
 
                     }
 

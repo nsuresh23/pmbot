@@ -78,6 +78,7 @@
 
                     <th rowspan="2" class="capitalize-font text-center nosort">S.No</th>
                     <th rowspan="2" class="capitalize-font text-center nosort">PM Name</th>
+                    <th rowspan="2" class="capitalize-font text-center nosort datatable_border_right"># Of Emails Un-Responded</th>
                     <th colspan="4" class="capitalize-font text-center report-user-login-info-bg nosort datatable_border_right" style="border-bottom: 1px solid #111 !important;">Email Sentiment</th>
                     <th colspan="2" class="capitalize-font text-center report-email-info-bg nosort" style="border-bottom: 1px solid #111 !important;">Response Time</th>
 
@@ -102,6 +103,7 @@
 
                     <th style="text-align:center">Total</th>
                     <th class="pm_total" style="text-align:center"></th>
+                    <th class="emails_unresponded_total" style="text-align:center"></th>
                     <th class="noset_total" style="text-align:center"></th>
                     <th class="positive_total" style="text-align:center"></th>
                     <th class="neutral_total" style="text-align:center"></th>

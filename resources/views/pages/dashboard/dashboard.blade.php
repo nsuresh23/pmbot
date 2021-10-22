@@ -133,6 +133,7 @@
         $taskCalendarUrl = route(__("job.task_calendar_url"));
 
         $myEmailListUrl = route(__("job.email_list_url"));
+        $respondedEmailListUrl = route(__("job.responded_email_list_url"));
         $emailCategoryMoveToUrl = route(__("job.email_move_to_url"));
 
         $emailRuleListUrl = route(__("dashboard.email_rules_list_url"));

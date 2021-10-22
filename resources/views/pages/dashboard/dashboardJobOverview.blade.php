@@ -81,6 +81,7 @@
             @include('pages.dashboard.email.dashboardSentEmailModal')
             @include('pages.dashboard.reports.reviewedEmailListModal')
             @include('pages.dashboard.email.dashboardEmailReviewModal')
+            @include('pages.dashboard.reports.respondedEmailListModal')
 
             <?php // if(in_array(auth()->user()->role, Config::get('constants.amUserRoles'))) { ?>
 

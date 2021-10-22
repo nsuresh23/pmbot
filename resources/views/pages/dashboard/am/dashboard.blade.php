@@ -96,6 +96,7 @@
         $taskDeleteUrl = route(__("job.task_delete_url"));
 
         $myEmailListUrl = route(__("job.email_list_url"));
+        $respondedEmailListUrl = route(__("job.responded_email_list_url"));
         $emailCategoryMoveToUrl = route(__("job.email_move_to_url"));
 
         $emailSendUrl = route(__("job.email_send_url"));

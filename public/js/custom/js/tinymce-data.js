@@ -107,6 +107,7 @@ $(function() {
     emailViewEditor('#email-review-body');
     emailViewEditor('#email-reviewed-body');
     emailViewEditor('#review-email-modal-body');
+    emailViewEditor('#responded-email-body');
 
     emailEditorInitialize('#textarea_editor_email_compose');
     emailEditorInitialize('#textarea_editor_email_draft');

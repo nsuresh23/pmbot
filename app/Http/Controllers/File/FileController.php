@@ -230,4 +230,117 @@ class FileController extends Controller
 
     }
 
+    /**
+     * Get workflow file.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getWorkflowFile(Request $request)
+    {
+
+        $imageFolderPath = "";
+
+        try {
+
+            if (isset($request->fileserver) && $request->fileserver != "" && isset($request->img_path) && $request->img_path != "") {
+
+                if(isset($request->source_from) && $request->source_from == "magnus") {
+
+                    if ($request->fileserver == "2") {
+
+                        $imageFolderPath     = str_replace("\\", "/", $request->img_path);
+
+                        // Storage::disk('s3')->put($imageFolderPath, file_get_contents($imageFolderPath));
+
+                        if(isset($request->alais_name) && $request->alais_name != "") {
+
+                            return Storage::disk('s3')->download($imageFolderPath, $request->alais_name);
+
+                        }
+
+                        return Storage::disk('s3')->download($imageFolderPath);
+
+                    }
+
+                }
+
+            }
+
+        } catch (Exception $e) {
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+    }
+
+    /**
+     * Get workflow file size.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getWorkflowFileSize(Request $request)
+    {
+
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "data" => "",
+            "message" => "",
+        ];
+
+        $fileSize = "";
+        $imageFolderPath = "";
+
+        try {
+
+            if (isset($request->fileserver) && $request->fileserver != "" && isset($request->img_path) && $request->img_path != "") {
+
+                if (isset($request->source_from) && $request->source_from == "magnus") {
+
+                    if ($request->fileserver == "2") {
+
+                        $imageFolderPath = str_replace("\\", "/", $request->img_path);
+
+                        if(Storage::disk('s3')->exists($imageFolderPath)){
+
+                            $returnResponse["success"] = "true";
+
+                            $returnResponse["data"] = [];
+
+                            $fileSize = Storage::disk('s3')->size($imageFolderPath);
+
+                            $returnResponse["data"]["file_size"] = $fileSize;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        } catch (Exception $e) {
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
+
+            $this->error(
+                "app_error_log_" . date('Y-m-d'),
+                " => FILE => " . __FILE__ . " => " .
+                    " => LINE => " . __LINE__ . " => " .
+                    " => MESSAGE => " . $e->getMessage() . " "
+            );
+        }
+
+        return json_encode($returnResponse);
+
+    }
+
 }

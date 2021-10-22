@@ -637,7 +637,8 @@ class ReportController extends Controller
 
                         if (count($rangeValue) > 0) {
 
-                            $filterData["fromdate"] = $rangeValue[0] . " 00:00:01";
+                            // $filterData["fromdate"] = $rangeValue[0] . " 00:00:01";
+                            $filterData["fromdate"] = $rangeValue[0] . " 00:00:00";
 
                             if (count($rangeValue) > 1) {
 
@@ -762,7 +763,8 @@ class ReportController extends Controller
 
                         if (count($rangeValue) > 0) {
 
-                            $filterData["fromdate"] = $rangeValue[0] . " 00:00:01";
+                            // $filterData["fromdate"] = $rangeValue[0] . " 00:00:01";
+                            $filterData["fromdate"] = $rangeValue[0] . " 00:00:00";
 
                             if (count($rangeValue) > 1) {
 
@@ -821,6 +823,108 @@ class ReportController extends Controller
             if (count($field) > 0) {
 
                 $returnResponse = $this->reportResource->summaryReport($field);
+            }
+        } catch (Exception $e) {
+
+            $returnResponse["success"] = "false";
+            $returnResponse["error"] = "true";
+            $returnResponse["data"] = [];
+            $returnResponse["message"] = $e->getMessage();
+        }
+
+        //if ($request->ajax()) {
+
+        return $returnResponse;
+        // return json_encode($returnResponse);
+        //}
+
+        return view("errors.error404");
+    }
+
+    /**
+     * Show the email reviewed email report detail.
+     *
+     *  @return json response
+     */
+    public function respondedEmailReport(Request $request)
+    {
+
+        try {
+
+            $field = [];
+
+            $returnResponse = [];
+
+            $filterData = [];
+
+            if (isset($request->filter) && is_array($request->filter) && count($request->filter) > 0) {
+
+                $filterData = $request->filter;
+
+                if (isset($filterData["pageIndex"]) && $filterData["pageIndex"] != '') {
+
+                    if (isset($filterData["pageSize"]) && $filterData["pageSize"] != '') {
+
+                        $filterData["offset"] = ($filterData["pageIndex"] - 1) * $filterData["pageSize"];
+
+                        $filterData["limit"] = $filterData["pageSize"];
+
+                        unset($filterData["pageIndex"]);
+
+                        unset($filterData["pageSize"]);
+                    }
+                }
+
+                $field["filter"] = $filterData;
+
+            }
+
+            if (isset($request->email_filter) && $request->email_filter != "") {
+
+                $field["email_filter"] = $request->email_filter;
+
+            }
+
+            if (isset($request->email_category) && $request->email_category != "") {
+
+                $field["email_category"] = $request->email_category;
+
+            }
+
+            if (isset($request->empcode) && $request->empcode != "") {
+
+                $field["user_empcode"] = $request->empcode;
+
+            }
+
+            if (isset($request->range) && $request->range != "") {
+
+                $rangeValue = explode(' to ', $request->range);
+
+                if (is_array($rangeValue)) {
+
+                    if (count($rangeValue) > 0) {
+
+                        $field["fromdate"] = $rangeValue[0];
+
+                        if (count($rangeValue) > 1) {
+
+                            $field["todate"] = $rangeValue[1];
+                        }
+                    }
+                }
+
+                // $filterData["range"] = $filterOption["range"];
+
+            }
+
+            $field["empcode"] = auth()->user()->empcode;
+
+            $field["role"] = auth()->user()->role;
+
+            if (count($field) > 0) {
+
+                $returnResponse = $this->reportResource->respondedEmailList($field);
             }
         } catch (Exception $e) {
 

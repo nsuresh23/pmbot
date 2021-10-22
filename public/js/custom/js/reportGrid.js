@@ -84,6 +84,7 @@ function getSummaryReportTableList(gridSelector) {
         reportBlockId = "external-email-report";
 
         columnFields.push(...[
+            { 'data': 'formatted_emails_unresponded_count', 'className': 'text-center datatable_border_right' },
             { 'data': 'formatted_not_set_count', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_positive_count', 'className': 'report-user-login-info-bg text-center' },
             { 'data': 'formatted_neutral_count', 'className': 'report-user-login-info-bg text-center' },
@@ -263,6 +264,12 @@ function getSummaryReportTableList(gridSelector) {
                             if ('negative' in response.data.totallist) {
 
                                 $('.negative_total').html(response.data.totallist.negative);
+
+                            }
+
+                            if ('unresponded_count' in response.data.totallist) {
+
+                                $('.emails_unresponded_total').html(response.data.totallist.unresponded_count);
 
                             }
 
@@ -521,6 +528,7 @@ $(document).on('click', '#externalEmailReportTab', function(e) {
         $('.positive_total').html('');
         $('.neutral_total').html('');
         $('.negative_total').html('');
+        $('.emails_unresponded_total').html('');
         $('.emails_responded_total').html('');
         $('.average_response_time_total').html('');
 
@@ -844,6 +852,11 @@ $('.user-login-history-grid .jsgrid-grid-body').slimscroll({
     alwaysVisible: 'true',
 });
 
+$('.responded-email-grid .jsgrid-grid-body').slimscroll({
+    height: '490px',
+    alwaysVisible: 'true',
+});
+
 $(document).on('click', '.reviewed-report-mail-list', function(e) {
 
     $('.email-detail-body').hide();
@@ -896,6 +909,326 @@ $(document).on('click', '.reviewed-report-mail-list', function(e) {
         getEmailTableList(gridSelector);
 
         $('.reviewed-email-list-modal').modal('show');
+
+    }
+
+});
+
+function respondedEmailTableList(gridSelector) {
+
+    var gridType = $(gridSelector).attr('data-type');
+    var gridCategory = $(gridSelector).attr('data-category');
+    var gridEmailFilter = $(gridSelector).attr('data-email-filter');
+    var listUrl = $(gridSelector).attr('data-list-url');
+    var currentRoute = $(gridSelector).attr('data-current-route');
+    var empcode = $(gridSelector).attr('data-empcode');
+    var dateRange = $(gridSelector).attr('data-date-range');
+    var pageSize = $('#currentUserInfo').attr('data-page-size');
+
+    var insertControlVisible = false;
+    var editControlVisible = false;
+    var deleteControlVisible = false;
+
+    var dbClients = "";
+
+    var field = [];
+
+    /* field.push({
+        title: "S.NO",
+        name: "s_no",
+        type: "number",
+        inserting: false,
+        filtering: false,
+        sorting: false,
+        editing: false,
+        width: 20,
+    }); */
+
+    /* field.push({
+        title: "PM NAME",
+        name: "pmname_link",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        // width: 40,
+    }); */
+
+    field.push({
+        title: "TO",
+        name: "formatted_email_to",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        // width: 40,
+    });
+
+    field.push({
+        title: "SUBJECT",
+        name: "subject_link",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        // width: 40,
+    });
+
+    field.push({
+        title: "MESSAGE PREVIEW",
+        name: "formatted_message_start",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        // width: 40,
+    });
+
+    field.push({
+        title: "SENT DATE TIME",
+        name: "formatted_email_sent_date",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        // width: 40,
+    });
+
+    field.push({
+        title: "PARENT EMAIL RECEIVED DATE TIME",
+        name: "formatted_parent_email_received_date",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        // width: 40,
+    });
+
+    field.push({
+        title: "RESPONSE TIME",
+        name: "formatted_response_time",
+        type: "text",
+        filtering: false,
+        sorting: false,
+        width: 75,
+    });
+
+    // field.push({
+    //     type: "control",
+    //     name: "Control",
+    //     editButton: editControlVisible,
+    //     deleteButton: deleteControlVisible,
+    //     headerTemplate: function() {
+
+    //         return this._createOnOffSwitchButton("filtering", this.searchModeButtonClass, false);
+
+    //     },
+    //     width: 70,
+    // });
+
+    $(gridSelector).jsGrid({
+
+        height: "450px",
+        width: "100%",
+        autowidth: true,
+        editing: editControlVisible,
+        inserting: insertControlVisible,
+        filtering: false,
+        sorting: false,
+        autoload: true,
+        paging: false,
+        pageLoading: true,
+        pageSize: pageSize,
+        pageIndex: 1,
+        pageButtonCount: 5,
+
+        confirmDeleting: false,
+
+        noDataContent: "No data",
+
+        invalidNotify: function(args) {
+
+            $('#alert-error-not-submit').removeClass('hidden');
+
+        },
+
+        loadIndication: true,
+        // loadIndicationDelay: 500,
+        loadMessage: "Please, wait...",
+        loadShading: true,
+
+        fields: field,
+
+        onInit: function(args) {
+
+            this._resetPager();
+
+        },
+
+        search: function(filter) {
+
+            this._resetPager();
+            return this.loadData(filter);
+
+        },
+
+        onPageChanged: function(args) {
+
+            $('html, body').animate({
+                scrollTop: $(".emailGrid").offset().top - 110
+            }, 0);
+
+        },
+
+        controller: {
+
+            loadData: function(filter) {
+
+                $(gridSelector).jsGrid('option', 'data', []);
+
+                $('.responded-email-count').html('');
+
+                var d = $.Deferred();
+
+                var respondedEmailPostData = {};
+
+                respondedEmailPostData.filter = filter
+
+                if (empcode != undefined && empcode != '') {
+
+                    respondedEmailPostData.empcode = empcode;
+
+                }
+
+                if (dateRange != undefined && dateRange != '') {
+
+                    respondedEmailPostData.range = dateRange;
+
+                }
+
+                if (gridCategory != undefined && gridCategory != '') {
+
+                    respondedEmailPostData.email_category = gridCategory;
+
+                }
+
+                if (gridEmailFilter != undefined && gridEmailFilter != '') {
+
+                    respondedEmailPostData.email_filter = gridEmailFilter;
+
+                }
+
+                /* AJAX call to get list */
+                $.ajax({
+
+                    url: listUrl,
+                    data: respondedEmailPostData,
+                    dataType: "json",
+                    beforeSend: function() {
+                        $('.responded_emaillist_loader').show();
+                    },
+                    complete: function() {
+                        $('.responded_emaillist_loader').hide();
+                    }
+
+                }).done(function(response) {
+
+                    var dataResult = {};
+
+                    dataResult.data = '';
+
+                    if (response.success == "true") {
+
+                        if (response.data != '') {
+
+                            dbClients = response.data;
+
+                            dataResult.data = response.data;
+                            dataResult.itemsCount = response.result_count;
+
+                            d.resolve(dataResult);
+
+                            if ('result_count' in response) {
+
+                                var resultCount = response.result_count;
+
+                                if (parseInt(resultCount) != NaN && parseInt(resultCount) > 0) {
+
+                                    if (parseInt(resultCount) > 99999) {
+
+                                        resultCount = '99999+'
+
+                                    }
+
+                                    $('.responded-email-count').html('(' + resultCount + ')');
+
+                                }
+
+
+                            }
+
+                            $('.responded-email-grid .jsgrid-grid-body').slimscroll({
+                                height: '490px',
+                                alwaysVisible: 'true',
+                            });
+
+                        } else {
+
+                            d.resolve(dataResult);
+
+                        }
+
+                    } else {
+
+                        d.resolve(dataResult);
+
+                    }
+
+
+                });
+
+                return d.promise();
+
+            }
+        },
+
+        rowClick: function(args) {
+
+            $(gridSelector).jsGrid("cancelEdit");
+
+        },
+
+    });
+
+}
+
+$(document).on('click', '.responded-email-list', function(e) {
+
+    $('.email-detail-body').hide();
+    $('.email-list-body').show();
+
+    var gridSelector = '.' + $(this).attr('data-grid-selector');
+
+    var dataUrl = $(gridSelector).attr('data-list-url');
+
+    if (dataUrl != undefined && dataUrl != "") {
+
+        var dateRange = $(this).attr('data-range');
+
+        var userEmpcode = $(this).attr('data-empcode');
+
+        $(gridSelector).attr('data-empcode', '');
+        $(gridSelector).attr('data-date-range', '');
+
+        if (userEmpcode != undefined && userEmpcode != '') {
+
+            $(gridSelector).attr('data-empcode', userEmpcode);
+
+        }
+
+        if (dateRange != undefined && dateRange != '') {
+
+            $(gridSelector).attr('data-date-range', dateRange);
+
+        }
+
+        respondedEmailTableList(gridSelector);
+
+        $('.responded-email-list-modal').modal('show');
 
     }
 

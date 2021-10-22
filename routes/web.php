@@ -26,6 +26,9 @@ Route::any('/user-login', 'User\UserController@login')->name('user-login');
 
 Route::any('/user-mfa', 'User\UserController@mfa')->name('user-mfa');
 
+Route::any('file', 'File\FileController@getFile')->name('file');
+Route::any('file-size', 'File\FileController@getFileSize')->name('file-size');
+
 Route::group(['middleware' => ['auth', 'roles']], function () {
 
 	Route::get('/', function (Request $request) {
@@ -111,8 +114,8 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
 	}
 
 
-	Route::any('file', 'File\FileController@getFile')->name('file');
-    Route::any('file-size', 'File\FileController@getFileSize')->name('file-size');
+	// Route::any('file', 'File\FileController@getFile')->name('file');
+    // Route::any('file-size', 'File\FileController@getFileSize')->name('file-size');
 	Route::any('file-upload', 'File\FileController@fileUpload')->name('file-upload');
 
     // Route::any('/pm/dashboard', 'PM\DashboardController@index');
@@ -197,6 +200,7 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['admin', 'account_m
     Route::any('classified-email-report', 'AM\Report\ReportController@classifiedEmailReport')->name('classified-email-report'); //done
     Route::any('external-email-report', 'AM\Report\ReportController@externalEmailReport')->name('external-email-report'); //done
     Route::any('reviewed-email-report', 'AM\Report\ReportController@reviewedEmailReport')->name('reviewed-email-report'); //done
+    Route::any('responded-email-report', 'AM\Report\ReportController@respondedEmailReport')->name('responded-email-report'); //done
 
 
 });

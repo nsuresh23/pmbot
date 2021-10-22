@@ -1689,34 +1689,34 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         width: '16%',
     });
-/*
-    field.push({
-        title: "EMAIL COUNT",
-        name: "email_count",
-        type: "text",
-        // filtering: false,
-        // sorting: false,
-        width: '6%',
-    });
+    /*
+        field.push({
+            title: "EMAIL COUNT",
+            name: "email_count",
+            type: "text",
+            // filtering: false,
+            // sorting: false,
+            width: '6%',
+        });
 
-    field.push({
-        title: "PRIORITY EMAIL",
-        name: "priority_count",
-        type: "text",
-        // filtering: false,
-        // sorting: false,
-        width: '7%',
-    });
+        field.push({
+            title: "PRIORITY EMAIL",
+            name: "priority_count",
+            type: "text",
+            // filtering: false,
+            // sorting: false,
+            width: '7%',
+        });
 
-    field.push({
-        title: "CRITICAL EMAILS",
-        name: "critical_jobs_email_count",
-        type: "text",
-        // filtering: false,
-        // sorting: false,
-        width: '7%',
-    });
-*/
+        field.push({
+            title: "CRITICAL EMAILS",
+            name: "critical_jobs_email_count",
+            type: "text",
+            // filtering: false,
+            // sorting: false,
+            width: '7%',
+        });
+    */
     //am=0 && qc=0
     field.push({
         title: "POTENTIAL ALARMING EMAILS",
@@ -2635,6 +2635,16 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailgrou
                                 if (tinymce.get('qc-email-body') != undefined && tinymce.get('qc-email-body') != '') {
 
                                     tinymce.get('qc-email-body').setContent(response.data.body_html);
+
+                                }
+
+                            }
+
+                            if (emailCategory != undefined && emailCategory == 'email-responded') {
+
+                                if (tinymce.get('responded-email-body') != undefined && tinymce.get('responded-email-body') != '') {
+
+                                    tinymce.get('responded-email-body').setContent(response.data.body_html);
 
                                 }
 

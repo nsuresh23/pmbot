@@ -309,6 +309,7 @@ return [
     'my_task_list_url' => 'my-task-list',
     'task_job_info_button_label' => 'job detail',
     'email_list_url' => 'email-list',
+    'responded_email_list_url' =>'responded-email-report',
     'email_send_url' => 'email-send',
     'draftemail_send_url' => 'draft-email-send',
     'email_get_url' => 'email-get',
