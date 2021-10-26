@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div aria-hidden="true" role="dialog" id="QCEmailModal" class="sent-email-modal modal fade"
-    style="display: none;">
+    style="display: none;" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">

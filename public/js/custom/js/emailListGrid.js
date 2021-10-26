@@ -1203,9 +1203,25 @@ function getEmailTableList(gridSelector) {
 
                     }
 
-                    if (gridCategory == 'qcEmail') {
+                    if (gridCategory == 'qcEmail' || gridCategory == 'unresponded') {
 
-                        if (emailFilter == 'potentially_alarming' || emailFilter == 'alarming' || emailFilter == 'escalation') {
+                        if (emailFilter == 'potentially_alarming' || emailFilter == 'alarming' || emailFilter == 'escalation' || emailFilter == 'unresponded') {
+
+                            if (empcode != undefined && empcode != '') {
+
+                                emailListPostData.empcode = empcode;
+
+                            }
+
+                        }
+
+                    }
+
+                    if (gridCategory == 'unresponded') {
+
+                        if (emailFilter == 'unresponded') {
+
+                            $(gridSelector).jsGrid("option", "paging", false);
 
                             if (empcode != undefined && empcode != '') {
 
@@ -1461,6 +1477,14 @@ function getEmailTableList(gridSelector) {
 
                                 $('.nonBusinessEmails .email-inbox-nav').slimscroll({
                                     height: '520px',
+                                    alwaysVisible: 'true',
+                                });
+
+                            }
+                            if (gridSelector == '.emailQCCountGrid' && gridCategory == 'unresponded') {
+
+                                $('.emailQCCountGrid .jsgrid-grid-body').slimscroll({
+                                    height: '480px',
                                     alwaysVisible: 'true',
                                 });
 
@@ -1748,6 +1772,14 @@ function getPmsEmailCountTableList(gridSelector) {
         width: '9%',
     });
 
+    field.push({
+        title: "UN-RESPONDED EMAILS",
+        name: "unresponded_count_link",
+        type: "text",
+        // filtering: false,
+        // sorting: false,
+        width: '9%',
+    });
 
     field.push({
         title: "CRITICAL JOBS",
@@ -1758,7 +1790,7 @@ function getPmsEmailCountTableList(gridSelector) {
         width: '7%',
     });
 
-    field.push({
+    /* field.push({
         title: "TASK COUNT",
         name: "task_count",
         type: "text",
@@ -1774,7 +1806,7 @@ function getPmsEmailCountTableList(gridSelector) {
         // filtering: false,
         // sorting: false,
         // width: 40,
-    });
+    }); */
 
     field.push({
         title: 'LAST ANNOTATED TIME',
@@ -6105,6 +6137,7 @@ $('.pmsEmailCountGrid .jsgrid-grid-body').slimscroll({
     height: '520px',
     alwaysVisible: 'true',
 });
+
 $(document).on("click", function(event) {
     var $composeto = $(".composetolist");
     var $composecc = $(".composecclist");

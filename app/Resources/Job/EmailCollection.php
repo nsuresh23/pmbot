@@ -53,6 +53,7 @@ class EmailCollection
     protected $latestEmailListApiUrl;
     protected $reviewEmailGetApiUrl;
     protected $emailReviewUpdateApiUrl;
+    protected $unrespondedEmailListApiUrl;
 
     public function __construct()
     {
@@ -88,6 +89,8 @@ class EmailCollection
         $this->latestEmailListApiUrl            = env('API_LATEST_EMAIL_LIST_URL');
         $this->reviewEmailGetApiUrl             = env('API_REVIEW_EMAIL_GET_URL');
         $this->emailReviewUpdateApiUrl          = env('API_EMAIL_REVIEW_UPDATE_URL');
+        $this->unrespondedEmailListApiUrl       = env('API_EMAIL_UNRESPONDED_LIST_URL');
+
     }
 
     /**
@@ -1141,11 +1144,11 @@ class EmailCollection
             if (isset($field["email_type"]) && $field["email_type"] == "email-review-latest") {
 
                 $url = $this->latestEmailListApiUrl;
-				
+
 				if (isset($field["subject"]) && $field["subject"] != "") {
-					
+
 					$field["subject"] = base64_encode($field["subject"]);
-					
+
 				}
 
             }
@@ -1222,6 +1225,50 @@ class EmailCollection
                 }
 
                 $url = $this->qcEmailListApiUrl;
+
+            }
+
+            if (isset($field["email_type"]) && $field["email_type"] == "unresponded" && isset($field["email_filter"]) && $field["email_filter"] != "") {
+
+                $fieldData = [];
+
+                if (isset($field["filter"]) && $field["filter"] != "") {
+
+                    $fieldData["filter"] = $field["filter"];
+
+                    if(isset($fieldData["filter"]["offset"]) && $fieldData["filter"]["offset"] != "") {
+
+                        unset($fieldData["filter"]["offset"]);
+
+                    }
+
+                    if(isset($fieldData["filter"]["limit"]) && $fieldData["filter"]["limit"] != "") {
+
+                        unset($fieldData["filter"]["limit"]);
+
+                    }
+
+                }
+
+                if (isset($field["email_type"]) && $field["email_type"] != "") {
+
+                    $fieldData["email_type"] = $field["email_type"];
+
+                }
+
+                if (isset($field["current_empcode"]) && $field["current_empcode"] != "") {
+
+                    $fieldData["empcode"] = $field["current_empcode"];
+
+                }
+
+                if(is_array($fieldData) && count($fieldData)) {
+
+                    $field = $fieldData;
+
+                }
+
+                $url = $this->unrespondedEmailListApiUrl;
 
             }
 
@@ -3777,6 +3824,13 @@ class EmailCollection
 
                         // $item["escalation_count_link"] = $item["escalation_count"];
                         $item["escalation_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#QCEmailModal" data-toggle="modal" data-grid-selector="emailQCCountGrid" data-grid-title="Escalation email" data-count="' . $item["escalation_count"] . '" data-email-filter="escalation" data-email-category="qcEmail" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["escalation_count"] . '</span></a>';
+
+                    }
+
+                    if (isset($item["unresponded_count"]) && $item["unresponded_count"] != "" && $item["unresponded_count"] != "0") {
+
+                        // $item["unresponded_count_link"] = $item["unresponded_count"];
+                        $item["unresponded_count_link"] = '<a class="dashboard-email-sent-count-btn" href="#QCEmailModal" data-toggle="modal" data-grid-selector="emailQCCountGrid" data-grid-title="Un-responded email" data-count="' . $item["unresponded_count"] . '" data-email-filter="unresponded" data-email-category="unresponded" data-empcode="' . $item["empcode"] . '"><span class="txt-danger underlined">' . $item["unresponded_count"] . '</span></a>';
 
                     }
 
