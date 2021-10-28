@@ -373,7 +373,7 @@ function getEmailTableList(gridSelector) {
         deleteButton: deleteControlVisible,
         itemTemplate: function(value, item) {
 
-            if (gridCategory != 'emailSentCount' && gridCategory != 'qcEmail' && gridCategory != 'email-review' && gridCategory != 'email-review-latest') {
+            if (gridCategory != 'emailSentCount' && gridCategory != 'qcEmail' && gridCategory != 'email-review' && gridCategory != 'email-review-latest' && gridCategory != 'email-responded' && gridCategory != 'unresponded') {
 
                 if (item.view == '1') {
 
@@ -1747,8 +1747,8 @@ function getPmsEmailCountTableList(gridSelector) {
         name: "negative_count_link",
         // name: "negative_count",
         type: "text",
-        // filtering: false,
-        // sorting: false,
+        filtering: false,
+        sorting: false,
         // width: 40,
     });
 
@@ -1757,8 +1757,8 @@ function getPmsEmailCountTableList(gridSelector) {
         title: "VERIFIED ALARMING EMAILS",
         name: "alarming_count_link",
         type: "text",
-        // filtering: false,
-        // sorting: false,
+        filtering: false,
+        sorting: false,
         width: '8%',
     });
 
@@ -1767,8 +1767,8 @@ function getPmsEmailCountTableList(gridSelector) {
         title: "ESCALATION EMAILS",
         name: "escalation_count_link",
         type: "text",
-        // filtering: false,
-        // sorting: false,
+        filtering: false,
+        sorting: false,
         width: '9%',
     });
 
@@ -1776,8 +1776,8 @@ function getPmsEmailCountTableList(gridSelector) {
         title: "UN-RESPONDED EMAILS",
         name: "unresponded_count_link",
         type: "text",
-        // filtering: false,
-        // sorting: false,
+        filtering: false,
+        sorting: false,
         width: '9%',
     });
 
@@ -1785,8 +1785,8 @@ function getPmsEmailCountTableList(gridSelector) {
         title: "CRITICAL JOBS",
         name: "critical_job_count",
         type: "text",
-        // filtering: false,
-        // sorting: false,
+        filtering: false,
+        sorting: false,
         width: '7%',
     });
 
@@ -1812,6 +1812,8 @@ function getPmsEmailCountTableList(gridSelector) {
         title: 'LAST ANNOTATED TIME',
         name: 'last_annotated_time',
         type: 'text',
+        filtering: false,
+        sorting: false,
         width: '9%',
     });
 
@@ -1819,6 +1821,8 @@ function getPmsEmailCountTableList(gridSelector) {
         title: 'LAST PROCEESED TIME',
         name: 'last_processed_time',
         type: 'text',
+        filtering: false,
+        sorting: false,
         width: '9%',
     });
 
@@ -1826,6 +1830,8 @@ function getPmsEmailCountTableList(gridSelector) {
         title: 'LAST OUTLOOK SYNC DATE',
         name: 'token_created_date',
         type: 'text',
+        filtering: false,
+        sorting: false,
         width: '9%',
     });
 
@@ -1833,6 +1839,8 @@ function getPmsEmailCountTableList(gridSelector) {
         title: 'PLUGIN VERSION',
         name: 'version',
         type: 'text',
+        filtering: false,
+        sorting: false,
         width: '7%',
     });
 
@@ -2662,7 +2670,7 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailgrou
 
                             }
 
-                            if (emailCategory != undefined && emailCategory == 'qcEmail') {
+                            if (emailCategory != undefined && (emailCategory == 'qcEmail' || emailCategory == 'unresponded')) {
 
                                 if (tinymce.get('qc-email-body') != undefined && tinymce.get('qc-email-body') != '') {
 
@@ -2772,7 +2780,11 @@ function emailDetailInfo(emailId, postUrl, emailCategory, emailFilter, emailgrou
 
                         if (response.data.am_approved != undefined && response.data.am_approved != '1') {
 
-                            $('.email-classification-move-to-block').show();
+                            if (emailCategory != 'unresponded') {
+
+                                $('.email-classification-move-to-block').show();
+
+                            }
 
                         } else {
 
