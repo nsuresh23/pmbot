@@ -513,7 +513,13 @@ class UserController extends Controller
     public function userStore(Request $request)
     {
 
-        $status = $lead_pm = "0";
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "message" => ""
+        ];
+
+        $status = $lead_pm = $spi_status = $daily_status_report = "0";
 
         try {
 
@@ -532,10 +538,24 @@ class UserController extends Controller
 
             $request->merge(['lead_pm' => $lead_pm]);
 
-            if ($request->email) {
+            if ($request->get('spi_status') == "on") {
 
-                $request->merge(['empcode' => strtolower($request->email)]);
+                $spi_status = "1";
             }
+
+            $request->merge(['spi_status' => $spi_status]);
+
+            if ($request->get('daily_status_report') == "on") {
+
+                $daily_status_report = "1";
+            }
+
+            $request->merge(['daily_status_report' => $daily_status_report]);
+
+            // if ($request->email) {
+
+            //     $request->merge(['empcode' => strtolower($request->email)]);
+            // }
 
             if (auth()->check()) {
 
@@ -550,9 +570,13 @@ class UserController extends Controller
             }
 
             // $responseData = $this->userResource->userAdd($request);
-            $returnResponse = $this->userResource->userAdd($request);
+            $returnData = $this->userResource->userAdd($request);
 
+            if(is_array($returnData) && count($returnData)) {
 
+                $returnResponse = $returnData;
+
+            }
 
         } catch (Exception $e) {
 
@@ -563,6 +587,9 @@ class UserController extends Controller
                     " => LINE => " . __LINE__ . " => " .
                     " => MESSAGE => " . $e->getMessage() . " "
             );
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
 
         }
 
@@ -582,9 +609,15 @@ class UserController extends Controller
     public function userUpdate(Request $request)
     {
 
+        $returnResponse = [
+            "success" => "false",
+            "error" => "false",
+            "message" => ""
+        ];
+
         try {
 
-            $status = $lead_pm = "0";
+            $status = $lead_pm = $spi_status = $daily_status_report = "0";
 
             if ($request->get('status') == "on") {
 
@@ -601,6 +634,20 @@ class UserController extends Controller
 
             $request->merge(['lead_pm' => $lead_pm]);
 
+            if ($request->get('spi_status') == "on") {
+
+                $spi_status = "1";
+            }
+
+            $request->merge(['spi_status' => $spi_status]);
+
+            if ($request->get('daily_status_report') == "on") {
+
+                $daily_status_report = "1";
+            }
+
+            $request->merge(['daily_status_report' => $daily_status_report]);
+
             if (auth()->check()) {
 
                 $request->merge(['creator_empcode' => auth()->user()->empcode]);
@@ -615,7 +662,13 @@ class UserController extends Controller
 
             $request = $this->formatHistoryData($request, "history", "~");
 
-            $returnResponse = $this->userResource->userEdit($request);
+            $returnData = $this->userResource->userEdit($request);
+
+            if(is_array($returnData) && count($returnData)) {
+
+                $returnResponse = $returnData;
+
+            }
 
         } catch (Exception $e) {
 
@@ -626,6 +679,9 @@ class UserController extends Controller
                     " => LINE => " . __LINE__ . " => " .
                     " => MESSAGE => " . $e->getMessage() . " "
             );
+
+            $returnResponse["error"] = "true";
+            $returnResponse["message"] = $e->getMessage();
         }
 
         $redirecturl = redirect()->action('User\UserController@users');

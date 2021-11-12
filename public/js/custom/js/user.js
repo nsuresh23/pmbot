@@ -113,7 +113,7 @@ $(function() {
                 },
                 {
                     title: "CODE",
-                    name: "spi_empcode",
+                    name: "empcode",
                     type: "text",
                     width: 100
                 },
@@ -210,7 +210,8 @@ $(function() {
                 autoload: true,
                 paging: true,
                 pageLoading: true,
-                pageSize: pageSize,
+                // pageSize: pageSize,
+                pageSize: '1000',
                 pageIndex: 1,
                 pageButtonCount: 5,
 

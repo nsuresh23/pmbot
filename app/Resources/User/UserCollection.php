@@ -387,10 +387,12 @@ class UserCollection
                 'empname'       => 'required',
                 'empcode'       => 'required',
                 'email'       => 'required',
-                'password'       => 'required',
+                // 'password'       => 'required',
                 'role'       => 'required',
                 'location'       => 'required',
-                'status'       => 'required'
+                'status'       => 'required',
+                'spi_status'       => 'required',
+                'daily_status_report'       => 'required'
             );
             $validator = Validator::make($request->all(), $rules);
 
@@ -442,7 +444,21 @@ class UserCollection
 
                 }
 
-                $userInfo["password"] = md5($userInfo["password"]);
+                if (isset($userInfo["empcode"]) && $userInfo["empcode"] != "") {
+
+                    $userInfo["empcode"] = strtolower(trim($userInfo["empcode"]));
+
+                    $userInfo["spi_empcode"] = $userInfo["empcode"];
+
+                }
+
+                if (isset($userInfo["email"]) && $userInfo["email"] != "") {
+
+                    $userInfo["email"] = strtolower(trim($userInfo["email"]));
+
+                }
+
+                // $userInfo["password"] = md5($userInfo["password"]);
 
                 $url = $this->userAddApiUrl;
 
@@ -510,7 +526,9 @@ class UserCollection
                 //'email'       => 'required',
                 'role'       => 'required',
                 'location'       => 'required',
-                'status'       => 'required'
+                'status'       => 'required',
+                'spi_status'       => 'required',
+                'daily_status_report'       => 'required'
             );
 
             $validator = Validator::make($request->all(), $rules);

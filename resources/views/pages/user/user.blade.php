@@ -15,7 +15,7 @@
 
             $disabledField = "";
 
-            $selectedStatus = $lead_pm_status = "checked";
+            $selectedStatus = $lead_pm_status = $spi_status = $daily_status_report = "checked";
 
             $selectedRole = $selectedGroup = $selectedLocation = $selectedMembers = null;
 
@@ -91,6 +91,18 @@
 
                 }
 
+                if(isset($userData["data"]["spi_status"]) && $userData["data"]["spi_status"] == "0") {
+
+                    $spi_status = "";
+
+                }
+
+                if(isset($userData["data"]["daily_status_report"]) && $userData["data"]["daily_status_report"] == "0") {
+
+                    $daily_status_report = "";
+
+                }
+
             }
 
         @endphp
@@ -147,10 +159,10 @@
                                                             </div>
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                 <div class="form-group">
-                                                                    <label for="email" class="control-label mb-10">{{ __('user.user_email_label') }}</label>
-                                                                    <input type="email" class="form-control" id="email" name="email" value="{{$userData['data']['email'] ?? ''}}"
-                                                                        placeholder="{{ __('user.user_email_placeholder_text') }}" data-error="{{ __('user.user_email_error_msg') }}"
-                                                                        {{ $disabledField }} required>
+                                                                    <label for="empcode" class="control-label mb-10">{{ __('user.user_empcode_label') }}</label>
+                                                                    <input type="text" class="form-control" id="empcode" name="empcode"
+                                                                        value="{{$userData['data']['empcode'] ?? ''}}" placeholder="{{ __('user.user_empcode_placeholder_text') }}"
+                                                                        data-error="{{ __('user.user_empcode_error_msg') }}" {{ $disabledField }} required>
                                                                     <div class="help-block with-errors"></div>
                                                                 </div>
                                                             </div>
@@ -162,10 +174,10 @@
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pl-0">
                                                                     <div class="form-group">
-                                                                        <label for="empcode" class="control-label mb-10">{{ __('user.user_empcode_label') }}</label>
-                                                                        <input type="text" class="form-control" id="empcode" name="spi_empcode"
-                                                                            value="{{$userData['data']['spi_empcode'] ?? ''}}" placeholder="{{ __('user.user_empcode_placeholder_text') }}"
-                                                                            data-error="{{ __('user.user_empcode_error_msg') }}" required>
+                                                                        <label for="email" class="control-label mb-10">{{ __('user.user_email_label') }}</label>
+                                                                        <input type="email" class="form-control" id="email" name="email" value="{{$userData['data']['email'] ?? ''}}"
+                                                                            placeholder="{{ __('user.user_email_placeholder_text') }}"
+                                                                            data-error="{{ __('user.user_email_error_msg') }}" {{ $disabledField }} required>
                                                                         <div class="help-block with-errors"></div>
                                                                     </div>
                                                                 </div>
@@ -198,11 +210,11 @@
 
                                                     @php
 
-                                                        if(!isset($userData["data"])) {
+                                                        // if(!isset($userData["data"])) {
 
                                                     @endphp
 
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            {{-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                 <div class="row">
                                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                         <div class="form-group">
@@ -224,10 +236,10 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
                                                     @php
 
-                                                        }
+                                                        // }
 
                                                     @endphp
 
@@ -282,6 +294,22 @@
 
                                                                         <input type="checkbox" id="lead-pm" name="lead_pm" class="js-switch js-switch-1"  data-color="#8BC34A" data-secondary-color="#F8B32D" {{ $lead_pm_status }}>
 
+                                                                        <div class="help-block with-errors"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                                    <label for="spi_status" class="control-label mb-10">{{ __('user.user_spi_status_label') }}</label>
+                                                                    <div class="form-group js-switch-mt-0">
+                                                                        <input type="checkbox" id="spi_status" name="spi_status" class="js-switch js-switch-1" data-color="#8BC34A"
+                                                                            data-secondary-color="#F8B32D" {{ $spi_status }}>
+                                                                        <div class="help-block with-errors"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                                                    <label for="daily_status_report" class="control-label mb-10">{{ __('user.user_daily_status_report_label') }}</label>
+                                                                    <div class="form-group js-switch-mt-0">
+                                                                        <input type="checkbox" id="daily_status_report" name="daily_status_report" class="js-switch js-switch-1" data-color="#8BC34A"
+                                                                            data-secondary-color="#F8B32D" {{ $daily_status_report }}>
                                                                         <div class="help-block with-errors"></div>
                                                                     </div>
                                                                 </div>
