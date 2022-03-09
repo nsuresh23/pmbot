@@ -30,6 +30,12 @@ $(function() {
         });
 
         field.push({
+            title: "EMPNAME",
+            name: "empname",
+            type: "text",
+        });
+
+        field.push({
             title: "EMPCODE",
             name: "spi_empcode",
             type: "text",
