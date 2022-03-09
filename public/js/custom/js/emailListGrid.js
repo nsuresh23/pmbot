@@ -189,7 +189,7 @@ function getEmailTableList(gridSelector) {
     //     visible: false,
     // });
 
-    if (gridEmailFilter != undefined && gridEmailFilter != '' && (gridEmailFilter == 'draft' || gridEmailFilter == 'outbox' || gridEmailFilter == 'outboxwip' || gridEmailFilter == 'sent' || gridEmailFilter == 'hold' || gridEmailFilter == 'error' || gridEmailFilter == 'email_review' || gridEmailFilter == 'email_reviewed' || gridEmailFilter == 'latest-sent')) {
+    if (gridEmailFilter != undefined && gridEmailFilter != '' && (gridEmailFilter == 'draft' || gridEmailFilter == 'outbox' || gridEmailFilter == 'outboxwip' || gridEmailFilter == 'sent' || gridEmailFilter == 'hold' || gridEmailFilter == 'error' || gridEmailFilter == 'email_review' || gridEmailFilter == 'email_reviewed' || gridEmailFilter == 'latest-sent' || gridEmailFilter == 'outlook-sent')) {
         field.push({
             title: "TO",
             name: "email_to",
@@ -1711,7 +1711,7 @@ function getPmsEmailCountTableList(gridSelector) {
         title: "NAME",
         name: "empname",
         type: "text",
-        width: '16%',
+        width: '25%',
     });
     /*
         field.push({
@@ -1749,7 +1749,7 @@ function getPmsEmailCountTableList(gridSelector) {
         type: "text",
         filtering: false,
         sorting: false,
-        // width: 40,
+        width: '7%',
     });
 
     //am=0 && qc=1
@@ -1781,14 +1781,14 @@ function getPmsEmailCountTableList(gridSelector) {
         width: '9%',
     });
 
-    field.push({
+    /* field.push({
         title: "CRITICAL JOBS",
         name: "critical_job_count",
         type: "text",
         filtering: false,
         sorting: false,
         width: '7%',
-    });
+    }); */
 
     /* field.push({
         title: "TASK COUNT",
@@ -1808,7 +1808,7 @@ function getPmsEmailCountTableList(gridSelector) {
         // width: 40,
     }); */
 
-    field.push({
+    /* field.push({
         title: 'LAST ANNOTATED TIME',
         name: 'last_annotated_time',
         type: 'text',
@@ -1842,6 +1842,24 @@ function getPmsEmailCountTableList(gridSelector) {
         filtering: false,
         sorting: false,
         width: '7%',
+    }); */
+
+    field.push({
+        title: 'LAST EMAIL RECEIVED TIME',
+        name: 'last_email_received_date',
+        type: 'text',
+        filtering: false,
+        sorting: false,
+        width: '15%',
+    });
+
+    field.push({
+        title: 'LAST EMAIL SENT TIME',
+        name: 'last_email_sent_date',
+        type: 'text',
+        filtering: false,
+        sorting: false,
+        width: '15%',
     });
 
     field.push({
@@ -2925,7 +2943,11 @@ $(document).on('click', '.email-detail-back-btn', function(e) {
     $('.email-detail-body').hide();
     $('.email-title').attr('data-email-id', '');
 
-    $('.inbox-nav li.active').find('a').trigger('click');
+    if ($('.inbox-nav li.active').find('a').attr("class") != 'dashboard-outlook-sent-email') {
+
+        $('.inbox-nav li.active').find('a').trigger('click');
+
+    }
 
 });
 

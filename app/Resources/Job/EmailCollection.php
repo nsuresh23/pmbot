@@ -3790,6 +3790,18 @@ class EmailCollection
                     $item["alarming_count_link"] = "0";
                     $item["escalation_count_link"] = "0";
 
+                    if(isset($item["last_email_received_date"]) && $item["last_email_received_date"] != "") {
+
+                        $item["last_email_received_date"] = date("Y/m/d H:i:s", strtotime($item["last_email_received_date"]));
+
+                    }
+
+                    if(isset($item["last_email_sent_date"]) && $item["last_email_sent_date"] != "") {
+
+                        $item["last_email_sent_date"] = date("Y/m/d H:i:s", strtotime($item["last_email_sent_date"]));
+
+                    }
+
                     if(isset($item["last_processed_time"]) && $item["last_processed_time"] != "") {
 
                         $item["last_processed_time"] = date("Y/m/d H:i:s", strtotime($item["last_processed_time"]));
