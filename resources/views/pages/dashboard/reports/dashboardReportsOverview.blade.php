@@ -9,22 +9,22 @@
 
                 <ul role="tablist" class="nav nav-pills nav-pills-outline dashboard-job-tabs" id="">
 
-                    <li class="active" role="presentation">
+                    {{-- <li class="active" role="presentation">
                         <a aria-expanded="true" data-toggle="tab" role="tab" id="summaryReportTab"
                             href="#summary-report">{{ __('dashboard.summary_report_tab_label') }}</a>
-                    </li>
+                    </li> --}}
 
-                    <li role="presentation" class="">
+                    {{-- <li role="presentation" class="">
                         <a data-toggle="tab" id="receivedEmailReportTab" role="tab" href="#received-email-report"
                             aria-expanded="false">{{ __('dashboard.received_email_report_tab_label') }}</a>
-                    </li>
+                    </li> --}}
 
-                    <li role="presentation" class="">
+                    {{-- <li role="presentation" class="">
                         <a data-toggle="tab" id="sentEmailReportTab" role="tab" href="#sent-email-report"
                             aria-expanded="false">{{ __('dashboard.sent_email_report_tab_label') }}</a>
-                    </li>
+                    </li> --}}
 
-                    <li role="presentation" class="">
+                    <li role="presentation" class="active">
                         <a data-toggle="tab" id="classificationEmailReportTab" role="tab" href="#classification-email-report"
                             aria-expanded="false">{{ __('dashboard.classification_email_report_tab_label') }}</a>
                     </li>
@@ -61,25 +61,25 @@
 
                 <div class="tab-content" id="">
 
-                    <div id="summary-report" class="tab-pane fade active in pa-0" role="tabpanel">
+                    {{-- <div id="summary-report" class="tab-pane fade active in pa-0" role="tabpanel">
 
                         @include('pages.dashboard.reports.summaryReport')
 
-                    </div>
+                    </div> --}}
 
-                    <div id="received-email-report" class="tab-pane fade pa-0" role="tabpanel">
+                    {{-- <div id="received-email-report" class="tab-pane fade pa-0" role="tabpanel">
 
                         @include('pages.dashboard.reports.emailReceivedReport')
 
-                    </div>
+                    </div> --}}
 
-                    <div id="sent-email-report" class="tab-pane fade pa-0" role="tabpanel">
+                    {{-- <div id="sent-email-report" class="tab-pane fade pa-0" role="tabpanel">
 
                         @include('pages.dashboard.reports.emailSentReport')
 
-                    </div>
+                    </div> --}}
 
-                    <div id="classification-email-report" class="tab-pane fade pa-0" role="tabpanel">
+                    <div id="classification-email-report" class="tab-pane fade active in pa-0" role="tabpanel">
 
                         @include('pages.dashboard.reports.emailClassificationReport')
 

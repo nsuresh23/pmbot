@@ -2,7 +2,7 @@
 <div class="row dashboard-bottom-overview-pannel">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="panel panel-default card-view mb-0">
-            <div class="panel-heading">
+            <div class="panel-heading" style="display:none;">
                 <div class="pull-left">
                     <div class="pills-struct">
                         <ul role="tablist" class="nav nav-pills nav-pills-outline dashboard-task-tabs" id="">

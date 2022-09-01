@@ -83,9 +83,9 @@
                     <th class="capitalize-font text-center nosort">S.No</th>
                     <th class="capitalize-font text-center nosort">PM Name</th>
                     <th class="capitalize-font text-center wd-10">Date</th>
-                    <th class="capitalize-font text-center wd-15">First Login Time</th>
+                    {{-- <th class="capitalize-font text-center wd-15">First Login Time</th>
                     <th class="capitalize-font text-center wd-15">Last Logout Time</th>
-                    <th class="capitalize-font text-center">Overall Time</th>
+                    <th class="capitalize-font text-center">Overall Time</th> --}}
                     <th class="capitalize-font text-center nosort">Positive</th>
                     <th class="capitalize-font text-center nosort">Neutral</th>
                     <th class="capitalize-font text-center nosort">Negative</th>

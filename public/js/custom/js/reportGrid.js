@@ -17,7 +17,7 @@ function getSummaryReportTableList(gridSelector) {
         { 'data': 'pmname_link', 'className': 'datatable_border_right' },
     ];
 
-    if (category != undefined && category != 'external_email' && category != 'reviewed_email') {
+    if (category != undefined && category != 'external_email' && category != 'reviewed_email' && category != 'classified_email') {
 
         columnFields.push(...[
             { 'data': 'formatted_date', 'className': 'text-center datatable_border_right' },
@@ -117,6 +117,7 @@ function getSummaryReportTableList(gridSelector) {
         reportBlockId = "classification-email-report";
 
         columnFields.push(...[
+            { 'data': 'formatted_date', 'className': 'text-center datatable_border_right' },
             { 'data': 'positive', 'className': 'report-email-info-bg text-center' },
             { 'data': 'netural', 'className': 'report-email-info-bg text-center' },
             { 'data': 'negative', 'className': 'report-email-info-bg text-center' },
@@ -446,8 +447,9 @@ $('.reviewed-email-report-grid tbody').slimscroll({
 
 $(document).on('click', '#reportsTab', function(e) {
 
+    // var gridSelector = "#summary-report-grid";
 
-    var gridSelector = "#summary-report-grid";
+    var gridSelector = "#classified-email-report-grid";
 
     var dataUrl = $(gridSelector).attr('data-list-url');
 

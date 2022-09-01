@@ -101,10 +101,10 @@
 
             <?php if(isset($jobAddUrl) && $jobAddUrl != "") { ?>
 
-                <a class="pull-left inline-block btn btn-success new-job-btn mr-15" href="#newJobModal" data-toggle="modal"
-                    title="{{ __("dashboard.new_job_title") }}" >
+                {{-- <a class="pull-left inline-block btn btn-success new-job-btn mr-15" href="#newJobModal" data-toggle="modal"
+                    title="{{ __("dashboard.new_job_title") }}">
                     {{ __("dashboard.new_job_btn_label") }}
-                </a>
+                </a> --}}
                 @include('pages.job.newJobModal')
 
             <?php } ?>
